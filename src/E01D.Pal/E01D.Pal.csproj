@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5A70F637-2C66-4290-8A77-CCA30CF26385}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Root</RootNamespace>
+    <AssemblyName>E01D.Pal</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Code\Apis\E01D\PalApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Activation\PalActivationApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Consoles\PalConsoleApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\PalAssemblyApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\PalReflectionApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\RuntimicDomainApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedType_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\ConvertedTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedArrayTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedClassTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedClosedGenericClassDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedClosedGenericInterfaceTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedDelegateTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedEnumTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedInterfaceTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedOpenGenericClassDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedOpenGenericInterfaceTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedParameterTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedReferenceOrValueTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedReferenceTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedSimpleClTypeDefintionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedStructTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedValueTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Emitting\Members\EmittedTypeClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Emitting\Members\Typal\Definitions\EmittedArrayTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Emitting\Members\Typal\Definitions\EmittedClassTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Emitting\Members\Typal\Definitions\EmittedDelegateTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Emitting\Members\Typal\Definitions\EmittedInterfaceTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Emitting\Members\Typal\Definitions\EmittedReferenceOrValueTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Emitting\Members\Typal\Definitions\EmittedReferenceTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Emitting\Members\Typal\Definitions\EmittedValueTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Emitting\Members\Typal\EmittedTypeDefinitionClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\ExecutionTypeClassifier_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\PalMethodApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\PalPropertyApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\PalTypeApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\PalArrayApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\PalMemberApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\InfrastructureDomainApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\InfrastructureDomainApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\MetadataDomainApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Metadata\AssemblyDomainApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\MetadataDomainApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Metadata\MemberDomainApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Metadata\MemberDomainApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Metadata\Members\TypalDomainApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Metadata\Members\TypalDomainApi_I.cs" />
+    <Compile Include="Code\Apis\PalDomainApi.cs" />
+    <Compile Include="Code\Constants\E01D\Runtimic\Infrastructure\Metadata\Typal\InternalTypeIds.cs" />
+    <Compile Include="Code\Domains\E01D\XPal.cs" />
+    <Compile Include="Code\Enums\E01D\PalKind.cs" />
+    <Compile Include="Code\Enums\E01D\Runtimic\Infrastructure\ClInfrasturcutureKind.cs" />
+    <Compile Include="Code\Enums\E01D\Runtimic\Infrastructure\Metadata\Members\MemberKind.cs" />
+    <Compile Include="Code\Enums\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\ClassTypeKind.cs" />
+    <Compile Include="Code\Enums\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\GenericTypeKind.cs" />
+    <Compile Include="Code\Enums\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\PrimitiveTypeKind.cs" />
+    <Compile Include="Code\Enums\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\TypeContainerKind.cs" />
+    <Compile Include="Code\Enums\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\TypeKind.cs" />
+    <Compile Include="Code\Enums\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\TypeParameterConstraintKind.cs" />
+    <Compile Include="Code\Enums\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\TypeParameterKind.cs" />
+    <Compile Include="Code\Enums\E01D\Runtimic\RuntimicKind.cs" />
+    <Compile Include="Code\Enums\E01D\Runtimic\Infrastructure\Metadata\MetadataModifier.cs" />
+    <Compile Include="Code\Exceptions\E01D\Runtimic\Infrastruture\Cl\ClInfrastructureException_I.cs" />
+    <Compile Include="Code\Exceptions\E01D\Runtimic\Infrastruture\InfrastructureException.cs" />
+    <Compile Include="Code\Exceptions\E01D\Runtimic\Infrastruture\Metadata\Members\MemberException.cs" />
+    <Compile Include="Code\Exceptions\E01D\Runtimic\Infrastruture\Metadata\Members\Typal\TypalException.cs" />
+    <Compile Include="Code\Exceptions\E01D\Runtimic\Infrastruture\Metadata\MetadataException.cs" />
+    <Compile Include="Code\Exceptions\E01D\Runtimic\RuntimicException.cs" />
+    <Compile Include="Code\Exts\E01D\Runtimic\Infrastructure\Metadata\Members\GenericTypeExts.cs" />
+    <Compile Include="Code\Exts\E01D\Runtimic\Infrastructure\Metadata\Members\MemberExts.cs" />
+    <Compile Include="Code\Exts\E01D\Runtimic\Infrastructure\Metadata\Members\TypeExts.cs" />
+    <Compile Include="Code\Exts\E01D\Runtimic\Infrastructure\Metadata\MetadataExts.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\ExecutionType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\ClInfrastructureNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\ClInfrastructureNode_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\ClInfrastructure_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\ClConceptual_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Images\ClAssembly_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Images\ClGrouping_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Images\ClModule_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\ClMetadata_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\ClNamespaceOrMemberOrDirective_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\ClEvent_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\ClField_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\ClIndexer_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\ClMember_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\ClMethod_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\ClOperator_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\ClPropertyBase_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\ClProperty_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\Typal\ClArrayType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\Typal\ClAttributeType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\Typal\ClClassType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\Typal\ClDelegateType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\Typal\ClEnumType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\Typal\ClInterfaceType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\Typal\ClNamedType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\Typal\ClPointerType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\Typal\ClPrimitiveType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\Typal\ClReferenceOrValueType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\Typal\ClReferenceType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\Typal\ClType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Members\Typal\ClValueType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Namespaces\ClNamespace_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Modeling\ClInfrastructureModel_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\InfrastructureNode_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Memory\InstanceSize.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Assembly_I.cs" />
+    <Compile Include="Code\Enums\E01D\Runtimic\Infrastructure\Metadata\AssemblyKind.cs" />
+    <Compile Include="Code\Exts\E01D\Runtimic\Infrastructure\Metadata\AssemblyExts.cs" />
+    <Compile Include="Code\Models\E01D\Reflection\Members\PalMethodInfoBase_I.cs" />
+    <Compile Include="Code\Models\E01D\Reflection\Members\PalMethodInfo_I.cs" />
+    <Compile Include="Code\Models\E01D\Reflection\Members\PalPropertyInfo_I.cs" />
+    <Compile Include="Code\Models\E01D\Reflection\Members\Types\PalTypeHandle_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Event_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Field_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Indexer_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\MemberMask_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Member_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Method_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Operator_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\PropertyBase_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Property_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\ArrayType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\AttributeType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\ClassType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\DelegateType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\DynamicType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\EnumType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\GenericTypeMask_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\GenericType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\InterfaceType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\NamedType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\NullableType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\PointerType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\PrimitiveType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\ReferenceOrValueType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\ReferenceType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\StructType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\TypeDefinitionBase.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\TypeDefinitionMask_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\TypeReferenceMask_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Typal\ValueType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\PalType.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\TypeMask_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Members\Type_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\MetadataMask_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Metadata_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Module_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\TypeSystems\TypeSystem_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\RuntimicNode_I.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Code\Apis\E01D\Pal\" />
+    <Folder Include="Code\Apis\E01D\Reflection\" />
+    <Folder Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Metadata\" />
+    <Folder Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\" />
+    <Folder Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\Typal\" />
+    <Folder Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\Conceptual\Metadata\Directives\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\E01D.Kor\E01D.Kor.csproj">
+      <Project>{67004B3E-AC93-4DF5-8614-C2B399A912D9}</Project>
+      <Name>E01D.Kor</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Cecil, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
