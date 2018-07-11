@@ -19,3 +19,5 @@ var collectibleAssembly = conversionResult.Assemblies[0];
 * no p-invoke support yet
 * full attribute support still in progress
 * no support for modifiers yet
+
+*Last Updated:* July 11th, 2018
