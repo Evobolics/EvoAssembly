@@ -12,9 +12,10 @@ var conversionResult = container.ConvertType(type);
 var collectibleAssembly = conversionResult.Assemblies[0];
 ```
 
-## Known Issues
+## Known Issues / To-Do List
 
 * calli instruction not implemented yet
 * anything resolving around unsafe code not implemented / tested yet
 * no p-invoke support yet
 * full attribute support still in progress
+* no support for modifiers yet
