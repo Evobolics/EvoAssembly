@@ -1,0 +1,2 @@
+﻿Structural is really referential and needs to be renamed as such; as with this model, you are allowed to keep assemblies siloed and referencing each other.  Semantic model resolves the 
+references.  Bound, has runtime linkage.  emitted has emitted types.  Converted, has emitted types that are converted from referential and semantic types.

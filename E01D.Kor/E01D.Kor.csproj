@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{67004B3E-AC93-4DF5-8614-C2B399A912D9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Root</RootNamespace>
+    <AssemblyName>E01D.Kor</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Code\Apis\E01D\Api_I.cs" />
+    <Compile Include="Code\Apis\E01D\Api.cs" />
+    <Compile Include="Code\Apis\E01D\KorApi.cs" />
+    <Compile Include="Code\Apis\E01D\KorApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\DebugApi.cs" />
+    <Compile Include="Code\Apis\E01D\DebugApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Sorting\QuickApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Sorting\SortingApi.cs" />
+    <Compile Include="Code\Apis\E01D\Sorting\SortingApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Sorting\SortingApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Sorting\SortingContainerApi.cs" />
+    <Compile Include="Code\Apis\E01D\Sorting\SortingContainerApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Sorting\BubbleApi.cs" />
+    <Compile Include="Code\Apis\E01D\Sorting\BubbleApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Sorting\InsertionApi.cs" />
+    <Compile Include="Code\Apis\E01D\Sorting\InsertionApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Sorting\QuickApi.cs" />
+    <Compile Include="Code\Apis\E01D\Sorting\QuickApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Sorting\SortingApiNode.cs" />
+    <Compile Include="Code\Attributes\E01D\CanAcceptApiWithContainerAttribute.cs" />
+    <Compile Include="Code\Attributes\E01D\DynamicallyReplaceWithContainerApi.cs" />
+    <Compile Include="Code\Attributes\E01D\GeneratedAttribute.cs" />
+    <Compile Include="Code\Attributes\E01D\KorType.cs" />
+    <Compile Include="Code\Attributes\E01D\MaskSupportPropertyAttribute.cs" />
+    <Compile Include="Code\Attributes\E01D\Phenotype.cs" />
+    <Compile Include="Code\Attributes\E01D\PhenotypeClassifier.cs" />
+    <Compile Include="Code\Attributes\E01D\PhenotypeMask.cs" />
+    <Compile Include="Code\Attributes\E01D\PhenotypePart.cs" />
+    <Compile Include="Code\Attributes\E01D\RequiresIOCAttribute.cs" />
+    <Compile Include="Code\Attributes\E01D\StaticApiAttribute.cs" />
+    <Compile Include="Code\Attributes\E01D\Task.cs" />
+    <Compile Include="Code\Attributes\E01D\TestAttribute.cs" />
+    <Compile Include="Code\Attributes\E01D\ValueSetDynamicallyAttribute.cs" />
+    <Compile Include="Code\Containers\E01D\Sorting\SortingContainer.cs" />
+    <Compile Include="Code\Containers\E01D\Sorting\SortingContainer_I.cs" />
+    <Compile Include="Code\Domains\Assert.cs" />
+    <Compile Include="Code\Domains\E01D\XApi.cs" />
+    <Compile Include="Code\Exceptions\E01D\Exception.cs" />
+    <Compile Include="Code\Exceptions\E01D\Exception_I.cs" />
+    <Compile Include="Code\Models\E01D\Containment\Container_I.cs" />
+    <Compile Include="Code\Models\E01D\Naming\FullName.cs" />
+    <Compile Include="Code\Models\E01D\Naming\FullName_I.cs" />
+    <Compile Include="Code\Models\E01D\Naming\Name.cs" />
+    <Compile Include="Code\Models\E01D\Naming\Named_I.cs" />
+    <Compile Include="Code\Models\E01D\Naming\Name_I.cs" />
+    <Compile Include="Code\Models\E01D\Naming\SimpleName.cs" />
+    <Compile Include="Code\Models\E01D\Naming\SimpleName_I.cs" />
+    <Compile Include="Code\Models\E01D\Values\Valued.cs" />
+    <Compile Include="Code\Models\E01D\Values\Valued_I.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Code\Constants\E01D\" />
+    <Folder Include="Code\Enums\E01D\" />
+    <Folder Include="Code\Exts\E01D\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

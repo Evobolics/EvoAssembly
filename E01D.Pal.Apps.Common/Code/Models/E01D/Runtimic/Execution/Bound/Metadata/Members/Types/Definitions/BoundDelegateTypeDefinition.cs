@@ -1,0 +1,20 @@
+﻿using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
+
+namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions
+{
+    public class BoundDelegateTypeDefinition : BoundReferenceTypeDefinition, BoundDelegateTypeDefinitionMask_I, BoundTypeDefinitionWithFields_I, BoundTypeDefinitionWithMethodsMask_I
+	{
+	    public BoundTypeDefinitionFields Fields { get; set; } = new BoundTypeDefinitionFields();
+
+		public BoundTypeDefinitionMethods Methods { get; set; } = new BoundTypeDefinitionMethods();
+
+		public override TypeKind TypeKind => base.TypeKind | TypeKind.Delegate;
+
+		SemanticTypeFieldsMask_I SemanticTypeDefinitionWithFieldsMask_I.Fields => Fields;
+
+		SemanticTypeMethodsMask_I SemanticTypeWithMethodsMask_I.Methods => this.Methods;
+
+	}
+}
