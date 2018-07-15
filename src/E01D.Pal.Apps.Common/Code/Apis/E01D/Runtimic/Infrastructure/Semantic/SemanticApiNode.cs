@@ -3,10 +3,11 @@ using Root.Code.Apis.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Apis.E01D.Runtimic.Execution.Emitting;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
+using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic
 {
-    public class SemanticApiNode<TContainer> : Api<TContainer>
+    public class SemanticApiNode<TContainer> : RuntimeApiNode<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
       
@@ -15,17 +16,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic
 
 
 
-        
+		public CecilApiMask_I Cecil => Container.Api.Runtimic.Infrastructure.Structural.Cecil;
 
-        public ConversionApiMask_I Conversion => Container.Api.Runtimic.Execution.Emitting.Conversion;
+		public ConversionApiMask_I Conversion => Container.Api.Runtimic.Execution.Conversion;
 
         public EmittingApiMask_I Emitting => Container.Api.Runtimic.Execution.Emitting;
 
-        public InfrastructureApiMask_I Infrastructure => Container.Api.Runtimic.Infrastructure;
+        
 
         
 
-        public RuntimicApiMask_I Runtimic => Container.Api.Runtimic;
+        
 
         public TypeApiMask_I Types
         {

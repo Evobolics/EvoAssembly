@@ -2,7 +2,7 @@
 using Mono.Cecil;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural.Types
@@ -23,19 +23,19 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural.Types
 
         
 
-        public ModuleDefinition GetModuleFromType(InfrastructureModelMask_I semanticModel, string resolutionName)
+        public ModuleDefinition GetModuleFromType(InfrastructureRuntimicModelMask_I semanticModel, string resolutionName)
         {
-            var node = Infrastructure.Models.Unified.Types.GetSemanticEntry(semanticModel, resolutionName);
+            var node = Unified.Types.Get(semanticModel, resolutionName);
 
-            return node?.SourceModuleDefinition;
-        }
+			return node?.ModuleNode?.ModuleDefinition;
+		}
 
         
 
        
 
 
-        //public TypeReference GetTypeReference(InfrastructureModelMask_I model, Type input)
+        //public TypeReference GetTypeReference(InfrastructureRuntimicModelMask_I model, Type input)
         //{
 	       // string resolutionName = Binding.Metadata.Members.Types.Naming.GetResolutionName(input);
 
@@ -71,7 +71,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural.Types
         //    return result;
         //}
 
-        public Type ResolveToType(InfrastructureModelMask_I model, SemanticTypeDefinitionMask_I semanticType)
+        public Type ResolveToType(InfrastructureRuntimicModelMask_I model, SemanticTypeDefinitionMask_I semanticType)
         {
             throw new Exception("resolving a semantic type to a run time is not supported.  A semantic type is designed to be used to create runtime type.  Right now automatic" +
                                 "compile support is not present.");

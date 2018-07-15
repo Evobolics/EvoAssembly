@@ -1,19 +1,30 @@
 ﻿using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Types
 {
-	public class TypeApi<TContainer> : RuntimeApiNode<TContainer>, TypeApi_I<TContainer>
+	public class TypeApi<TContainer> : CecilApiNode<TContainer>, TypeApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
+		public AddingApi_I<TContainer> Adding { get; set; }
+
+		AddingApiMask_I TypeApiMask_I.Adding => Adding;
+
 		public EnsuringApi_I<TContainer> Ensuring { get; set; }
 
 		EnsuringApiMask_I TypeApiMask_I.Ensuring => Ensuring;
 
+		public ExtendingApi_I<TContainer> Extending { get; set; }
+
+		ExtendingApiMask_I TypeApiMask_I.Extending => Extending;
+
 		public GettingApi_I<TContainer> Getting { get; set; }
 
 		GettingApiMask_I TypeApiMask_I.Getting => Getting;
+
+		public LoadingApi_I<TContainer> Loading { get; set; }
+
+		LoadingApiMask_I TypeApiMask_I.Loading => Loading;
 
 		public NamingApi_I<TContainer> Naming { get; set; }
 
@@ -21,13 +32,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 			
 
-		public void Load(InfrastructureModelMask_I semanticModel, ModuleDefinition moduleDefinition)
-		{
-			foreach (var typeDefinition in moduleDefinition.Types)
-			{
-				Infrastructure.Models.Structural.Types.Collection.Add(semanticModel, moduleDefinition.Assembly, moduleDefinition, typeDefinition);
-			}
-		}
+		
 
 		
 

@@ -5,7 +5,7 @@ using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Modeling.Conversion;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Ensuring
@@ -51,7 +51,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 
 	    RequiredModifierApiMask_I EnsuringApiMask_I.RequiredModifiers => RequiredModifiers;
 
-	    public BoundTypeDefinitionMask_I EnsureBound(InfrastructureModelMask_I semanticModel, System.Type type)
+	    public BoundTypeDefinitionMask_I EnsureBound(InfrastructureRuntimicModelMask_I semanticModel, System.Type type)
 	    {
 		    var typeReference = Models.Types.GetTypeReference(semanticModel, type);
 
@@ -59,7 +59,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 	    }
 
 
-	    public BoundTypeDefinitionMask_I EnsureBound(InfrastructureModelMask_I semanticModel, TypeReference typeReference, System.Type type)
+	    public BoundTypeDefinitionMask_I EnsureBound(InfrastructureRuntimicModelMask_I semanticModel, TypeReference typeReference, System.Type type)
 	    {
 		    var semanticMask = Ensure(semanticModel, typeReference, type);
 
@@ -71,17 +71,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 		    return bound;
 	    }
 
-		public void Ensure(InfrastructureModelMask_I semanticModel, SemanticTypeDefinitionMask_I semanticType)
+		public void Ensure(InfrastructureRuntimicModelMask_I semanticModel, SemanticTypeDefinitionMask_I semanticType)
 	    {
 		    Infrastructure.Models.Semantic.Types.Ensure(semanticModel, semanticType);
 	    }
 
-	    public SemanticTypeDefinitionMask_I Ensure(InfrastructureModelMask_I semanticModel, TypeReference typeReference)
+	    public SemanticTypeDefinitionMask_I Ensure(InfrastructureRuntimicModelMask_I semanticModel, TypeReference typeReference)
 	    {
 		    return Ensure(semanticModel, typeReference, null);
 	    }
 
-	    public SemanticTypeDefinitionMask_I Ensure(InfrastructureModelMask_I semanticModel, TypeReference typeReference, Type underlyingType)
+	    public SemanticTypeDefinitionMask_I Ensure(InfrastructureRuntimicModelMask_I semanticModel, TypeReference typeReference, Type underlyingType)
 	    {
 		    // Should be Tabular.Cecil.
 		    if (Cecil.IsExternal(typeReference))
@@ -94,7 +94,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 		    // A - Converted.  B- Not Converted - C - Converted.
 		    if (semanticModel.IsConverted())
 		    {
-			    var conversion = ((ILConversionExecutionModel)semanticModel).Conversion;
+			    var conversion = ((ILConversionRuntimicModel)semanticModel).Conversion;
 
 			    return Conversion.Metadata.Members.Types.Ensuring.Ensure(conversion, typeReference, null);
 		    }
@@ -115,7 +115,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 		    return Ensure(semanticModel, (BoundModule_I)semanticModule, typeReference, null, underlyingType);
 	    }
 
-	    public SemanticTypeDefinitionMask_I Ensure(InfrastructureModelMask_I semanticModel, Type type)
+	    public SemanticTypeDefinitionMask_I Ensure(InfrastructureRuntimicModelMask_I semanticModel, Type type)
 	    {
 		    var typeReference = Models.Types.GetTypeReference(semanticModel, type);
 
@@ -133,7 +133,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
         /// <param name="semanticModule"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        public SemanticTypeDefinitionMask_I Ensure(InfrastructureModelMask_I semanticModel, BoundModule_I boundModule, System.Type input)
+        public SemanticTypeDefinitionMask_I Ensure(InfrastructureRuntimicModelMask_I semanticModel, BoundModule_I boundModule, System.Type input)
         {
             var typeReference = Models.Types.GetTypeReference(semanticModel, input);
 
@@ -143,13 +143,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
         /// <summary>
         /// Ensures the type is part of the module.
         /// </summary>
-        public SemanticTypeDefinitionMask_I Ensure(InfrastructureModelMask_I semanticModel, BoundModule_I boundModule, TypeReference input, BoundTypeDefinitionMask_I declaringType, System.Type underlyingType)
+        public SemanticTypeDefinitionMask_I Ensure(InfrastructureRuntimicModelMask_I semanticModel, BoundModule_I boundModule, TypeReference input, BoundTypeDefinitionMask_I declaringType, System.Type underlyingType)
         {
 
-	        if (input.FullName == "System.Diagnostics.Tracing.ConcurrentSet`2")
-	        {
-		        
-	        }
+	        
 
 	        if (underlyingType == null)
 	        {
@@ -212,7 +209,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
         }
 
 
-		public void EnsureTypes(InfrastructureModelMask_I semanticModel, BoundModule_I boundModule)
+		public void EnsureTypes(InfrastructureRuntimicModelMask_I semanticModel, BoundModule_I boundModule)
 		{
 			var types = boundModule.SourceModuleDefinition.Types;
 

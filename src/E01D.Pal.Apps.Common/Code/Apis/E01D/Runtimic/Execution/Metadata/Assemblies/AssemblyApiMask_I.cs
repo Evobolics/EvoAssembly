@@ -10,5 +10,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies
         Type GetTypeInAssembly(Assembly assembly, Type type);
 
         Type GetTypeInAssembly(Type[] types, string fullName);
+	    Assembly FindAssembly(string fullName);
     }
 }

@@ -38,7 +38,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 			converted.UnderlyingType = converted.TypeBuilder;
 
-			Infrastructure.Models.Semantic.Types.Collection.AddCrossReference(conversion.Model, converted, converted.UnderlyingType.AssemblyQualifiedName);
+			this.Unified.Types.ExtendWithCrossReference(conversion.Model, converted, converted.UnderlyingType.AssemblyQualifiedName);
 
 			Types.Building.UpdateBuildPhase(converted, 1);
 		}

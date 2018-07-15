@@ -1,14 +1,14 @@
 ﻿using System.Reflection;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods.Building
 {
 	public interface RuntimeCreatedApiMask_I
 	{
-		void BuildMethods(InfrastructureModelMask_I model, BoundTypeDefinition_I input);
+		void BuildMethods(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input);
 
-		BoundMethod BuildMethod(InfrastructureModelMask_I model, BoundTypeDefinition_I input, MethodInfo method);
+		BoundMethod BuildMethod(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input, MethodInfo method);
 	}
 }

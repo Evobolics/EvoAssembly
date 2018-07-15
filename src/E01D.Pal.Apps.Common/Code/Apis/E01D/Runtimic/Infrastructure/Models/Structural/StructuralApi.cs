@@ -1,8 +1,9 @@
-﻿using Mono.Cecil;
+﻿using System;
+using Mono.Cecil;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural.Types;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural
 {
@@ -18,44 +19,46 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural
 
 		StructuralTypesApiMask_I StructuralApiMask_I.Types => Types;
 
-		public void AddAssemblyDefinition(InfrastructureModelMask_I semanticModel, AssemblyDefinition assemblyDefinition)
+		public void AddAssemblyDefinition(InfrastructureRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition)
 		{
-			if (assemblyDefinition == null) return;
+			throw new Exception("Debug");
 
-			if (semanticModel.Structural.Assemblies.Definitions.ContainsKey(assemblyDefinition.FullName)) return;
+			//if (assemblyDefinition == null) return;
 
-			semanticModel.Structural.Assemblies.Definitions.Add(assemblyDefinition.FullName, assemblyDefinition);
+			//if (semanticModel.Structural.Assemblies.Definitions.ContainsKey(assemblyDefinition.FullName)) return;
 
-			for (int i = 0; i < assemblyDefinition.Modules.Count; i++)
-			{
-				var module = assemblyDefinition.Modules[i];
+			//semanticModel.Structural.Assemblies.Definitions.Add(assemblyDefinition.FullName, assemblyDefinition);
 
-				for (int j = 0; j < module.Types.Count; j++)
-				{
-					var type = module.Types[j];
+			//for (int i = 0; i < assemblyDefinition.Modules.Count; i++)
+			//{
+			//	var module = assemblyDefinition.Modules[i];
 
-					
+			//	for (int j = 0; j < module.Types.Count; j++)
+			//	{
+			//		var type = module.Types[j];
 
-					if (type.FullName == "Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types.SimpleGenericClass`1")
-					{
 
-					}
 
-					Ensure(semanticModel, assemblyDefinition, module, type);
+			//		if (type.FullName == "Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types.SimpleGenericClass`1")
+			//		{
 
-					if (!type.HasNestedTypes) continue;
+			//		}
 
-					for (int k = 0; k < type.NestedTypes.Count; k++)
-					{
-						var nestedType = type.NestedTypes[k];
+			//		Ensure(semanticModel, assemblyDefinition, module, type);
 
-						Ensure(semanticModel, assemblyDefinition, module, nestedType);
-					}
-				}
-			}
+			//		if (!type.HasNestedTypes) continue;
+
+			//		for (int k = 0; k < type.NestedTypes.Count; k++)
+			//		{
+			//			var nestedType = type.NestedTypes[k];
+
+			//			Ensure(semanticModel, assemblyDefinition, module, nestedType);
+			//		}
+			//	}
+			//}
 		}
 
-		public void Ensure(InfrastructureModelMask_I semanticModel, AssemblyDefinition assemblyDefinition, ModuleDefinition module, TypeDefinition typeDefinition)
+		public void Ensure(InfrastructureRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition, ModuleDefinition module, TypeDefinition typeDefinition)
 		{
 			if (assemblyDefinition == null) throw new System.ArgumentNullException();
 			if (module == null) throw new System.ArgumentNullException();
@@ -63,11 +66,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural
 
 			string resolutionName = Infrastructure.Structural.Naming.GetResolutionName(typeDefinition);
 
-			var entry = Infrastructure.Models.Unified.Types.GetSemanticEntry(semanticModel, resolutionName);
+			var entry = Unified.Types.Get(semanticModel, resolutionName);
 
 			if (entry == null)
 			{
-				Infrastructure.Models.Structural.Types.Collection.Add(semanticModel, assemblyDefinition, module, typeDefinition);
+				//Cecil.Types.Adding.Add(semanticModel, assemblyDefinition, module, typeDefinition);
+				throw new Exception("Debug");
 			}
 		}
 	}

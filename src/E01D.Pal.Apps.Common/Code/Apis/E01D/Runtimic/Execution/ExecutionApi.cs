@@ -1,5 +1,6 @@
 ﻿using Root.Code.Apis.E01D.Runtimic.Execution.Allocation;
 using Root.Code.Apis.E01D.Runtimic.Execution.Bound;
+using Root.Code.Apis.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Apis.E01D.Runtimic.Execution.Emitting;
 using Root.Code.Apis.E01D.Runtimic.Execution.GarbageCollection;
 using Root.Code.Apis.E01D.Runtimic.Execution.JustInTime;
@@ -19,7 +20,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution
 
         public BindingApi_I<TContainer> Binding { get; set; }
 
-        public EmittingApi_I<TContainer> Emitting { get; set; }
+	    /// <summary>
+	    /// Gets or sets the api used to convert assemblies from non-collectible to collectible.
+	    /// </summary>
+	    public ConversionApi_I<TContainer> Conversion { get; set; }
+
+	    
+
+		public EmittingApi_I<TContainer> Emitting { get; set; }
+
+
 
         public GarbageCollectionApi_I<TContainer> GarbageCollection { get; set; }
 
@@ -41,13 +51,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution
 
         BindingApiMask_I ExecutionApiMask_I.Binding => Binding;
 
-        EmittingApiMask_I ExecutionApiMask_I.Emitting => Emitting;
+	    ConversionApiMask_I ExecutionApiMask_I.Conversion => Conversion;
+
+		EmittingApiMask_I ExecutionApiMask_I.Emitting => Emitting;
 
         GarbageCollectionApiMask_I ExecutionApiMask_I.GarbageCollection => GarbageCollection;
 
         JustInTimeApiMask_I ExecutionApiMask_I.JustInTime => JustInTime;
 
-        VirtualMachineApiMask_I ExecutionApiMask_I.VirtualMachines => VirtualMachines;
+	    MetadataApiMask_I ExecutionApiMask_I.Metadata => Metadata;
+
+		VirtualMachineApiMask_I ExecutionApiMask_I.VirtualMachines => VirtualMachines;
 
 	    
     }

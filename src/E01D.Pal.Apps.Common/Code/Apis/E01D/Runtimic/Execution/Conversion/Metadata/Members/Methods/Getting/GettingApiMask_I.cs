@@ -26,7 +26,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 	    List<BoundMethodDefinitionMask_I> GetMethods(BoundTypeDefinitionMask_I inputBlueprint);
 
 
-	    BoundMethodDefinitionMask_I GetBoundMethod(ILConversionExecutionModel conversionModel, BoundModuleMask_I module, MethodInfo genericTypeDefinitionMethodInfo);
+	    BoundMethodDefinitionMask_I GetBoundMethod(ILConversionRuntimicModel conversionModel, BoundModuleMask_I module, MethodInfo genericTypeDefinitionMethodInfo);
 
 	    SemanticMethodMask_I FindMethodByDefinition(ILConversion conversion, BoundTypeDefinitionWithMethodsMask_I convertedTypeWithMethods, MethodDefinition methodDefinition);
 

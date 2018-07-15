@@ -1,14 +1,14 @@
 ﻿using System;
 using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Building
 {
 	public class MethodDefinitionApi<TContainer> : CecilApiNode<TContainer>, MethodDefinitionApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public MethodDefinition MakeGenericInstanceTypeMethodReference(InfrastructureModelMask_I model, GenericInstanceType declaringType, MethodDefinition methodDefinition)
+		public MethodDefinition MakeGenericInstanceTypeMethodReference(InfrastructureRuntimicModelMask_I model, GenericInstanceType declaringType, MethodDefinition methodDefinition)
 		{
 			if (declaringType == null) throw new Exception("Expected a declaring type.");
 
@@ -39,7 +39,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return resolvedMethodDefinition;
 		}
 
-		public MethodDefinition MakeGenericInstanceTypeMethodReference(InfrastructureModelMask_I model, MethodDefinition methodDefinition, Type memberDeclaringType)
+		public MethodDefinition MakeGenericInstanceTypeMethodReference(InfrastructureRuntimicModelMask_I model, MethodDefinition methodDefinition, Type memberDeclaringType)
 		{
 			if (memberDeclaringType == null) throw new Exception("Expected a declaring type.");
 
@@ -71,7 +71,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return resolvedMethodDefinition;
 		}
 
-		private TypeReference[] ResolveGenericArguments(InfrastructureModelMask_I model, Type[] typeArguments)
+		private TypeReference[] ResolveGenericArguments(InfrastructureRuntimicModelMask_I model, Type[] typeArguments)
 		{
 			TypeReference[] references = new TypeReference[typeArguments.Length];
 
@@ -83,11 +83,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return references;
 		}
 
-		public TypeReference ResolveClassTypeArgument(InfrastructureModelMask_I model, Type typeToResolve)
+		public TypeReference ResolveClassTypeArgument(InfrastructureRuntimicModelMask_I model, Type typeToResolve)
 		{
 			if (!typeToResolve.IsGenericParameter)
 			{
-				return Types.Ensuring.EnsureInternalTypeReference(model, typeToResolve);
+				return Types.Getting.GetInternalTypeReference(model, typeToResolve);
 			}
 
 			var x = typeToResolve.GetType();
@@ -95,11 +95,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			throw new NotImplementedException();
 		}
 
-		public TypeReference ResolveTypeParameterIfPresent(InfrastructureModelMask_I model, TypeReference[] typeArguments, TypeReference typeToResolve)
+		public TypeReference ResolveTypeParameterIfPresent(InfrastructureRuntimicModelMask_I model, TypeReference[] typeArguments, TypeReference typeToResolve)
 		{
 			if (!typeToResolve.IsGenericParameter)
 			{
-				return Types.Ensuring.EnsureInternalTypeReference(model, typeToResolve);
+				return Types.Getting.GetInternalTypeReference(model, typeToResolve);
 			}
 
 			var genericParameter= (GenericParameter) typeToResolve;
@@ -108,7 +108,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		}
 
 
-		private void AddGenericParameters(InfrastructureModelMask_I model, MethodDefinition input, MethodDefinition output)
+		private void AddGenericParameters(InfrastructureRuntimicModelMask_I model, MethodDefinition input, MethodDefinition output)
 		{
 			for (int i = 0; i < input.GenericParameters.Count; i++)
 			{

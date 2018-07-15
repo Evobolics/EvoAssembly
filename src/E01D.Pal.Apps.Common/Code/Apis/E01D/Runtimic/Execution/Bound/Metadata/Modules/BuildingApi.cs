@@ -1,15 +1,25 @@
 ﻿using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
+using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Modules
 {
     public class BuildingApi<TContainer> : BindingApiNode<TContainer>, BuildingApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        public void BuildOut(InfrastructureModelMask_I semanticModel, SemanticModuleMask_I moduleEntry)
+	    public BoundModule Build(InfrastructureRuntimicModelMask_I semanticModel, UnifiedModuleNode unifiedModuleNode)
+	    {
+		    var boundModule = Modules.Creation.Create(unifiedModuleNode.AssemblyNode.Semantic, unifiedModuleNode.ModuleDefinition);
+
+		    unifiedModuleNode.Semantic = boundModule;
+
+		    return boundModule;
+	    }
+
+		public void BuildOut(InfrastructureRuntimicModelMask_I semanticModel, SemanticModuleMask_I moduleEntry)
         {
 
 
@@ -27,7 +37,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Modules
             }
         }
 
-        public void BuildOut(InfrastructureModelMask_I semanticModel, BoundModule_I boundModule)
+        public void BuildOut(InfrastructureRuntimicModelMask_I semanticModel, BoundModule_I boundModule)
         {
             // If all the types have already been ensured, then no need to do anything else.
             if (boundModule.IsBuiltOut)

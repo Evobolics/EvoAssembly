@@ -16,7 +16,7 @@ using TypeApiMask_I = Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Memb
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound
 {
-    public abstract class BindingApiNode<TContainer>:Api<TContainer>
+    public abstract class BindingApiNode<TContainer>: RuntimeApiNode<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
         public Metadata.Assemblies.AssemblyApiMask_I Assemblies => Container.Api.Runtimic.Execution.Binding.Metadata.Assemblies;
@@ -27,7 +27,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound
 
         public ConstructorApiMask_I Constructors => Container.Api.Runtimic.Execution.Binding.Metadata.Members.Constructors;
 
-        public ConversionApiMask_I Conversion => Container.Api.Runtimic.Execution.Emitting.Conversion;
+        public ConversionApiMask_I Conversion => Container.Api.Runtimic.Execution.Conversion;
 
         public EmittingApiMask_I Emitting => Container.Api.Runtimic.Execution.Emitting;
 
@@ -35,7 +35,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound
 
         public FieldApiMask_I Fields => Container.Api.Runtimic.Execution.Binding.Metadata.Members.Fields;
 
-        public InfrastructureApiMask_I Infrastructure => Container.Api.Runtimic.Infrastructure;
+        
 
         public Infrastructure.Semantic.SemanticApiMask_I Semantic => Container.Api.Runtimic.Infrastructure.Semantic;
 

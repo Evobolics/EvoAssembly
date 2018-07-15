@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Getting.FromMethodInfo
 {
@@ -10,7 +10,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		/// Gets the method definition that is associated with the MethodInfo.  This method first gets the type definition associated with the 
 		/// type reference.
 		/// </summary>
-		MethodDefinition GetMethodDefinition(InfrastructureModelMask_I model, TypeReference typeReference, MethodInfo method);
+		MethodDefinition GetMethodDefinition(InfrastructureRuntimicModelMask_I model, TypeReference typeReference, MethodInfo method);
 
 		/// <summary>
 		/// Gets the method definition that is associated with the MethodInfo.
@@ -19,6 +19,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		/// <param name="typeDefinition"></param>
 		/// <param name="method"></param>
 		/// <returns></returns>
-		MethodDefinition GetMethodDefinition(InfrastructureModelMask_I model, TypeDefinition typeDefinition, MethodInfo method);
+		MethodDefinition GetMethodDefinition(InfrastructureRuntimicModelMask_I model, TypeDefinition typeDefinition, MethodInfo method);
 	}
 }

@@ -4,7 +4,7 @@ using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Domains.E01D;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
@@ -31,24 +31,24 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
 
         
 
-        public System.Type GetObjectType(InfrastructureModel_I model)
+        public System.Type GetObjectType(InfrastructureRuntimicModelMask_I model)
         {
             return GetBoundUnderlyingTypeOrThrow(model, typeof(Object).AssemblyQualifiedName);
         }
 
-        public System.Type GetValueType(InfrastructureModel_I model)
+        public System.Type GetValueType(InfrastructureRuntimicModelMask_I model)
         {
             return GetBoundUnderlyingTypeOrThrow(model, typeof(ValueType).AssemblyQualifiedName);
         }
 
-        public System.Type GetEnumType(InfrastructureModel_I model)
+        public System.Type GetEnumType(InfrastructureRuntimicModelMask_I model)
         {
             return GetBoundUnderlyingTypeOrThrow(model, typeof(Enum).AssemblyQualifiedName);
         }
 
 
 
-	    public System.Type GetUnderlyingType(InfrastructureModelMask_I model, TypeReference typeReference)
+	    public System.Type GetUnderlyingType(InfrastructureRuntimicModelMask_I model, TypeReference typeReference)
 	    {
 		    if (typeReference.IsGenericParameter)
 		    {
@@ -80,7 +80,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
 
         
 
-        public System.Type GetBoundUnderlyingTypeOrThrow(InfrastructureModelMask_I model, string resolutionName)
+        public System.Type GetBoundUnderlyingTypeOrThrow(InfrastructureRuntimicModelMask_I model, string resolutionName)
         {
             var semanticType = Collection.GetOrThrow(model, resolutionName);
 
@@ -117,36 +117,36 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
             return (BoundTypeDefinitionMask_I)semanticType;
         }
 
-        public TypeReference GetTypeReference(InfrastructureModelMask_I model, Type input)
+        public TypeReference GetTypeReference(InfrastructureRuntimicModelMask_I model, Type input)
         {
             return Infrastructure.Models.Semantic.Types.GetTypeReference(model, input);
         }
 
-	    public TypeReference GetTypeReference(InfrastructureModelMask_I model, Type input, out SemanticTypeDefinitionMask_I possibleSemanticType)
+	    public TypeReference GetTypeReference(InfrastructureRuntimicModelMask_I model, Type input, out SemanticTypeDefinitionMask_I possibleSemanticType)
 	    {
 		    return Infrastructure.Models.Semantic.Types.GetTypeReference(model, input, out possibleSemanticType);
 	    }
 
-		public TypeDefinition Resolve(InfrastructureModel_I model, Type genericTypeDefinitionType)
+		public TypeDefinition Resolve(InfrastructureRuntimicModel_I model, Type genericTypeDefinitionType)
         {
-            return (TypeDefinition)Infrastructure.Models.Structural.Types.Collection.GetStoredTypeReference(model, genericTypeDefinitionType);
+            return (TypeDefinition)Cecil.Types.Getting.GetStoredTypeReference(model, genericTypeDefinitionType);
         }
 
-	    public System.Type ResolveToType(InfrastructureModelMask_I model, TypeReference typeReference, System.Type underlyingType, out BoundTypeDefinitionMask_I boundType)
+	    public System.Type ResolveToType(InfrastructureRuntimicModelMask_I model, TypeReference typeReference, System.Type underlyingType, out BoundTypeDefinitionMask_I boundType)
 	    {
 		    boundType = ResolveToBound(model, typeReference, underlyingType);
 
 		    return underlyingType;
 	    }
 
-		public System.Type ResolveToType(InfrastructureModelMask_I model, TypeReference typeReference, out BoundTypeDefinitionMask_I boundType)
+		public System.Type ResolveToType(InfrastructureRuntimicModelMask_I model, TypeReference typeReference, out BoundTypeDefinitionMask_I boundType)
 	    {
 		    boundType = ResolveToBound(model, typeReference);
 
 		    return ResolveToType(model, boundType);
 	    }
 
-		public Type ResolveToType(InfrastructureModelMask_I model, TypeReference typeReference)
+		public Type ResolveToType(InfrastructureRuntimicModelMask_I model, TypeReference typeReference)
 		{
 			var semanticType = Types.Ensuring.Ensure(model, typeReference);
 
@@ -163,7 +163,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
 			throw new Exception("There was not a bound type mapped to the type reference.");
 		}
 
-        public System.Type ResolveToType(InfrastructureModelMask_I model, SemanticTypeDefinitionMask_I semanticType, out BoundTypeDefinitionMask_I resultingBound)
+        public System.Type ResolveToType(InfrastructureRuntimicModelMask_I model, SemanticTypeDefinitionMask_I semanticType, out BoundTypeDefinitionMask_I resultingBound)
         {
             if (!semanticType.IsBound())
             {
@@ -186,7 +186,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
         
 
         // TODO: Rename to GetRuntimeType
-        public System.Type ResolveToType(InfrastructureModelMask_I model, BoundTypeDefinitionMask_I semanticType)
+        public System.Type ResolveToType(InfrastructureRuntimicModelMask_I model, BoundTypeDefinitionMask_I semanticType)
         {
             
             // TODO: 2) Building needs to be decoupled from baking, to allow for field types to be resolved without causing the baking to occur that can prevent other fields 
@@ -204,13 +204,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
         }
 
 
-	    public BoundTypeDefinitionMask_I ResolveToBound(InfrastructureModelMask_I model, TypeReference typeReference)
+	    public BoundTypeDefinitionMask_I ResolveToBound(InfrastructureRuntimicModelMask_I model, TypeReference typeReference)
 	    {
 		    return ResolveToBound(model, typeReference, null);
 	    }
 
 
-		public BoundTypeDefinitionMask_I ResolveToBound(InfrastructureModelMask_I model, TypeReference typeReference, Type underlyingType)
+		public BoundTypeDefinitionMask_I ResolveToBound(InfrastructureRuntimicModelMask_I model, TypeReference typeReference, Type underlyingType)
         {
             if (typeReference.IsGenericParameter)
             {
@@ -236,7 +236,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
         /// <param name="typeReference"></param>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        private BoundTypeDefinitionMask_I ResolveToBound_GenericParameter(InfrastructureModelMask_I model, GenericParameter parameter)
+        private BoundTypeDefinitionMask_I ResolveToBound_GenericParameter(InfrastructureRuntimicModelMask_I model, GenericParameter parameter)
         {
             // At this point, we do not know if the parameter is belongs to a converted type or not.
             if (parameter.DeclaringType != null)

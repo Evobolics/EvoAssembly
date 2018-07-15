@@ -2,7 +2,7 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution
 {
-    public class ExecutionApiNode<TContainer> : Api<TContainer>
+    public class ExecutionApiNode<TContainer> : RuntimeApiNode<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
     }

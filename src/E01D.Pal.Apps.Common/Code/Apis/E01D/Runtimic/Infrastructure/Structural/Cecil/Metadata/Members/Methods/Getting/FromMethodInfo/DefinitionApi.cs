@@ -2,7 +2,7 @@
 using System.Reflection;
 using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Getting.FromMethodInfo
 {
@@ -20,7 +20,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		/// Gets the method definition that is associated with the MethodInfo.  This method first gets the type definition associated with the 
 		/// type reference.
 		/// </summary>
-		public MethodDefinition GetMethodDefinition(InfrastructureModelMask_I model, TypeReference typeReference, MethodInfo method)
+		public MethodDefinition GetMethodDefinition(InfrastructureRuntimicModelMask_I model, TypeReference typeReference, MethodInfo method)
 		{
 			// Get the type definition that corresponds to the type reference.  This will store all the methods that are available.
 			var typeDefinition = Types.Getting.GetDefinition(model, typeReference);
@@ -35,7 +35,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		/// <param name="typeDefinition"></param>
 		/// <param name="method"></param>
 		/// <returns></returns>
-		public MethodDefinition GetMethodDefinition(InfrastructureModelMask_I model, TypeDefinition typeDefinition, MethodInfo method)
+		public MethodDefinition GetMethodDefinition(InfrastructureRuntimicModelMask_I model, TypeDefinition typeDefinition, MethodInfo method)
 		{
 			if (method.Module.Assembly.IsDynamic)
 				throw new Exception(

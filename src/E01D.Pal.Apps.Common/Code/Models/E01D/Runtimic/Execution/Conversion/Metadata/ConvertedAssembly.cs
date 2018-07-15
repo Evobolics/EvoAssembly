@@ -8,7 +8,10 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata
 {
     public class ConvertedAssembly:ConvertedMetadata, ConvertedAssembly_I, ConvertedMetadataStore_I
     {
-        
+	    public ConvertedAssembly()
+	    {
+				
+	    }
 
         public SemanticAssemblyAssembliesMask_I Assemblies { get; set; } = new SemanticAssemblyAssemblies();
 

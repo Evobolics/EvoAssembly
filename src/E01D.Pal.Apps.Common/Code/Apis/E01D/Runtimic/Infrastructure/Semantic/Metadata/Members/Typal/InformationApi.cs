@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal
@@ -17,7 +17,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
         /// <param name="model"></param>
         /// <param name="inputType"></param>
         /// <returns></returns>
-        public SemanticTypeInformation CreateTypeInformation(InfrastructureModelMask_I model, System.Type inputType)
+        public SemanticTypeInformation CreateTypeInformation(InfrastructureRuntimicModelMask_I model, System.Type inputType)
         {
 
 
@@ -73,11 +73,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
             {
                 var blueprint = inputType.GetGenericTypeDefinition();
 
-                typeInformation.GenericTypeDefinition = Infrastructure.Models.Structural.Types.Collection.GetStoredTypeReference(model, blueprint);
+                typeInformation.GenericTypeDefinition = Cecil.Types.Getting.GetStoredTypeReference(model, blueprint);
             }
             else
             {
-                typeInformation.TypeReference = Infrastructure.Models.Structural.Types.Collection.GetStoredTypeReference(model, inputType);
+                typeInformation.TypeReference = Cecil.Types.Getting.GetStoredTypeReference(model, inputType);
             }
             
             //// The issue is that type arguments can be generics themselves.  
@@ -89,7 +89,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
         }
 
 
-        public SemanticTypeInformation CreateTypeInformation(InfrastructureModelMask_I model, TypeReference typeReference)
+        public SemanticTypeInformation CreateTypeInformation(InfrastructureRuntimicModelMask_I model, TypeReference typeReference)
         {
             //if (typeReference.FullName ==
             //    "Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types.GenericClassWithMethods`1"

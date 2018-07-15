@@ -24,6 +24,34 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies
             return null;
         }
 
+	    public Assembly FindAssembly(string fullName)
+	    {
+			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+		    Assembly assembly = FindAssemblyInAppDomain(fullName);
+
+		    if (assembly != null) return assembly;
+
+			try
+			{
+				// Attempt to load from GAC
+				assembly = Assembly.Load(fullName);
+			}
+			catch (Exception)
+			{
+
+
+			}
+		    
+
+		    if (assembly == null)
+		    {
+			    throw new NotSupportedException($"Could not resolve assembly reference '{fullName}'.");
+		    }
+
+		    return assembly;
+	    }
+
         public Type GetTypeInAssembly(Assembly assembly, Type type)
         {
             var types = assembly.GetTypes();

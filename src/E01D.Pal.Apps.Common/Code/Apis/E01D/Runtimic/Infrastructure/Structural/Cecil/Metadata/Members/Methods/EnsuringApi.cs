@@ -5,7 +5,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 	public class EnsuringApi<TContainer> : RuntimeApiNode<TContainer>, EnsuringApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		//public MethodDefinition EnsureMethodReference(InfrastructureModelMask_I model, SemanticGenericTypeDefinitionMask_I input,
+		//public MethodDefinition EnsureMethodReference(InfrastructureRuntimicModelMask_I model, SemanticGenericTypeDefinitionMask_I input,
 		//	Collection<MethodDefinition> methodDefinitions, MethodInfo method)
 		//{
 		//	throw new NotImplementedException();

@@ -2,7 +2,7 @@
 using System.Reflection;
 using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Building.GenericInstances
 {
@@ -17,7 +17,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 	    MethodApiMask_I GenericInstanceApiMask_I.Methods => Methods;
 
-	    public MethodReference MakeGenericInstanceMethod(InfrastructureModelMask_I model, TypeReference declaringType, MethodReference methodReference, MethodInfo method)
+	    public MethodReference MakeGenericInstanceMethod(InfrastructureRuntimicModelMask_I model, TypeReference declaringType, MethodReference methodReference, MethodInfo method)
 	    {
 		    Type[] typeArguments = method.GetGenericArguments();
 
@@ -46,7 +46,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		    return resolvedMethodReference;
 	    }
 
-	    private void AddGenericArguments(InfrastructureModelMask_I model, GenericInstanceMethod resolvedMethodReference, TypeReference[] typeArgumentReferences)
+	    private void AddGenericArguments(InfrastructureRuntimicModelMask_I model, GenericInstanceMethod resolvedMethodReference, TypeReference[] typeArgumentReferences)
 	    {
 		    for (int i = 0; i < typeArgumentReferences.Length; i++)
 		    {
@@ -54,7 +54,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		    }
 	    }
 
-	    private TypeReference[] ResolveGenericArguments(InfrastructureModelMask_I model, Type[] typeArguments)
+	    private TypeReference[] ResolveGenericArguments(InfrastructureRuntimicModelMask_I model, Type[] typeArguments)
 	    {
 		    TypeReference[] references = new TypeReference[typeArguments.Length];
 
@@ -66,19 +66,19 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		    return references;
 	    }
 
-	    public TypeReference ResolveTypeParameterIfPresent(InfrastructureModelMask_I model, Type typeToResolve)
+	    public TypeReference ResolveTypeParameterIfPresent(InfrastructureRuntimicModelMask_I model, Type typeToResolve)
 	    {
 		    if (!typeToResolve.IsGenericParameter)
 		    {
-			    return Types.Ensuring.EnsureInternalTypeReference(model, typeToResolve);
+			    return Types.Getting.GetInternalTypeReference(model, typeToResolve);
 		    }
 
-		    var x = typeToResolve.GetType();
+		    //var x = typeToResolve.GetType();
 
 		    throw new NotImplementedException();
 	    }
 
-	    public TypeReference ResolveTypeParameterIfPresent(InfrastructureModelMask_I model, TypeReference typeReferenceToResolve, TypeReference[] parametersInOrder)
+	    public TypeReference ResolveTypeParameterIfPresent(InfrastructureRuntimicModelMask_I model, TypeReference typeReferenceToResolve, TypeReference[] parametersInOrder)
 	    {
 		    if (!typeReferenceToResolve.IsGenericParameter) return typeReferenceToResolve;
 

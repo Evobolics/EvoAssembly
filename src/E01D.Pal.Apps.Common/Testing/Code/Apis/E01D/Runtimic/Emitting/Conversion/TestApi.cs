@@ -9,6 +9,7 @@ using Root.Code.Models.E01D.Containment;
 using Mono.Reflection;
 using Root.Code.Domains.E01D;
 using Root.Code.Exts.Runtimic;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Shortcuts.E01D;
 
 namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
@@ -118,9 +119,9 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
 
         }
 
-        public object ConvertAndCreateInstance(Type type)
+        public object ConvertAndCreateInstance(Type type, AssemblyBuilderAccess buidlerAccess = AssemblyBuilderAccess.RunAndCollect)
         {
-            var convertedType = ConvertSingleType(type);
+            var convertedType = ConvertSingleType(type, buidlerAccess);
 
             return CreateInstance(convertedType);
         }
@@ -134,37 +135,63 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
 
         public object ConvertAndCreateInstance(Type type, out Assembly assembly, out Type convertedType)
         {
-            convertedType = ConvertSingleType(type, out assembly);
+            convertedType = ConvertSingleType(type, AssemblyBuilderAccess.RunAndCollect, out assembly);
 
             return CreateInstance(convertedType);
         }
 
-        public System.Type ConvertSingleType(System.Type type)
+        public System.Type ConvertSingleType(System.Type type, AssemblyBuilderAccess builderAccess = AssemblyBuilderAccess.RunAndCollect)
         {
-            return ConvertSingleType(type, out Assembly collectibleAssembly);
+            return ConvertSingleType(type, builderAccess, out Assembly collectibleAssembly);
         }
 
-        public System.Type ConvertSingleType(System.Type type, out Assembly collectibleAssembly)
+        public System.Type ConvertSingleType(System.Type type, AssemblyBuilderAccess builderAccess, out Assembly collectibleAssembly)
         {
             // Use the default static api to create a container to do the conversion.
-            var container = XEvoAssembly.CreateContainer();
+            var container = EvoAssembly.CreateContainer();
 
             // do the conversion
-            var conversionResult = container.ConvertType(type);
+            var conversionResult = container.Convert(type, builderAccess);
+
+	        
 
             Assert.IsNotNull(conversionResult);
 
-            Assert.IsNotNull(conversionResult.Assemblies);
+            //Assert.IsNotNull(conversionResult.Assemblies);
 
-            Assert.AreEqual(1, conversionResult.Assemblies.Count);
+            //Assert.AreEqual(1, conversionResult.Assemblies.Count);
 
-            collectibleAssembly = conversionResult.Assemblies[0];
+            //collectibleAssembly = conversionResult.Assemblies[0];
 
-            var collectibleType = GetType(collectibleAssembly, type);
+	        var output = (ILConversionTypeOutput)conversionResult.Output;
 
-            Assert.IsNotNull(collectibleType);
+			var collectibleType = output.Type;
 
-            return collectibleType;
+	        collectibleAssembly = collectibleType.Assembly;
+
+			Assert.IsTrue(collectibleAssembly.IsDynamic);
+
+			Assert.IsNotNull(collectibleType);
+
+	        if (builderAccess == AssemblyBuilderAccess.RunAndSave)
+	        {
+		        var saveAssembly = conversionResult.Output.Assemblies[0];
+
+				if (saveAssembly is AssemblyBuilder builder)
+		        {
+			        var modules = collectibleAssembly.GetModules();
+
+			        var module = modules[0];
+
+			        var fileName = module.ScopeName;
+
+
+					builder.Save(fileName);
+				}
+
+	        }
+
+			return collectibleType;
 
         }
 

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Root.Code.Enums.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
 
 namespace Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic
 {
@@ -16,7 +15,7 @@ namespace Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic
         /// </summary>
         public object ObjectNetwork { get; set; }
 
-        public InfrastructureModelMask_I Model { get; set; }
+        public InfrastructureRuntimicModelMask_I Model { get; set; }
 
         public RuntimicKind RuntimicKind { get; } = RuntimicKind.Bound;
     }

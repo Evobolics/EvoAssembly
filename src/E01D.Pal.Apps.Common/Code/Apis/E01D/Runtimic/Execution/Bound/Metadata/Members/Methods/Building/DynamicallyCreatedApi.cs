@@ -5,7 +5,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods.
 	public class DynamicallyCreatedApi<TContainer> : BindingApiNode<TContainer>, DynamicallyCreatedApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		//public void BuildMethods(InfrastructureModelMask_I model, BoundTypeDefinition_I input)
+		//public void BuildMethods(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input)
 		//{
 		//	// Done on purpose to find errors
 		//	var typeDefinition = (TypeDefinition)input.SourceTypeReference;
@@ -20,7 +20,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods.
 		//	}
 		//}
 
-		//public void BuildMethod(InfrastructureModelMask_I model, BoundTypeDefinition_I input, MethodDefinition method)
+		//public void BuildMethod(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input, MethodDefinition method)
 		//{
 		//	//if (input.IsGeneric() && input is ConvertedGenericTypeDefinition_I generic && generic.IsClosedType())
 		//	//{
@@ -71,7 +71,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods.
 		//	//SetImplementationFlagsIfPresent(method, methodEntry.MethodBuilder);
 		//}
 
-		////public void AddGenericParameters(InfrastructureModelMask_I model, ConvertedTypeDefinition_I input, ConvertedNonGenericInstanceMethod methodEntry)
+		////public void AddGenericParameters(InfrastructureRuntimicModelMask_I model, ConvertedTypeDefinition_I input, ConvertedNonGenericInstanceMethod methodEntry)
 		////{
 		////	var methodDefinition = methodEntry.MethodReference;
 

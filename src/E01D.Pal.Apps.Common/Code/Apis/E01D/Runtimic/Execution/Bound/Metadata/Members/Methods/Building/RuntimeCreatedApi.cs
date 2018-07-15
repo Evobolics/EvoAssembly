@@ -3,7 +3,7 @@ using System.Reflection;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods.Building
@@ -11,7 +11,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods.
 	public class RuntimeCreatedApi<TContainer> : BindingApiNode<TContainer>, RuntimeCreatedApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public void BuildMethods(InfrastructureModelMask_I model, BoundTypeDefinition_I input)
+		public void BuildMethods(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input)
 		{
 			if (!(input is BoundTypeDefinitionWithMethodsMask_I boundTypeWithMethods))
 			{
@@ -66,7 +66,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods.
 
 		
 
-		public BoundMethod BuildMethod(InfrastructureModelMask_I model, BoundTypeDefinition_I input, MethodInfo method)
+		public BoundMethod BuildMethod(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input, MethodInfo method)
 		{
 			BoundMethod boundMethod;
 

@@ -63,35 +63,35 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules
 		    return Models.Modules.GetModule(conversion, modulesAssembly, typeReference);
 	    }
 
-		public List<SemanticModuleMask_I> EnsureModuleEntries(BoundAssemblyMask_I entry)
-        {
-            List<SemanticModuleMask_I> modules = new List<SemanticModuleMask_I>();
+		//public List<SemanticModuleMask_I> EnsureModuleEntries(BoundAssemblyMask_I entry)
+  //      {
+  //          List<SemanticModuleMask_I> modules = new List<SemanticModuleMask_I>();
 
-            if (entry.AssemblyDefinition != null)
-            {
-                // Create module entries that are based upon module definitions
-                foreach (var moduleDefinition in entry.AssemblyDefinition.Modules)
-                {
-                    var moduleEntry = Modules.Creation.CreateModuleEntry(entry, moduleDefinition);
+  //          if (entry.AssemblyDefinition != null)
+  //          {
+  //              // Create module entries that are based upon module definitions
+  //              foreach (var moduleDefinition in entry.AssemblyDefinition.Modules)
+  //              {
+  //                  var moduleEntry = Modules.Creation.CreateModuleEntry(entry, moduleDefinition);
 
-                    Modules.Addition.AddModule(moduleEntry);
-                }
+  //                  Modules.Addition.AddModule(moduleEntry);
+  //              }
 
-	            foreach (var module in entry.Modules.Values)
-	            {
+	 //           foreach (var module in entry.Modules.Values)
+	 //           {
 		            
-	            }
-            }
-            else
-            {
-                // Create a module entry that is based upon the types, not based upon 
-                // the module definition
-                var moduleEntry = Modules.Creation.CreateModuleEntry(entry);
+	 //           }
+  //          }
+  //          else
+  //          {
+  //              // Create a module entry that is based upon the types, not based upon 
+  //              // the module definition
+  //              var moduleEntry = Modules.Creation.CreateModuleEntry(entry);
 
-                Modules.Addition.AddModule(moduleEntry);
-            }
+  //              Modules.Addition.AddModule(moduleEntry);
+  //          }
 
-            return modules;
-        }
+  //          return modules;
+  //      }
     }
 }

@@ -4,7 +4,7 @@ using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
@@ -17,12 +17,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Fields
 
 	    Fields.Building.BuildingApiMask_I FieldApiMask_I.Building => Building;
 
-		public SemanticFieldMask_I Get(InfrastructureModelMask_I model, SemanticTypeDefinitionMask_I declaringType, string fieldName)
+		public SemanticFieldMask_I Get(InfrastructureRuntimicModelMask_I model, SemanticTypeDefinitionMask_I declaringType, string fieldName)
         {
             return Semantic.Metadata.Members.Fields.Get(model, declaringType, fieldName);
         }
 
-        public FieldInfo GetFieldInfo(InfrastructureModelMask_I model, SemanticTypeDefinitionMask_I declaringType, string fieldName)
+        public FieldInfo GetFieldInfo(InfrastructureRuntimicModelMask_I model, SemanticTypeDefinitionMask_I declaringType, string fieldName)
         {
 			// 1) First check the current type for the field.
             var result = Get(model, declaringType, fieldName);
@@ -44,7 +44,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Fields
             return field.UnderlyingField;
         }
 
-        public FieldInfo GetFieldInfo(InfrastructureModelMask_I conversion, Type declaringType, FieldReference fieldReference)
+        public FieldInfo GetFieldInfo(InfrastructureRuntimicModelMask_I conversion, Type declaringType, FieldReference fieldReference)
         {
             return declaringType.GetField(fieldReference.Name);
         }

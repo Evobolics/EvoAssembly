@@ -47,9 +47,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 		SemanticTypeDefinitionMask_I Ensure(ILConversion conversion, TypeReference typeReference,  SemanticTypeDefinitionMask_I declaringType);
 
-		SemanticTypeDefinitionMask_I Ensure(ILConversion conversion, ConvertedModule_I module, System.Type input);
+		//SemanticTypeDefinitionMask_I Ensure(ILConversion conversion, ConvertedModule_I module, System.Type input);
 
         SemanticTypeDefinitionMask_I Ensure(ILConversion conversion, ConvertedModule_I module, TypeReference input, ConvertedTypeDefinition_I declaringType);
+
+
 		
 	}
 }

@@ -6,7 +6,7 @@ using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypeArgument
 using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypeParameters;
 using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members
 {
@@ -35,6 +35,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members
 	    TypeParameterApiMask_I TypeParameters { get; }
 
         TypeApiMask_I Types { get;  }
-        BoundTypeDefinitionMask_I GetDeclaringType(InfrastructureModelMask_I conversionModel, MemberReference memberReference);
+        BoundTypeDefinitionMask_I GetDeclaringType(InfrastructureRuntimicModelMask_I conversionModel, MemberReference memberReference);
     }
 }

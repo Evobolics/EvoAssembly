@@ -7,7 +7,7 @@ using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Defi
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Ensuring.Gathering
@@ -69,14 +69,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
             return boundBaseType;
         }
 
-        private System.Type GetObjectType(InfrastructureModel_I model)
+        private System.Type GetObjectType(InfrastructureRuntimicModelMask_I model)
         {
             return Binding.Models.Types.GetObjectType(model);
         }
 
         
 
-        private System.Type GetValueType(InfrastructureModel_I model)
+        private System.Type GetValueType(InfrastructureRuntimicModelMask_I model)
         {
             return Binding.Models.Types.GetValueType(model);
         }

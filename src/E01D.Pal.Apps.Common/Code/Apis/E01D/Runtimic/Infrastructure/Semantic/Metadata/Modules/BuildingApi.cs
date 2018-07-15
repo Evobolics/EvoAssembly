@@ -1,5 +1,5 @@
 ﻿using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Modules
@@ -9,7 +9,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Modules
     {
        
 
-        public void BuildOut(InfrastructureModelMask_I semanticModel, SemanticModule_I boundModule)
+        public void BuildOut(InfrastructureRuntimicModelMask_I semanticModel, SemanticModule_I boundModule)
         {
             // If all the types have already been ensured, then no need to do anything else.
             if (boundModule.IsBuiltOut)

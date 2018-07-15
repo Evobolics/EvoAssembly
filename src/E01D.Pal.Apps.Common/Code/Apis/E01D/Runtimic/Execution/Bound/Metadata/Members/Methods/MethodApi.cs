@@ -4,7 +4,7 @@ using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods.Buil
 using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods.Getting;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods
@@ -20,7 +20,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods
 
 	    GettingApiMask_I MethodApiMask_I.Getting => Getting;
 
-		public SemanticMethodMask_I FindMethodByDefinition(InfrastructureModelMask_I model, BoundTypeDefinitionWithMethodsMask_I boundTypeWithMethods, MethodDefinition methodDefinition)
+		public SemanticMethodMask_I FindMethodByDefinition(InfrastructureRuntimicModelMask_I model, BoundTypeDefinitionWithMethodsMask_I boundTypeWithMethods, MethodDefinition methodDefinition)
 		{
 			
 

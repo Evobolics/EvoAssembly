@@ -19,7 +19,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 		/// </summary>
 		/// <param name="conversion"></param>
 		/// <param name="inputTypes"></param>
-		public ILConversionResult Convert(ILConversion conversion, Type[] inputTypes)
+		public ILConversionResult Convert(ILConversion conversion, TypeDefinition[] inputTypes)
 		{
             // Add the assembly names to the list of assemblies that need conversion to identify types that are converted and not converted.
 		    AddAssemlbiesToConversionList(conversion, inputTypes);
@@ -47,7 +47,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 		    AddCorlibIfReferenced(conversion.Model, convertedAssembly);
             // Create mscorlib entry if it is referenced.		    
 
-            Modules.Ensuring.EnsureModuleEntries(convertedAssembly);
+            //Modules.Ensuring.EnsureModuleEntries(convertedAssembly);
 
             var convertedModule = convertedAssembly.Modules.Values.SingleOrDefault() as ConvertedModule;
 
@@ -60,23 +60,24 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 			{
 				var inputType = inputTypes[i];
 
-				Types.Ensuring.Ensure(convertedModule.Conversion, convertedModule, inputType);
+				//Types.Ensuring.Ensure(convertedModule.Conversion, convertedModule, inputType);
+				throw new Exception("Not impelmented yet.");
 			}
 
 			return conversion.Result;
 		}
 
-        private void AddAssemlbiesToConversionList(ILConversion conversion, Type[] inputTypes)
+        private void AddAssemlbiesToConversionList(ILConversion conversion, TypeDefinition[] inputTypes)
         {
             for (int i = 0; i < inputTypes.Length; i++)
             {
                 var type = inputTypes[i];
 
-                conversion.ConvertibleAssemblies.Add(type.Assembly.FullName, type.Assembly.FullName);
+                conversion.ConvertibleAssemblies.Add(type.Module.Assembly.FullName, type.Module.Assembly.FullName);
             }
         }
 
-        private void AddCorlibIfReferenced(ILConversionExecutionModel conversionModel, ConvertedAssembly convertedAssembly)
+        private void AddCorlibIfReferenced(ILConversionRuntimicModel conversionModel, ConvertedAssembly convertedAssembly)
         {
             var list = convertedAssembly.ReferencedAssemblyDefinitions.Values.ToList();
 
@@ -84,14 +85,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
             {
                 var item = list[i];
 
-                if (Assemblies.IsCorlib(item.Name))
+                if (Assemblies.Query.IsCorlib(item.Name))
                 {
                     Binding.Metadata.Assemblies.Building.BuildOut(conversionModel, item);
                 }
             }
         }
 
-        private void AddReferencedAssembliesToModel(ILConversionExecutionModel model, ConvertedAssembly convertedAssembly)
+        private void AddReferencedAssembliesToModel(ILConversionRuntimicModel model, ConvertedAssembly convertedAssembly)
         {
             convertedAssembly.ReferencedAssemblyDefinitions = AddReferences(model, convertedAssembly.AssemblyDefinition, convertedAssembly);
 
@@ -103,62 +104,64 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
             }
         }
 
-        private Dictionary<string, AssemblyDefinition> AddReferences(ILConversionExecutionModel conversionModel, AssemblyDefinition assemblyDefinition, ConvertedAssembly convertedAssembly)
+        private Dictionary<string, AssemblyDefinition> AddReferences(ILConversionRuntimicModel conversionModel, AssemblyDefinition assemblyDefinition, ConvertedAssembly convertedAssembly)
         {
-            if (assemblyDefinition == null) return new Dictionary<string, AssemblyDefinition>();
+	        throw new Exception("Debug");
 
-            Dictionary<string, AssemblyDefinition> consumed = convertedAssembly.ReferencedAssemblyDefinitions;
+			//if (assemblyDefinition == null) return new Dictionary<string, AssemblyDefinition>();
 
-            consumed.Add(assemblyDefinition.FullName, assemblyDefinition);
+			//Dictionary<string, AssemblyDefinition> consumed = convertedAssembly.ReferencedAssemblyDefinitions;
 
-            List<AssemblyDefinition> queue;
+			//consumed.Add(assemblyDefinition.FullName, assemblyDefinition);
 
-            List<AssemblyDefinition> nextQueue = new List<AssemblyDefinition>();
+			//List<AssemblyDefinition> queue;
 
-            nextQueue.Add(assemblyDefinition);
+			//List<AssemblyDefinition> nextQueue = new List<AssemblyDefinition>();
 
-            while (nextQueue.Count > 0)
-            {
-                queue = nextQueue;
+			//nextQueue.Add(assemblyDefinition);
 
-                nextQueue = new List<AssemblyDefinition>();
+			//while (nextQueue.Count > 0)
+			//{
+			//    queue = nextQueue;
 
-                for (int k = 0; k < queue.Count; k++)
-                {
-                    assemblyDefinition = queue[k];
+			//    nextQueue = new List<AssemblyDefinition>();
 
-                    for (int i = 0; i < assemblyDefinition.Modules.Count; i++)
-                    {
-                        var module = assemblyDefinition.Modules[i];
+			//    for (int k = 0; k < queue.Count; k++)
+			//    {
+			//        assemblyDefinition = queue[k];
 
-                        for (int j = 0; j < module.AssemblyReferences.Count; j++)
-                        {
-                            var assemblyReference = module.AssemblyReferences[j];
+			//        for (int i = 0; i < assemblyDefinition.Modules.Count; i++)
+			//        {
+			//            var module = assemblyDefinition.Modules[i];
 
-                            var fullName = assemblyReference.FullName;
+			//            for (int j = 0; j < module.AssemblyReferences.Count; j++)
+			//            {
+			//                var assemblyReference = module.AssemblyReferences[j];
 
-                            var referencedAssembly = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensure(conversionModel, fullName);
+			//                var fullName = assemblyReference.FullName;
 
-	                        Infrastructure.Models.Structural.AddAssemblyDefinition(conversionModel, referencedAssembly);
+			//                var referencedAssembly = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensuring.Ensure(conversionModel, fullName);
 
-                            if (consumed.ContainsKey(referencedAssembly.FullName)) continue;
+			//             Infrastructure.Models.Structural.AddAssemblyDefinition(conversionModel, referencedAssembly);
 
-                            consumed.Add(referencedAssembly.FullName, referencedAssembly);
+			//                if (consumed.ContainsKey(referencedAssembly.FullName)) continue;
 
-                            queue.Add(referencedAssembly);
-                        }
-                    }
-                }
-            }
+			//                consumed.Add(referencedAssembly.FullName, referencedAssembly);
 
-            return consumed;
-        }
+			//                queue.Add(referencedAssembly);
+			//            }
+			//        }
+			//    }
+			//}
+
+			//return consumed;
+		}
 
         public void AddAssemblyDefinitionAssociations(ILConversion conversion, Dictionary<string, Assembly> convertedAssemblies, ConvertedAssembly convertedAssembly)
         {
             foreach (var assembly in convertedAssemblies.Values)
             {
-                AssemblyDefinitionAndStream definition = Assemblies.GetAssemblyDefinition(conversion, assembly);
+                var definition = Assemblies.Getting.GetAssemblyDefinition(conversion, assembly);
 
                 Conversion.Metadata.Assemblies.Addition.AddAssociatedDefinition(conversion, convertedAssembly, definition);
 

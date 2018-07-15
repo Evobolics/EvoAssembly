@@ -3,14 +3,14 @@ using System.Reflection;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Constructors.Building
 {
 	public class RuntimeCreatedApi<TContainer> : BindingApiNode<TContainer>, RuntimeCreatedApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public void BuildConstructors(InfrastructureModelMask_I model, BoundTypeDefinition_I input)
+		public void BuildConstructors(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input)
 		{
 			if (!(input is BoundTypeDefinitionWithConstructorsMask_I boundTypeWithConstructors))
 			{
@@ -58,7 +58,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Construc
 
 		
 
-		public BoundConstructorDefinition BuildConstructor(InfrastructureModelMask_I model, BoundTypeDefinition_I input, ConstructorInfo constructor)
+		public BoundConstructorDefinition BuildConstructor(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input, ConstructorInfo constructor)
 		{
 			
 

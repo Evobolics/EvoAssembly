@@ -1,5 +1,5 @@
-﻿using Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural;
-using Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Unified;
+﻿using Root.Code.Apis.E01D.Runtimic.Infrastructure.Basic;
+using Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Containers.E01D.Runtimic;
 
@@ -12,7 +12,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models
 
 	    public StructuralApi_I<TContainer> Structural { get; set; }
 
-	    public UnifiedApi_I<TContainer> Unified { get; set; }
+	    
 
 
 
@@ -26,7 +26,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models
 
 	    StructuralApiMask_I ModelApiMask_I.Structural => Structural;
 
-	    UnifiedApiMask_I ModelApiMask_I.Unified => Unified;
+	    
 
 
 	}

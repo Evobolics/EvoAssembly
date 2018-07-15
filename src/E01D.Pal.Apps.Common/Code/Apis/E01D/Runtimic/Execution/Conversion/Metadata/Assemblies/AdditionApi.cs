@@ -18,7 +18,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 			{
 				semanticModel.Semantic.Assemblies.Collectible.Add(entry.ResolutionName(), convertedAssembly);
 
-			    conversion.Result.Assemblies.Add(convertedAssembly.AssemblyBuilder);
+			    //conversion.Result.Assemblies.Add(convertedAssembly.AssemblyBuilder);
             }
 
             Binding.Metadata.Assemblies.Addition.AddAssemblyEntry(conversion.Model, entry);	

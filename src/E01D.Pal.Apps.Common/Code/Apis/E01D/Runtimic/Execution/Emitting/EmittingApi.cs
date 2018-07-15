@@ -9,11 +9,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Emitting
     public class EmittingApi<TContainer> : ExecutionApiNode<TContainer>, EmittingApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        /// <summary>
-        /// Gets or sets the api used to convert assemblies from non-collectible to collectible.
-        /// </summary>
-        public ConversionApi_I<TContainer> Conversion { get; set; }
-
-        ConversionApiMask_I EmittingApiMask_I.Conversion => Conversion;
+        
     }
 }

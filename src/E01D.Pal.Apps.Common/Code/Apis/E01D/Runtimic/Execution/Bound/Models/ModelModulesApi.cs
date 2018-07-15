@@ -11,7 +11,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models
 
 	    
 
-        //public SemanticModuleMask_I GetModule(InfrastructureModelMask_I semanticModel, SemanticAssemblyMask_I modulesAssembly, TypeReference typeReference)
+        //public SemanticModuleMask_I GetModule(InfrastructureRuntimicModelMask_I semanticModel, SemanticAssemblyMask_I modulesAssembly, TypeReference typeReference)
         //{
         //    if (modulesAssembly.Modules.Count == 0)
         //    {

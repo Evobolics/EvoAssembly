@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models.Semantic;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Models;
 
 namespace Root.Code.Models.E01D.Runtimic.Execution.Modeling.Conversion
 {

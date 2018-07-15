@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using Root.Code.Attributes.E01D;
 using Root.Code.Domains;
 using Root.Code.Domains.E01D;
@@ -345,13 +346,13 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
         }
 
 	    [Test]
-	    public void ClassWithGenericField()
+	    public void ClassWithGenericField(AssemblyBuilderAccess buiderAccess = AssemblyBuilderAccess.RunAndCollect)
 	    {
 		    // Create a test container
 		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
 		    // Convert the type. The test api code will check to make sure the instance is not null.
-		    var result = test.Api.ConvertAndCreateInstance(typeof(ClassWithGenericField<string>));
+		    var result = test.Api.ConvertAndCreateInstance(typeof(ClassWithGenericField<string>), buiderAccess);
 
 		    test.Api.TestField(result, "GenericField", "Howdy");
 

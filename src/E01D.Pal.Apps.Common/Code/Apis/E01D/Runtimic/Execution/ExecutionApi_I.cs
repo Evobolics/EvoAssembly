@@ -1,5 +1,6 @@
 ﻿using Root.Code.Apis.E01D.Runtimic.Execution.Allocation;
 using Root.Code.Apis.E01D.Runtimic.Execution.Bound;
+using Root.Code.Apis.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Apis.E01D.Runtimic.Execution.Emitting;
 using Root.Code.Apis.E01D.Runtimic.Execution.GarbageCollection;
 using Root.Code.Apis.E01D.Runtimic.Execution.JustInTime;
@@ -16,11 +17,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution
 
         new BindingApi_I<TContainer> Binding { get; }
 
-        new EmittingApi_I<TContainer> Emitting { get; }
+	    new ConversionApi_I<TContainer> Conversion { get; set; }
+
+		new EmittingApi_I<TContainer> Emitting { get; }
 
         new GarbageCollectionApi_I<TContainer> GarbageCollection { get; }
 
-        MetadataApi_I<TContainer> Metadata { get; }
+        new MetadataApi_I<TContainer> Metadata { get; }
 
 
         // ReSharper disable once InconsistentNaming

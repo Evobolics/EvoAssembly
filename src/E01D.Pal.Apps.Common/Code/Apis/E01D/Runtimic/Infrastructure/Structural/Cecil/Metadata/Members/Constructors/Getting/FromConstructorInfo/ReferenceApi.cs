@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Constructors.Getting.FromConstructorInfo
 {
@@ -11,7 +11,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
 
-		public MethodReference GetMethodReference(InfrastructureModelMask_I model, TypeReference typeReference, ConstructorInfo method)
+		public MethodReference GetMethodReference(InfrastructureRuntimicModelMask_I model, TypeReference typeReference, ConstructorInfo method)
 		{
 			// Get the type definition that corresponds to the type reference.  This will store all the methods that are available.
 			var typeDefinition = Types.Getting.GetDefinition(model, typeReference);
@@ -19,7 +19,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return GetMethodReference(model, typeDefinition, method);
 		}
 
-		public MethodReference GetMethodReference(InfrastructureModelMask_I model, TypeDefinition typeDefinition, ConstructorInfo method)
+		public MethodReference GetMethodReference(InfrastructureRuntimicModelMask_I model, TypeDefinition typeDefinition, ConstructorInfo method)
 		{
 			//  DEBUGGING: This is the current issue
 			var methodDefinition = this.Constructors.Getting.FromConstructorInfos.Definitions.GetMethodDefinition(model, typeDefinition, method);

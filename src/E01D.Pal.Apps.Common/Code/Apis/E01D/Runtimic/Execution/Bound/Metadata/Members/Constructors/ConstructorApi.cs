@@ -3,7 +3,7 @@ using Mono.Cecil;
 using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Constructors.Building;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Constructors
 {
@@ -14,14 +14,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Construc
 
 	    BuildingApiMask_I ConstructorApiMask_I.Building => Building;
 
-		public ConstructorInfo GetConstructorInfo(InfrastructureModelMask_I conversionModel, MemberReference memberReference)
+		public ConstructorInfo GetConstructorInfo(InfrastructureRuntimicModelMask_I conversionModel, MemberReference memberReference)
         {
             var declaringBound = Members.GetDeclaringType(conversionModel, memberReference);
 
             return (ConstructorInfo)FindConstructorBySignature(conversionModel, declaringBound, memberReference);
         }
 
-        public MemberInfo FindConstructorBySignature(InfrastructureModelMask_I conversionModel, BoundTypeDefinitionMask_I typeEntry, MemberReference memberReference)
+        public MemberInfo FindConstructorBySignature(InfrastructureRuntimicModelMask_I conversionModel, BoundTypeDefinitionMask_I typeEntry, MemberReference memberReference)
         {
             switch (memberReference.MetadataToken.TokenType)
             {
@@ -42,7 +42,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Construc
             }
         }
 
-        public ConstructorInfo FindConstructorBySignature(InfrastructureModelMask_I conversionModel, BoundTypeDefinitionMask_I declaringType, MethodReference methodReference)
+        public ConstructorInfo FindConstructorBySignature(InfrastructureRuntimicModelMask_I conversionModel, BoundTypeDefinitionMask_I declaringType, MethodReference methodReference)
         {
             // NOTE - This version of the method cannot access constructor builders, which are neccessary when building
             //        constructor calls for a converted classes instructions.

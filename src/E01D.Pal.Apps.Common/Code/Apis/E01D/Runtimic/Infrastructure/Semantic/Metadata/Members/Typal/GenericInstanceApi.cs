@@ -1,6 +1,6 @@
 ﻿using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal
@@ -12,7 +12,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
 	public class GenericInstanceApi<TContainer> : SemanticApiNode<TContainer>, GenericInstanceApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public TypeDefinition GetElementType(InfrastructureModelMask_I semanticModel, SemanticTypeDefinitionMask_I bound)
+		public TypeDefinition GetElementType(InfrastructureRuntimicModelMask_I semanticModel, SemanticTypeDefinitionMask_I bound)
 		{
 			var genericInstanceType = (GenericInstanceType)bound.SourceTypeReference;
 
@@ -20,7 +20,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
 
 		}
 
-		public TypeDefinition GetElementType(InfrastructureModelMask_I model, GenericInstanceType genericInstanceType)
+		public TypeDefinition GetElementType(InfrastructureRuntimicModelMask_I model, GenericInstanceType genericInstanceType)
 		{
 			// ERROR - can not be a type definition when this is an external reference.
 			// FIX along with the other code.
@@ -32,7 +32,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
 			return GetElementType_Internal(model, elementType);
 		}
 
-		private TypeDefinition GetElementType_Internal(InfrastructureModelMask_I model, TypeReference elementType)
+		private TypeDefinition GetElementType_Internal(InfrastructureRuntimicModelMask_I model, TypeReference elementType)
 		{
 			if (elementType.IsDefinition)
 			{

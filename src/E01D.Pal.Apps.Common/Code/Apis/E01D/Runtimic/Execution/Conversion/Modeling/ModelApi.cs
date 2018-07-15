@@ -32,10 +32,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling
 
         public bool IsConverted(ILConversion conversion, TypeReference input)
         {
-            string assemlbyName = Cecil.Metadata.Assemblies.GetAssemblyName(input);
+            string assemlbyName = Cecil.Metadata.Assemblies.Naming.GetAssemblyName(input);
 
             return conversion.ConvertibleAssemblies.ContainsKey(assemlbyName);
-        }
+		}
 
         
 

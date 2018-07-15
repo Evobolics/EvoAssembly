@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Modeling.Conversion;
+using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion
 {
@@ -9,9 +11,8 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion
     {
         public ILConversion()
         {
-                
+            
         }
-
         
 
         public ILConversionConfiguration Configuration { get; set; } = new ILConversionConfiguration();
@@ -19,12 +20,12 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion
         /// <summary>
         /// Contains the type that are being converted if only select number of types are being converted.
         /// </summary>
-        public Type[] InputTypes { get; internal set; }
+        public ILConversionInput Input { get; set; }
 
         /// <summary>
         /// Gets or sets the semantic model associated with this il conversion.
         /// </summary>
-        public ILConversionExecutionModel Model { get; set; } = new ILConversionExecutionModel();
+        public ILConversionRuntimicModel Model { get; set; } = new ILConversionRuntimicModel();
 
         /// <summary>
         /// Gets or sets the result of conversion.
@@ -38,5 +39,6 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion
 
         public BoundModuleMask_I TypeSetModule { get; set; }
         public bool ConvertibleTypesIdentified { get; set; }
+	    public Dictionary<string, UnifiedAssemblyNode> ReferencedAssemblies { get; set; }
     }
 }

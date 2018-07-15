@@ -49,7 +49,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 				}
 			}
 
-			conversion.Result.Assemblies = builders;
+			//conversion.Result.Assemblies = builders;
 
 			return conversion.Result;
 		}

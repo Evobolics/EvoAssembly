@@ -1,26 +1,61 @@
-﻿using Mono.Cecil;
+﻿using System.Collections.Generic;
+using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Execution.Modeling.Conversion;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
+using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 {
     public class BuildingApi<TContainer> : BindingApiNode<TContainer>, BuildingApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        //public List<SemanticModuleMask_I> BuildOut(SemanticModelMask_I semanticModel, SemanticAssemblyMask_I semanticAssembly)
-        //{
-        //    return EnsureBuildOut(semanticModel, semanticAssembly, semanticAssembly.AssemblyDefinition);
-        //}
+		public void Build(InfrastructureRuntimicModelMask_I model, List<UnifiedAssemblyNode> referencedList)
+		{
+			for (int i = 0; i < referencedList.Count; i++)
+			{
+				var assemblyNode = referencedList[i];
 
-        
+				Build(model, assemblyNode);
+			}
+		}
 
-        /// <summary>
-        ///Ensures the assembly, modules and types are present.
-        /// </summary>
-        public SemanticAssemblyMask_I BuildOut(InfrastructureModelMask_I semanticModel, AssemblyDefinition assemblyDefinition)
+	    
+
+	    private BoundAssemblyMask_I Build(InfrastructureRuntimicModelMask_I model, UnifiedAssemblyNode assemblyNode)
+	    {
+		    var assemblyDefinition = assemblyNode.SourceAssemblyDefinition;
+
+		    var assemblyQualifiedName = Cecil.Assemblies.Naming.GetAssemblyName(assemblyDefinition);
+
+		    var assembly = Execution.Metadata.Assemblies.FindAssembly(assemblyQualifiedName);
+
+			var boundAssembly = Assemblies.Creation.CreateAssemblyEntry(model, assemblyDefinition, assembly);
+
+		    assemblyNode.Semantic = boundAssembly;
+
+		    for (int i = 0; i < assemblyNode.ModuleNodes.Count; i++)
+		    {
+			    var moduleNode = assemblyNode.ModuleNodes[i];
+
+			    var boundModule = Modules.Building.Build(model, moduleNode);
+
+			    boundAssembly.Modules.Add(boundModule.Name, boundModule);
+
+			}
+
+		    return boundAssembly;
+
+	    }
+
+
+		/// <summary>
+		///Ensures the assembly, modules and types are present.
+		/// </summary>
+		public SemanticAssemblyMask_I BuildOut(InfrastructureRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition)
         {
             // Ensure the assembly
             var semanticAssembly = Assemblies.Ensuring.Ensure(semanticModel, assemblyDefinition);
@@ -30,7 +65,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
             return semanticAssembly;
         }
 
-        public void BuildOut(InfrastructureModelMask_I semanticModel, SemanticAssemblyMask_I semanticAssembly)
+        public void BuildOut(InfrastructureRuntimicModelMask_I semanticModel, SemanticAssemblyMask_I semanticAssembly)
         {
             if (semanticAssembly.IsBuiltOut)
             {
@@ -56,5 +91,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
             boundAssembly.IsBuiltOut = true;
         }
 
+	    
     }
 }

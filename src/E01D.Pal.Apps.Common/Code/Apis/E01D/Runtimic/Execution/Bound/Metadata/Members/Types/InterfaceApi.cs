@@ -1,7 +1,7 @@
 ﻿using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types
 {
@@ -10,7 +10,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types
     {
         
 
-        public BoundTypeDefinitionInterfaces GetInterfaces(InfrastructureModelMask_I semanticModel, TypeDefinition typeDefinition)
+        public BoundTypeDefinitionInterfaces GetInterfaces(InfrastructureRuntimicModelMask_I semanticModel, TypeDefinition typeDefinition)
         {
             BoundTypeDefinitionInterfaces all = new BoundTypeDefinitionInterfaces();
 

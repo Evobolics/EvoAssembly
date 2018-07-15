@@ -1,6 +1,6 @@
-﻿using Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Semantic;
+﻿using Root.Code.Apis.E01D.Runtimic.Infrastructure.Basic;
+using Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Semantic;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural;
-using Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Unified;
 using Root.Code.Containers.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models
@@ -12,7 +12,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models
 
 		new StructuralApi_I<TContainer> Structural { get; set; }
 
-	    new UnifiedApi_I<TContainer> Unified { get; set; }
+	    
 
 
 	}

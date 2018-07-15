@@ -3,17 +3,28 @@ using Root.Code.Containers.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Types
 {
-	public class NamingApi<TContainer> : RuntimeApiNode<TContainer>, NamingApi_I<TContainer>
+	public class NamingApi<TContainer> : CecilApiNode<TContainer>, NamingApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
 		public string GetAssemblyQualifiedName(TypeReference input)
 		{
 			// TODO: Fix
-			string assemblyName = Infrastructure.Structural.Cecil.Metadata.Assemblies.GetAssemblyName(input);
+			string assemblyName = Infrastructure.Structural.Cecil.Metadata.Assemblies.Naming.GetAssemblyName(input);
 
 			var fullName = input.FullName?.Replace("/", "+") ?? string.Empty;
 
 			return fullName + ", " + assemblyName;
+		}
+
+		public string GetPointerElementName(TypeReference input)
+		{
+			if (!input.IsPointer) throw new System.Exception("Expecting a pointer type.");
+
+			var fullName = GetAssemblyQualifiedName(input);
+
+			fullName = fullName.Replace("*", "");
+
+			return fullName;
 		}
 
 		public string GetResolutionName(TypeReference input)

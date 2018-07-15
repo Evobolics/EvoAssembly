@@ -2,6 +2,6 @@
 {
 	public interface EnsuringApiMask_I
 	{
-		//MethodDefinition EnsureMethodReference(InfrastructureModelMask_I model, SemanticGenericTypeDefinitionMask_I input, Collection<MethodDefinition> methodDefinitions, MethodInfo method);
+		//MethodDefinition EnsureMethodReference(InfrastructureRuntimicModelMask_I model, SemanticGenericTypeDefinitionMask_I input, Collection<MethodDefinition> methodDefinitions, MethodInfo method);
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types
 {
@@ -12,13 +12,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types
 	public class GenericInstanceApi<TContainer> : BindingApiNode<TContainer>, GenericInstanceApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public TypeDefinition GetElementType(InfrastructureModelMask_I semanticModel, BoundTypeDefinitionMask_I bound)
+		public TypeDefinition GetElementType(InfrastructureRuntimicModelMask_I semanticModel, BoundTypeDefinitionMask_I bound)
 		{
 			return Infrastructure.Semantic.Metadata.Members.Types.GenericInstances.GetElementType(semanticModel, bound);
 
 		}
 
-		public TypeDefinition GetElementType(InfrastructureModelMask_I model, GenericInstanceType genericInstanceType)
+		public TypeDefinition GetElementType(InfrastructureRuntimicModelMask_I model, GenericInstanceType genericInstanceType)
 		{
 			return Infrastructure.Semantic.Metadata.Members.Types.GenericInstances.GetElementType(model, genericInstanceType);
 		}

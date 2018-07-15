@@ -75,7 +75,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules
         public SemanticModuleMask_I GetModuleEntry(ILConversion conversion, ModuleDefinition moduleDefinition)
         {
             // Get the module for the type creation.  If the type is orginal or mscorlib, then treated specially.
-            var assemblyEntry = Assemblies.GetAssembly(conversion, moduleDefinition.Assembly);
+            var assemblyEntry = Assemblies.Getting.GetAssembly(conversion, moduleDefinition.Assembly);
 
             return GetModuleEntry(assemblyEntry, moduleDefinition);
         }
@@ -107,7 +107,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules
         {
             Assembly assembly = module.Assembly;
 
-            var assemblyEntry = Assemblies.GetAssembly(conversion, assembly);
+            var assemblyEntry = Assemblies.Getting.GetAssembly(conversion, assembly);
 
             if (!assemblyEntry.Modules.TryGetValue(module.ScopeName, out SemanticModuleMask_I moduleEntry))
             {

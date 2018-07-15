@@ -3,14 +3,14 @@ using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypeParameters
 {
 	public class BuildingApi<TContainer> : BindingApiNode<TContainer>, BuildingApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public void EnsureTypeParametersIfAny(InfrastructureModelMask_I model, BoundTypeDefinition converted)
+		public void EnsureTypeParametersIfAny(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition converted)
 		{
 			TypeReference inputType = converted.SourceTypeReference;
 
@@ -52,7 +52,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 			}
 		}
 
-		private void BuildConstraints(InfrastructureModelMask_I model, BoundGenericParameterTypeDefinition typeParameter)
+		private void BuildConstraints(InfrastructureRuntimicModelMask_I model, BoundGenericParameterTypeDefinition typeParameter)
 		{
 			var typeParamterType = typeParameter.Definition;
 
@@ -112,7 +112,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 			throw new Exception("Could not find type.");
 		}
 
-		public BoundGenericParameterTypeDefinition CreateTypeParameter(InfrastructureModelMask_I conversion, Type[] typeArguments, TypeReference inputType, Mono.Cecil.GenericParameter typeParamterType)
+		public BoundGenericParameterTypeDefinition CreateTypeParameter(InfrastructureRuntimicModelMask_I conversion, Type[] typeArguments, TypeReference inputType, Mono.Cecil.GenericParameter typeParamterType)
 		{
 
 

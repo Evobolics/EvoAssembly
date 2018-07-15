@@ -161,22 +161,22 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 		    return Types.Ensuring.Ensure(conversion, convertedModule, typeReference, null);
 	    }
 
-		/// <summary>
-		/// Ensures the type has been added to the module.
-		/// </summary>
-		/// <param name="conversion"></param>
-		/// <param name="module">The module that is going to house the type.  This should be a convertible module if the type is being converted as the 
-		/// converter will need a module builder. </param>
-		/// <param name="input"></param>
-		/// <returns></returns>
-		public SemanticTypeDefinitionMask_I Ensure(ILConversion conversion, ConvertedModule_I module, Type input)
-		{
-			Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensure(conversion.Model, input.Assembly);
+		///// <summary>
+		///// Ensures the type has been added to the module.
+		///// </summary>
+		///// <param name="conversion"></param>
+		///// <param name="module">The module that is going to house the type.  This should be a convertible module if the type is being converted as the 
+		///// converter will need a module builder. </param>
+		///// <param name="input"></param>
+		///// <returns></returns>
+		//public SemanticTypeDefinitionMask_I Ensure(ILConversion conversion, ConvertedModule_I module, Type input)
+		//{
+		//	Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensuring.Ensure(conversion.Model, input.Assembly);
 
-            var typeReference = Models.Types.GetTypeReference(conversion, input);
+  //          var typeReference = Models.Types.GetTypeReference(conversion, input);
 
-            return Ensure(conversion, module, typeReference, null);
-        }
+  //          return Ensure(conversion, module, typeReference, null);
+  //      }
 
 	    /// <summary>
 	    /// Ensures the type has been added to the module.

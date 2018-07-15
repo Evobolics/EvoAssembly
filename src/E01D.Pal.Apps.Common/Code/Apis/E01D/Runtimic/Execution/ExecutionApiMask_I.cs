@@ -1,5 +1,6 @@
 ﻿using Root.Code.Apis.E01D.Runtimic.Execution.Allocation;
 using Root.Code.Apis.E01D.Runtimic.Execution.Bound;
+using Root.Code.Apis.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Apis.E01D.Runtimic.Execution.Emitting;
 using Root.Code.Apis.E01D.Runtimic.Execution.GarbageCollection;
 using Root.Code.Apis.E01D.Runtimic.Execution.JustInTime;
@@ -13,7 +14,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution
 
         BindingApiMask_I Binding { get;  }
 
-        EmittingApiMask_I Emitting { get;  }
+	    ConversionApiMask_I Conversion { get; }
+
+		EmittingApiMask_I Emitting { get;  }
 
         GarbageCollectionApiMask_I GarbageCollection { get;  }
 
@@ -26,6 +29,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution
 
         VirtualMachineApiMask_I VirtualMachines { get;  }
 
-       
-    }
+	    Metadata.MetadataApiMask_I Metadata { get; }
+	}
 }

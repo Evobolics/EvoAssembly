@@ -81,7 +81,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 		    return methods;
 	    }
 
-	    public BoundMethodDefinitionMask_I GetBoundMethod(ILConversionExecutionModel conversionModel, BoundModuleMask_I module, MethodInfo genericTypeDefinitionMethodInfo)
+	    public BoundMethodDefinitionMask_I GetBoundMethod(ILConversionRuntimicModel conversionModel, BoundModuleMask_I module, MethodInfo genericTypeDefinitionMethodInfo)
 	    {
 		    if (!module.MethodsByMetadataToken.TryGetValue(genericTypeDefinitionMethodInfo.MetadataToken, out BoundMethodDefinitionMask_I method))
 		    {

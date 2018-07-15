@@ -3,8 +3,9 @@ using Mono.Cecil;
 using Mono.Cecil.Rocks;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
+using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Semantic.Types
 {
@@ -17,7 +18,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Semantic.Types
 		
 		
 
-		public void Ensure(InfrastructureModelMask_I semanticModel, SemanticTypeDefinitionMask_I semanticType)
+		public void Ensure(InfrastructureRuntimicModelMask_I semanticModel, SemanticTypeDefinitionMask_I semanticType)
         {
             if (semanticType == null)
             {
@@ -44,11 +45,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Semantic.Types
                 throw new Exception("Every semantic module should have a semantic assembly assigned to it.");
             }
 
-            var entry = Infrastructure.Models.Unified.Types.GetSemanticEntry(semanticModel, resolutionName);
+            var entry = Unified.Types.Get(semanticModel, resolutionName);
 
             if (entry?.SemanticType == null)
             {
-				Collection.Add(semanticModel, semanticType);
+				Unified.Types.Update(semanticModel, semanticType);
             }
         }
 
@@ -58,17 +59,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Semantic.Types
 
         
 
-        public ModuleDefinition GetModuleFromType(InfrastructureModelMask_I semanticModel, string resolutionName)
+        public ModuleDefinition GetModuleFromType(InfrastructureRuntimicModelMask_I semanticModel, string resolutionName)
         {
-            var node = Infrastructure.Models.Unified.Types.GetSemanticEntry(semanticModel, resolutionName);
+            var node = Unified.Types.Get(semanticModel, resolutionName);
 
-            return node?.SourceModuleDefinition;
+            return node?.ModuleNode.ModuleDefinition;
         }
 
 
 
 
-	    public TypeReference GetTypeReference(InfrastructureModelMask_I model, Type input)
+	    public TypeReference GetTypeReference(InfrastructureRuntimicModelMask_I model, Type input)
 	    {
 		    return GetTypeReference(model, input, out SemanticTypeDefinitionMask_I semanticType);
 
@@ -82,13 +83,15 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Semantic.Types
 		/// <param name="semanticType"></param>
 		/// <returns></returns>
 		/// <remarks>Used when ensuring a bound type and it needs to get the semanticType from the type reference as soon as it resolves the type to the type reference.</remarks>
-	    public TypeReference GetTypeReference(InfrastructureModelMask_I model, Type input, out SemanticTypeDefinitionMask_I semanticType)
+	    public TypeReference GetTypeReference(InfrastructureRuntimicModelMask_I model, Type input, out SemanticTypeDefinitionMask_I semanticType)
         {
 	        string resolutionName = Binding.Metadata.Members.Types.Naming.GetResolutionName(input);
 
-            TypeReference typeDefinition = Infrastructure.Models.Structural.Types.Collection.GetStoredTypeReference(model, resolutionName, out semanticType);
+            TypeReference typeDefinition = Cecil.Types.Getting.GetStoredTypeReference(model, resolutionName, out UnifiedTypeNode basicNode);
 
-            if (typeDefinition != null) return typeDefinition;
+	        semanticType = basicNode?.SemanticType;
+
+			if (typeDefinition != null) return typeDefinition;
 
             if (!input.IsGenericType)
             {
@@ -118,7 +121,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Semantic.Types
             return result;
         }
 
-        public Type ResolveToType(InfrastructureModelMask_I model, SemanticTypeDefinitionMask_I semanticType)
+        public Type ResolveToType(InfrastructureRuntimicModelMask_I model, SemanticTypeDefinitionMask_I semanticType)
         {
             throw new Exception("resolving a semantic type to a run time is not supported.  A semantic type is designed to be used to create runtime type.  Right now automatic" +
                                 "compile support is not present.");

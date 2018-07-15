@@ -1,13 +1,18 @@
 ﻿using Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Types
 {
 	public interface TypeApiMask_I
 	{
+		AddingApiMask_I Adding { get; }
+
 		EnsuringApiMask_I Ensuring { get; }
 
+		ExtendingApiMask_I Extending { get; }
+
 		GettingApiMask_I Getting { get; }
+
+		LoadingApiMask_I Loading { get; }
 
 		NamingApiMask_I Naming { get; }
 
@@ -17,6 +22,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		bool IsExternal(TypeReference typeReference);
 
-		void Load(InfrastructureModelMask_I semanticModel, ModuleDefinition moduleDefinition);
+		
 	}
 }

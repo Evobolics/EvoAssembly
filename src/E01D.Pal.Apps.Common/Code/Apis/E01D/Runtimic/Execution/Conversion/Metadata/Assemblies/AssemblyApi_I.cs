@@ -11,6 +11,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
 	    new EnsuringApi_I<TContainer> Ensuring { get; set; }
 
+	    new GettingApi_I<TContainer> Getting { get; set; }
+
 		new NamingApi_I<TContainer> Naming { get; set; }
 
         new StreamApi_I<TContainer> Streams { get; set; }

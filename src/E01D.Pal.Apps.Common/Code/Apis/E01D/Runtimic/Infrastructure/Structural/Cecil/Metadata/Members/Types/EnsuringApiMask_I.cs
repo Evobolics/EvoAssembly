@@ -1,15 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Execution.Modeling.Conversion;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural.Cecil;
+using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Types
 {
 	public interface EnsuringApiMask_I
 	{
-		TypeReference EnsureInternalTypeReference(InfrastructureModelMask_I model, TypeReference typeReference);
+		CecilTypeReferenceSet EnsureReferences(InfrastructureRuntimicModelMask_I model, Type[] types);
 
-		TypeReference ResolveExternalTypeReference(InfrastructureModelMask_I model, TypeReference externalReference);
+		CecilTypeReferenceSet EnsureReferences(InfrastructureRuntimicModelMask_I model, List<TypeReference> types);
 
-		TypeReference EnsureInternalTypeReference(InfrastructureModelMask_I model, Type input);
+
+
+		TypeReference EnsureReference(InfrastructureRuntimicModelMask_I model, Type type);
 	}
 }

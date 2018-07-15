@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Building.GenericInstances
 {
@@ -10,7 +10,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 	    MethodApiMask_I Methods { get; }
 
-	    MethodReference MakeGenericInstanceMethod(InfrastructureModelMask_I model, TypeReference declaringType, MethodReference methodReference, MethodInfo method);
+	    MethodReference MakeGenericInstanceMethod(InfrastructureRuntimicModelMask_I model, TypeReference declaringType, MethodReference methodReference, MethodInfo method);
 
 	    
 	}

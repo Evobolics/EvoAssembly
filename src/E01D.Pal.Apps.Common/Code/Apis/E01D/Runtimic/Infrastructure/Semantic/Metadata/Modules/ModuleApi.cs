@@ -1,7 +1,7 @@
 ﻿using Mono.Cecil;
 using Root.Code.Attributes.E01D;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Modules
 {
@@ -20,7 +20,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Modules
 
         EnsuringApiMask_I ModuleApiMask_I.Ensuring => Ensuring;
 
-	    public void Get(InfrastructureModelMask_I model, object semanticAssembly, TypeReference typeReference)
+	    public void Get(InfrastructureRuntimicModelMask_I model, object semanticAssembly, TypeReference typeReference)
 	    {
 		    throw new System.Exception("Get not implemented for semantic search yet.");
 	    }

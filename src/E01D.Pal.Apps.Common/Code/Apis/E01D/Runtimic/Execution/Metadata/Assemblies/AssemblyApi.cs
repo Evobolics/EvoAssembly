@@ -24,6 +24,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies
         {
             return Underlying.GetTypeInAssembly(types, fullName);
         }
+
+	    public Assembly FindAssembly(string fullName)
+	    {
+			return Underlying.FindAssembly(fullName);
+		}
     }
 
    

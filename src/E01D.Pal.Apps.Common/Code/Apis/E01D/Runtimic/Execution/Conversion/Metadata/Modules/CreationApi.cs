@@ -3,51 +3,68 @@ using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Emitting.Metadata;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
+using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules
 {
 	public class CreationApi<TContainer> : ConversionApiNode<TContainer>, CreationApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
-		
-
-		public SemanticModuleMask_I CreateModuleEntry(BoundAssemblyMask_I entry)
+		public ConvertedModule Create(ILConversion conversion, UnifiedModuleNode moduleNode)
 		{
-			return CreateModuleEntry(entry, null);
-		}
+			var assemblyNode = moduleNode.AssemblyNode;
 
-		public SemanticModuleMask_I CreateModuleEntry(BoundAssemblyMask_I entry, ModuleDefinition moduleDefinition)
-		{
-			var name = moduleDefinition != null ? moduleDefinition.Name : entry.Name;
+			ModuleDefinition moduleDefinition = moduleNode.ModuleDefinition;
 
-		    SemanticModuleMask_I module;
+			string name;
 
-            if (entry.IsConverted() && ((entry is ConvertedAssembly_I convertedAssembly)))
+			if (assemblyNode.Guid != Guid.Empty)
 			{
-			    module = new ConvertedModule()
-			    {
-			        ModuleBuilder = convertedAssembly.AssemblyBuilder.DefineDynamicModule(name),
-                    Name = name,
-			        Assembly = convertedAssembly,
-			        SourceModuleDefinition = moduleDefinition,
-			        Conversion = convertedAssembly.Conversion,
-			    };
-            }
-		    else if (entry.IsEmitted() && ((entry is EmittedAssembly_I emittedAssembly)))
-		    {
-		        throw new NotSupportedException();
-		    }
-			else if (entry is BoundAssembly_I boundAssembly)
-            {
-                module = this.Binding.Metadata.Modules.Creation.CreateModuleEntry(entry, moduleDefinition);
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
+				name = moduleDefinition.Name;
+
+				var lower = name.ToLower();
+
+				if (lower.EndsWith(".dll") || lower.EndsWith(".exe"))
+				{
+					var subName = name.Substring(0, lower.Length - 4);
+
+					var ending = name.Substring(lower.Length - 4, 4);
+
+					// When saving an assemlby, the module name has to equal the file name, as you are specifiying what module to save.  
+					// You cannot specify what directory to save the assembly, so it is saved in the execution directory which can contain the source assembly with the 
+					// same name.  To prevent this, the module name has the assemblies guid appended to its name to prevent a name conflict.  
+					name = $"{subName}_{assemblyNode.Guid.ToString("N")}{ending}";
+				}
+				else
+				{
+					name = $"{name}_{assemblyNode.Guid.ToString("N")}";
+				}
+			}
+			else
+			{
+				name = moduleDefinition.Name;
+			}
+
+			
+
+			if (!(moduleNode.AssemblyNode.Semantic is ConvertedAssembly convertedAssembly))
+			{
+				throw new Exception("Expected as converted assembly to be stored in the unified node.");
+			}
+
+			var module = new ConvertedModule()
+			{
+			    ModuleBuilder = convertedAssembly.AssemblyBuilder.DefineDynamicModule(name),
+                Name = name,
+			    Assembly = convertedAssembly,
+			    SourceModuleDefinition = moduleDefinition,
+			    Conversion = conversion,
+			};
+            
 
 			return module;
 		}

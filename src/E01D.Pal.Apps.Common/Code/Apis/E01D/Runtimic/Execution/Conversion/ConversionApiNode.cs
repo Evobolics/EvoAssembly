@@ -23,14 +23,14 @@ using TypeApiMask_I = Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 {
-    public abstract class ConversionApiNode<TContainer>:Api<TContainer>
+    public abstract class ConversionApiNode<TContainer>:ExecutionApiNode<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
         public Metadata.Assemblies.AssemblyApiMask_I Assemblies
         {
             get
             {
-                return Container.Api.Runtimic.Execution.Emitting.Conversion.Metadata.Assemblies;
+                return Container.Api.Runtimic.Execution.Conversion.Metadata.Assemblies;
             }
         } 
 
@@ -38,44 +38,44 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 
         public CecilApiMask_I Cecil => Container.Api.Runtimic.Infrastructure.Structural.Cecil;
 
-        public ConstructorApiMask_I Constructors => Container.Api.Runtimic.Execution.Emitting.Conversion.Metadata.Members.Constructors;
+        public ConstructorApiMask_I Constructors => Container.Api.Runtimic.Execution.Conversion.Metadata.Members.Constructors;
 
-        public ConversionApiMask_I Conversion => Container.Api.Runtimic.Execution.Emitting.Conversion;
+        public ConversionApiMask_I Conversion => Container.Api.Runtimic.Execution.Conversion;
 
-	    public CustomAttributeApiMask_I CustomAttributes => Container.Api.Runtimic.Execution.Emitting.Conversion.Metadata.CustomAttributes;
+	    public CustomAttributeApiMask_I CustomAttributes => Container.Api.Runtimic.Execution.Conversion.Metadata.CustomAttributes;
 
 		public EmittingApiMask_I Emitting => Container.Api.Runtimic.Execution.Emitting;
 
-        public EventApiMask_I Events => Container.Api.Runtimic.Execution.Emitting.Conversion.Metadata.Members.Events;
+        public EventApiMask_I Events => Container.Api.Runtimic.Execution.Conversion.Metadata.Members.Events;
 
-        public FieldApiMask_I Fields => Container.Api.Runtimic.Execution.Emitting.Conversion.Metadata.Members.Fields;
-
-
-        public InfrastructureApiMask_I Infrastructure => Container.Api.Runtimic.Infrastructure;
+        public FieldApiMask_I Fields => Container.Api.Runtimic.Execution.Conversion.Metadata.Members.Fields;
 
 
-        public InstructionApiMask_I Instructions => Container.Api.Runtimic.Execution.Emitting.Conversion.Metadata.Members.Instructions;
-
-        public LocalApiMask_I Locals => Container.Api.Runtimic.Execution.Emitting.Conversion.Metadata.Members.Locals;
+//        public InfrastructureApiMask_I Infrastructure => Container.Api.Runtimic.Infrastructure;
 
 
-        public MemberApiMask_I Members => Container.Api.Runtimic.Execution.Emitting.Conversion.Metadata.Members;
+        public InstructionApiMask_I Instructions => Container.Api.Runtimic.Execution.Conversion.Metadata.Members.Instructions;
+
+        public LocalApiMask_I Locals => Container.Api.Runtimic.Execution.Conversion.Metadata.Members.Locals;
+
+
+        public MemberApiMask_I Members => Container.Api.Runtimic.Execution.Conversion.Metadata.Members;
 
         public MetadataApiMask_I Metadata => Container.Api.Runtimic.Execution.Metadata;
 
-        public MethodApiMask_I Methods => Container.Api.Runtimic.Execution.Emitting.Conversion.Metadata.Members.Methods;
+        public MethodApiMask_I Methods => Container.Api.Runtimic.Execution.Conversion.Metadata.Members.Methods;
 
-        public ModelApiMask_I Models => Container.Api.Runtimic.Execution.Emitting.Conversion.Models;
+        public ModelApiMask_I Models => Container.Api.Runtimic.Execution.Conversion.Models;
 
-        public ModuleApiMask_I Modules => Container.Api.Runtimic.Execution.Emitting.Conversion.Metadata.Modules;
+        public ModuleApiMask_I Modules => Container.Api.Runtimic.Execution.Conversion.Metadata.Modules;
 
-        public RoutineApiMask_I Routines => Container.Api.Runtimic.Execution.Emitting.Conversion.Metadata.Members.Routines;
+        public RoutineApiMask_I Routines => Container.Api.Runtimic.Execution.Conversion.Metadata.Members.Routines;
 
         public RuntimicApiMask_I Runtimic => Container.Api.Runtimic;
 
-        public ParameterApiMask_I Parameters => Container.Api.Runtimic.Execution.Emitting.Conversion.Metadata.Members.Parameters;
+        public ParameterApiMask_I Parameters => Container.Api.Runtimic.Execution.Conversion.Metadata.Members.Parameters;
 
-        public PropertyApiMask_I Properties => Container.Api.Runtimic.Execution.Emitting.Conversion.Metadata.Members.Properties;
+        public PropertyApiMask_I Properties => Container.Api.Runtimic.Execution.Conversion.Metadata.Members.Properties;
 
         public SemanticApiMask_I Semantic => Container.Api.Runtimic.Infrastructure.Semantic;
 
@@ -87,7 +87,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
         {
             get
             {
-                return Container.Api.Runtimic.Execution.Emitting.Conversion.Metadata.Members.Types;
+                return Container.Api.Runtimic.Execution.Conversion.Metadata.Members.Types;
             }
         }
     }

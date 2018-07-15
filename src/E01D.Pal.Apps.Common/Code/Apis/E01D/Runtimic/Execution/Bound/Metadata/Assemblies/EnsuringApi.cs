@@ -1,7 +1,8 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
@@ -16,31 +17,37 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 	    /// <param name="model"></param>
 	    /// <param name="typeReference"></param>
 	    /// <returns></returns>
-	    public SemanticAssemblyMask_I Ensure(InfrastructureModelMask_I model, TypeReference typeReference)
+	    public SemanticAssemblyMask_I Ensure(InfrastructureRuntimicModelMask_I model, TypeReference typeReference)
 	    {
-			// Search the model.
-		    var assemblyEntry = Binding.Models.Assemblies.Get(model, typeReference);
+		    
 
-		    if (assemblyEntry != null) return assemblyEntry;
+			// Search the model.
+			var assemblyEntry = Binding.Models.Assemblies.Get(model, typeReference);
+
+			if (assemblyEntry != null) return assemblyEntry;
 
 			// Ensures the assembly definition that is associated with the type reference is part of the unified model and 
 			// returns it.
-		    AssemblyDefinition assemblyDefinition = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensure(model, typeReference);
+			var unifiedAssemblyNode = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensuring.Ensure(model, typeReference);
 
-		    return Ensure_Internal(model, assemblyDefinition, null);
-	    }
+		    AssemblyDefinition assemblyDefinition = unifiedAssemblyNode.SourceAssemblyDefinition;
 
-	    public SemanticAssemblyMask_I Ensure(InfrastructureModelMask_I semanticModel, Assembly assembly)
-	    {
-		    if (semanticModel.Semantic.Assemblies.ByResolutionName.TryGetValue(assembly.FullName, out SemanticAssemblyMask_I assemblyEntry))
-		    {
-			    return assemblyEntry;
-		    }
+			return Ensure_Internal(model, assemblyDefinition, null);
 
-		    var assemblyDefinition = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensure(semanticModel, assembly);
+		}
 
-			return Ensure_Internal(semanticModel, assemblyDefinition, assembly);
-	    }
+	 //   public SemanticAssemblyMask_I Ensure(InfrastructureRuntimicModelMask_I semanticModel, Assembly assembly)
+	 //   {
+		//    if (semanticModel.Semantic.Assemblies.ByResolutionName.TryGetValue(assembly.FullName, out SemanticAssemblyMask_I assemblyEntry))
+		//    {
+		//	    return assemblyEntry;
+		//    }
+
+		//    var assemblyDefinition = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensuring.Ensure(semanticModel, assembly);
+
+		//	//return Ensure_Internal(semanticModel, assemblyDefinition, assembly);
+		//    throw new Exception("Debug");
+		//}
 
 
 		/// <summary>
@@ -49,7 +56,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 		/// <param name="semanticModel"></param>
 		/// <param name="assemblyDefinition"></param>
 		/// <returns></returns>
-		public SemanticAssemblyMask_I Ensure(InfrastructureModelMask_I semanticModel, AssemblyDefinition assemblyDefinition)
+		public SemanticAssemblyMask_I Ensure(InfrastructureRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition)
         {
             string resolutionName = Assemblies.Naming.GetResolutionName(assemblyDefinition);
 
@@ -61,7 +68,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 	        return Ensure_Internal(semanticModel, assemblyDefinition, null);
         }
 
-	    public SemanticAssemblyMask_I Ensure_Internal(InfrastructureModelMask_I semanticModel,AssemblyDefinition assemblyDefinition, Assembly assembly)
+	    public SemanticAssemblyMask_I Ensure_Internal(InfrastructureRuntimicModelMask_I semanticModel,AssemblyDefinition assemblyDefinition, Assembly assembly)
 	    {
 			var assemblyEntry = Assemblies.Creation.CreateAssemblyEntry(semanticModel, assemblyDefinition, assembly);
 			

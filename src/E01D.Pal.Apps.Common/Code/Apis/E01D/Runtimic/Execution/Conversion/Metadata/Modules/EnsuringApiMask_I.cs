@@ -12,6 +12,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules
 
 	    SemanticModuleMask_I EnsureAssignedModule(ILConversion conversion, System.Type input);
 
-		List<SemanticModuleMask_I> EnsureModuleEntries(BoundAssemblyMask_I entry);
+		//List<SemanticModuleMask_I> EnsureModuleEntries(BoundAssemblyMask_I entry);
     }
 }

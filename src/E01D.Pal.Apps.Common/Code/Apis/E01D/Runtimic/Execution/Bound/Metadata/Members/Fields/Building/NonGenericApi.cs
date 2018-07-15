@@ -4,14 +4,14 @@ using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Models;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Fields.Building
 {
 	public class NonGenericApi<TContainer> : BindingApiNode<TContainer>, NonGenericApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public void BuildFields(InfrastructureModelMask_I semanticModel, BoundTypeDefinition_I input)
+		public void BuildFields(InfrastructureRuntimicModelMask_I semanticModel, BoundTypeDefinition_I input)
 		{
 
 
@@ -38,7 +38,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Fields.B
 			}
 		}
 
-		public void BuildField(InfrastructureModelMask_I semanticModel, BoundTypeDefinitionWithFields_I typeWithFields, FieldDefinition field, FieldInfo fieldInfo)
+		public void BuildField(InfrastructureRuntimicModelMask_I semanticModel, BoundTypeDefinitionWithFields_I typeWithFields, FieldDefinition field, FieldInfo fieldInfo)
 		{
 			var fieldType = field.FieldType;
 

@@ -8,11 +8,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil
 {
     
 
-    public class CecilApi<TContainer> : RuntimeApiNode<TContainer>, CecilApi_I<TContainer>
+    public class CecilApi<TContainer> : CecilApiNode<TContainer>, CecilApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-	    
 
+	    
 		public MetadataApi_I<TContainer> Metadata { get; set; }
 
 	    MetadataApiMask_I CecilApiMask_I.Metadata => Metadata;
@@ -61,7 +61,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil
 
             if (underlyingType == null)
             {
-                var loadedAssembly = System.Reflection.Assembly.Load(Metadata.Assemblies.GetAssemblyName(input));
+                var loadedAssembly = System.Reflection.Assembly.Load(Metadata.Assemblies.Naming.GetAssemblyName(input));
 
                 underlyingType = this.Execution.Binding.Metadata.Assemblies.GetTypeFromAssembly(loadedAssembly, input.FullName);
             }

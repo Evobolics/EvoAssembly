@@ -6,7 +6,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
         where TContainer : RuntimicContainer_I<TContainer>
     {
 
-        public CecilApi<TContainer> Cecil { get; set; }
+        public new CecilApi<TContainer> Cecil { get; set; }
 
         public DotNetApi<TContainer> DotNet { get; set; }
 

@@ -3,6 +3,7 @@ using System.Reflection;
 using Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
+using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 {
@@ -28,6 +29,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 		/// <param name="conversion"></param>
 		/// <param name="assemblyDefinition"></param>
 		/// <returns></returns>
-		SemanticAssemblyMask_I Ensure(ILConversion conversion, AssemblyDefinition assemblyDefinition);
+		SemanticAssemblyMask_I Ensure(ILConversion conversion, UnifiedAssemblyNode assemblyDefinition);
 	}
 }

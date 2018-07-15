@@ -8,7 +8,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Modules
 	public class CreationApi<TContainer> : BindingApiNode<TContainer>, CreationApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
-        public SemanticModuleMask_I CreateModuleEntry(SemanticAssemblyMask_I entry, ModuleDefinition moduleDefinition)
+        public BoundModule Create(SemanticAssemblyMask_I entry, ModuleDefinition moduleDefinition)
         {
             var name = moduleDefinition != null ? moduleDefinition.Name : entry.Name;
 

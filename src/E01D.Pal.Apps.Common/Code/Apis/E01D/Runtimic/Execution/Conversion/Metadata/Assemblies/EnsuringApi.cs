@@ -3,10 +3,9 @@ using System.IO;
 using System.Reflection;
 using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
+using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 {
@@ -23,68 +22,75 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
 		public SemanticAssemblyMask_I Ensure(ILConversion conversion, Assembly assembly)
 		{
-			var assemblyDefiniton = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensure(conversion.Model, assembly);
+			var assemblyNode = Cecil.Assemblies.Ensuring.Ensure(conversion.Model, assembly);
 
-			var semanticAssembly = Ensure(conversion, assemblyDefiniton);
+			return Ensure(conversion, assemblyNode);
 
-			if (semanticAssembly is ConvertedAssembly_I converted)
-			{
-				converted.Assembly = assembly;
-			}
-			if (semanticAssembly is BoundAssembly_I bound)
-			{
-				bound.Assembly = assembly;
-			}
+			//if (semanticAssembly is ConvertedAssembly_I converted)
+			//{
+			//	converted.Assembly = assembly;
+			//}
+			//else if (semanticAssembly is BoundAssembly_I bound)
+			//{
+			//	bound.Assembly = assembly;
+			//}
 
-			return semanticAssembly;
+			//return semanticAssembly;
 		}
 
 		public SemanticAssemblyMask_I Ensure(ILConversion conversion, Stream stream)
 		{
-			AssemblyDefinition assemblyDefinition = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensure(conversion.Model, stream);
+			var assemblyNode = Cecil.Assemblies.Ensuring.Ensure(conversion.Model, stream);
 
-			return Ensure(conversion, assemblyDefinition);
+			return Ensure(conversion, assemblyNode);
 		}
 
 		public SemanticAssemblyMask_I Ensure(ILConversion conversion, IMetadataScope assemblyNameReference)
 		{
-			var assemblyDefinition = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensure(conversion.Model, assemblyNameReference);
+			var assemblyNode = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensuring.Ensure(conversion.Model, assemblyNameReference);
 
-			return Ensure(conversion, assemblyDefinition);
+			return Ensure(conversion, assemblyNode);
 		}
 
 		public SemanticAssemblyMask_I Ensure(ILConversion conversion, string typeReferenceFullName)
 		{
-			var typeReference = Infrastructure.Models.Structural.Types.Collection.GetStoredTypeReference(conversion.Model, typeReferenceFullName);
+			var typeReference = Cecil.Types.Getting.GetStoredTypeReference(conversion.Model, typeReferenceFullName, out UnifiedTypeNode basicNode);
 
 			if (typeReference == null)
 			{
 				throw new Exception($"Could not locate a type in the model named '{typeReferenceFullName}'");
 			}
 
-			return Ensure(conversion, typeReference);
+			return Ensure(conversion, basicNode.AssemblyNode);
 		}
 
 		public SemanticAssemblyMask_I Ensure(ILConversion conversion, TypeReference typeReference)
 		{
-			var assemblyDefinition = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensure(conversion.Model, typeReference);
+			var assemblyNode = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensuring.Ensure(conversion.Model, typeReference);
 
-			return Ensure(conversion, assemblyDefinition);
+			return Ensure(conversion, assemblyNode);
 		}
 
-		
+
 
 		/// <summary>
 		/// Creates a bound or converted assembly depending if isonvered is set to true.
 		/// </summary>
 		/// <param name="conversion"></param>
-		/// <param name="assemblyDefinition"></param>
+		/// <param name="assemblyNode"></param>
 		/// <returns></returns>
-		public SemanticAssemblyMask_I Ensure(ILConversion conversion, AssemblyDefinition assemblyDefinition)
+		public SemanticAssemblyMask_I Ensure(ILConversion conversion, UnifiedAssemblyNode assemblyNode)
 		{
+			if (assemblyNode.Semantic != null)
+			{
+				return assemblyNode.Semantic;
+			}
+
+			var assemblyDefinition = assemblyNode.SourceAssemblyDefinition;
+
 			var name = Assemblies.Naming.GetAssemblyName(conversion, assemblyDefinition.Name.FullName);
 
-			if (!Assemblies.IsConverted(conversion, name))
+			if (!Assemblies.Query.IsConverted(conversion, name))
 			{
 				return Binding.Metadata.Assemblies.Ensuring.Ensure(conversion.Model, assemblyDefinition);
 			}
@@ -92,7 +98,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 			var convertedAssembly = Assemblies.Creation.CreateConvertedAssembly(conversion, name, assemblyDefinition);
 
 			// Ensure all the module entries are added.
-			Modules.Ensuring.EnsureModuleEntries(convertedAssembly);
+			//Modules.Ensuring.EnsureModuleEntries(convertedAssembly);
+			throw new Exception("Debug");
 
 			return convertedAssembly;
 		}
