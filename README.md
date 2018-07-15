@@ -2,14 +2,11 @@
 Convert Compiled .NET Assemblies to Collectible Assemblies
 
 ```csharp
-// 1) Create a Conversion Container
-var container = XEvoAssembly.CreateContainer();              
+// Example1: Convert a type
+var convertedType = EvoAssembly.QuickConvert(inputType);
 
-// 2) Create a Conversion Container
-var conversionResult = container.ConvertType(type);
-
-// 3) Get the Assembly
-var collectibleAssembly = conversionResult.Assemblies[0];
+// Example2: Convert an assembly
+var convertedAssembly = EvoAssembly.QuickConvert(inputAssembly);
 ```
 
 ## Known Issues / To-Do List
