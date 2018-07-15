@@ -15,5 +15,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		string GetResolutionName(System.Type input);
 
 		string GetPointerElementName(TypeReference input);
+		
+		string GetCliFullName(TypeReference typeReference);
 	}
 }

@@ -53,7 +53,7 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 			// Convert the type. The test api code will check to make sure the instance is not null.
 			var parentType = test.Api.ConvertSingleType(typeof(EnumTesting_NestedEnum));
 
-			var enumType = parentType.GetNestedType("EnumTesting_NestedEnum/NestedEnum");
+			var enumType = parentType.GetNestedType("NestedEnum");
 
 			var enumValues = enumType.GetEnumValues();
 		}
@@ -67,7 +67,7 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 			// Convert the type. The test api code will check to make sure the instance is not null.
 			var parentType = test.Api.ConvertSingleType(typeof(EnumTesting_NestedEnum_NoValues));
 
-			var enumType = parentType.GetNestedType("EnumTesting_NestedEnum_NoValues/NestedEnum");
+			var enumType = parentType.GetNestedType("NestedEnum");
 
 			var enumValues = enumType.GetEnumValues();
 		}

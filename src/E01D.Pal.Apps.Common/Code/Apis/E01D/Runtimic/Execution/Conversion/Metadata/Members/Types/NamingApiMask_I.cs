@@ -11,5 +11,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 	    string GetResolutionName(SemanticTypeMask_I mask);
 
+	    string GetTypeBuilderNestedClassFullName(string convertedFullName);
     }
 }

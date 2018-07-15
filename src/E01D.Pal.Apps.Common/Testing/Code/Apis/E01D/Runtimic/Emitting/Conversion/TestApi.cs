@@ -10,7 +10,7 @@ using Mono.Reflection;
 using Root.Code.Domains.E01D;
 using Root.Code.Exts.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Shortcuts.E01D;
+using Root.Code.PI.E01D;
 
 namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
 {
@@ -163,9 +163,9 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
 
             //collectibleAssembly = conversionResult.Assemblies[0];
 
-	        var output = (ILConversionTypeOutput)conversionResult.Output;
+	        var output = (ILConversionTypesOutput)conversionResult.Output;
 
-			var collectibleType = output.Type;
+			var collectibleType = output.Types[0];
 
 	        collectibleAssembly = collectibleType.Assembly;
 

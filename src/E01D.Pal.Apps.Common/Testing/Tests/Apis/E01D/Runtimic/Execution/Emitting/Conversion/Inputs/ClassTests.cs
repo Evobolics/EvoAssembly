@@ -119,7 +119,7 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             // Convert the type. The test api code will check to make sure the instance is not null.
             var instance = test.Api.ConvertAndCreateInstance(typeof(SimpleClassWithNestedClass));
 
-            var x = instance.GetType().GetNestedType("SimpleClassWithNestedClass/NestedClass");
+            var x = instance.GetType().GetNestedType("NestedClass");
 
             Assert.IsNotNull(x);
 
@@ -556,6 +556,22 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 			
 
 		    Assert.AreEqual(1, attributes.Count);
+	    }
+
+	    [Test]
+	    public void ClassTesting_SoleNestedType()
+	    {
+		    // Create a test container
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var instance = test.Api.ConvertAndCreateInstance(typeof(ClassTesting_SoleNestedType.SoleNestedType));
+
+		    var type = instance.GetType();
+
+			Assert.IsTrue(type.IsNested);
+
+		    
 	    }
 	}
 }

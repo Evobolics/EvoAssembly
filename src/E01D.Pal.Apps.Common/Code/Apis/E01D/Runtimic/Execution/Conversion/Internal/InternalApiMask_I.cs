@@ -32,8 +32,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 
 		ILConversionResult Convert(ILConversion conversion, List<TypeReference> inputTypes);
 
-		ILConversionResult Convert(ILConversion conversion, AssemblyDefinition assembly);
+		ILConversionResult Convert(ILConversion conversion, AssemblyDefinition assemblies);
 
-		ILConversionResult Convert(ILConversion conversion, List<AssemblyDefinition> assembly);
+		ILConversionResult Convert(ILConversion conversion, AssemblyDefinition[] assemblies);
 	}
 }

@@ -97,11 +97,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
             //{
 
             //}
+	        string fullName = Cecil.Types.Naming.GetCliFullName(typeReference);
 
             var typeInformation = new SemanticTypeInformation
             {
                 Name = typeReference.Name,
-                FullName = typeReference.FullName,
+                FullName = fullName,
                 TypeReference = typeReference
             };
 

@@ -61,11 +61,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			}
 		}
 
-		public CecilTypeReferenceSet Ensure(InfrastructureRuntimicModelMask_I model, List<AssemblyDefinition> assemblies)
+		public CecilTypeReferenceSet Ensure(InfrastructureRuntimicModelMask_I model, AssemblyDefinition[] assemblies)
 		{
 			var set = new CecilTypeReferenceSet();
 
-			for (int i = 0; i < assemblies.Count; i++)
+			for (int i = 0; i < assemblies.Length; i++)
 			{
 				var assemblyDefinition = assemblies[i];
 
@@ -77,7 +77,21 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return set;
 		}
 
-		
+		public CecilTypeReferenceSet Ensure(InfrastructureRuntimicModelMask_I model, Assembly[] assemblies)
+		{
+			var set = new CecilTypeReferenceSet();
+
+			for (int i = 0; i < assemblies.Length; i++)
+			{
+				var assembly = assemblies[i];
+
+				var output = Ensure(model, assembly, set.Types);
+
+				set.Assemblies.Add(output);
+			}
+
+			return set;
+		}
 
 		/// <summary>
 		/// // Ensures the assembly definition that is associated with the type reference is part of the unified model and returns it.
@@ -89,6 +103,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		public UnifiedAssemblyNode Ensure(InfrastructureRuntimicModelMask_I semanticModel, Assembly assembly)
 		{
+			return Ensure(semanticModel, assembly, null);
+		}
+
+		public UnifiedAssemblyNode Ensure(InfrastructureRuntimicModelMask_I semanticModel, Assembly assembly, List<UnifiedTypeNode> types)
+		{
+			if (assembly.IsDynamic)
+			{
+				throw new Exception("The system is not setup to convert dynamic assemblies.");
+			}
+
 			string fullName = Assemblies.Naming.GetAssemblyName(assembly);
 
 			if (Assemblies.Getting.Get(semanticModel, fullName, out UnifiedAssemblyNode assemblyNode))
@@ -96,7 +120,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 				return assemblyNode;
 			}
 
-			return Ensure_Assembly(semanticModel, assembly);
+			return Ensure_Assembly(semanticModel, assembly, types);
 		}
 
 
@@ -109,10 +133,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		public UnifiedAssemblyNode Ensure(InfrastructureRuntimicModelMask_I semanticModel, string fullName)
 		{
-			if (fullName == "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")
-			{
-				
-			}
+			
 
 			if (Assemblies.Getting.Get(semanticModel, fullName, out UnifiedAssemblyNode assemblyNode))
 			{
@@ -141,9 +162,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		private UnifiedAssemblyNode Ensure_Assembly(InfrastructureRuntimicModelMask_I semanticModel, Assembly assembly)
 		{
+			return Ensure_Assembly(semanticModel, assembly, null);
+		}
+
+		private UnifiedAssemblyNode Ensure_Assembly(InfrastructureRuntimicModelMask_I semanticModel, Assembly assembly, List<UnifiedTypeNode> types)
+		{
 			var assemblyDefinition = Assemblies.Creating.Create(semanticModel, assembly);
 
-			return Ensure_AssemblyDefinition(semanticModel, assemblyDefinition);
+			return Ensure_AssemblyDefinition(semanticModel, assemblyDefinition, types);
 		}
 
 		private UnifiedAssemblyNode Ensure_AssemblyDefinition(InfrastructureRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition)

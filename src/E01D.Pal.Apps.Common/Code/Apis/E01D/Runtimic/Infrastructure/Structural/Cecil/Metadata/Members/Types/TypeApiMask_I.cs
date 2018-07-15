@@ -22,6 +22,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		bool IsExternal(TypeReference typeReference);
 
+
 		
 	}
 }

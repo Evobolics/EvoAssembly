@@ -16,7 +16,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		Dictionary<string, UnifiedAssemblyNode> EnsureAssemblyReferences(InfrastructureRuntimicModelMask_I semanticModel,
 			List<UnifiedAssemblyNode> assemblyNodes);
 
-		CecilTypeReferenceSet Ensure(InfrastructureRuntimicModelMask_I model, List<AssemblyDefinition> assemblies);
+		CecilTypeReferenceSet Ensure(InfrastructureRuntimicModelMask_I model, AssemblyDefinition[] assemblies);
+
+		CecilTypeReferenceSet Ensure(InfrastructureRuntimicModelMask_I model, Assembly[] assemblies);
 
 		/// <summary>
 		/// Ensures the assembly definition that is associated with the type reference is part of the unified model and returns it.

@@ -11,7 +11,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			// TODO: Fix
 			string assemblyName = Infrastructure.Structural.Cecil.Metadata.Assemblies.Naming.GetAssemblyName(input);
 
-			var fullName = input.FullName?.Replace("/", "+") ?? string.Empty;
+			var fullName = GetCliFullName(input);
 
 			return fullName + ", " + assemblyName;
 		}
@@ -25,6 +25,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			fullName = fullName.Replace("*", "");
 
 			return fullName;
+		}
+
+		public string GetCliFullName(TypeReference typeReference)
+		{
+			var fullName = typeReference.FullName;
+
+			return fullName?.Replace("/", "+") ?? string.Empty;
 		}
 
 		public string GetResolutionName(TypeReference input)

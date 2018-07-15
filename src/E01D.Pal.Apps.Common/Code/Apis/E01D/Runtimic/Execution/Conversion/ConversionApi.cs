@@ -100,9 +100,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 
 		public ILConversionResult Convert(Type type)
 		{
-			var conversion = CreateConversion(new ILConversionTypeInput()
+			var conversion = CreateConversion(new ILConversionTypesInput()
 			{
-				Type = type
+				Types = new []{type}
 			});
 
 			return Internal.Convert(conversion, type);
@@ -110,10 +110,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 
 	    public ILConversionResult Convert(Type type, AssemblyBuilderAccess access)
 	    {
-		    var conversion = CreateConversion(new ILConversionTypeInput()
+		    var conversion = CreateConversion(new ILConversionTypesInput()
 		    {
-			    Type = type
-		    });
+			    Types = new[] { type }
+			});
 
 		    return Internal.Convert(conversion, type, access);
 	    }
@@ -125,16 +125,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 
 		public Type QuickConvert(Type type, out ILConversionResult result)
 	    {
-		    var conversion = CreateConversion(new ILConversionTypeInput()
+		    var conversion = CreateConversion(new ILConversionTypesInput()
 			{
-				Type = type
+				Types = new[] { type }
 			});
 
 			result = Internal.Convert(conversion, type);
 
-			var output = (ILConversionTypeOutput)result.Output;
+			var output = (ILConversionTypesOutput)result.Output;
 
-			return output.Type;
+			return output.Types[0];
 	    }
 
 	   
@@ -197,11 +197,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 		/// <returns></returns>
 	    public Assembly QuickConvert(Assembly assembly, out ILConversionResult result)
 		{
-			result = Internal.Convert(new ILConversion(), assembly);
+			var conversion = CreateConversion(new ILConversionAssembliesInput()
+			{
+				Assemblies = new []{ assembly }
+			});
 
-			var output = (ILConversionAssemblyOutput)result.Output;
+			result = Internal.Convert(conversion, assembly);
 
-			return output.Assembly;
+			var output = (ILConversionAssembliesOutput)result.Output;
+
+			return output.Assemblies[0];
 
 		}
 
@@ -225,7 +230,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 	    /// <returns></returns>
 	    public Assembly[] QuickConvert(Assembly[] assemblies, out ILConversionResult result)
 	    {
-		    result =  Internal.Convert(new ILConversion(), assemblies);
+		    var conversion = CreateConversion(new ILConversionAssembliesInput()
+		    {
+			    Assemblies = assemblies
+			});
+
+			result =  Internal.Convert(conversion, assemblies);
 
 		    var output = (ILConversionAssembliesOutput)result.Output;
 
@@ -233,31 +243,31 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 
 		}
 
-	    // -------- CONVERSION CASE E1 ---------------
-	    /// <summary>
-	    /// 
-	    /// </summary>
-	    /// <param name="assembly"></param>
-	    /// <returns></returns>
-	    public Assembly Convert(AssemblyDefinition assemblyDefinition)
+		// -------- CONVERSION CASE E1 ---------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="assemblyDefinition"></param>
+		/// <returns></returns>
+		public Assembly Convert(AssemblyDefinition assemblyDefinition)
 	    {
 		    return Convert(assemblyDefinition, out ILConversionResult result);
 	    }
 
-	    // -------- CONVERSION CASE E2 ---------------
-	    /// <summary>
-	    /// Converts the assembly an assembly to a dynamic assembly and returns the conversion result as an out parameter.
-	    /// </summary>
-	    /// <param name="assembly"></param>
-	    /// <param name="result"></param>
-	    /// <returns></returns>
-	    public Assembly Convert(AssemblyDefinition assemblyDefinition, out ILConversionResult result)
+		// -------- CONVERSION CASE E2 ---------------
+		/// <summary>
+		/// Converts the assembly an assembly to a dynamic assembly and returns the conversion result as an out parameter.
+		/// </summary>
+		/// <param name="assemblyDefinition"></param>
+		/// <param name="result"></param>
+		/// <returns></returns>
+		public Assembly Convert(AssemblyDefinition assemblyDefinition, out ILConversionResult result)
 	    {
 		    result = Internal.Convert(new ILConversion(), assemblyDefinition);
 
-		    var output = (ILConversionAssemblyOutput)result.Output;
+		    var output = (ILConversionAssembliesOutput)result.Output;
 
-		    return output.Assembly;
+		    return output.Assemblies[0];
 
 		}
 

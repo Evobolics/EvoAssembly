@@ -27,9 +27,31 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			{
 				var packingSize = Cecil.GetPackingSize(typeDefinition);
 
-				withDeclaringType.DeclaringType = convertedDeclaringType ?? throw new Exception("Declaring type is null.  Cannot create a nested type.");
+				if (convertedDeclaringType == null) // Can occur if passing in a single nested type or if a nested class gets processed before its parents gets
+													// processed.
+				{
+					if (!(converted.SourceTypeReference is TypeDefinition))
+					{
+						throw new Exception("Expected a type definition");
+					}
 
-				converted.TypeBuilder = convertedDeclaringType.TypeBuilder.DefineNestedType(converted.FullName, attributes, null, packingSize);
+					var semanticDeclaringType = Types.Ensuring.Ensure(conversion, converted.SourceTypeReference.DeclaringType, null);
+
+					if (!(semanticDeclaringType is ConvertedTypeDefinition_I producedDeclaringType))
+					{
+						throw new Exception($"Expected the declaring type of a nested class to be castable to {typeof(ConvertedTypeDefinition_I)}");
+					}
+
+					convertedDeclaringType = producedDeclaringType;
+				}
+
+				withDeclaringType.DeclaringType = convertedDeclaringType;
+
+				// The plus sign and the parent class name before it needs to be dropped from the full name prior to calling define nested class
+				// as the type builder will automatically add them back on based upon the name of the declaring type.
+				var fullName = Types.Naming.GetTypeBuilderNestedClassFullName(converted.FullName);
+
+				converted.TypeBuilder = convertedDeclaringType.TypeBuilder.DefineNestedType(fullName, attributes, null, packingSize);
 			}
 			else
 			{

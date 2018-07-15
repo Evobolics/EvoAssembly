@@ -843,12 +843,11 @@
     <Compile Include="Code\Containers\E01D\Runtimic\RuntimicContainer.cs" />
     <Compile Include="Code\Domains\E01D\XCommonAppPal.cs" />
     <Compile Include="Code\Exts\Runtimic\RuntimicContainerExts.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionAssembliesInput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionAssembliesOutput.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionAssemblyOutput.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionAssemblyDefinitionInput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionInput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionOutput.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionTypeInput.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionTypeOutput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionTypesInput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionTypesOutput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\InputOutputKind.cs" />
@@ -866,7 +865,7 @@
     <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedModuleNodeSet.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedRuntimicModelMask_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedTypeNodeSet.cs" />
-    <Compile Include="Code\Shortcuts\E01D\EvoAssembly.cs" />
+    <Compile Include="Code\PI\E01D\EvoAssembly.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\BoundNode.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Emitting\EmittingApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Assemblies\AdditionApi.cs" />
@@ -1393,6 +1392,7 @@
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\Class3.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ArrayTesting_MultipleTypes.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_ClassWithBlankAttribute.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_SoleNestedType.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassWithDifferentKindsOfFields.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassWithFieldsWithDifferentAccessModifiers.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassWithGenericField.cs" />

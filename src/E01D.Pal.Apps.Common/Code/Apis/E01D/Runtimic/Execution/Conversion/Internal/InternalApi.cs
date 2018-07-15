@@ -103,12 +103,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 		{
 			var result = Convert(conversion, new []{ assembly }, builderAccess);
 
-			// Return the assembly that corresponds to the assembly specified.
-			result.Output = new ILConversionAssemblyOutput()
-			{
-				Assembly = Results.GetCorrespondingOutput(result, assembly)
-			};
-
 			return result;
 		}
 
@@ -119,20 +113,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 
 		public ILConversionResult Convert(ILConversion conversion, Assembly[] assemblies, AssemblyBuilderAccess builderAccess)
 		{
-			for (int i = 0; i < assemblies.Length; i++)
-			{
-				var assembly = assemblies[i];
-
-				if (assembly.IsDynamic)
-				{
-					throw new Exception("The system is not setup to convert dynamic assemblies.");
-				}
-			}
-
 			// Load the assembly definition associated with the assembly into the model.
-			var assemblyDefinitions = Assemblies.Loading.LoadAssemblyDefinitions(conversion, assemblies);
+			var set = Cecil.Assemblies.Ensuring.Ensure(conversion.Model, assemblies);
 
-			return Convert(conversion, assemblyDefinitions, builderAccess);
+			return Convert(conversion, set.Assemblies, builderAccess, set.Types);
 		}
 
 		/// <summary>
@@ -157,16 +141,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 		/// <returns></returns>
 		public ILConversionResult Convert(ILConversion conversion, AssemblyDefinition assemblyDefinition, AssemblyBuilderAccess builderAccess)
 		{
-			return Convert(conversion, new List<AssemblyDefinition> { assemblyDefinition}, builderAccess);
+			return Convert(conversion, new[] { assemblyDefinition}, builderAccess);
 		}
 
-		public ILConversionResult Convert(ILConversion conversion, List<AssemblyDefinition> assemblyDefinitions)
+		public ILConversionResult Convert(ILConversion conversion, AssemblyDefinition[] assemblyDefinitions)
 		{
 			// Convert the assembly using the default AssemblyBuilderAccess.RunAndCollect.
 			return Convert(conversion, assemblyDefinitions, AssemblyBuilderAccess.RunAndCollect);
 		}
 
-		public ILConversionResult Convert(ILConversion conversion, List<AssemblyDefinition> assemblyDefinitions, AssemblyBuilderAccess builderAccess)
+		public ILConversionResult Convert(ILConversion conversion, AssemblyDefinition[] assemblyDefinitions, AssemblyBuilderAccess builderAccess)
 		{
 			// Load all the types in the provide assemblies, and 
 			var set = Cecil.Assemblies.Ensuring.Ensure(conversion.Model, assemblyDefinitions);
@@ -207,7 +191,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 
 				Type[] convertedList = null;
 
-				if (conversion.Input.Kind == InputOutputKind.Type || conversion.Input.Kind == InputOutputKind.Type)
+				if (conversion.Input.Kind == InputOutputKind.Types)
 				{
 					convertedList = new Type[inputTypes.Count];
 				}
@@ -264,17 +248,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 				{
 					throw new Exception("Input output kind unknown not a supported input.");
 				}
-				case InputOutputKind.Type:
-				{
-					conversion.Result.Output = new ILConversionTypeOutput()
-					{
-						Assemblies = assemblies,
-						Type = convertedList[0],
-						
-					};
-
-					break;
-				}
 				case InputOutputKind.Types:
 				{
 					conversion.Result.Output = new ILConversionTypesOutput()
@@ -286,23 +259,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 
 					break;
 				}
-				case InputOutputKind.Assembly:
-				{
-					var convetedAssembly = (ConvertedAssembly_I) conversion.Input.AssemlyNodesToConvert[0].Semantic;
-
-					conversion.Result.Output = new ILConversionAssemblyOutput()
-					{
-						Assemblies = assemblies,
-						Assembly = convetedAssembly.AssemblyBuilder,
-						
-					};
-
-					break;
-				}
+				case InputOutputKind.AssemblyDefinitions:
 				case InputOutputKind.Assemblies:
 				{
-					
-
 					conversion.Result.Output = new ILConversionAssembliesOutput()
 					{
 						Assemblies = assemblies
