@@ -17,4 +17,4 @@ var convertedAssembly = EvoAssembly.QuickConvert(inputAssembly);
 * full attribute support still in progress
 * no support for modifiers yet
 
-*Last Updated:* July 11th, 2018
+*Last Updated:* July 15th, 2018
