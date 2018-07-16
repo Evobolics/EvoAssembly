@@ -10,7 +10,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Ty
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Fields
 {
-	public class FieldApi<TContainer> : BindingApiNode<TContainer>, FieldApi_I<TContainer>
+	public class FieldApi<TContainer> : BoundApiNode<TContainer>, FieldApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
 	    public Fields.Building.BuildingApi_I<TContainer> Building { get; set; }

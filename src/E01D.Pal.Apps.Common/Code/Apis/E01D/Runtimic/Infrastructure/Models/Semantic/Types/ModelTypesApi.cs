@@ -27,19 +27,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Semantic.Types
 
 			string resolutionName = Types.Naming.GetResolutionName(semanticType);
 
-		
-
-            // This property is needed to preventing multiple entries.
-            if (semanticType.SourceModuleDefinition == null)
-            {
-                throw new Exception("Every semantic type should have a source module definition assigned.  This is the module that provided the data for the semantic type.");
-            }
-
-            if (semanticType.Module == null)
-            {
-                throw new Exception("Every semantic type should have a semantic module assigned to it.");
-            }
-
             if (semanticType.Module.Assembly == null)
             {
                 throw new Exception("Every semantic module should have a semantic assembly assigned to it.");

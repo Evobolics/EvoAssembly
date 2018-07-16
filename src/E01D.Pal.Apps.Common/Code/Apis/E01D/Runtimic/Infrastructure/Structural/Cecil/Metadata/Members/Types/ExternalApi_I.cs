@@ -2,9 +2,8 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Types
 {
-	public interface AddingApi_I<TContainer> : AddingApiMask_I
+	public interface ExternalApi_I<TContainer> : ExternalApiMask_I
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-
 	}
 }

@@ -2,23 +2,17 @@
 using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Ensuring
 {
-	public class RequiredModifierApi<TContainer> : BindingApiNode<TContainer>, RequiredModifierApi_I<TContainer>
+	public class RequiredModifierApi<TContainer> : BoundApiNode<TContainer>, RequiredModifierApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public SemanticTypeDefinitionMask_I Ensure(InfrastructureRuntimicModelMask_I semanticModel, BoundModule_I boundModule, TypeReference input, BoundTypeDefinitionMask_I declaringType, System.Type underlyingType)
+		public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I semanticModel, TypeReference input, BoundTypeDefinitionMask_I declaringType, System.Type underlyingType)
 		{
-			if (underlyingType == null)
-			{
-				
-			}
-
 			//  Try to see if the model is already present
 			if (Models.Types.Collection.TryGet(semanticModel, input, out SemanticTypeDefinitionMask_I maskedType))
 			{
@@ -36,17 +30,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 			// Conversion is going to occur.
 			//---------------------------------
 
-			if (underlyingType?.AssemblyQualifiedName == "<>f__AnonymousType0`1, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")
-			{
-
-			}
-
-			var bound = Types.Creation.Create(semanticModel, input.Module, boundModule, input, underlyingType);
+			var bound = Types.Creation.Create(semanticModel, input, underlyingType);
 
 
 
 			// Add the type instance to the model.  Do not do any recursive calls till this methods is called.
-			Types.Addition.Add(semanticModel, boundModule, bound);
+			//Types.Addition.Add(semanticModel, boundModule, bound);
 
 			// Done on purpose to find errors
 			var requiredModifierType = (RequiredModifierType)input;

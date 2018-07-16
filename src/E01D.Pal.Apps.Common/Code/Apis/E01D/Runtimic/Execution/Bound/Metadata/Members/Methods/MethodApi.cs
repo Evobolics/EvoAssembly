@@ -9,7 +9,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods
 {
-	public class MethodApi<TContainer> : BindingApiNode<TContainer>, MethodApi_I<TContainer>
+	public class MethodApi<TContainer> : BoundApiNode<TContainer>, MethodApi_I<TContainer>
 		where TContainer: RuntimicContainer_I<TContainer>
     {
 	    public BuildingApi_I<TContainer> Building { get; set; }

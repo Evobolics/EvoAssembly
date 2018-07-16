@@ -9,7 +9,7 @@ using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Semantic.Types
 {
-	public class CollectionApi<TContainer> : BindingApiNode<TContainer>, CollectionApi_I<TContainer>
+	public class CollectionApi<TContainer> : BoundApiNode<TContainer>, CollectionApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
 		

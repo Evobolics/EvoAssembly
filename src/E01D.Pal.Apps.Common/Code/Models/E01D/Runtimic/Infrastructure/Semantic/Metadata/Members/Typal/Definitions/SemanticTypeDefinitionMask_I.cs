@@ -11,10 +11,7 @@ namespace Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Member
         /// </summary>
         TypeReference SourceTypeReference { get; }
 
-        /// <summary>
-        /// Gets or sets the module definition that was used to created this semantic type.
-        /// </summary>
-        ModuleDefinition SourceModuleDefinition { get; }
+       
 
         System.Reflection.Emit.PackingSize PackingSize { get;  }
 

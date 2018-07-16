@@ -24,7 +24,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types
         public Dictionary<string, SemanticTypeMask_I> NestedTypes { get; set; } = new Dictionary<string, SemanticTypeMask_I>();
         public TypeReference SourceTypeReference { get; set; }
 
-        public ModuleDefinition SourceModuleDefinition { get; set; }
+        
 
         public BoundModuleMask_I Module { get; set; }
 

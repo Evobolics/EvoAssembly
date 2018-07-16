@@ -3,7 +3,7 @@ using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Models;
 using Root.Code.Models.E01D.Runtimic.Unified;
 
-namespace Root.Code.Models.E01D.Runtimic.Execution.Modeling.Conversion
+namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Modeling
 {
 	public class ILConversionSemanticModelTypes: SemanticModelTypesMask_I
 	{

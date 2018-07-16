@@ -2,7 +2,7 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Building
 {
-    public class ArrayApi<TContainer> : BindingApiNode<TContainer>, ArrayApi_I<TContainer>
+    public class ArrayApi<TContainer> : BoundApiNode<TContainer>, ArrayApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
         

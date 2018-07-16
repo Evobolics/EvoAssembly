@@ -52,11 +52,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
             if (converted.IsStruct())
             {
-                baseType = boundBaseType?.UnderlyingType ?? GetValueType(conversion.Model);
+                baseType = boundBaseType?.UnderlyingType ?? GetValueType(conversion);
             }
             else
             {
-                baseType = boundBaseType?.UnderlyingType ?? (converted.IsClassType() ? GetObjectType(conversion.Model) : null);
+                baseType = boundBaseType?.UnderlyingType ?? (converted.IsClassType() ? GetObjectType(conversion) : null);
             }
 
             if (baseType == null && (converted.IsClassType() || converted.IsStruct()))
@@ -69,16 +69,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
             return boundBaseType;
         }
 
-        private System.Type GetObjectType(InfrastructureRuntimicModelMask_I model)
+        private System.Type GetObjectType(ILConversion conversion)
         {
-            return Binding.Models.Types.GetObjectType(model);
+            return Binding.Models.Types.GetObjectType(conversion.Model);
         }
 
         
 
-        private System.Type GetValueType(InfrastructureRuntimicModelMask_I model)
+        private System.Type GetValueType(ILConversion conversion)
         {
-            return Binding.Models.Types.GetValueType(model);
+            return Binding.Models.Types.GetValueType(conversion.Model);
         }
 
         public void EnsureInterfaces(ILConversion conversion, ConvertedTypeDefinition_I converted)

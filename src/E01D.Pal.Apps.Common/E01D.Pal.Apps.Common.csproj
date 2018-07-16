@@ -278,6 +278,9 @@
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Types\ExtendingApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Types\ExtendingApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Types\ExtendingApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Types\ExternalApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Types\ExternalApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Types\ExternalApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Types\GettingApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Types\GettingApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Types\GettingApi_I.cs" />
@@ -292,7 +295,7 @@
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Allocation\AllocationApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\BindingApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\BindingApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\BindingApiNode.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\BoundApiNode.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Assemblies\AdditionApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Assemblies\AdditionApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Assemblies\AdditionApi_I.cs" />
@@ -843,6 +846,7 @@
     <Compile Include="Code\Containers\E01D\Runtimic\RuntimicContainer.cs" />
     <Compile Include="Code\Domains\E01D\XCommonAppPal.cs" />
     <Compile Include="Code\Exts\Runtimic\RuntimicContainerExts.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Modeling\ILConversionRuntimicModel.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionAssembliesInput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionAssembliesOutput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionAssemblyDefinitionInput.cs" />
@@ -1081,10 +1085,10 @@
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeDefinitionWithTypeParameters_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeDefinition_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedValueTypeDefinition.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Modeling\Conversion\ILConversionModel.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Modeling\Conversion\ILConversionModelAssembliesMask_I.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Modeling\Conversion\ILConversionModelMask_I.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Modeling\Conversion\ILConversionModelModules.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Modeling\ILConversionModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Modeling\ILConversionModelAssembliesMask_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Modeling\ILConversionModelMask_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Modeling\ILConversionModelModules.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Emitting\EmittedNode.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Emitting\EmittedNode_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Emitting\Metadata\EmittedAssembly.cs" />
@@ -1117,9 +1121,9 @@
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\Members\BoundMember.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionResult.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\ConvertedAssembly_I.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Modeling\Conversion\ILConversionRuntimicModel.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Modeling\Conversion\ILConversionModelAssemblies.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Modeling\Conversion\ILConversionModelTypes.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Modeling\ILConversionRuntimicModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Modeling\ILConversionModelAssemblies.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Modeling\ILConversionModelTypes.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Instructions\InstructionApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Instructions\InstructionApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\LocalApi.cs" />
@@ -1465,13 +1469,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Ensuring\Gathering\Cecil\" />
-    <Folder Include="Code\Apis\E01D\Runtimic\Execution\Emitting\Metadata\Members\Typal\" />
-    <Folder Include="Code\Apis\E01D\Runtimic\Execution\Underlying\" />
     <Folder Include="Code\Apis\E01D\Runtimic\Infrastructure\Models\Unified\" />
     <Folder Include="Code\Containers\E01D\Runtimic\Execution\Emitting\Conversion\" />
     <Folder Include="Code\Enums\E01D\Runtimic\Infrastructure\Semantic\Metadata\Members\Typal\" />
     <Folder Include="Code\Exts\Runtimic\Execution\Conversion\" />
-    <Folder Include="Code\Models\E01D\Runtimic\Execution\Conversion\Modeling\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\E01D.Kor\E01D.Kor.csproj">

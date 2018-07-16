@@ -2,7 +2,7 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Building.GenericInstances
 {
-    public class GenericInstanceApi<TContainer> : BindingApiNode<TContainer>, GenericInstanceApi_I<TContainer>
+    public class GenericInstanceApi<TContainer> : BoundApiNode<TContainer>, GenericInstanceApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
 		public Phase0PreSearchBuildApi_I<TContainer> Phase0PreSearch { get; set; }

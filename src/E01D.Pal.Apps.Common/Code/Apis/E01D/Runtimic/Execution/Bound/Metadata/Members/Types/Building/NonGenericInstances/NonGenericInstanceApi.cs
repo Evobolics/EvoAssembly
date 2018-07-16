@@ -2,7 +2,7 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Building.NonGenericInstances
 {
-    public class NonGenericInstanceApi<TContainer> : BindingApiNode<TContainer>, NonGenericInstanceApi_I<TContainer>
+    public class NonGenericInstanceApi<TContainer> : BoundApiNode<TContainer>, NonGenericInstanceApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
 		public Phase0PreSearchBuildApi_I<TContainer> Phase0PreSearch { get; set; }

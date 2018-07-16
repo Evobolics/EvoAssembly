@@ -2,7 +2,7 @@
 using Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Models;
 
-namespace Root.Code.Models.E01D.Runtimic.Execution.Modeling.Conversion
+namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Modeling
 {
     public class ILConversionModelModules: SemanticModelModulesMask_I
     {

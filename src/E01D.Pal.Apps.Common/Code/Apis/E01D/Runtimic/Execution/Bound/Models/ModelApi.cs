@@ -3,7 +3,7 @@ using Root.Code.Containers.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models
 {
-	public class ModelApi<TContainer> : BindingApiNode<TContainer>, ModelApi_I<TContainer>
+	public class ModelApi<TContainer> : BoundApiNode<TContainer>, ModelApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
         public new ModelAssembliesApi_I<TContainer> Assemblies { get; set; }

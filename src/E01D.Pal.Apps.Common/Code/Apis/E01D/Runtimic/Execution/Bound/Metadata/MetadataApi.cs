@@ -5,7 +5,7 @@ using Root.Code.Containers.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata
 {
-    public class MetadataApi<TContainer> : BindingApiNode<TContainer>, MetadataApi_I<TContainer>
+    public class MetadataApi<TContainer> : BoundApiNode<TContainer>, MetadataApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
         public new AssemblyApi_I<TContainer> Assemblies { get; set; }

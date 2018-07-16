@@ -4,7 +4,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
 {
-	public class ExternalApi<TContainer> : BindingApiNode<TContainer>, ExternalApi_I<TContainer>
+	public class ExternalApi<TContainer> : BoundApiNode<TContainer>, ExternalApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
 		public TypeReference Resolve(InfrastructureRuntimicModelMask_I model, TypeReference elementType)

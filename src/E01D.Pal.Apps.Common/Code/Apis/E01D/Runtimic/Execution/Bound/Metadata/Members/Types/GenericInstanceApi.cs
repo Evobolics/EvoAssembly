@@ -9,7 +9,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types
 	/// Provides functionality to manipulate types that are generic instances - i.e. closed generics
 	/// </summary>
 	/// <typeparam name="TContainer"></typeparam>
-	public class GenericInstanceApi<TContainer> : BindingApiNode<TContainer>, GenericInstanceApi_I<TContainer>
+	public class GenericInstanceApi<TContainer> : BoundApiNode<TContainer>, GenericInstanceApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
 		public TypeDefinition GetElementType(InfrastructureRuntimicModelMask_I semanticModel, BoundTypeDefinitionMask_I bound)

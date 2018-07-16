@@ -3,14 +3,15 @@ using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypeParameters
 {
-	public class BuildingApi<TContainer> : BindingApiNode<TContainer>, BuildingApi_I<TContainer>
+	public class BuildingApi<TContainer> : BoundApiNode<TContainer>, BuildingApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public void EnsureTypeParametersIfAny(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition converted)
+		public void EnsureTypeParametersIfAny(BoundRuntimicModelMask_I model, BoundTypeDefinition converted)
 		{
 			TypeReference inputType = converted.SourceTypeReference;
 
@@ -52,7 +53,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 			}
 		}
 
-		private void BuildConstraints(InfrastructureRuntimicModelMask_I model, BoundGenericParameterTypeDefinition typeParameter)
+		private void BuildConstraints(BoundRuntimicModelMask_I model, BoundGenericParameterTypeDefinition typeParameter)
 		{
 			var typeParamterType = typeParameter.Definition;
 
@@ -66,7 +67,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 
 				BoundGenericParameterTypeDefinitionConstraint semanticConstraint;
 
-				bool isClassConstraint = IsClassConstraint(constraint);
+				bool isClassConstraint = IsClassConstraint(model, constraint);
 
 				if (isClassConstraint)
 				{
@@ -170,9 +171,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 		//	return types.ToArray();
 		//}
 
-		private bool IsClassConstraint(TypeReference constraint)
+		private bool IsClassConstraint(InfrastructureRuntimicModelMask_I model, TypeReference constraint)
 		{
-			return Infrastructure.Structural.Cecil.IsClass(constraint);
+			return Infrastructure.Structural.Cecil.Types.IsClass(model, constraint);
 
 		}
 

@@ -4,6 +4,7 @@ using Mono.Cecil;
 using Mono.Cecil.Rocks;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
 using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Types
@@ -11,7 +12,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 	public class GettingApi<TContainer> : CecilApiNode<TContainer>, GettingApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public TypeDefinition GetDefinition(InfrastructureRuntimicModelMask_I model, TypeReference typeReference)
+		public TypeDefinition GetDefinition(StructuralRuntimicModelMask_I model, TypeReference typeReference)
 		{
 			typeReference = Types.Getting.GetInternalTypeReference(model, typeReference);
 
@@ -100,21 +101,21 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		//	//}
 		//}
 
-		public TypeReference GetStoredTypeReference(InfrastructureRuntimicModelMask_I model, TypeReference typeReference)
+		public TypeReference GetStoredTypeReference(StructuralRuntimicModelMask_I model, TypeReference typeReference)
 		{
 			var resolutionName = Types.Naming.GetResolutionName(typeReference);
 
 			return GetStoredTypeReference(model, resolutionName);
 		}
 
-		public TypeReference GetStoredTypeReference(InfrastructureRuntimicModelMask_I model, Type genericTypeDefinitionType)
+		public TypeReference GetStoredTypeReference(StructuralRuntimicModelMask_I model, Type genericTypeDefinitionType)
 		{
 			var fullName = Types.Naming.GetResolutionName(genericTypeDefinitionType);
 
 			return GetStoredTypeReference(model, fullName);
 		}
 
-		public TypeReference GetStoredTypeReference(InfrastructureRuntimicModelMask_I model, string fullName)
+		public TypeReference GetStoredTypeReference(StructuralRuntimicModelMask_I model, string fullName)
 		{
 			// Uses GetSemanticNode instead since this call can be made before the semantic type istself is created.
 			// During semantic type creation, this call is made.
@@ -123,7 +124,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return unifiedNode?.SourceTypeReference;
 		}
 
-		public TypeReference GetStoredTypeReference(InfrastructureRuntimicModelMask_I model, string fullName, out UnifiedTypeNode basicNode)
+		public TypeReference GetStoredTypeReference(StructuralRuntimicModelMask_I model, string fullName, out UnifiedTypeNode basicNode)
 		{
 			// Uses GetSemanticNode instead since this call can be made before the semantic type istself is created.
 			// During semantic type creation, this call is made.
@@ -136,23 +137,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		
 
-		public TypeReference GetInternalTypeReference(InfrastructureRuntimicModelMask_I model, TypeReference typeReference)
+		public TypeReference GetInternalTypeReference(StructuralRuntimicModelMask_I model, TypeReference typeReference)
 		{
 			if (!Types.IsExternal(typeReference)) return typeReference;
 
-			return GetExternalTypeReference(model, typeReference);
+			return Types.External.Resolve(model, typeReference);
 		}
 
-		public TypeReference GetExternalTypeReference(InfrastructureRuntimicModelMask_I model, TypeReference externalReference)
-		{
-			var storedReference = GetStoredTypeReference(model, externalReference);
+		
 
-			if (storedReference != null) return storedReference;
-
-			throw new System.Exception("Could not resolve external reference.");
-		}
-
-		public TypeReference GetInternalTypeReference(InfrastructureRuntimicModelMask_I model, Type input)
+		public TypeReference GetInternalTypeReference(StructuralRuntimicModelMask_I model, Type input)
 		{
 			string resolutionName = Types.Naming.GetResolutionName(input);
 

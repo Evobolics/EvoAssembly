@@ -6,7 +6,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Ty
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types
 {
-	public class GettingApi<TContainer> : BindingApiNode<TContainer>, GettingApi_I<TContainer>
+	public class GettingApi<TContainer> : BoundApiNode<TContainer>, GettingApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
         

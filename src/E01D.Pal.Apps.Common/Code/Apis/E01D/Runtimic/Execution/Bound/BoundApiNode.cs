@@ -16,7 +16,7 @@ using TypeApiMask_I = Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Memb
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound
 {
-    public abstract class BindingApiNode<TContainer>: RuntimeApiNode<TContainer>
+    public abstract class BoundApiNode<TContainer>: RuntimeApiNode<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
         public Metadata.Assemblies.AssemblyApiMask_I Assemblies => Container.Api.Runtimic.Execution.Binding.Metadata.Assemblies;

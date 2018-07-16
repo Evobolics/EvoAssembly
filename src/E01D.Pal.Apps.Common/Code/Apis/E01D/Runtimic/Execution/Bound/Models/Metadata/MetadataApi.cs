@@ -4,7 +4,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Metadata
 {
-	public class MetadataApi<TContainer> : BindingApiNode<TContainer>, MetadataApi_I<TContainer>
+	public class MetadataApi<TContainer> : BoundApiNode<TContainer>, MetadataApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
 		public void AddAssemblyDefinition(InfrastructureRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition)

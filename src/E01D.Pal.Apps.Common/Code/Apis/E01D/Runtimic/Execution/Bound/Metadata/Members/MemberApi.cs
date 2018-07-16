@@ -8,13 +8,14 @@ using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypeParamete
 using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Modules;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using TypeApiMask_I = Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.TypeApiMask_I;
 
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members
 {
-    public class MemberApi<TContainer>: BindingApiNode<TContainer>, MemberApi_I<TContainer>
+    public class MemberApi<TContainer>: BoundApiNode<TContainer>, MemberApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
         public new AssemblyApi_I<TContainer> Assemblies { get; set; }
@@ -74,7 +75,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members
 
         TypeApiMask_I MemberApiMask_I.Types => Types;
 
-        public BoundTypeDefinitionMask_I GetDeclaringType(InfrastructureRuntimicModelMask_I model, MemberReference memberReference)
+        public BoundTypeDefinitionMask_I GetDeclaringType(BoundRuntimicModelMask_I model, MemberReference memberReference)
         {
             if (memberReference == null)
             {

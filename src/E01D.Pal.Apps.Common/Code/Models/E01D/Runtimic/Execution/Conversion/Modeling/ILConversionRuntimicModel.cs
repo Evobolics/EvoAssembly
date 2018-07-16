@@ -1,13 +1,13 @@
 ﻿using Root.Code.Enums.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Models;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
 using Root.Code.Models.E01D.Runtimic.Unified;
 
-namespace Root.Code.Models.E01D.Runtimic.Execution.Modeling.Conversion
+namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Modeling
 {
-    public class ILConversionRuntimicModel:  InfrastructureRuntimicModelMask_I
+    public class ILConversionRuntimicModel: BoundRuntimicModelMask_I
 	{
 		/// <summary>
 		/// Gets or sets the assembly map that specifies how input assemblies are mapped to output assemblies.   This allows for non-one to one mappings to be created.

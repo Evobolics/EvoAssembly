@@ -3,17 +3,17 @@ using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
-using Root.Code.Models.E01D.Runtimic.Execution.Modeling.Conversion;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
 using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 {
-    public class BuildingApi<TContainer> : BindingApiNode<TContainer>, BuildingApi_I<TContainer>
+    public class BuildingApi<TContainer> : BoundApiNode<TContainer>, BuildingApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-		public void Build(InfrastructureRuntimicModelMask_I model, List<UnifiedAssemblyNode> referencedList)
+		public void Build(BoundRuntimicModelMask_I model, List<UnifiedAssemblyNode> referencedList)
 		{
 			for (int i = 0; i < referencedList.Count; i++)
 			{
@@ -25,7 +25,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 
 	    
 
-	    private BoundAssemblyMask_I Build(InfrastructureRuntimicModelMask_I model, UnifiedAssemblyNode assemblyNode)
+	    private BoundAssemblyMask_I Build(BoundRuntimicModelMask_I model, UnifiedAssemblyNode assemblyNode)
 	    {
 		    var assemblyDefinition = assemblyNode.SourceAssemblyDefinition;
 
@@ -55,7 +55,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 		/// <summary>
 		///Ensures the assembly, modules and types are present.
 		/// </summary>
-		public SemanticAssemblyMask_I BuildOut(InfrastructureRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition)
+		public SemanticAssemblyMask_I BuildOut(BoundRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition)
         {
             // Ensure the assembly
             var semanticAssembly = Assemblies.Ensuring.Ensure(semanticModel, assemblyDefinition);
@@ -65,7 +65,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
             return semanticAssembly;
         }
 
-        public void BuildOut(InfrastructureRuntimicModelMask_I semanticModel, SemanticAssemblyMask_I semanticAssembly)
+        public void BuildOut(BoundRuntimicModelMask_I semanticModel, SemanticAssemblyMask_I semanticAssembly)
         {
             if (semanticAssembly.IsBuiltOut)
             {

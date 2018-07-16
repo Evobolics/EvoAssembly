@@ -4,7 +4,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Ty
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types
 {
-	public class DependencyApi<TContainer> : BindingApiNode<TContainer>, DependencyApi_I<TContainer>
+	public class DependencyApi<TContainer> : BoundApiNode<TContainer>, DependencyApi_I<TContainer>
 		where TContainer: RuntimicContainer_I<TContainer>
     {
         public List<SemanticTypeMask_I> Calculate(SemanticTypeMask_I convertedModule, List<SemanticTypeMask_I> list)

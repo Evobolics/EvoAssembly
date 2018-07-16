@@ -17,21 +17,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil
 
 	    MetadataApiMask_I CecilApiMask_I.Metadata => Metadata;
 
-	    public bool IsExternal(TypeReference typeReference)
-	    {
-		    if (typeReference.IsDefinition) return false;
-			if (typeReference.IsGenericInstance) return false;
-		    if (typeReference.IsGenericParameter) return false;
-		    if (typeReference.IsPointer) return false;
-		    if (typeReference.IsRequiredModifier) return false;
-		    if (typeReference.IsArray) return false;
-		    if (typeReference.IsFunctionPointer) return false;
-		    if (typeReference.IsPrimitive) return false;
-		    if (typeReference.IsSentinel) return false;
-		    if (typeReference.IsValueType) return false;
-
-		    return true;
-	    }
+	    
 
 		
 
@@ -77,24 +63,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil
             return underlyingType;
         }
 
-        public bool IsClass(TypeReference constraint)
-        {
-            if (constraint.IsDefinition)
-            {
-                var definition = (TypeDefinition) constraint;
-
-                return definition.IsClass;
-            }
-	        if (constraint.IsGenericInstance)
-	        {
-				var genericInstance = (GenericInstanceType)constraint;
-
-		        var definition = (TypeDefinition)genericInstance.ElementType;
-
-		        return definition.IsClass;
-	        }
-            throw new Exception("Is class only implemented for definitions so far.");
-        }
+        
 
         public TypeReference GetBaseType(TypeReference typeReference)
         {

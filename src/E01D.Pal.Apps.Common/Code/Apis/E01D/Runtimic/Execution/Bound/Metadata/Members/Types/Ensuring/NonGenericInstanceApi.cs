@@ -1,16 +1,17 @@
-﻿using Mono.Cecil;
+﻿using System;
+using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Ensuring
 {
-    public class NonGenericApi<TContainer> : BindingApiNode<TContainer>, NonGenericApi_I<TContainer>
+    public class NonGenericApi<TContainer> : BoundApiNode<TContainer>, NonGenericApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        public SemanticTypeDefinitionMask_I Ensure(InfrastructureRuntimicModelMask_I semanticModel, BoundModule_I boundModule, TypeReference input, BoundTypeDefinitionMask_I declaringType, System.Type underlyingType)
+        public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I semanticModel, TypeReference input, BoundTypeDefinitionMask_I declaringType, System.Type underlyingType)
         {
 		    //  Try to see if the model is already present
 		    if (Models.Types.Collection.TryGet(semanticModel, input, out SemanticTypeDefinitionMask_I maskedType))
@@ -29,15 +30,25 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 	        // Conversion is going to occur.
 	        //---------------------------------
 
-	        if (underlyingType?.AssemblyQualifiedName == "<>f__AnonymousType0`1, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")
+	        
+
+			var bound = Types.Creation.Create(semanticModel, input, underlyingType);
+
+	        // Get the module to ensure that the type is part of the module.
+	        var semanticModule = Modules.Getting.Get(semanticModel, input);
+
+	        if (!(semanticModule is BoundModuleMask_I boundModule))
 	        {
-		        
+		        var result = Semantic.Metadata.Members.Types.Ensuring.Ensure(semanticModel, semanticModule, input);
+
+		        throw new Exception("Need to fix return type.");
 	        }
 
-			var bound = Types.Creation.Create(semanticModel, input.Module, boundModule, input, underlyingType);
+	        bound.Module = boundModule;
+			
 
-            // Add the type instance to the model.  Do not do any recursive calls till this methods is called.
-            Types.Addition.Add(semanticModel, boundModule, bound);
+			// Add the type instance to the model.  Do not do any recursive calls till this methods is called.
+			Types.Addition.Add(semanticModel, boundModule, bound);
 
             return Types.Building.NonGenericInstances.Phase1Initial.Build(semanticModel, bound, underlyingType, declaringType);
         }

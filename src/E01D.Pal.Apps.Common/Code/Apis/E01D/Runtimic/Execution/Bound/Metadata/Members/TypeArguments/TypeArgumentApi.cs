@@ -2,7 +2,7 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypeArguments
 {
-	public class TypeArgumentApi<TContainer> : BindingApiNode<TContainer>, TypeArgumentApi_I<TContainer>
+	public class TypeArgumentApi<TContainer> : BoundApiNode<TContainer>, TypeArgumentApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
 

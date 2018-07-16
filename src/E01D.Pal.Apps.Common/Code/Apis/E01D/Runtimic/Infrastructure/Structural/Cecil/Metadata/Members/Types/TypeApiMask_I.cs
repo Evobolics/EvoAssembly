@@ -1,4 +1,5 @@
 ﻿using Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Types
 {
@@ -10,6 +11,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		ExtendingApiMask_I Extending { get; }
 
+		ExternalApiMask_I External { get; }
+
 		GettingApiMask_I Getting { get; }
 
 		LoadingApiMask_I Loading { get; }
@@ -18,7 +21,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		System.Reflection.TypeAttributes GetTypeAttributes(TypeDefinition typeDefinition);
 
-		
+		bool IsClass(StructuralRuntimicModelMask_I model, TypeReference constraint);
 
 		bool IsExternal(TypeReference typeReference);
 

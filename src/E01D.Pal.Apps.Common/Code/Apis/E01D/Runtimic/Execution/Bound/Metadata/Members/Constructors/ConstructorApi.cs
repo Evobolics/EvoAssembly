@@ -3,25 +3,26 @@ using Mono.Cecil;
 using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Constructors.Building;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Constructors
 {
-	public class ConstructorApi<TContainer> : BindingApiNode<TContainer>, ConstructorApi_I<TContainer>
+	public class ConstructorApi<TContainer> : BoundApiNode<TContainer>, ConstructorApi_I<TContainer>
 		where TContainer: RuntimicContainer_I<TContainer>
     {
 	    public BuildingApi_I<TContainer> Building { get; set; }
 
 	    BuildingApiMask_I ConstructorApiMask_I.Building => Building;
 
-		public ConstructorInfo GetConstructorInfo(InfrastructureRuntimicModelMask_I conversionModel, MemberReference memberReference)
+		public ConstructorInfo GetConstructorInfo(BoundRuntimicModelMask_I conversionModel, MemberReference memberReference)
         {
             var declaringBound = Members.GetDeclaringType(conversionModel, memberReference);
 
             return (ConstructorInfo)FindConstructorBySignature(conversionModel, declaringBound, memberReference);
         }
 
-        public MemberInfo FindConstructorBySignature(InfrastructureRuntimicModelMask_I conversionModel, BoundTypeDefinitionMask_I typeEntry, MemberReference memberReference)
+        public MemberInfo FindConstructorBySignature(BoundRuntimicModelMask_I conversionModel, BoundTypeDefinitionMask_I typeEntry, MemberReference memberReference)
         {
             switch (memberReference.MetadataToken.TokenType)
             {
@@ -42,7 +43,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Construc
             }
         }
 
-        public ConstructorInfo FindConstructorBySignature(InfrastructureRuntimicModelMask_I conversionModel, BoundTypeDefinitionMask_I declaringType, MethodReference methodReference)
+        public ConstructorInfo FindConstructorBySignature(BoundRuntimicModelMask_I conversionModel, BoundTypeDefinitionMask_I declaringType, MethodReference methodReference)
         {
             // NOTE - This version of the method cannot access constructor builders, which are neccessary when building
             //        constructor calls for a converted classes instructions.

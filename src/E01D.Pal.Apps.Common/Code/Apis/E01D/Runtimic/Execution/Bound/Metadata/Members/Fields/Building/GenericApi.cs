@@ -11,7 +11,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Fields.B
 	/// Used for building fields that potentially have generic fields.
 	/// </summary>
 	/// <typeparam name="TContainer"></typeparam>
-    public class GenericApi<TContainer> : BindingApiNode<TContainer>, GenericApi_I<TContainer>
+    public class GenericApi<TContainer> : BoundApiNode<TContainer>, GenericApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
 	    public void Build()

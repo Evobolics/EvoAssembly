@@ -2,7 +2,7 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 {
-    public class StreamApi<TContainer> : BindingApiNode<TContainer>, StreamApi_I<TContainer>
+    public class StreamApi<TContainer> : BoundApiNode<TContainer>, StreamApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
 

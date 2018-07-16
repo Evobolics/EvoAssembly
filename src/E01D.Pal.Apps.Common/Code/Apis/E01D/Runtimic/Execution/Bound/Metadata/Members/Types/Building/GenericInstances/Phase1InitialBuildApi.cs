@@ -2,7 +2,7 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Building.GenericInstances
 {
-	public class Phase1InitialBuildApi<TContainer> : BindingApiNode<TContainer>, Phase1InitialBuildApi_I<TContainer>
+	public class Phase1InitialBuildApi<TContainer> : BoundApiNode<TContainer>, Phase1InitialBuildApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
 		///// <summary>

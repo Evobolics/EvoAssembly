@@ -3,7 +3,7 @@ using Root.Code.Containers.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Creation
 {
-	public class DefinitionApi<TContainer> : BindingApiNode<TContainer>, DefinitionApi_I<TContainer>
+	public class DefinitionApi<TContainer> : BoundApiNode<TContainer>, DefinitionApi_I<TContainer>
 		where TContainer: RuntimicContainer_I<TContainer>
     {
 

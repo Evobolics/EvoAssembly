@@ -1,14 +1,15 @@
 ﻿using System;
 using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members
 {
-	public class ParameterApi<TContainer> : BindingApiNode<TContainer>, ParameterApi_I<TContainer>
+	public class ParameterApi<TContainer> : BoundApiNode<TContainer>, ParameterApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
-        public Type[] GetSystemParameterTypes(InfrastructureRuntimicModelMask_I model, Mono.Collections.Generic.Collection<TypeReference> collection)
+        public Type[] GetSystemParameterTypes(BoundRuntimicModelMask_I model, Mono.Collections.Generic.Collection<TypeReference> collection)
         {
             Type[] types = new Type[collection.Count];
 
@@ -35,12 +36,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members
             return types;
         }
 
-        public Type[] GetSystemParameterTypes(InfrastructureRuntimicModelMask_I model, MethodReference methodReference)
+        public Type[] GetSystemParameterTypes(BoundRuntimicModelMask_I model, MethodReference methodReference)
         {
             return GetSystemParameterTypes(model, methodReference.Parameters);
         }
 
-        public Type[] GetSystemParameterTypes(InfrastructureRuntimicModelMask_I model, Mono.Collections.Generic.Collection<ParameterDefinition> parameters)
+        public Type[] GetSystemParameterTypes(BoundRuntimicModelMask_I model, Mono.Collections.Generic.Collection<ParameterDefinition> parameters)
         {
             Type[] types = new Type[parameters.Count];
 

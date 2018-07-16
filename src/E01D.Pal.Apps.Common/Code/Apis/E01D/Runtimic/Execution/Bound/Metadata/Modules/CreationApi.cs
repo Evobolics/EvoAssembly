@@ -5,7 +5,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Modules
 {
-	public class CreationApi<TContainer> : BindingApiNode<TContainer>, CreationApi_I<TContainer>
+	public class CreationApi<TContainer> : BoundApiNode<TContainer>, CreationApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
         public BoundModule Create(SemanticAssemblyMask_I entry, ModuleDefinition moduleDefinition)

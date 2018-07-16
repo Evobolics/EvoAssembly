@@ -12,7 +12,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Ty
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypeParameters
 {
-    public class TypeParameterApi<TContainer> : BindingApiNode<TContainer>, TypeParameterApi_I<TContainer>
+    public class TypeParameterApi<TContainer> : BoundApiNode<TContainer>, TypeParameterApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
 	    public BuildingApi_I<TContainer> Building { get; set; }

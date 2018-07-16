@@ -2,7 +2,7 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods.Building
 {
-	public class DynamicallyCreatedApi<TContainer> : BindingApiNode<TContainer>, DynamicallyCreatedApi_I<TContainer>
+	public class DynamicallyCreatedApi<TContainer> : BoundApiNode<TContainer>, DynamicallyCreatedApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
 		//public void BuildMethods(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input)

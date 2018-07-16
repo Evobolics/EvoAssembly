@@ -2,7 +2,7 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types
 {
-    public class SimpleApi<TContainer>: BindingApiNode<TContainer>, SimpleApi_I<TContainer>
+    public class SimpleApi<TContainer>: BoundApiNode<TContainer>, SimpleApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
         public bool IsSimpleType(string fullName)

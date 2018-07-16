@@ -10,7 +10,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Ty
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types
 {
-	public class AdditionApi<TContainer> : BindingApiNode<TContainer>, AdditionApi_I<TContainer>
+	public class AdditionApi<TContainer> : BoundApiNode<TContainer>, AdditionApi_I<TContainer>
 		where TContainer: RuntimicContainer_I<TContainer>
     {
         

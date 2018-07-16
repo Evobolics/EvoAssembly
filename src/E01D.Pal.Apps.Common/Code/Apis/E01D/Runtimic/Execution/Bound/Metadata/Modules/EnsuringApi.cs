@@ -8,7 +8,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Modules
 {
-    public class EnsuringApi<TContainer> : BindingApiNode<TContainer>,EnsuringApi_I<TContainer>
+    public class EnsuringApi<TContainer> : BoundApiNode<TContainer>,EnsuringApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
 

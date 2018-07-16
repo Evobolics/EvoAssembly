@@ -11,7 +11,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Bu
 	/// The type, and its associated sub system types, responsible for building out a type.
 	/// </summary>
 	/// <typeparam name="TContainer"></typeparam>
-    public class BuildingApi<TContainer> : BindingApiNode<TContainer>, BuildingApi_I<TContainer>
+    public class BuildingApi<TContainer> : BoundApiNode<TContainer>, BuildingApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
 

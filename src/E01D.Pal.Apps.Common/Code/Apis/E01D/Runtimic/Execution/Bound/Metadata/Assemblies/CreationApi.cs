@@ -6,7 +6,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 {
-	public class CreationApi<TContainer> : BindingApiNode<TContainer>, CreationApi_I<TContainer>
+	public class CreationApi<TContainer> : BoundApiNode<TContainer>, CreationApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
 

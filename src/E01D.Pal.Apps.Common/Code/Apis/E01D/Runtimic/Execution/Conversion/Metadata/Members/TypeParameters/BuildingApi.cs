@@ -88,7 +88,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 				ConvertedTypeParameterConstraint semanticConstraint;
 
-				bool isClassConstraint = IsClassConstraint(constraint);
+				bool isClassConstraint = IsClassConstraint(conversion, constraint);
 
 				if (isClassConstraint)
 				{
@@ -191,9 +191,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			return types.ToArray();
 		}
 
-		private bool IsClassConstraint(TypeReference constraint)
+		private bool IsClassConstraint(ILConversion conversion, TypeReference constraint)
 		{
-			return Runtimic.Infrastructure.Structural.Cecil.IsClass(constraint);
+			return Cecil.Types.IsClass(conversion.Model, constraint);
 
 		}
 

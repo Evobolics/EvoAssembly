@@ -2,7 +2,7 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models
 {
-    public class ModelModulesApi<TContainer> : BindingApiNode<TContainer>, ModelModulesApi_I<TContainer>
+    public class ModelModulesApi<TContainer> : BoundApiNode<TContainer>, ModelModulesApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
         

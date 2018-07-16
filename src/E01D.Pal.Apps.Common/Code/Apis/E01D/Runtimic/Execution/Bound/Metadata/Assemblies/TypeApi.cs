@@ -2,7 +2,7 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 {
-	public class TypeApi<TContainer> : BindingApiNode<TContainer>, TypeApi_I<TContainer>
+	public class TypeApi<TContainer> : BoundApiNode<TContainer>, TypeApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
 		/// <summary>

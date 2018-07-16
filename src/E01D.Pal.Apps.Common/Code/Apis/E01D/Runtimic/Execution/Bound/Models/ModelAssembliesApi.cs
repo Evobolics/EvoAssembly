@@ -10,7 +10,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models
 	/// as it is accessing the model.  Creating is type specific.  Thus it belongs in binding metadata assemblies 
 	/// </summary>
 	/// <typeparam name="TContainer"></typeparam>
-    public class ModelAssembliesApi<TContainer> : BindingApiNode<TContainer>, ModelAssembliesApi_I<TContainer>
+    public class ModelAssembliesApi<TContainer> : BoundApiNode<TContainer>, ModelAssembliesApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
 	    public SemanticAssemblyMask_I Get(InfrastructureRuntimicModelMask_I model, TypeReference typeReference)

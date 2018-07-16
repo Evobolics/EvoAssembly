@@ -13,10 +13,7 @@ namespace Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Member
 
         new SemanticModuleMask_I Module { get; set; }
 
-        /// <summary>
-        /// Gets or sets the module definition that was used to created this semantic type.
-        /// </summary>
-        new ModuleDefinition SourceModuleDefinition { get; set; }
+        
 
         new TypeReference SourceTypeReference { get; set; }
 

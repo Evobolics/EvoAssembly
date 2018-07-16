@@ -1,5 +1,7 @@
-﻿using Mono.Cecil;
+﻿using System;
+using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Types
 {
@@ -18,6 +20,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		ExtendingApiMask_I TypeApiMask_I.Extending => Extending;
 
+		public ExternalApi_I<TContainer> External { get; set; }
+
+		ExternalApiMask_I TypeApiMask_I.External => External;
+
 		public GettingApi_I<TContainer> Getting { get; set; }
 
 		GettingApiMask_I TypeApiMask_I.Getting => Getting;
@@ -30,11 +36,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		NamingApiMask_I TypeApiMask_I.Naming => Naming;
 
-			
+
 
 		
 
-		
+
 
 		public System.Reflection.TypeAttributes GetTypeAttributes(TypeDefinition typeDefinition)
 		{
@@ -168,6 +174,32 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			}
 
 			return typeAttributes;
+		}
+
+		public bool IsClass(StructuralRuntimicModelMask_I model, TypeReference constraint)
+		{
+			if (constraint.IsDefinition)
+			{
+				var definition = (TypeDefinition)constraint;
+
+				return definition.IsClass;
+			}
+			if (constraint.IsGenericInstance)
+			{
+				var genericInstance = (GenericInstanceType)constraint;
+
+				var definition = (TypeDefinition)genericInstance.ElementType;
+
+				return definition.IsClass;
+			}
+
+			if (IsExternal(constraint))
+			{
+				var external = External.Resolve(model, constraint);
+
+				return IsClass(model, external);
+			}
+			throw new Exception("Is class only implemented for definitions so far.");
 		}
 
 		public bool IsExternal(TypeReference typeReference)

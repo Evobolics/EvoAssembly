@@ -200,13 +200,22 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 				{
 					var inputType = inputTypes[i];
 
-					var semanticType = Types.Ensuring.Ensure(conversion, (ConvertedModule_I)inputType.ModuleNode.Semantic, inputType.SourceTypeReference, null);
+					ConvertedTypeDefinitionMask_I converted;
+
+					if (inputType.SourceTypeReference.Name == "<Module>")
+					{
+						converted = null;
+					}
+					else
+					{
+						var semanticType = Types.Ensuring.Ensure(conversion, (ConvertedModule_I)inputType.ModuleNode.Semantic, inputType.SourceTypeReference, null);
+
+						converted = (ConvertedTypeDefinitionMask_I)semanticType;
+					}
 
 					if (convertedList != null)
 					{
-						var converted = (ConvertedTypeDefinitionMask_I) semanticType;
-
-						convertedList[i] = converted.UnderlyingType;
+						convertedList[i] = converted?.UnderlyingType;
 					}
 				}
 

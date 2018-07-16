@@ -3,7 +3,7 @@ using Root.Code.Containers.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Modules
 {
-    public class ModuleApi<TContainer> : BindingApiNode<TContainer>, ModuleApi_I<TContainer>
+    public class ModuleApi<TContainer> : BoundApiNode<TContainer>, ModuleApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
 	    [ValueSetDynamically]

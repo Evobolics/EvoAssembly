@@ -6,7 +6,7 @@ using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
-using Root.Code.Models.E01D.Runtimic.Execution.Modeling.Conversion;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Modeling;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies

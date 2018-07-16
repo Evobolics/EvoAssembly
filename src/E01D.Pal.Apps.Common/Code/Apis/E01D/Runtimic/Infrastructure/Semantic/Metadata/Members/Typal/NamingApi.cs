@@ -4,7 +4,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Ty
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal
 {
-	public class NamingApi<TContainer> : BindingApiNode<TContainer>, NamingApi_I<TContainer>
+	public class NamingApi<TContainer> : BoundApiNode<TContainer>, NamingApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
 	    

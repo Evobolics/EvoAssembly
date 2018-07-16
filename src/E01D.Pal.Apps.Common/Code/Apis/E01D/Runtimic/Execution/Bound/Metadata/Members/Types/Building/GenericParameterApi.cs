@@ -2,7 +2,7 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Building
 {
-    public class GenericParameterApi<TContainer> : BindingApiNode<TContainer>, GenericParameterApi_I<TContainer>
+    public class GenericParameterApi<TContainer> : BoundApiNode<TContainer>, GenericParameterApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
         

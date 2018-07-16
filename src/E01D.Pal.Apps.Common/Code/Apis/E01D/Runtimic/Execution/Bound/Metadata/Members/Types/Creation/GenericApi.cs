@@ -2,7 +2,7 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Creation
 {
-	public class GenericApi<TContainer> : BindingApiNode<TContainer>, GenericApi_I<TContainer>
+	public class GenericApi<TContainer> : BoundApiNode<TContainer>, GenericApi_I<TContainer>
 		where TContainer: RuntimicContainer_I<TContainer>
     {
         

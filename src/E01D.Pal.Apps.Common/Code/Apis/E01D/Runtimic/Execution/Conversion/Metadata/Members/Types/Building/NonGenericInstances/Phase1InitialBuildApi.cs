@@ -55,6 +55,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			}
 			else
 			{
+				if (converted.FullName == "<Module>")
+				{
+					var x = converted.Module.ModuleBuilder.GetType("<Module>", true);
+				}
+
 				converted.TypeBuilder = converted.Module.ModuleBuilder.DefineType(converted.FullName, attributes);
 			}
 

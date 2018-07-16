@@ -7,7 +7,7 @@ namespace Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Member
     {
         public TypeReference SourceTypeReference => throw new System.NotImplementedException();
 
-        public ModuleDefinition SourceModuleDefinition => throw new System.NotImplementedException();
+        
 
 	    public Dictionary<int, SemanticArrayTypeDefinitionMask_I> Arrays { get; set; } = new Dictionary<int, SemanticArrayTypeDefinitionMask_I>();
 	}

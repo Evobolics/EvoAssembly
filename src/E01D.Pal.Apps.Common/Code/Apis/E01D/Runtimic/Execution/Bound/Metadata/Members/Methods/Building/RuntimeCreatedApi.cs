@@ -8,7 +8,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods.Building
 {
-	public class RuntimeCreatedApi<TContainer> : BindingApiNode<TContainer>, RuntimeCreatedApi_I<TContainer>
+	public class RuntimeCreatedApi<TContainer> : BoundApiNode<TContainer>, RuntimeCreatedApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
 		public void BuildMethods(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input)

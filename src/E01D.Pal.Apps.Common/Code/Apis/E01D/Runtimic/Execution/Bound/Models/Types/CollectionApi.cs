@@ -6,7 +6,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Ty
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
 {
-	public class CollectionApi<TContainer> : BindingApiNode<TContainer>, CollectionApi_I<TContainer>
+	public class CollectionApi<TContainer> : BoundApiNode<TContainer>, CollectionApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
 		public void Add(InfrastructureRuntimicModelMask_I semanticModel, SemanticTypeDefinitionMask_I semanticType)
