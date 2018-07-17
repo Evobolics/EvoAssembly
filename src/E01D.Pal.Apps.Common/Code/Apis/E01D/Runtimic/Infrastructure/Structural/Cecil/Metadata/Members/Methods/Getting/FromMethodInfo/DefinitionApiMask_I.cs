@@ -20,5 +20,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		/// <param name="method"></param>
 		/// <returns></returns>
 		MethodDefinition GetMethodDefinition(InfrastructureRuntimicModelMask_I model, TypeDefinition typeDefinition, MethodInfo method);
+
+		MethodDefinition GetMethodDefinition(InfrastructureRuntimicModelMask_I model,Mono.Collections.Generic.Collection<MethodDefinition> methodDefinitions, MethodInfo method);
 	}
 }

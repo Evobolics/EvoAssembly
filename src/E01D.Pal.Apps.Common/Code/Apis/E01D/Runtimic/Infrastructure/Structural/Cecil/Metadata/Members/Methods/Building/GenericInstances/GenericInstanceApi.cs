@@ -40,6 +40,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 			    var outputParameter = Parameters.Create(inputParameter, outputParameterType);
 
+			    if (inputParameter.IsOut != outputParameter.IsOut)
+			    {
+				    throw new Exception("Did not make correctly");
+			    }
+
 			    resolvedMethodReference.Parameters.Add(outputParameter);
 		    }
 

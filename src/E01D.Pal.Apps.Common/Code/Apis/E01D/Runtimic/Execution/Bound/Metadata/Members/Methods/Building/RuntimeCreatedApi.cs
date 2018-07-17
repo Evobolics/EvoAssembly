@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
@@ -61,7 +62,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods.
 				var boundMethod = boundMethods[i];
 
 				// Search the declaring type definition for the method definition that matches the method info.
-				boundMethod.MethodReference = Cecil.Metadata.Members.Methods.Getting.FromMethodInfos.References.GetMethodReference(model, declaringTypeDefinition, boundMethod.UnderlyingMethod);
+				boundMethod.MethodReference = Cecil.Metadata.Members.Methods.Getting.FromMethodInfos.References.GetMethodReference(model, declaringTypeDefinition.Methods, boundMethod.UnderlyingMethod);
 			}
 		}
 

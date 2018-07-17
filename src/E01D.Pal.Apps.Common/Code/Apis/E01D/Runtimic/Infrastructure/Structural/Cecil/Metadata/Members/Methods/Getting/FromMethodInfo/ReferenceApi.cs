@@ -27,6 +27,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return Methods.Building.MethodDefinitions.MakeGenericInstanceTypeMethodReference(model, methodDefinition, method.DeclaringType);
 		}
 
+		public MethodReference GetMethodReference(InfrastructureRuntimicModelMask_I model, Mono.Collections.Generic.Collection<MethodDefinition> methods, MethodInfo method)
+		{
+			//  DEBUGGING: This is the current issue
+			var methodDefinition = Methods.Getting.FromMethodInfos.Definitions.GetMethodDefinition(model, methods, method);
 
+			return Methods.Building.MethodDefinitions.MakeGenericInstanceTypeMethodReference(model, methodDefinition, method.DeclaringType);
+		}
 	}
 }

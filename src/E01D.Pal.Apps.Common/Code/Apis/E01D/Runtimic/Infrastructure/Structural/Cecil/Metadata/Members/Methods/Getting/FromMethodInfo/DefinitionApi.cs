@@ -37,11 +37,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		/// <returns></returns>
 		public MethodDefinition GetMethodDefinition(InfrastructureRuntimicModelMask_I model, TypeDefinition typeDefinition, MethodInfo method)
 		{
+			var methodDefinitions = typeDefinition.Methods;
+
+			return GetMethodDefinition(model, methodDefinitions, method);
+		}
+
+		public MethodDefinition GetMethodDefinition(InfrastructureRuntimicModelMask_I model, Mono.Collections.Generic.Collection<MethodDefinition> methodDefinitions, MethodInfo method)
+		{
 			if (method.Module.Assembly.IsDynamic)
 				throw new Exception(
 					"Cannot be used for methods that orginate from dynamic assemblies as the metadata tokens will not match.");
-
-			var methodDefinitions = typeDefinition.Methods;
 
 			for (int i = 0; i < methodDefinitions.Count; i++)
 			{

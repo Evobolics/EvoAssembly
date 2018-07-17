@@ -13,22 +13,30 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 	{
 		public TypeDefinition GetDefinition(StructuralRuntimicModelMask_I model, TypeReference typeReference)
 		{
-			typeReference = Types.Getting.GetInternalTypeReference(model, typeReference);
+			var typeReference1 = Types.Getting.GetInternalTypeReference(model, typeReference);
 
-			if (typeReference.IsDefinition)
+			if (typeReference1.IsDefinition)
 			{
-				return (TypeDefinition)typeReference;
+				return (TypeDefinition)typeReference1;
 			}
 
-			if (typeReference.IsGenericInstance)
+			if (typeReference1.IsGenericInstance)
 			{
-				var genericReference = (GenericInstanceType)typeReference;
+				var genericReference = (GenericInstanceType)typeReference1;
 
 				return GetDefinition(model, genericReference.ElementType);
 			}
 
+			var fullName = Types.Naming.GetResolutionName(typeReference1);
 
-			throw new System.Exception("Not Supported");
+			var node = Unified.Types.Get(model, fullName);
+
+			if (node.SourceTypeReference.IsDefinition)
+			{
+				return (TypeDefinition)node.SourceTypeReference;
+			}
+
+			throw new System.Exception("Could not locate a definition.");
 		}
 
 		public List<TypeDefinition> GetAllToList(AssemblyDefinition[] assemblies)

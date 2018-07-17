@@ -24,24 +24,18 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 			var generic = (ConvertedGenericTypeDefinition_I)converted;
 
+			
+
 			for (var i = 0; i < parameters.Count; i++)
 			{
 				var typeParameter = CreateTypeParameter(conversion, inputType, parameters[i]);
 
 				Types.TypeParameters.Add(conversion, generic, typeParameter);
 			}
-			// DO THIS SEPERATELY, as the constraints could be self referencing, and it needs the parameters to be added to this type to find them.
-			// THUS THE CREATE AND  ADD OPERATIONS NEED TO BE DONE FIRST.  This is the same reason why the add is called on ensuring before anything else.
-
-			for (var i = 0; i < parameters.Count; i++)
-			{
-				var typeParameter = (ConvertedGenericParameterTypeDefinition)generic.TypeParameters.All[i];
-
-				BuildConstraints(conversion, typeParameter);
-			}
 
 			var names = Types.TypeParameters.GetNames(conversion, generic);
 
+			// NEED BUILDERS BEFORE CODING CONSTRAINTS 
 			generic.TypeParameters.Builders = converted.TypeBuilder.DefineGenericParameters(names);
 
 			for (var i = 0; i < parameters.Count; i++)
@@ -55,6 +49,21 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 				var genericParameterAttributes = Cecil.Metadata.Members.GenericParameters.GetGenericParameterAttributes(typeParameter.Attributes);
 
 				typeParameter.Builder.SetGenericParameterAttributes(genericParameterAttributes);
+			}
+
+			// DO THIS SEPERATELY, as the constraints could be self referencing, and it needs the parameters to be added to this type to find them.
+			// THUS THE CREATE AND  ADD OPERATIONS NEED TO BE DONE FIRST.  This is the same reason why the add is called on ensuring before anything else.
+
+			for (var i = 0; i < parameters.Count; i++)
+			{
+				var typeParameter = (ConvertedGenericParameterTypeDefinition)generic.TypeParameters.All[i];
+
+				BuildConstraints(conversion, typeParameter);
+			}
+
+			for (var i = 0; i < parameters.Count; i++)
+			{
+				var typeParameter = (ConvertedGenericParameterTypeDefinition)generic.TypeParameters.All[i];
 
 				if (typeParameter.InterfaceTypeConstraints != null && typeParameter.InterfaceTypeConstraints.Count > 0)
 				{

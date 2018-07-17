@@ -24,7 +24,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			#endregion
 
 			Fields.Building.Generic.BuildFields(conversion, convertedGeneric);
-			
+
+			//if (convertedGeneric.SourceTypeReference.FullName ==
+			//	"Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion.TestApi`1<TContainer>")
+			//{
+				
+			//}
+
 			// Example : "Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types.GenericClassWithMethods`1<System.Object>"
 			Routines.Building.BuildRoutines(conversion, convertedGeneric);
 

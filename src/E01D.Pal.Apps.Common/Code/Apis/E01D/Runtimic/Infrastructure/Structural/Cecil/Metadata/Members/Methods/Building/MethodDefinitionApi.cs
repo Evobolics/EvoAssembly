@@ -12,6 +12,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		{
 			if (declaringType == null) throw new Exception("Expected a declaring type.");
 
+			//if (methodDefinition.FullName ==
+			//    "System.Type Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion.TestApi`1::ConvertSingleType(System.Type,System.Reflection.Emit.AssemblyBuilderAccess,System.Reflection.Assembly&)"
+			//)
+			//{
+				
+			//}
+
 			var typeArgumentReferences = declaringType.GenericArguments.ToArray();
 
 			if (typeArgumentReferences == null || typeArgumentReferences.Length < 1) return methodDefinition;
@@ -32,6 +39,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 				var outputParameterType = ResolveTypeParameterIfPresent(model, typeArgumentReferences, inputParameterType);
 
 				var outputParameter = Parameters.Create(inputParameter, outputParameterType);
+
+				if (inputParameter.IsOut != outputParameter.IsOut)
+				{
+					throw new Exception("Did not make correctly");
+				}
 
 				resolvedMethodDefinition.Parameters.Add(outputParameter);
 			}
@@ -64,6 +76,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 				var outputParameterType = ResolveTypeParameterIfPresent(model, typeArgumentReferences, inputParameterType);
 
 				var outputParameter = Parameters.Create(inputParameter, outputParameterType);
+
+				if (inputParameter.IsOut != outputParameter.IsOut)
+				{
+					throw new Exception("Did not make correctly");
+				}
 
 				resolvedMethodDefinition.Parameters.Add(outputParameter);
 			}

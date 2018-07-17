@@ -259,9 +259,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 			    if (!VerifyTypeMatch(conversion, currentParameterType, targetParameterType)) return false;
 
-			    if (currentParameter.IsIn != targetParameter.IsIn ||
-			        currentParameter.IsOut != targetParameter.IsOut ||
-			        currentParameterType.IsByReference != targetParameterType.IsByReference)
+			    if (
+					//The parameter attributes shall be attached to the parameters (§II.22.33) and hence are not part of a method signature. (p. 180 CLI Infrastructure)
+					//currentParameter.IsIn != targetParameter.IsIn ||
+					//currentParameter.IsOut != targetParameter.IsOut ||
+					currentParameterType.IsByReference != targetParameterType.IsByReference)
 			    {
 				    return false;
 			    }

@@ -105,7 +105,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
             {
                 var instance = genericBlueprint.Instances[i];
 
-                var currentInstance = (BoundGenericTypeDefinition_I) instance;
+                var currentInstance = (BoundGenericTypeDefinitionMask_I) instance;
 
                 bool found = true;
 

@@ -8,7 +8,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Ty
 namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions
 {
     public class ConvertedInterfaceTypeDefinition: ConvertedReferenceTypeDefinition, InterfaceType_I, BoundInterfaceTypeMask_I,
-	    ConvertedTypeDefinitionWithMethods_I
+	    ConvertedTypeDefinitionWithMethods_I, ConvertedTypeDefinitionWithProperties_I
 	{
         public ConvertedInterfaceTypeDefinition()
         {
@@ -37,7 +37,8 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
 
 	    SemanticTypeMethodsMask_I SemanticTypeWithMethodsMask_I.Methods => this.Methods;
 
+		public ConvertedTypeDefinitionProperties Properties { get; set; } = new ConvertedTypeDefinitionProperties();
 
-
+		SemanticTypePropertiesMask_I SemanticTypeWithPropertiesMask_I.Properties => this.Properties;
 	}
 }

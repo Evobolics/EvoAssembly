@@ -188,9 +188,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			{
 				var genericInstance = (GenericInstanceType)constraint;
 
-				var definition = (TypeDefinition)genericInstance.ElementType;
+				// In case the reference is external.
+				return IsClass(model, genericInstance.ElementType);
 
-				return definition.IsClass;
+				//var definition = (TypeDefinition)genericInstance.ElementType;
+
+				//return definition.IsClass;
 			}
 
 			if (IsExternal(constraint))
