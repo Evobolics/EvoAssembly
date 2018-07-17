@@ -30,5 +30,6 @@ var convertedAssemblies = EvoAssembly.QuickConvert(new []{inputAssembly1, inputA
 * no p-invoke support yet
 * full attribute support still in progress
 * no support for modifiers yet
-* whole assembly level conversion is having issues with generics from a non converted assembly with type arguments from a converted assembly.
-*Last Updated:* July 15th, 2018
+* whole assembly level conversion is having issues in some cases.  Currently working through them.
+
+*Last Updated:* July 16th, 2018
