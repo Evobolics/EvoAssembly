@@ -1,15 +1,26 @@
 # EvoAssembly [Beta]
 Convert Compiled .NET Assemblies to Collectible Assemblies
 
+## Examples
+The following examples demonstrate how to convert type and assemblies into their convertible counterparts.
+
 ```csharp
-// 1) Create a Conversion Container
-var container = XEvoAssembly.CreateContainer();              
+using Root.Code.PI.E01D; // Programmer Interface
+```
 
-// 2) Create a Conversion Container
-var conversionResult = container.ConvertType(type);
+```csharp
+// Example1: Convert a type
+var convertedType = EvoAssembly.QuickConvert(inputType);
 
-// 3) Get the Assembly
-var collectibleAssembly = conversionResult.Assemblies[0];
+// Example2: Convert an assembly
+var convertedAssembly = EvoAssembly.QuickConvert(inputAssembly);
+
+// Example3: Convert an array of types
+var convertedTypes = EvoAssembly.QuickConvert(new []{inputType1, inputType2});
+
+// Example4: Convert an array of assemblies
+var convertedAssemblies = EvoAssembly.QuickConvert(new []{inputAssembly1, inputAssembly2});
+      
 ```
 
 ## Known Issues / To-Do List
@@ -19,5 +30,5 @@ var collectibleAssembly = conversionResult.Assemblies[0];
 * no p-invoke support yet
 * full attribute support still in progress
 * no support for modifiers yet
-
-*Last Updated:* July 11th, 2018
+* whole assembly level conversion is having issues with generics from a non converted assembly with type arguments from a converted assembly.
+*Last Updated:* July 15th, 2018
