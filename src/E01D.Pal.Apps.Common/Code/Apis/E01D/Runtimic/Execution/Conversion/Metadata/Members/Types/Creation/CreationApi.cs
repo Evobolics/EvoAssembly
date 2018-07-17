@@ -2,7 +2,6 @@
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
 
@@ -32,24 +31,24 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
         ReferenceApiMask_I CreationApiMask_I.References => References;
 
-        public ConvertedTypeDefinition Create(ILConversion conversion, ModuleDefinition sourceModule, ConvertedModule_I semanticModule, System.Type type)
+        public ConvertedTypeDefinition Create(ILConversion conversion, System.Type type)
         {
             var typeInformation = Infrastructure.Semantic.Metadata.Members.Types.Information.CreateTypeInformation(conversion.Model, type);
 
             var converted = CreateFactory(typeInformation);
 
-            CreatePost(converted, sourceModule, semanticModule, typeInformation);
+            CreatePost(converted, typeInformation);
 
             return converted;
         }
 
-        public ConvertedTypeDefinition Create(ILConversion conversion, ModuleDefinition sourceModule, ConvertedModule_I semanticModule, TypeReference typeReference)
+        public ConvertedTypeDefinition Create(ILConversion conversion, TypeReference typeReference)
         {
             var typeInformation = Infrastructure.Semantic.Metadata.Members.Types.Information.CreateTypeInformation(conversion.Model, typeReference);
 
             var converted = CreateFactory(typeInformation);
 
-            CreatePost(converted, sourceModule, semanticModule, typeInformation);
+            CreatePost(converted, typeInformation);
 
             return converted;
         }
@@ -83,7 +82,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 	            ConvertedRequiredModifierTypeDefinition>(typeInformation);
         }
 
-        public void CreatePost(ConvertedTypeDefinition converted, ModuleDefinition sourceModule ,ConvertedModuleMask_I semanticModule, SemanticTypeInformation typeInformation)
+        public void CreatePost(ConvertedTypeDefinition converted, SemanticTypeInformation typeInformation)
         {
             
 
@@ -108,8 +107,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 	        converted.AssemblyQualifiedName = Cecil.Metadata.Members.Types.Naming.GetAssemblyQualifiedName(typeInformation.TypeReference);
 			converted.FullName = typeInformation.FullName;
             converted.Name = typeInformation.Name;
-            converted.SourceModuleDefinition = sourceModule;
-            converted.Module = semanticModule;
             converted.PackingSize = typeInformation.PackingSize;
             converted.SourceTypeReference = typeInformation.TypeReference;
 	        converted.ResolutionName = Types.Naming.GetResolutionName(converted);

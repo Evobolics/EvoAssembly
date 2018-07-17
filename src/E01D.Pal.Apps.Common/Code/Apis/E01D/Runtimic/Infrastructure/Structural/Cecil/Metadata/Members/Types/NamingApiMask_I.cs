@@ -4,8 +4,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 {
 	public interface NamingApiMask_I
 	{
-		
 
+		string GetAssemblyQualifiedName(TypeReference input, string targetAssemblyName);
 		string AdjustResolutionName(string resolutionName);
 
 		string GetAssemblyQualifiedName(TypeReference input);

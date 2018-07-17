@@ -3,7 +3,6 @@ using Mono.Cecil;
 using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Constructors.Building;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Constructors
 {

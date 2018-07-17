@@ -44,7 +44,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Eve
 
             var eventTypeDefinition = Models.Types.ResolveToTypeDefinition(conversion.Model, resolvedEventTypeReference);
 
-	        Types.Ensuring.Ensure(conversion, eventTypeDefinition, null);
+	        Execution.Types.Ensuring.Ensure(conversion.Model, eventTypeDefinition, null, null);
         }
     }
 }

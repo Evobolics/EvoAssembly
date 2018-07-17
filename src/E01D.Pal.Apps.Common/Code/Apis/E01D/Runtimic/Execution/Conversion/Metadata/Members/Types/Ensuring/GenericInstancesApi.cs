@@ -4,7 +4,6 @@ using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
@@ -13,7 +12,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
     public class GenericInstanceApi<TContainer> : ConversionApiNode<TContainer>, GenericApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        public SemanticTypeDefinitionMask_I Ensure(ILConversion conversion, ConvertedModule_I convertedModule, TypeReference input, SemanticTypeDefinitionMask_I declaringType)
+        public SemanticTypeDefinitionMask_I Ensure(ILConversion conversion,  TypeReference input, SemanticTypeDefinitionMask_I declaringType)
         {
 			// DEBUG - trying to get methods copied so I do not have to do the following in the method GetMethodOrThrow:
 	        //
@@ -33,7 +32,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 	        }
 	        // -----------------------------------
 
-	        var converted = (ConvertedGenericTypeDefinition_I) Types.Creation.Create(conversion, input.Module, convertedModule, input);
+	        var converted = (ConvertedGenericTypeDefinition_I) Types.Creation.Create(conversion, input);
 
 			// Perform Phase 1 Build - Pre Search - Build out all the neccesary information to determine if the instance is already created.
 			// NOTE - I do not like that this is done after the creation call immediately above.  The searching should be possible without having to create the type

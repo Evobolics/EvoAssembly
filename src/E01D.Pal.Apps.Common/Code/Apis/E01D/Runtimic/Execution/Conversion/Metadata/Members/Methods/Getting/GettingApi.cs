@@ -9,10 +9,8 @@ using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Modeling;
@@ -95,7 +93,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 	    public MethodInfo GetMethodOrThrow(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, MethodReference methodReference)
 	    {
 
-		    var declaringType = Types.Ensuring.EnsureBound(conversion, methodReference.DeclaringType);
+		    var declaringType = Execution.Types.Ensuring.EnsureBound(conversion, methodReference.DeclaringType);
 
 		    if (!(declaringType is BoundTypeDefinitionWithMethodsMask_I declaringTypeWithMethods))
 		    {
@@ -124,7 +122,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 		    {
 			    var typeArgumentReference = genericInstanceMethod.GenericArguments[i];
 
-			    var semanticType = Types.Ensuring.Ensure(conversion, typeArgumentReference, null);
+			    var semanticType = Execution.Types.Ensuring.Ensure(conversion.Model, typeArgumentReference, null, null);
 
 			    if (!(semanticType is BoundTypeDefinitionMask_I bound))
 			    {
@@ -257,6 +255,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 			    var targetParameterType = targetParameter.ParameterType;
 
+			    targetParameterType = ResolveGenericParameterIfNeeded(targetMethod, targetParameterType);
+
 			    if (!VerifyTypeMatch(conversion, currentParameterType, targetParameterType)) return false;
 
 			    if (currentParameter.IsIn != targetParameter.IsIn ||
@@ -271,13 +271,37 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 		    return true;
 	    }
 
+	    private static TypeReference ResolveGenericParameterIfNeeded(MethodReference targetMethod, TypeReference targetParameterType)
+	    {
+		    if (targetParameterType.IsGenericParameter)
+		    {
+			    GenericParameter genericParameterType = (GenericParameter) targetParameterType;
+
+			    if (targetParameterType.DeclaringType != null)
+			    {
+				    GenericInstanceType genericInstance = (GenericInstanceType) targetMethod.DeclaringType;
+
+				    targetParameterType = genericInstance.GenericArguments[genericParameterType.Position];
+			    }
+			    //else
+			    //{
+				   // GenericInstanceMethod genericInstanceMethod = (GenericInstanceMethod) targetMethod;
+
+				   // targetParameterType = genericInstanceMethod.GenericArguments[genericParameterType.Position];
+			    //}
+		    }
+		    return targetParameterType;
+	    }
+
 	    private bool VerifyReturnType(ILConversion conversion, MethodReference currentMethod, MethodReference targetMethod)
 	    {
 		    var currentReturnType = currentMethod.ReturnType;
 
 		    var targetReturnType = targetMethod.ReturnType;
 
-		    return VerifyTypeMatch(conversion, currentReturnType, targetReturnType);		    
+		    targetReturnType = ResolveGenericParameterIfNeeded(targetMethod, targetReturnType);
+
+			return VerifyTypeMatch(conversion, currentReturnType, targetReturnType);		    
 	    }
 
 	    public bool VerifyGenericArguments(MethodReference currentMethod, MethodReference targetReference)
@@ -379,9 +403,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 			    return true;
 			}
 
-		    var semanticType1 = Types.Ensuring.EnsureBound(conversion, currentType1);
+		    var semanticType1 = Execution.Types.Ensuring.EnsureBound(conversion, currentType1);
 
-		    var semanticType2 = Types.Ensuring.EnsureBound(conversion, currentType2);
+		    var semanticType2 = Execution.Types.Ensuring.EnsureBound(conversion, currentType2);
 
 		    return ReferenceEquals(semanticType1, semanticType2);
 	    }

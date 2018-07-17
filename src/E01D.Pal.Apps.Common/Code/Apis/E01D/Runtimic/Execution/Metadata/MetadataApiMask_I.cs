@@ -1,4 +1,5 @@
 ﻿using Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies;
+using Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata
 {
@@ -6,6 +7,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata
     {
         AssemblyApiMask_I Assemblies { get;  }
 
-        
-    }
+	    MemberApiMask_I Members { get; }
+
+
+	}
 }

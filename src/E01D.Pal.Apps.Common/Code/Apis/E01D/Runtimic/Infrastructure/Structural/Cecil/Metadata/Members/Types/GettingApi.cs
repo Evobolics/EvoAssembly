@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Mono.Cecil;
 using Mono.Cecil.Rocks;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
 using Root.Code.Models.E01D.Runtimic.Unified;
 

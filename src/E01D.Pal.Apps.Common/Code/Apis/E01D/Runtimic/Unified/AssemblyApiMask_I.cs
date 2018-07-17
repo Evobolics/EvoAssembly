@@ -9,5 +9,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Unified
 
 	    UnifiedAssemblyNode Get(UnifiedRuntimicModelMask_I model, string resolutionName);
 
+	    void AddCrossReference(UnifiedRuntimicModelMask_I model, UnifiedAssemblyNode node, string crossReferenceKey);
+
+
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System;
 using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
@@ -12,7 +12,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
     public class NonGenericInstanceApi<TContainer> : ConversionApiNode<TContainer>, NonGenericInstanceApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        public SemanticTypeDefinitionMask_I Ensure(ILConversion conversion, ConvertedModule_I convertedModule, TypeReference input, ConvertedTypeDefinition_I convertedDeclaringType)
+        public SemanticTypeDefinitionMask_I Ensure(ILConversion conversion, TypeReference input, ConvertedTypeDefinition_I convertedDeclaringType)
         {
 	        if (input.FullName ==
 				//"Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types.GenericWithGenericMembers`1"
@@ -39,10 +39,22 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 	        // Conversion is going to occur.
 	        //---------------------------------
 
-			ConvertedTypeDefinition converted = Types.Creation.Create(conversion, input.Module, convertedModule, input);
+			ConvertedTypeDefinition converted = Types.Creation.Create(conversion, input);
 
-            // Add the type instance to the model.  Do not do any recursive calls till this methods is called.
-            Types.Addition.Add(conversion, convertedModule, converted);
+	        // Get the module to ensure that the type is part of the module.
+	        var semanticModule = Modules.Ensuring.EnsureAssignedModule(conversion, input);
+
+	        // If the input is converted, then the module needs to be convertible due to the need to have a module builder.  
+	        if (!(semanticModule is ConvertedModule_I convertedModule))
+	        {
+		        throw new Exception("The semantic model has deemed the type is convertible, but the module passed into the Ensure method is not convertible.  The module " +
+		                            "needs to be convertible due to the need of having a module builder.");
+	        }
+
+	        converted.Module = convertedModule;
+
+			// Add the type instance to the model.  Do not do any recursive calls till this methods is called.
+			Types.Addition.Add(conversion, convertedModule, converted);
 
 	        
 

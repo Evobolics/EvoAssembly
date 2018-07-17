@@ -35,7 +35,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 						throw new Exception("Expected a type definition");
 					}
 
-					var semanticDeclaringType = Types.Ensuring.Ensure(conversion, converted.SourceTypeReference.DeclaringType, null);
+					var semanticDeclaringType = Execution.Types.Ensuring.Ensure(conversion.Model, converted.SourceTypeReference.DeclaringType, null, null);
 
 					if (!(semanticDeclaringType is ConvertedTypeDefinition_I producedDeclaringType))
 					{

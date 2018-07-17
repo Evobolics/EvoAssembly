@@ -52,7 +52,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 			{
 				var methodOverride = methodDefinition.Overrides[j];
 
-				var interfaceDeclaringType = Types.Ensuring.EnsureBound(conversion, methodOverride.DeclaringType);
+				var interfaceDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion, methodOverride.DeclaringType);
 
 				var semanticMethod = Methods.Getting.FindMethodByDefinition(conversion, (BoundTypeDefinitionWithMethodsMask_I)interfaceDeclaringType, (MethodDefinition)methodOverride);
 

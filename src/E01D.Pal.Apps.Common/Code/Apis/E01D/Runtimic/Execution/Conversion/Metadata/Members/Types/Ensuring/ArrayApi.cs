@@ -3,7 +3,6 @@ using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
@@ -12,18 +11,18 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
     public class ArrayApi<TContainer> : ConversionApiNode<TContainer>, ArrayApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        public SemanticTypeDefinitionMask_I Ensure(ILConversion conversion, ConvertedModule_I convertedModule, TypeReference input, SemanticTypeDefinitionMask_I declaringType)
+        public SemanticTypeDefinitionMask_I Ensure(ILConversion conversion, TypeReference input, SemanticTypeDefinitionMask_I declaringType)
         {
 	        ArrayType arrayType = (ArrayType)input;
 
-	        var elementType = Types.Ensuring.Ensure(conversion, arrayType.ElementType, null);
+	        var elementType = Execution.Types.Ensuring.Ensure(conversion.Model, arrayType.ElementType, null, null);
 
 	        if (IfAlreadyCreatedReturn(elementType, arrayType.Rank, out SemanticArrayTypeDefinitionMask_I existing))
 	        {
 		        return existing;
 	        }
 
-			ConvertedTypeDefinition converted = Types.Creation.Create(conversion, input.Module, convertedModule, input);
+			ConvertedTypeDefinition converted = Types.Creation.Create(conversion, input);
 
 	        var arrayDef = (ConvertedArrayTypeDefinition_I)converted;
 
@@ -31,7 +30,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 	        arrayDef.ElementType = elementType;
 
-			converted.BaseType = (BoundTypeDefinitionMask_I)Binding.Metadata.Members.Types.Ensuring.Ensure(conversion.Model, typeof(System.Array));
+			converted.BaseType = (BoundTypeDefinitionMask_I)Execution.Types.Ensuring.Ensure(conversion.Model, typeof(System.Array));
 
             if (!(arrayDef.ElementType is BoundTypeDefinitionMask_I boundElementType))
             {

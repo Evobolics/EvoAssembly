@@ -54,7 +54,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
 
 		public TypeReference SourceTypeReference { get; set; }
 
-	    public ModuleDefinition SourceModuleDefinition { get; set; }
+	    
 
 
 		public TypeBuilder TypeBuilder { get; set; }

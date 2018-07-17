@@ -6,19 +6,19 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Modules
     public class ModuleApi<TContainer> : BoundApiNode<TContainer>, ModuleApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
-	    [ValueSetDynamically]
+	    
 	    public AdditionApi_I<TContainer> Addition { get; set; }
 
-        [ValueSetDynamically]
+        
         public BuildingApi_I<TContainer> Building { get; set; }
 
-        [ValueSetDynamically]
+        
 		public CreationApi_I<TContainer> Creation { get; set; }
 
-        [ValueSetDynamically]
+        
         public EnsuringApi_I<TContainer> Ensuring { get; set; }
 
-        [ValueSetDynamically]
+        
         public GettingApi_I<TContainer> Getting { get; set; }
 
 

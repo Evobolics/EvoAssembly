@@ -19,7 +19,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
             if (result != null) return result;
             
-            return Types.Ensuring.Ensure(conversion, typeDefinition.BaseType, null);
+            return Execution.Types.Ensuring.Ensure(conversion.Model, typeDefinition.BaseType, null, null);
         }
     }
 }

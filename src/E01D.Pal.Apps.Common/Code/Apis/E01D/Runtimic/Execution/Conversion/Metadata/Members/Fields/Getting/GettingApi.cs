@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Fields.Getting
@@ -13,6 +13,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Fie
     {
 		public FieldInfo[] GetFieldsFromCollection(BoundGenericTypeDefinitionMask_I inputBlueprint)
 		{
+			
+
 			if (!(inputBlueprint is BoundTypeDefinitionWithFieldsMask_I withFields))
 			{
 				throw new System.Exception("GenericClassDefinition should have fields if this type has fields.");

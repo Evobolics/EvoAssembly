@@ -53,41 +53,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 				return;
 			}
 
-			ConstructorBuildInfo[] constructors;
-
-			var bindingFlags = BindingFlags.Instance | BindingFlags.Static |
-			            BindingFlags.Public | BindingFlags.NonPublic |
-			            BindingFlags.DeclaredOnly;
-
-
-			if (input.Blueprint.UnderlyingType is TypeBuilder blueprintTypeBuilder)
-			{
-				// The closed generic is based upon a constructed type
-
-
-				// This MUST use typebuilder.GetConstructor and not
-				// input.Blueprint.UnderlyingType, as different ConstructorInfo objects are returned.
-				constructors = GetConstructorsFromCollection(conversion, input, input.Blueprint);
-			}
-			else // The closed generic is based upon a bound type
-			{
-				var constructorInfos = input.UnderlyingType.GetConstructors(bindingFlags);
-
-				constructors = new ConstructorBuildInfo[constructorInfos.Length];
-
-				for (int i = 0; i < constructorInfos.Length; i++)
-				{
-					MethodReference genericTypeInstanceMethodReference = Cecil.Metadata.Members.Constructors.Getting.
-						FromConstructorInfos.References.GetMethodReference(conversion.Model, input.SourceTypeReference, constructorInfos[i]);
-
-					constructors[i] = new ConstructorBuildInfo()
-					{
-						GenericTypeInstanceConstructorInfo = constructorInfos[i],
-						GenericTypeInstanceMethodReference = genericTypeInstanceMethodReference
-					};
-
-				}
-			}
+			ConstructorBuildInfo[] constructors = GetConstructorsFromCollection(conversion, input, input.Blueprint);
 
 			for (int i = 0; i < constructors.Length; i++)
 			{
@@ -102,12 +68,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 
 		private ConstructorBuildInfo[] GetConstructorsFromCollection(ILConversion conversion, ConvertedGenericTypeDefinitionMask_I input, BoundGenericTypeDefinitionMask_I inputBlueprint)
 		{
-			if (!(inputBlueprint is ConvertedTypeDefinitionWithConstructors_I withConstructors))
+			if (!(inputBlueprint is BoundTypeDefinitionWithConstructorsMask_I withConstructors))
 			{
-				throw new System.Exception("GenericClassDefinition should have constructors if this type has constructors.");
+				throw new System.Exception($"The generic type definition should have constructors if the instance has constructors.  Could not cast the " +
+				                           $"argument {nameof(inputBlueprint)} to {typeof(BoundTypeDefinitionWithConstructorsMask_I)}.");
 			}
 
-			ConstructorBuildInfo[] constructors = new ConstructorBuildInfo[withConstructors.Constructors.All.Count];
+			var constructors = new ConstructorBuildInfo[withConstructors.Constructors.All.Count];
 
 			for (int i = 0; i < withConstructors.Constructors.All.Count; i++)
 			{

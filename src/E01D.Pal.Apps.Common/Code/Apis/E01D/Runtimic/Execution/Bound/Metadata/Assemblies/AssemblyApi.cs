@@ -10,28 +10,28 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
     {
 		#region Api(s)
 
-	    [ValueSetDynamically]
+	    
 	    public AdditionApi_I<TContainer> Addition { get; set; }
 
-        [ValueSetDynamically]
+        
         public BuildingApi_I<TContainer> Building { get; set; }
 
-        [ValueSetDynamically]
+        
 	    public CreationApi_I<TContainer> Creation { get; set; }
 
-        [ValueSetDynamically]
+        
         public EnsuringApi_I<TContainer> Ensuring { get; set; }
 
-        [ValueSetDynamically]
+        
         public GettingApi_I<TContainer> Getting { get; set; }
 
-        [ValueSetDynamically]
+        
 		public NamingApi_I<TContainer> Naming { get; set; }
 
-	    [ValueSetDynamically]
+	    
 		public StreamApi_I<TContainer> Streams { get; set; }
 
-	    [ValueSetDynamically]
+	    
 	    public new TypeApi_I<TContainer> Types { get; set; }
 
         

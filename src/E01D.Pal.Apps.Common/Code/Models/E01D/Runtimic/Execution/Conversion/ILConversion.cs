@@ -30,10 +30,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion
         /// </summary>
         public ILConversionResult Result { get; set; } = new ILConversionResult();
 
-        /// <summary>
-        /// Contains the list of assemblies that can be converted.
-        /// </summary>
-        public Dictionary<string, string> ConvertibleAssemblies { get; set; } = new Dictionary<string, string>();
+        
 
         public BoundModuleMask_I TypeSetModule { get; set; }
         public bool ConvertibleTypesIdentified { get; set; }

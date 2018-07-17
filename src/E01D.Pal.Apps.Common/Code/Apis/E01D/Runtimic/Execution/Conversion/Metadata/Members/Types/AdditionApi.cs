@@ -40,8 +40,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
             // 2) Call base class
             Semantic.Metadata.Members.Types.Addition.Add(conversion.Model, module, entry);
 
-			// 3) Add the type to the models collection.
-			Types.Ensuring.Ensure(conversion, entry);
+			
 
            
 

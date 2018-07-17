@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Root.Code.Attributes.E01D;
+﻿using Root.Code.Attributes.E01D;
 using Root.Code.Domains;
 using Root.Code.Domains.E01D;
 using Root.Testing.Code.Containers.E01D.Runtimic.Execution.Emitting.Conversion;
@@ -52,6 +47,20 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 			var result2 = test.Api.ConvertCreateCall(typeof(MethodTesting_ExplicitInterfaceImplementation), "Execute");
 
 			Assert.AreEqual("Done", (string)result2);
+
+
+
+		}
+
+		[Test]
+		public void MethodTesting_CallGenericDelegate()
+		{
+			// Create a test container
+			var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+			var result2 = test.Api.ConvertCreateCall(typeof(MethodTesting_CallGenericDelegate), "Execute");
+
+			Assert.AreEqual("Howdy", (string)result2);
 
 
 

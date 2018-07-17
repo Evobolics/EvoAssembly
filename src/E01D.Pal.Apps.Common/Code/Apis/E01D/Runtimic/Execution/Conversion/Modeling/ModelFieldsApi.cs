@@ -23,7 +23,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling
             var declaringTypeRef = fieldReference.DeclaringType;
 
 
-            var declaringSematicType = Types.Ensuring.EnsureBound(conversion, declaringTypeRef);
+            var declaringSematicType = Execution.Types.Ensuring.EnsureBound(conversion, declaringTypeRef);
 
             FieldInfo fieldInfo = null;
 

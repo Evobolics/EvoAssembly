@@ -95,7 +95,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 					var x = new ConvertedClassTypeParameterConstraint()
 					{
 						Attributes = typeParameter.Attributes,
-						Class = Types.Ensuring.Ensure(conversion, constraint, null)
+						Class = Execution.Types.Ensuring.Ensure(conversion.Model, constraint, null, null)
 					};
 
 					typeParameter.BaseTypeConstraint = x;
@@ -107,7 +107,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 					var x = new ConvertedInterfaceTypeParameterConstraint()
 					{
 						Attributes = typeParameter.Attributes,
-						Interface = Types.Ensuring.Ensure(conversion, constraint, null)
+						Interface = Execution.Types.Ensuring.Ensure(conversion.Model, constraint, null, null)
 					};
 
 					semanticConstraint = x;

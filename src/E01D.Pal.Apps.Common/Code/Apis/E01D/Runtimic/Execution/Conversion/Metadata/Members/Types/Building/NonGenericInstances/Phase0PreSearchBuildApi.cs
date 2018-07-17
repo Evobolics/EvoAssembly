@@ -29,7 +29,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 			var typeDefinition = (TypeDefinition)genericInstanceType.ElementType;
 
-			var semanticBlueprint = Types.Ensuring.Ensure(conversion, typeDefinition, null);
+			var semanticBlueprint = Execution.Types.Ensuring.Ensure(conversion.Model, typeDefinition, null, null);
 
 			if (!(semanticBlueprint is BoundGenericTypeDefinitionMask_I boundBlueprint))
 			{

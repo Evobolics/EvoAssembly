@@ -1,6 +1,5 @@
 ﻿using Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Creation
@@ -19,8 +18,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 
 
-        ConvertedTypeDefinition Create(ILConversion conversion, ModuleDefinition sourceModule, ConvertedModule_I semanticModule, System.Type type);
+        ConvertedTypeDefinition Create(ILConversion conversion, System.Type type);
 
-        ConvertedTypeDefinition Create(ILConversion conversion, ModuleDefinition sourceModule, ConvertedModule_I semanticModule, TypeReference typeReference);
+        ConvertedTypeDefinition Create(ILConversion conversion,  TypeReference typeReference);
     }
 }

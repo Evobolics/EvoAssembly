@@ -18,7 +18,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types
 
             if (result != null) return result;
 
-            return Types.Ensuring.Ensure(semanticModel, typeDefinition.BaseType, null, null);
+            return Execution.Types.Ensuring.Ensure(semanticModel, typeDefinition.BaseType, null, null);
         }
     }
 }

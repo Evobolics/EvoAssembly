@@ -10,12 +10,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Modules
     {
 	    
 
-        [ValueSetDynamically]
+        
         public BuildingApi_I<TContainer> Building { get; set; }
 
         BuildingApiMask_I ModuleApiMask_I.Building => Building;
 
-        [ValueSetDynamically]
+        
         public EnsuringApi_I<TContainer> Ensuring { get; set; }
 
         EnsuringApiMask_I ModuleApiMask_I.Ensuring => Ensuring;

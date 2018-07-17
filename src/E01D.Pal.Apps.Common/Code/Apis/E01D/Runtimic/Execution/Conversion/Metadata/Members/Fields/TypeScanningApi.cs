@@ -44,7 +44,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Fie
 
             var returnTypeDefinition = Models.Types.ResolveToTypeDefinition(conversion.Model, resolvedReturnTypeReference);
 
-	        Types.Ensuring.Ensure(conversion, returnTypeDefinition, null);
+	        Execution.Types.Ensuring.Ensure(conversion.Model, returnTypeDefinition, null, null);
         }
     }
 }

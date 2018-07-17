@@ -44,7 +44,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Pro
 
             var propertyTypeDefinition = Models.Types.ResolveToTypeDefinition(conversion.Model, resolvedPropertyTypeReference);
 
-	        Types.Ensuring.Ensure(conversion, propertyTypeDefinition, null);
+	        Execution.Types.Ensuring.Ensure(conversion.Model, propertyTypeDefinition, null, null);
         }
     }
 }

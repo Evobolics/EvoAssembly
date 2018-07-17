@@ -5,7 +5,9 @@ using Root.Code.Apis.E01D.Runtimic.Execution.Emitting;
 using Root.Code.Apis.E01D.Runtimic.Execution.GarbageCollection;
 using Root.Code.Apis.E01D.Runtimic.Execution.JustInTime;
 using Root.Code.Apis.E01D.Runtimic.Execution.Metadata;
+using Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types;
 using Root.Code.Apis.E01D.Runtimic.Execution.VirtualMachines;
+using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution
@@ -33,9 +35,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution
 
         public GarbageCollectionApi_I<TContainer> GarbageCollection { get; set; }
 
-        public MetadataApi_I<TContainer> Metadata { get; set; } 
+        public MetadataApi_I<TContainer> Metadata { get; set; }
+		public CecilApiMask_I Cecil => Container.Api.Runtimic.Infrastructure.Structural.Cecil;
+	    public TypeApiMask_I Types => Metadata.Members.Types;
 
-        // ReSharper disable once InconsistentNaming
+	    // ReSharper disable once InconsistentNaming
         public GarbageCollectionApi_I<TContainer> GC => GarbageCollection;
 
         public JustInTimeApi_I<TContainer> JustInTime { get; set; }

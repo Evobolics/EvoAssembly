@@ -4,13 +4,19 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Ty
 
 namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions
 {
-    public class BoundStructTypeDefinition : BoundValueTypeDefinition, BoundNonEnumTypePart_I, BoundTypeDefinitionWithFields_I
+    public class BoundStructTypeDefinition : BoundValueTypeDefinition, BoundTypeDefinitionWithFields_I, BoundTypeDefinitionWithMethods_I
 	{
 		public BoundTypeDefinitionFields Fields { get; set; } = new BoundTypeDefinitionFields();
 
 		SemanticTypeFieldsMask_I SemanticTypeDefinitionWithFieldsMask_I.Fields => Fields;
 
+		public BoundTypeDefinitionMethods Methods { get; set; } = new BoundTypeDefinitionMethods();
+
+		SemanticTypeMethodsMask_I SemanticTypeWithMethodsMask_I.Methods => Methods;
+
 		public override TypeKind TypeKind => base.TypeKind | TypeKind.Struct;
-        
-    }
+
+		
+
+	}
 }

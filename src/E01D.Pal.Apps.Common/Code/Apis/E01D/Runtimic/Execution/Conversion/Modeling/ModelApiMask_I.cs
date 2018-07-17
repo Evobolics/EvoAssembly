@@ -14,11 +14,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling
 
         ModelTypesApiMask_I Types { get; }
 
-        //void AddAssemblyDefinition(SemanticModelMask_I semanticModel, AssemblyDefinition assemblyDefinition);
+       
+
         
-
-        bool IsConverted(ILConversion conversion, TypeReference input);
-
-        bool IsConverted(ILConversion conversion, System.Type input);
     }
 }

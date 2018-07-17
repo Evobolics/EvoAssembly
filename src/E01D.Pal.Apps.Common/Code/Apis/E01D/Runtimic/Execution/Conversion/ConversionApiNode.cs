@@ -12,10 +12,8 @@ using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Parameters;
 using Root.Code.Apis.E01D.Runtimic.Execution.Emitting;
 using Root.Code.Apis.E01D.Runtimic.Execution.Metadata;
-using Root.Code.Apis.E01D.Runtimic.Infrastructure;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural;
-using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil;
 using Root.Code.Apis.E01D.Sorting;
 using Root.Code.Containers.E01D.Runtimic;
 using ModelApiMask_I = Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling.ModelApiMask_I;
@@ -36,7 +34,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 
         public BindingApiMask_I Binding => Container.Api.Runtimic.Execution.Binding;
 
-        public CecilApiMask_I Cecil => Container.Api.Runtimic.Infrastructure.Structural.Cecil;
+        
 
         public ConstructorApiMask_I Constructors => Container.Api.Runtimic.Execution.Conversion.Metadata.Members.Constructors;
 

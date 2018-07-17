@@ -23,7 +23,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 
             if (parameter.DeclaringType != null)
             {
-                var declaringSemanticType = Types.Ensuring.Ensure(model, parameter.DeclaringType);
+                var declaringSemanticType = Execution.Types.Ensuring.Ensure(model, parameter.DeclaringType, null, null);
 
                 if (!declaringSemanticType.IsGeneric())
                 {

@@ -121,7 +121,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members
 
             var declaringTypeRef = memberReference.DeclaringType;
 
-            return Types.Ensuring.EnsureBound(conversion, declaringTypeRef);
+            return Execution.Types.Ensuring.EnsureBound(conversion, declaringTypeRef);
         }
     }
 }

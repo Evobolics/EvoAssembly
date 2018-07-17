@@ -19,11 +19,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 
 			if (underlyingType == null)
 	        {
-		        elementType = Types.Ensuring.Ensure(semanticModel, arrayType.ElementType, null);
+		        elementType = Execution.Types.Ensuring.Ensure(semanticModel, arrayType.ElementType, null, null);
 	        }
 	        else
 	        {
-		        elementType = Types.Ensuring.Ensure(semanticModel, arrayType.ElementType, underlyingType.GetElementType());
+		        elementType = Execution.Types.Ensuring.Ensure(semanticModel, arrayType.ElementType, underlyingType.GetElementType(), null);
 	        }
 
 	        if (IfAlreadyCreatedReturn(elementType, arrayType.Rank, out SemanticArrayTypeDefinitionMask_I existing))
@@ -41,7 +41,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 
 			arrayDef.ElementType = elementType;
 
-	        bound.BaseType = Binding.Metadata.Members.Types.Ensuring.Ensure(semanticModel, typeof(System.Array));
+	        bound.BaseType = Execution.Types.Ensuring.Ensure(semanticModel, typeof(System.Array));
 
 	        if (!arrayDef.ElementType.IsBound())
 	        {

@@ -17,7 +17,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 
             Type[] typeArgumentTypes = Members.TypeArguments.Building.Build(semanticModel, bound, type);
 
-	        bool hasGenericParameters = HasGenericParameters(typeArgumentTypes);
+	        if (input.FullName == "System.Action`1<System.Reflection.Emit.ILGenerator>")
+	        {
+
+	        }
+
+			bool hasGenericParameters = HasGenericParameters(typeArgumentTypes);
 
             var blueprint = EnsureGenericBlueprint(semanticModel, bound);
 
@@ -46,6 +51,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 	        else
 	        {
 		        Fields.Building.Generic.BuildFields(semanticModel, bound);
+
+				Methods.Building.RuntimeCreated.BuildMethods(semanticModel, bound);
 			}
 
             
@@ -68,7 +75,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 
 		    var genericTypeDefinition = bound.UnderlyingType.GetGenericTypeDefinition();
 
-		    var semanticBlueprint = Types.Ensuring.Ensure(semanticModel, typeDefinition, genericTypeDefinition);
+		    var semanticBlueprint = Execution.Types.Ensuring.Ensure(semanticModel, typeDefinition, genericTypeDefinition, null);
 
 		    if (!(semanticBlueprint is BoundGenericTypeDefinitionMask_I boundBlueprint))
 		    {

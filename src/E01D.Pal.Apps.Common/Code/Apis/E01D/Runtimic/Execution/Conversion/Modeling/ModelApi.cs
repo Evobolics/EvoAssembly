@@ -30,19 +30,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling
 
         
 
-        public bool IsConverted(ILConversion conversion, TypeReference input)
-        {
-            string assemlbyName = Cecil.Metadata.Assemblies.Naming.GetAssemblyName(input);
-
-            return conversion.ConvertibleAssemblies.ContainsKey(assemlbyName);
-		}
+        
 
         
 
-        public bool IsConverted(ILConversion conversion, Type input)
-        {
-            return conversion.ConvertibleAssemblies.ContainsKey(input.Assembly.FullName);
-        }
+        
 
         
         

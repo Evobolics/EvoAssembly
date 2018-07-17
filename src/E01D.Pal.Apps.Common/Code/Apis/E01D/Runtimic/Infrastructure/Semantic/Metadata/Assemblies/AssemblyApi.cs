@@ -12,12 +12,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Assembli
     {
 	    
 
-        [ValueSetDynamically]
+        
         public BuildingApi_I<TContainer> Building { get; set; }
 
         BuildingApiMask_I AssemblyApiMask_I.Building => Building;
 
-        [ValueSetDynamically]
+        
         public EnsuringApi_I<TContainer> Ensuring { get; set; }
 
         EnsuringApiMask_I AssemblyApiMask_I.Ensuring => Ensuring;

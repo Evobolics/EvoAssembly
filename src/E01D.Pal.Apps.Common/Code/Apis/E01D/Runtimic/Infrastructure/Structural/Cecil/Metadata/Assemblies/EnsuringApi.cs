@@ -145,7 +145,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			// an assembly was asked for that another assembly already provides.
 			if (assembly.FullName != fullName)
 			{
-				return Ensure(semanticModel, assembly.FullName);
+				var correctNode = Ensure(semanticModel, assembly.FullName);
+
+				// Add cross reference
+				Unified.Assemblies.AddCrossReference(semanticModel, correctNode, fullName);
 			}
 
 			return Ensure_Assembly(semanticModel, assembly);

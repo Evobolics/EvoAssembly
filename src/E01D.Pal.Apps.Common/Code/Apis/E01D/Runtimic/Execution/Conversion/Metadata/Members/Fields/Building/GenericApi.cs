@@ -23,62 +23,25 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Fie
 			    return;
 		    }
 
-
-		    
-
-		    FieldInfo[] fields;
-
-		    bool makeGenericInstanceFields;
-
-		    var bindingFlags = BindingFlags.Instance | BindingFlags.Static |
-		                       BindingFlags.Public | BindingFlags.NonPublic |
-		                       BindingFlags.DeclaredOnly;
-
-
-		    if (converted.Blueprint.UnderlyingType is TypeBuilder blueprintTypeBuilder)
-		    {
-				// The closed generic is based upon a constructed type
-			    makeGenericInstanceFields = true;
-
-				// This MUST use typebuilder.GetConstructor and not
-				// input.Blueprint.UnderlyingType, as different ConstructorInfo objects are returned.
-			    fields = Fields.Getting.GetFieldsFromCollection(converted.Blueprint);
-		    }
-		    else
-		    {
-				// The closed generic is based upon a bound type
-			    makeGenericInstanceFields = false;
-
-			    fields = converted.UnderlyingType.GetFields(bindingFlags);
-		    }
+		    FieldInfo[] fields = Fields.Getting.GetFieldsFromCollection(converted.Blueprint);
 
 		    for (int i = 0; i < fields.Length; i++)
 		    {
 			    var field = fields[i];
 
-			    if (makeGenericInstanceFields)
-			    {
-				    var newTypeCreated = converted.UnderlyingType;
+				var newTypeCreated = converted.UnderlyingType;
 
-				    field = TypeBuilder.GetField(newTypeCreated, field);
-			    }
-
+				field = TypeBuilder.GetField(newTypeCreated, field);
+			    
 			    var fieldEntry = BuildField(conversion, converted, field);
 
 			    typeWithFields.Fields.ByName.Add(fieldEntry.Name, fieldEntry);
-		    }
-
-			
+		    }	
 		}
-
-	   
-
-	    
 
 		private ConvertedField  BuildField(ILConversion conversion, ConvertedGenericTypeDefinition_I converted, FieldInfo fieldInfo)
 	    {
 			
-
 			return new ConvertedField()
 		    {
 			    FieldType = null,

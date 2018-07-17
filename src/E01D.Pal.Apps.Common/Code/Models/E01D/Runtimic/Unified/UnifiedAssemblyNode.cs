@@ -17,5 +17,6 @@ namespace Root.Code.Models.E01D.Runtimic.Unified
 		public string Name { get; set; }
 		public UnifiedAssemblyNode Next { get; set; }
 		public Guid Guid { get; set; }
+		public bool IsConverted { get; set; }
 	}
 }

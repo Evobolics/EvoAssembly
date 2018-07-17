@@ -31,7 +31,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			{
 				var genericArgument = inputType.GenericArguments[i];
 
-				var semanticType = Types.Ensuring.Ensure(conversion, genericArgument, null);
+				var semanticType = Execution.Types.Ensuring.Ensure(conversion.Model, genericArgument, null, null);
 
 				if (!(semanticType is BoundTypeDefinitionMask_I bound))
 				{

@@ -32,7 +32,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 		public MemberInfo GetConstructor(ILConversion conversion, ConvertedTypeDefinition_I callingType, MemberReference memberReference)
         {
             // how does the member reference declaring type be resolved?
-            var declaringBound = Types.Ensuring.EnsureBound(conversion, memberReference.DeclaringType);
+            var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion, memberReference.DeclaringType);
 
 	        if (declaringBound.SourceTypeReference.IsArray)
 	        {

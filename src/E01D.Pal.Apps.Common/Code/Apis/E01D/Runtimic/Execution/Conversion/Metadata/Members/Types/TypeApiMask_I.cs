@@ -3,6 +3,7 @@ using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.B
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Building;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Creation;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Ensuring;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types
 {
@@ -36,12 +37,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
         TypeParameterApiMask_I TypeParameters { get;  }
 
+
 	    
 
-        
 
-        
-        bool IsCorlibType(TypeReference typeReference);
+
+
+		bool IsCorlibType(TypeReference typeReference);
 
         bool IsCorlibType(System.Type type);
         

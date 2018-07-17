@@ -13,16 +13,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules
     public class ModuleApi<TContainer> : ConversionApiNode<TContainer>, ModuleApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
-	    [ValueSetDynamically]
+	    
 	    public AdditionApi_I<TContainer> Addition { get; set; }
 
-        [ValueSetDynamically]
+        
         public BuildingApi_I<TContainer> Building { get; set; }
 
-        [ValueSetDynamically]
+        
 		public CreationApi_I<TContainer> Creation { get; set; }
 
-        [ValueSetDynamically]
+        
         public EnsuringApi_I<TContainer> Ensuring { get; set; }
 
         AdditionApiMask_I ModuleApiMask_I.Addition => Addition;

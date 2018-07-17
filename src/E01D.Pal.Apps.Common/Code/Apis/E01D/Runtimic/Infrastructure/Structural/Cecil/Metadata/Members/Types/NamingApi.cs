@@ -16,6 +16,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return fullName + ", " + assemblyName;
 		}
 
+		public string GetAssemblyQualifiedName(TypeReference input, string targetAssemblyName)
+		{
+			var fullName = GetCliFullName(input);
+
+			return fullName + ", " + targetAssemblyName;
+		}
+
 		public string GetPointerElementName(TypeReference input)
 		{
 			if (!input.IsPointer) throw new System.Exception("Expecting a pointer type.");

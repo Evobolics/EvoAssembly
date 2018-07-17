@@ -11,15 +11,20 @@ namespace Root.Code.Apis.E01D.Runtimic.Unified
 
 	    public void Add(UnifiedRuntimicModelMask_I model, UnifiedAssemblyNode node)
 	    {
-		    if (!model.Unified.Assemblies.Definitions.TryGetValue(node.Name, out UnifiedAssemblyNodeSet set))
+		    Add(model, node, node.Name);
+	    }
+
+	    public void Add(UnifiedRuntimicModelMask_I model, UnifiedAssemblyNode node, string name)
+	    {
+		    if (!model.Unified.Assemblies.Definitions.TryGetValue(name, out UnifiedAssemblyNodeSet set))
 		    {
 			    set = new UnifiedAssemblyNodeSet()
 			    {
-				    Name = node.Name
-			    };
+				    Name = name
+				};
 
-			    model.Unified.Assemblies.Definitions.Add(node.Name, set);
-			}
+			    model.Unified.Assemblies.Definitions.Add(name, set);
+		    }
 
 		    if (set.First == null)
 		    {
@@ -32,7 +37,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Unified
 			    set.Last = node;
 		    }
 
-		    
+
 	    }
 
 		public UnifiedAssemblyNode Create(UnifiedRuntimicModelMask_I model, AssemblyDefinition assemblyDefinition)
@@ -57,7 +62,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Unified
 			return node;
 		}
 
-	    public UnifiedAssemblyNode Get(UnifiedRuntimicModelMask_I model, string resolutionName)
+	    public void AddCrossReference(UnifiedRuntimicModelMask_I model, UnifiedAssemblyNode node, string crossReferenceKey)
+	    {
+		    Add(model, node, crossReferenceKey);
+	    }
+
+		public UnifiedAssemblyNode Get(UnifiedRuntimicModelMask_I model, string resolutionName)
 	    {
 		    if (!model.Unified.Assemblies.Definitions.TryGetValue(resolutionName, out UnifiedAssemblyNodeSet set))
 		    {

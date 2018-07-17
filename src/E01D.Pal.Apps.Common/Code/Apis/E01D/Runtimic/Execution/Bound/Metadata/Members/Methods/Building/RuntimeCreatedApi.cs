@@ -45,7 +45,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods.
 
 				boundMethods.Add(boundMethod);
 
-				input.Module.MethodsByMetadataToken.Add(method.MetadataToken, boundMethod);
+				// NULL CHECK: Possibly null if a generic instance
+				input.Module?.MethodsByMetadataToken.Add(method.MetadataToken, boundMethod);
 			}
 
 			// Get the type definition that corresponds to the type reference.  This will store all the methods that are available.

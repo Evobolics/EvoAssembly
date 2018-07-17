@@ -17,8 +17,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
 			    var convertedAssembly = Build(conversion, assemblyNode);
 
-				conversion.ConvertibleAssemblies.Add(convertedAssembly.ResolutionName, convertedAssembly.ResolutionName);
-
 			}
 		}
 

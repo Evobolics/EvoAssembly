@@ -33,7 +33,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 {
                     var declaringType = genericParameter.DeclaringType;
 
-                    var boundType = Types.Ensuring.EnsureBound(conversion, declaringType);
+                    var boundType = Execution.Types.Ensuring.EnsureBound(conversion, declaringType);
 
                     
 

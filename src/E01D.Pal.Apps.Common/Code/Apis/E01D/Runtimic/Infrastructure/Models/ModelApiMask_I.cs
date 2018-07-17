@@ -1,5 +1,4 @@
-﻿using Root.Code.Apis.E01D.Runtimic.Infrastructure.Basic;
-using Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Semantic;
+﻿using Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Semantic;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models

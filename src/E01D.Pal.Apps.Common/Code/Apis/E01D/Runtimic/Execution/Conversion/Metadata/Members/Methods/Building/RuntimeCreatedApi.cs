@@ -24,71 +24,28 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 				return;
 			}
 
-			List<MethodReferenceSearch> searches = new List<MethodReferenceSearch>();
-
-
-			if (input.Blueprint.UnderlyingType is TypeBuilder) // The closed generic is based upon a constructed type
-			{
-				
-				
-
-				// This MUST use typebuilder.GetMethod and not
-				// input.Blueprint.UnderlyingType, as different MethodInfo objects are returned.
-				var blueprintMethods = Methods.Getting.GetMethods(input.Blueprint);
-
-				for (int i = 0; i < blueprintMethods.Count; i++)
-				{
-					var blueprintUnderlyingMethodInfo = blueprintMethods[i].UnderlyingMethod;
-					var genericInstanceMethodInfo = TypeBuilder.GetMethod(input.UnderlyingType, blueprintUnderlyingMethodInfo);
-					
-					var methodReferenceSearch = new MethodReferenceSearch()
-					{ 
-						GenericTypeDefinitionMethodInfo = blueprintUnderlyingMethodInfo,
-						BoundGenericTypeDefinitionMethod = blueprintMethods[i],
-						GenericInstanceMethodInfo = genericInstanceMethodInfo,
-						GenericTypeDefinitionMethod = blueprintMethods[i].MethodReference,
-						IsGenericTypeDefinitionConverted = true
-						
-					};
-
-					searches.Add(methodReferenceSearch);
-				}
-			}
-			else // The closed generic is based upon a bound type
-			{
-				var bindingFlags = BindingFlags.Instance | BindingFlags.Static |
-				                   BindingFlags.Public | BindingFlags.NonPublic |
-				                   BindingFlags.DeclaredOnly;
-
-				var methodInfos = input.UnderlyingType.GetMethods(bindingFlags);
-
-				var currentModule = input.Module;
-
-				for (int i = 0; i < methodInfos.Length; i++)
-				{
-					var genericInstanceMethodInfo = methodInfos[i];
-					var genericTypeDefinitionMethodInfo = GetMethodInfoDefinition(genericInstanceMethodInfo);
-					var genericTypeDefinitionMethod = Methods.Getting.GetBoundMethod(conversion.Model, currentModule, genericTypeDefinitionMethodInfo);
-
-					var methodReferenceSearch = new MethodReferenceSearch()
-					{
-						GenericTypeDefinitionMethodInfo = genericTypeDefinitionMethodInfo,
-						BoundGenericTypeDefinitionMethod = genericTypeDefinitionMethod,
-						GenericInstanceMethodInfo = genericInstanceMethodInfo,
-						GenericTypeDefinitionMethod = genericTypeDefinitionMethod.MethodReference,
-					};
-
-					searches.Add(methodReferenceSearch);
-				}
-			}
+			// This MUST use typebuilder.GetMethod and not
+			// input.Blueprint.UnderlyingType, as different MethodInfo objects are returned.
+			var blueprintMethods = Methods.Getting.GetMethods(input.Blueprint);
 
 			// We chave to get the definition for a generic instance.
 			var declaringTypeDefinition = Cecil.Metadata.Members.Types.Getting.GetDefinition(conversion.Model, input.SourceTypeReference);
 
-			for (int i = 0; i < searches.Count; i++)
+			for (int i = 0; i < blueprintMethods.Count; i++)
 			{
-				var methodSearch = searches[i];
-
+				var blueprintUnderlyingMethodInfo = blueprintMethods[i].UnderlyingMethod;
+				var genericInstanceMethodInfo = TypeBuilder.GetMethod(input.UnderlyingType, blueprintUnderlyingMethodInfo);
+					
+				var methodSearch = new MethodReferenceSearch()
+				{ 
+					GenericTypeDefinitionMethodInfo = blueprintUnderlyingMethodInfo,
+					BoundGenericTypeDefinitionMethod = blueprintMethods[i],
+					GenericInstanceMethodInfo = genericInstanceMethodInfo,
+					GenericTypeDefinitionMethod = blueprintMethods[i].MethodReference,
+					IsGenericTypeDefinitionConverted = true
+						
+				};
+			
 				if (methodSearch.GenericInstanceMethodInfo?.DeclaringType != null && methodSearch.GenericInstanceMethodInfo.DeclaringType.IsGenericTypeDefinition)
 				{
 					throw new System.Exception("You cannot call a method that is part of a generic type definition.  Using this method info will cause a method invocation exeception. ");
@@ -199,62 +156,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 		}
 
 
-		//public void AddGenericParameters(ILConversion conversion, ConvertedTypeDefinition_I input, ConvertedNonGenericInstanceMethod methodEntry)
-		//{
-		//	var methodDefinition = methodEntry.MethodDefinition;
-
-		//	if (!methodDefinition.HasGenericParameters) return;
-
-		//	List<string> genericParameterNamesList = new List<string>();
-
-		//	foreach (var genericParamater in methodDefinition.GenericParameters)
-		//	{
-		//		var genericParamaterTypeDefintionEntry = new ConvertedGenericParameterTypeDefinition()
-		//		{
-		//			Name = genericParamater.Name,
-		//			DeclaringTypeDefinitionEntry = input,
-		//			Definition = genericParamater,
-		//			Position = genericParamater.Position,
-		//			TypeParameterKind = TypeParameterKind.Method
-		//		};
-
-		//		genericParameterNamesList.Add(genericParamaterTypeDefintionEntry.Name);
-
-		//		Methods.TypeParameters.Add(conversion, methodEntry, genericParamaterTypeDefintionEntry);
-
-
-		//	}
-
-		//	var genericParameterNames = genericParameterNamesList.ToArray();
-
-		//	GenericTypeParameterBuilder[] genericTypeParameterBuilders = methodEntry.MethodBuilder.DefineGenericParameters(genericParameterNames);
-
-		//	methodEntry.TypeParameters.Builders = genericTypeParameterBuilders;
-
-		//	foreach (var builder in genericTypeParameterBuilders)
-		//	{
-		//		var name = builder.Name;
-
-		//		var genericTypeParameterEntry = Methods.TypeParameters.GetOrThrow(conversion, methodEntry, name);
-
-		//		var definition = genericTypeParameterEntry.Definition;
-
-		//		var attributes = GetGenericParameterAttributes(definition);
-
-		//		builder.SetGenericParameterAttributes(attributes);
-
-		//		genericTypeParameterEntry.Builder = builder;
-
-		//		if (definition.HasConstraints)
-		//		{
-		//			foreach (var constraint in definition.Constraints)
-		//			{
-		//				throw new NotImplementedException("Generic Parameter constraints not implemented yet.");
-		//			}
-		//		}
-
-		//		genericTypeParameterEntry.UnderlyingType = builder;
-		//	}
-		//}
+		
 	}
 }

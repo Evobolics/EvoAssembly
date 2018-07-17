@@ -7,7 +7,6 @@ using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Modeling;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 {
@@ -21,8 +20,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 		/// <param name="inputTypes"></param>
 		public ILConversionResult Convert(ILConversion conversion, TypeDefinition[] inputTypes)
 		{
-            // Add the assembly names to the list of assemblies that need conversion to identify types that are converted and not converted.
-		    AddAssemlbiesToConversionList(conversion, inputTypes);
+           
 
             // Assembly Creation Process Notes
             // -----
@@ -67,15 +65,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 			return conversion.Result;
 		}
 
-        private void AddAssemlbiesToConversionList(ILConversion conversion, TypeDefinition[] inputTypes)
-        {
-            for (int i = 0; i < inputTypes.Length; i++)
-            {
-                var type = inputTypes[i];
-
-                conversion.ConvertibleAssemblies.Add(type.Module.Assembly.FullName, type.Module.Assembly.FullName);
-            }
-        }
+        
 
         private void AddCorlibIfReferenced(ILConversionRuntimicModel conversionModel, ConvertedAssembly convertedAssembly)
         {

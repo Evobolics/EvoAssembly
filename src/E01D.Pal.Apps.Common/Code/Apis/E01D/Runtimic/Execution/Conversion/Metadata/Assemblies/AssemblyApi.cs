@@ -1,10 +1,4 @@
-﻿using System.IO;
-using System.Reflection;
-using System.Reflection.Emit;
-using Mono.Cecil;
-using Root.Code.Attributes.E01D;
-using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
+﻿using Root.Code.Containers.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 {

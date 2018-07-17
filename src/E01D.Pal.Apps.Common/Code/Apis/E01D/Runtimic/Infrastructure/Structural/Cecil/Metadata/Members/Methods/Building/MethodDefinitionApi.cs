@@ -85,26 +85,93 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		public TypeReference ResolveClassTypeArgument(InfrastructureRuntimicModelMask_I model, Type typeToResolve)
 		{
-			if (!typeToResolve.IsGenericParameter)
+			if (typeToResolve.IsByRef)
 			{
-				return Types.Getting.GetInternalTypeReference(model, typeToResolve);
+				var inputByReferenceType = typeToResolve.GetElementType();
+
+				var result = ResolveClassTypeArgument(model, inputByReferenceType);
+
+				return new ByReferenceType(result);
 			}
 
-			var x = typeToResolve.GetType();
+			if (typeToResolve.IsArray)
+			{
+				var arrayType = typeToResolve;
 
-			throw new NotImplementedException();
+				var rank = arrayType.GetArrayRank();
+
+				var arrayElementType = arrayType.GetElementType();
+
+				var arrayElementReferenceType = ResolveClassTypeArgument(model, arrayElementType);
+
+				if (rank == 1)
+				{
+					return new ArrayType(arrayElementReferenceType);
+				}
+				else
+				{
+					return new ArrayType(arrayElementReferenceType, rank);
+				}
+			}
+
+			if (typeToResolve.IsGenericParameter)
+			{
+				var declaringType = typeToResolve.DeclaringType;
+
+				var declaringTypeReference = Types.Getting.GetInternalTypeReference(model, declaringType);
+
+				var genericParameterTypeReference = declaringTypeReference.GenericParameters[typeToResolve.GenericParameterPosition];
+
+				return genericParameterTypeReference;
+			}
+
+			return Types.Getting.GetInternalTypeReference(model, typeToResolve);
 		}
 
 		public TypeReference ResolveTypeParameterIfPresent(InfrastructureRuntimicModelMask_I model, TypeReference[] typeArguments, TypeReference typeToResolve)
 		{
-			if (!typeToResolve.IsGenericParameter)
+			
+
+			if (typeToResolve.IsByReference)
 			{
-				return Types.Getting.GetInternalTypeReference(model, typeToResolve);
+				var inputByReferenceType = (ByReferenceType) typeToResolve;
+
+				var inputByReferenceTypeElement = inputByReferenceType.ElementType;
+
+				var result = ResolveTypeParameterIfPresent(model, typeArguments, inputByReferenceTypeElement);
+
+				return new ByReferenceType(result);
 			}
 
-			var genericParameter= (GenericParameter) typeToResolve;
+			if (typeToResolve.IsArray)
+			{
+				var arrayType = (ArrayType)typeToResolve;
 
-			return typeArguments[genericParameter.Position];
+				var rank = arrayType.Rank;
+
+				var arrayElementType = arrayType.ElementType;
+
+				var arrayElementReferenceType = ResolveTypeParameterIfPresent(model, typeArguments, arrayElementType);
+
+				if (rank == 1)
+				{
+					return new ArrayType(arrayElementReferenceType);
+				}
+				else
+				{
+					return new ArrayType(arrayElementReferenceType, rank);
+				}
+			}
+
+			if (typeToResolve.IsGenericParameter)
+			{
+				var genericParameter = (GenericParameter)typeToResolve;
+
+				return typeArguments[genericParameter.Position];
+				
+			}
+			return Types.Getting.GetInternalTypeReference(model, typeToResolve);
+
 		}
 
 

@@ -182,6 +182,12 @@
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Building\NonGenericInstances\Phase3InstructionBuildApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Building\NonGenericInstances\Phase3InstructionBuildApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Building\NonGenericInstances\Phase3InstructionBuildApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\MemberApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\MemberApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\MemberApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\TypeApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\TypeApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\TypeApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Models\Semantic\ModelAssembliesApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Models\Semantic\ModelAssembliesApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Models\Semantic\ModelAssembliesApi_I.cs" />
@@ -836,6 +842,9 @@
     <Compile Include="Code\Apis\E01D\Runtimic\Unified\ModuleApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Unified\ModuleApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Unified\ModuleApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\EnsuringApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\EnsuringApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\EnsuringApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Unified\TypeApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Unified\TypeApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Unified\TypeApi_I.cs" />
@@ -1245,7 +1254,6 @@
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\Definitions\BoundNestedEnumTypeDefinition.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\Definitions\BoundNestedInterfaceTypeDefinition.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\Definitions\BoundNestedStructTypeDefinition.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\Definitions\BoundNonEnumTypePart_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\Definitions\BoundReferenceTypeDefinition.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\Definitions\BoundSimpleClTypeDefinition.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\Definitions\BoundStructTypeDefinition.cs" />
@@ -1433,6 +1441,7 @@
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\Interface1Class.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\Interface2.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\Interface3.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_CallGenericDelegate.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_ExplicitInterfaceImplementation.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_GenericClassWithTwoMethodsNamedTheSame.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_Polymorphism_Virtual.cs" />
@@ -1469,7 +1478,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Ensuring\Gathering\Cecil\" />
+    <Folder Include="Code\Apis\E01D\Runtimic\Execution\Emitting\Metadata\Members\Typal\" />
+    <Folder Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Modules\" />
+    <Folder Include="Code\Apis\E01D\Runtimic\Execution\Underlying\" />
     <Folder Include="Code\Apis\E01D\Runtimic\Infrastructure\Models\Unified\" />
+    <Folder Include="Code\Apis\E01D\Runtimic\TypeSystems\" />
     <Folder Include="Code\Containers\E01D\Runtimic\Execution\Emitting\Conversion\" />
     <Folder Include="Code\Enums\E01D\Runtimic\Infrastructure\Semantic\Metadata\Members\Typal\" />
     <Folder Include="Code\Exts\Runtimic\Execution\Conversion\" />
@@ -1510,6 +1523,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Design Notes.txt" />
     <Content Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\DesignNotes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Root.Code.Domains;
 using Root.Code.Domains.E01D;
 using Root.Code.Models.E01D.Containment;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Mapping;

@@ -224,7 +224,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                     {
                         var typeReference = eventEntry.ExceptionHandler.CatchType;
 
-                        var declaringType = Types.Ensuring.EnsureToType(conversion, typeReference);
+                        var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
 
                         ilGenerator.BeginCatchBlock(declaringType);
 

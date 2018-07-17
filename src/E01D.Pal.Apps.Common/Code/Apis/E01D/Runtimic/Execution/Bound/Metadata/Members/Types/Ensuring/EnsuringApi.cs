@@ -13,8 +13,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 	public class EnsuringApi<TContainer> : BoundApiNode<TContainer>, EnsuringApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
-	    
-	    public ArrayApi_I<TContainer> Arrays { get; set; }
+
+		#region Api(s)
+
+		public ArrayApi_I<TContainer> Arrays { get; set; }
 
 	    ArrayApiMask_I EnsuringApiMask_I.Arrays => Arrays;
 
@@ -35,9 +37,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 
 	    GenericParameterApiMask_I EnsuringApiMask_I.GenericParameters => GenericParameters;
 
-	    //public Gathering.GatheringApi<TContainer> Gathering { get; set; }
-
-	    //GatheringApiMask_I EnsuringApiMask_I.Gathering => Gathering;
+	    
 
 	    public NonGenericApi_I<TContainer> NonGenericInstances { get; set; }
 
@@ -51,82 +51,28 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 
 	    RequiredModifierApiMask_I EnsuringApiMask_I.RequiredModifiers => RequiredModifiers;
 
-	    public BoundTypeDefinitionMask_I EnsureBound(BoundRuntimicModelMask_I semanticModel, System.Type type)
-	    {
-		    var typeReference = Models.Types.GetTypeReference(semanticModel, type);
+		#endregion
 
-		    return EnsureBound(semanticModel, typeReference, type);
-	    }
-
-
-	    public BoundTypeDefinitionMask_I EnsureBound(BoundRuntimicModelMask_I semanticModel, TypeReference typeReference, System.Type type)
-	    {
-		    var semanticMask = Ensure(semanticModel, typeReference, type);
-
-		    if (!(semanticMask is BoundTypeDefinitionMask_I bound))
-		    {
-			    throw new Exception($"Expected the resolved semantic type of type '{semanticMask.GetType()}' to be a bound type definition.");
-		    }
-
-		    return bound;
-	    }
-
-		//public void Ensure(BoundRuntimicModelMask_I semanticModel, SemanticTypeDefinitionMask_I semanticType)
-	 //   {
-		//    Infrastructure.Models.Semantic.Types.Ensure(semanticModel, semanticType);
-	 //   }
-
-	    public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I semanticModel, TypeReference typeReference)
-	    {
-		    return Ensure(semanticModel, typeReference, null);
-	    }
-
-	    public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I semanticModel, TypeReference typeReference, Type underlyingType)
-	    {
-		    // Search the entire model to see if the semantic type entry exists.  If is is added to the module, it will add 
-		    return Ensure(semanticModel, typeReference, null, underlyingType);
-	    }
-
-        /// <summary>
-        /// Ensures the type is part of the module.
-        /// </summary>
-        /// <param name="semanticModel"></param>
-        /// <param name="semanticModule"></param>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I semanticModel, Type input)
+		/// <summary>
+		/// Ensures the type is part of the module.
+		/// </summary>
+		public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I semanticModel, TypeReference input, System.Type underlyingType, BoundTypeDefinitionMask_I declaringType)
         {
-            var typeReference = Models.Types.GetTypeReference(semanticModel, input);
+	        if (input.FullName == "System.Action`1<System.Reflection.Emit.ILGenerator>")
+	        {
+		        
+	        }
 
-            return Ensure(semanticModel, typeReference, null, input);
-        }
-
-        /// <summary>
-        /// Ensures the type is part of the module.
-        /// </summary>
-        public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I semanticModel, TypeReference input, BoundTypeDefinitionMask_I declaringType, System.Type underlyingType)
-        {
 	        // Should be Tabular.Cecil.
 	        if (Cecil.Types.IsExternal(input))
 	        {
 		        input = Models.Types.External.Resolve(semanticModel, input);
 	        }
 
-	        // The issue is that you do not know if the type really needs to be converted type.  Consider three assemblies:
-	        // Assembly A references Assembly B which references Assembly C
-	        // A - Converted.  B- Not Converted - C - Converted.
-	        if (semanticModel.IsConverted())
-	        {
-		        var conversion = ((ILConversionRuntimicModel)semanticModel).Conversion;
-
-		        return Conversion.Metadata.Members.Types.Ensuring.Ensure(conversion, input, null);
-	        }
-
-	        if (input.Name == "Api`1<TContainer>")
+	        if (input.Name == "Api`1" && input.IsGenericInstance)
 	        {
 		        
 	        }
-
 
 			if (underlyingType == null)
 	        {
@@ -138,12 +84,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 	        {
 		        if (input.IsRequiredModifier)
 		        {
-					
-					declaringType = (BoundTypeDefinitionMask_I)Ensure(semanticModel, input.GetElementType(), null, underlyingType.DeclaringType);
+					// Call back to the execution's type system so it can determine where to make the type
+					declaringType = (BoundTypeDefinitionMask_I)Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, input.GetElementType(), underlyingType.DeclaringType, null);
 				}
 		        else
 		        {
-			        declaringType = (BoundTypeDefinitionMask_I)Ensure(semanticModel, input.DeclaringType, null, underlyingType.DeclaringType);
+			        // Call back to the execution's type system so it can determine where to make the type
+					declaringType = (BoundTypeDefinitionMask_I)Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, input.DeclaringType, underlyingType.DeclaringType, null);
 				}
 	        }
 
@@ -180,7 +127,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 			// Extenral 
 	        var internalTypReference = Models.Types.External.Resolve(semanticModel, input);
 
-	        return Ensure(semanticModel, internalTypReference, declaringType, underlyingType);
+	        return Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, internalTypReference, underlyingType, declaringType);
 
 
 
@@ -196,7 +143,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 			{
 				var typeDefinition = types[i];
 
-				Ensure(semanticModel, typeDefinition, null, null);
+				Execution.Types.Ensuring.Ensure(semanticModel, typeDefinition, null, null);
 			}
 		}
 

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Domains.E01D;
@@ -168,6 +165,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 
 			conversion.Input.AssemlyNodesToConvert = assemblies;
 
+			for (int i = 0; i < assemblies.Count; i++)
+			{
+				assemblies[i].IsConverted = true;
+			}
+
 			// Load all the types in the provide assemblies, and 
 			conversion.Input.NodesToConvert = nodesToConvert;
 
@@ -208,7 +210,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 					}
 					else
 					{
-						var semanticType = Types.Ensuring.Ensure(conversion, (ConvertedModule_I)inputType.ModuleNode.Semantic, inputType.SourceTypeReference, null);
+						var semanticType = Execution.Types.Ensuring.Ensure(conversion.Model, inputType.SourceTypeReference, null, null);
 
 						converted = (ConvertedTypeDefinitionMask_I)semanticType;
 					}

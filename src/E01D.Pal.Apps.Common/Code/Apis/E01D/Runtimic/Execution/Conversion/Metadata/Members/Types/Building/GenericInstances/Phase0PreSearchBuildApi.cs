@@ -27,13 +27,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 		{
 			var genericInstanceType = (GenericInstanceType)converted.SourceTypeReference;
 
-			var typeDefinition = (TypeDefinition)genericInstanceType.ElementType;
+			var genericElementType = genericInstanceType.ElementType; // Could be an external reference
 
-			var semanticBlueprint = Types.Ensuring.Ensure(conversion, typeDefinition, null);
+			var semanticBlueprint = Execution.Types.Ensuring.EnsureBound(conversion, genericElementType);
 
 			if (!(semanticBlueprint is BoundGenericTypeDefinitionMask_I boundBlueprint))
 			{
-				throw new Exception("When creating a conversion model, the base type needs to be a bound type.");
+				throw new Exception($"Expected a type of {typeof(BoundGenericTypeDefinitionMask_I)}.");
 			}
 
 			converted.Blueprint = boundBlueprint;
