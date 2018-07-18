@@ -1403,6 +1403,8 @@
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\Class2.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\Class3.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ArrayTesting_MultipleTypes.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_CircularReference_1.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_CircularReference_2.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_ClassWithBlankAttribute.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_SoleNestedType.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassWithDifferentKindsOfFields.cs" />
@@ -1414,7 +1416,7 @@
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassWithMethod_RefParameter.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassWithReferenceToGenreicField.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassWithPrimitiveTypeMethods.cs" />
-    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ComplicatedGeneric.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\GenericAndBaseWithThreeGenericParameters.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ComplicatedGenericWithConstructorWithArgumentSetToDefaultValue.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ComplicatedGenericWithOneArgBaseConstructorCall.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ComplicatedGenericWithTwoBaseConstructors.cs" />
@@ -1441,6 +1443,12 @@
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\Interface1Class.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\Interface2.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\Interface3.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\InterfaceTesting_CircularReferences_1.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\InterfaceTesting_CircularReferences_2.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\InterfaceTesting_CircularReferences_3.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\InterfaceTesting_InterfaceInheritingAnotherInterface_I.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\InterfaceTesting_SemanticTypeDefinitionMask_I.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\InterfaceWithProperties.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_CallGenericDelegate.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_ExplicitInterfaceImplementation.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_GenericClassWithTwoMethodsNamedTheSame.cs" />

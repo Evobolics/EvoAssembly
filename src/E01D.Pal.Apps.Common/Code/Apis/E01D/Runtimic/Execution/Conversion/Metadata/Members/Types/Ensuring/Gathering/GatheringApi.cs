@@ -40,10 +40,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
                 converted.BaseType = boundBaseType;
 
-                if (converted.BaseType != null)
-                {
-                    Types.Dependencies.Add(converted, converted.BaseType);
-                }
+                
             }
 
             System.Type baseType;
@@ -87,6 +84,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
             }
 
             var typeDefinition = (TypeDefinition)converted.SourceTypeReference;
+
+	       
 
             var interfaceTypes = typeDefinition.Interfaces;
 

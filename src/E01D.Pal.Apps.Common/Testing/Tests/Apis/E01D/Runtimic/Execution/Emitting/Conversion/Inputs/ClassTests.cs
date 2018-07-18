@@ -4,6 +4,9 @@ using System.Reflection.Emit;
 using Root.Code.Attributes.E01D;
 using Root.Code.Domains;
 using Root.Code.Domains.E01D;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 using Root.Testing.Code.Containers.E01D.Runtimic.Execution.Emitting.Conversion;
 using Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types;
 
@@ -259,13 +262,13 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
         /// supply a consturctor info using normal type methods.
         /// </summary>
         [Test]
-        public void ComplicatedGenericClass()
+        public void GenericAndBaseWithThreeGenericParameters()
         {
             // Create a test container
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var type = test.Api.ConvertSingleType(typeof(ComplicatedGeneric<Class1, Class2, Class3>));
+            var type = test.Api.ConvertSingleType(typeof(GenericAndBaseWithThreeGenericParameters<Class1, Class2, Class3>));
 
             Assert.IsNotNull(type);
         }
@@ -573,5 +576,85 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 
 		    
 	    }
+
+		[Test]
+	    public void InterfaceTesting_InterfaceWithProperties()
+	    {
+			var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var type = test.Api.ConvertSingleType(typeof(InterfaceWithProperties_I));
+
+		    //
+
+		    Assert.IsNotNull(type);
+		}
+
+	    [Test]
+	    public void InterfaceTesting_InterfaceInheritingAnotherInterface()
+	    {
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var type = test.Api.ConvertSingleType(typeof(InterfaceTesting_InterfaceInheritingAnotherInterface_I));
+
+		    //
+
+		    Assert.IsNotNull(type);
+	    }
+
+	    [Test]
+	    public void InterfaceTesting_SemanticTypeDefinitionMask()
+	    {
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var type = test.Api.ConvertSingleType(typeof(Test_SemanticTypeDefinitionMask_I));
+
+		    //
+
+		    Assert.IsNotNull(type);
+	    }
+
+	    [Test]
+	    public void InterfaceTesting_CircularReferences()
+	    {
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var type = test.Api.ConvertSingleType(typeof(InterfaceTesting_CircularReferences_1));
+
+		    //
+
+		    Assert.IsNotNull(type);
+	    }
+
+	    [Test]
+	    public void ClassTesting_CircularReferences()
+	    {
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var type = test.Api.ConvertSingleType(typeof(ClassTesting_CircularReference_1));
+
+		    //
+
+		    Assert.IsNotNull(type);
+	    }
+
+		[Test]
+	    public void InterfaceTesting_SemanticArrayTypeDefinitionMask_Full()
+	    {
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		   // var type2 = test.Api.ConvertSingleType(typeof(SemanticArrayTypeDefinitionMask_I));
+
+		    //Assert.IsNotNull(type2);
+
+			var type1 = test.Api.ConvertSingleType(typeof(SemanticTypeDefinitionMask_I));
+
+			Assert.IsNotNull(type1);
+		}
 	}
 }

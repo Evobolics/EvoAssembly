@@ -7,18 +7,25 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
 {
     public interface ConvertedTypeDefinitionMask_I: ConvertedClassTypeDefinitionClassifier_I, ConvertedTypeMask_I, BoundTypeDefinitionMask_I
     {
-	    //ConvertedTypeDefinition_I DeclaringType { get; }
+		//ConvertedTypeDefinition_I DeclaringType { get; }
 
-		List<ConvertedTypeDefinition_I> Dependencies { get; }
+		
+
+		List<ConvertedTypeDefinition_I> Phase2Dependencies { get; }
 
 	    /// <summary>
 	    /// Gets or sets all of the conversion entries that are directly dependent upon this entry.
 	    /// </summary>
-	    List<ConvertedTypeDefinition_I> Dependents { get; }
+	    List<ConvertedTypeDefinition_I> Phase2Dependents { get; }
 
-		
+	    List<ConvertedTypeDefinition_I> Phase3Dependencies { get; }
 
-	    new ConvertedModuleMask_I Module { get;  }
+	    /// <summary>
+	    /// Gets or sets all of the conversion entries that are directly dependent upon this entry.
+	    /// </summary>
+	    List<ConvertedTypeDefinition_I> Phase3Dependents { get; }
+
+		new ConvertedModuleMask_I Module { get;  }
 
 	    TypeBuilder TypeBuilder { get; }
 

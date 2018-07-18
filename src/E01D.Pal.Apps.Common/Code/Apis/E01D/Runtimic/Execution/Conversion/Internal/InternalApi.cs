@@ -223,6 +223,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 
 				Type[] outputList = null;
 
+
+
 				if (convertedList != null)
 				{
 					outputList = new Type[convertedList.Length];
@@ -231,7 +233,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 					{
 						var converted = convertedList[i];
 
-						outputList[i] = XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.GetTypeInAssembly(converted.Assembly, converted);
+						try
+						{
+							outputList[i] = XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.GetTypeInAssembly(converted.Assembly, converted);
+						}
+						catch (Exception e)
+						{
+							conversion.Result.Exceptions.Add(e);
+
+							throw;
+						}
 					}
 				}
 

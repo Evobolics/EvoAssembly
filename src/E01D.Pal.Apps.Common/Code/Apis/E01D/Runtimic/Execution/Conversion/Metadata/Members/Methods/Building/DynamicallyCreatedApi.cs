@@ -54,7 +54,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 				var interfaceDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion, methodOverride.DeclaringType);
 
-				var semanticMethod = Methods.Getting.FindMethodByDefinition(conversion, (BoundTypeDefinitionWithMethodsMask_I)interfaceDeclaringType, (MethodDefinition)methodOverride);
+				if (!(methodOverride is MethodDefinition methodOverrideDefinition))
+				{
+					throw new Exception("Override is not a method definition.  External?");
+				}
+
+				var semanticMethod = Methods.Getting.FindMethodByDefinition(conversion, (BoundTypeDefinitionWithMethodsMask_I)interfaceDeclaringType, methodOverrideDefinition);
 
 				if (!(semanticMethod is BoundMethodDefinitionMask_I boundMethod))
 				{
@@ -193,9 +198,27 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 				if (definition.HasConstraints)
 				{
+					List<Type> interfaceConstraintTypes = new List<Type>();
+
 					foreach (var constraint in definition.Constraints)
 					{
-						throw new NotImplementedException("Generic Parameter constraints not implemented yet.");
+						bool isClassConstraint = Cecil.Types.IsClass(conversion.Model, constraint);
+
+						var semanticConstraint =Execution.Types.Ensuring.EnsureBound(conversion.Model, constraint, null);
+
+						if (isClassConstraint)
+						{
+							builder.SetBaseTypeConstraint(semanticConstraint.UnderlyingType);
+						}
+						else
+						{
+							interfaceConstraintTypes.Add(semanticConstraint.UnderlyingType);
+						}
+					}
+
+					if (interfaceConstraintTypes.Count > 0)
+					{
+						builder.SetInterfaceConstraints(interfaceConstraintTypes.ToArray());
 					}
 				}
 

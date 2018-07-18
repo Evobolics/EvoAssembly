@@ -159,11 +159,7 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
 
             Assert.IsNotNull(conversionResult);
 
-            //Assert.IsNotNull(conversionResult.Assemblies);
-
-            //Assert.AreEqual(1, conversionResult.Assemblies.Count);
-
-            //collectibleAssembly = conversionResult.Assemblies[0];
+      
 
 	        var output = (ILConversionTypesOutput)conversionResult.Output;
 

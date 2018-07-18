@@ -35,7 +35,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 			var names = Types.TypeParameters.GetNames(conversion, generic);
 
-			// NEED BUILDERS BEFORE CODING CONSTRAINTS 
+			// NEED BUILDERS BEFORE C
 			generic.TypeParameters.Builders = converted.TypeBuilder.DefineGenericParameters(names);
 
 			for (var i = 0; i < parameters.Count; i++)

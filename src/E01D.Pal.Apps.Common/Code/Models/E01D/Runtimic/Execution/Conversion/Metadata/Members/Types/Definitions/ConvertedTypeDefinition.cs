@@ -30,13 +30,17 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
 
 	    public int BuildPhase { get; set; }
 
-		public List<ConvertedTypeDefinition_I> Dependencies { get; } =new List<ConvertedTypeDefinition_I>();
+		public List<ConvertedTypeDefinition_I> Phase2Dependencies { get; } =new List<ConvertedTypeDefinition_I>();
 
-	    public List<ConvertedTypeDefinition_I> Dependents { get; } = new List<ConvertedTypeDefinition_I>();
+	    public List<ConvertedTypeDefinition_I> Phase2Dependents { get; } = new List<ConvertedTypeDefinition_I>();
 
-	    //public ConvertedTypeDefinition_I DeclaringType { get; set; }
+	    public List<ConvertedTypeDefinition_I> Phase3Dependencies { get; } = new List<ConvertedTypeDefinition_I>();
 
-        public bool IsBaked { get; set; }
+	    public List<ConvertedTypeDefinition_I> Phase3Dependents { get; } = new List<ConvertedTypeDefinition_I>();
+
+		//public ConvertedTypeDefinition_I DeclaringType { get; set; }
+
+		public bool IsBaked { get; set; }
 
         /// <summary>
         /// Gets or sets whether the type has been built.  It has been built if a type builder has been assigned.
