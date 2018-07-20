@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Methods.Getting.FromMethodReference;
 using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
@@ -174,6 +175,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 				return Methods.Building.MakeArrayMethod(conversion, callingType, boundTypeWithMethods, methodReference);
 			}
 
+		   
+
 		    if (!boundTypeWithMethods.Methods.ByName.TryGetValue(methodReference.Name, out List<SemanticMethodMask_I> list))
 		    {
 			    throw new Exception($"Could not find the method {methodReference.FullName}.");
@@ -184,14 +187,19 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 			    throw new Exception("Could not find the method.");
 		    }
 
+		    if (methodReference.FullName ==
+		        "System.Boolean System.Collections.Generic.Dictionary`2<System.String,System.String>::TryGetValue(!0,!1&)")
+		    {
+			    
+		    }
+
+
+
 		    for (int i = 0; i < list.Count; i++)
 		    {
 			    
 
-				if (i == 6)
-			    {
-				    
-			    }
+				
 
 			    var currentSemanticMethod = list[i];
 
@@ -206,114 +214,143 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 			    if (!VerifyGenericArguments(currentSemanticMethod.MethodReference, methodReference)) continue;
 
-			    if (!VerifyParameters(conversion, currentSemanticMethod.MethodReference, methodReference)) continue;
+			    if (!Cecil.Methods.AreSame(conversion.Model, currentSemanticMethod.MethodReference.Parameters, methodReference.Parameters, methodReference)) continue;
 
 			    return method;
 
-				//var currentSemanticMethod = list[i];
+				////var currentSemanticMethod = list[i];
 
-				if (Cecil.Metadata.Members.Methods.AreSame(currentSemanticMethod.MethodReference, methodReference))
-				{
-					if (!(currentSemanticMethod is BoundMethodDefinitionMask_I boundMethod1))
-					{
-						throw new Exception($"The converted type {boundTypeWithMethods.FullName} has a non-bound method present and it cannot be used to get a method info.");
-					}
+				//if (Cecil.Metadata.Members.Methods.AreSame(currentSemanticMethod.MethodReference, methodReference))
+				//{
+				//	if (!(currentSemanticMethod is BoundMethodDefinitionMask_I boundMethod1))
+				//	{
+				//		throw new Exception($"The converted type {boundTypeWithMethods.FullName} has a non-bound method present and it cannot be used to get a method info.");
+				//	}
 
-					var method1 = boundMethod1.UnderlyingMethod;
+				//	var method1 = boundMethod1.UnderlyingMethod;
 
-					return method1;
-				}
+				//	return method1;
+				//}
 
 			}
 
-		    for (int i = 0; i < list.Count; i++)
-		    {
+		    //for (int i = 0; i < list.Count; i++)
+		    //{
 
 
-			    if (i == 6)
-			    {
+			   // if (i == 6)
+			   // {
 
-			    }
+			   // }
 
-			    var currentSemanticMethod = list[i];
+			   // var currentSemanticMethod = list[i];
 
 
-			    if (Cecil.Metadata.Members.Methods.AreSame(currentSemanticMethod.MethodReference, methodReference))
-			    {
-				    if (!(currentSemanticMethod is BoundMethodDefinitionMask_I boundMethod1))
-				    {
-					    throw new Exception($"The converted type {boundTypeWithMethods.FullName} has a non-bound method present and it cannot be used to get a method info.");
-				    }
+			   // if (Cecil.Metadata.Members.Methods.AreSame(currentSemanticMethod.MethodReference, methodReference))
+			   // {
+				  //  if (!(currentSemanticMethod is BoundMethodDefinitionMask_I boundMethod1))
+				  //  {
+					 //   throw new Exception($"The converted type {boundTypeWithMethods.FullName} has a non-bound method present and it cannot be used to get a method info.");
+				  //  }
 
-				    var method1 = boundMethod1.UnderlyingMethod;
+				  //  var method1 = boundMethod1.UnderlyingMethod;
 
-				    return method1;
-			    }
+				  //  return method1;
+			   // }
 
-		    }
+		    //}
 
 			throw new Exception("Could not find the method.");
 	    }
 
 	    
 
-		private bool VerifyParameters(ILConversion conversion, MethodReference currentMethod, MethodReference targetMethod)
-	    {
-		    var currentParameters = currentMethod.Parameters;
+		//private bool VerifyParameters(ILConversion conversion, MethodReference currentMethod, MethodReference targetMethod)
+	 //   {
+		//    var currentParameters = currentMethod.Parameters;
 
-		    var targetParameters = targetMethod.Parameters;
+		//    var targetParameters = targetMethod.Parameters;
 
-		    if (currentParameters.Count != targetParameters.Count) return false;
+		//    if (currentParameters.Count != targetParameters.Count) return false;
 
-		    for (int i = 0; i < currentParameters.Count; i++)
-		    {
-			    var currentParameter = currentParameters[i];
+		//    if (currentParameters.Count == 0)
+		//	    return true;
 
-			    var targetParameter = targetParameters[i];
+		//	for (int i = 0; i < currentParameters.Count; i++)
+		//    {
+		//	    var currentParameter = currentParameters[i];
 
-			    var currentParameterType = currentParameter.ParameterType;
+		//	    var targetParameter = targetParameters[i];
 
-			    var targetParameterType = targetParameter.ParameterType;
+		//	    var currentParameterType = currentParameter.ParameterType;
 
-			    targetParameterType = ResolveGenericParameterIfNeeded(targetMethod, targetParameterType);
+		//	    var targetParameterType = targetParameter.ParameterType;
 
-			    if (!VerifyTypeMatch(conversion, currentParameterType, targetParameterType)) return false;
+		//	    targetParameterType = Cecil.Methods.ResolveTypeParameterIfPresent(conversion.Model, targetMethod, targetParameterType);
 
-			    if (
-					//The parameter attributes shall be attached to the parameters (§II.22.33) and hence are not part of a method signature. (p. 180 CLI Infrastructure)
-					//currentParameter.IsIn != targetParameter.IsIn ||
-					//currentParameter.IsOut != targetParameter.IsOut ||
-					currentParameterType.IsByReference != targetParameterType.IsByReference)
-			    {
-				    return false;
-			    }
+		//	    if (!Cecil.Types.AreSame(currentParameterType, targetParameterType)) return false;
+		//	    //if (!VerifyTypeMatch(conversion, currentParameterType, targetParameterType)) return false;
+
+		//	    if (
+		//			//The parameter attributes shall be attached to the parameters (§II.22.33) and hence are not part of a method signature. (p. 180 CLI Infrastructure)
+		//			//currentParameter.IsIn != targetParameter.IsIn ||
+		//			//currentParameter.IsOut != targetParameter.IsOut ||
+		//			currentParameterType.IsByReference != targetParameterType.IsByReference)
+		//	    {
+		//		    return false;
+		//	    }
 
 
-		    }
-		    return true;
-	    }
+		//    }
+		//    return true;
+	 //   }
 
-	    private static TypeReference ResolveGenericParameterIfNeeded(MethodReference targetMethod, TypeReference targetParameterType)
-	    {
-		    if (targetParameterType.IsGenericParameter)
-		    {
-			    GenericParameter genericParameterType = (GenericParameter) targetParameterType;
+	  //  private static TypeReference ResolveGenericParameterIfNeeded(MethodReference targetMethod, TypeReference targetParameterType)
+	  //  {
+		 //   if (targetParameterType.IsByReference)
+		 //   {
+			//    var inputByReferenceType = typeToResolve.GetElementType();
 
-			    if (targetParameterType.DeclaringType != null)
-			    {
-				    GenericInstanceType genericInstance = (GenericInstanceType) targetMethod.DeclaringType;
+			//    var result = ResolveClassTypeArgument(model, inputByReferenceType);
 
-				    targetParameterType = genericInstance.GenericArguments[genericParameterType.Position];
-			    }
-			    //else
-			    //{
-				   // GenericInstanceMethod genericInstanceMethod = (GenericInstanceMethod) targetMethod;
+			//    return new ByReferenceType(result);
+		 //   }
 
-				   // targetParameterType = genericInstanceMethod.GenericArguments[genericParameterType.Position];
-			    //}
-		    }
-		    return targetParameterType;
-	    }
+		 //   if (targetParameterType.IsArray)
+		 //   {
+			//    var arrayType = typeToResolve;
+
+			//    var rank = arrayType.GetArrayRank();
+
+			//    var arrayElementType = arrayType.GetElementType();
+
+			//    var arrayElementReferenceType = ResolveClassTypeArgument(model, arrayElementType);
+
+			//    if (rank == 1)
+			//    {
+			//	    return new ArrayType(arrayElementReferenceType);
+			//    }
+			//    else
+			//    {
+			//	    return new ArrayType(arrayElementReferenceType, rank);
+			//    }
+		 //   }
+
+			//if (targetParameterType.IsGenericParameter)
+		 //   {
+			//    GenericParameter genericParameterType = (GenericParameter) targetParameterType;
+
+			//    if (targetParameterType.DeclaringType != null)
+			//    {
+			//	    GenericInstanceType genericInstance = (GenericInstanceType) targetMethod.DeclaringType;
+
+			//	    targetParameterType = genericInstance.GenericArguments[genericParameterType.Position];
+			//    }
+			    
+			//	// Method parameters would never be converted because you whould not know in advance what they were going to be.
+		 //   }
+		 //   return targetParameterType;
+	  //  }
 
 	    private bool VerifyReturnType(ILConversion conversion, MethodReference currentMethod, MethodReference targetMethod)
 	    {
@@ -321,7 +358,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 		    var targetReturnType = targetMethod.ReturnType;
 
-		    targetReturnType = ResolveGenericParameterIfNeeded(targetMethod, targetReturnType);
+		    targetReturnType = Cecil.Methods.ResolveTypeParameterIfPresent(conversion.Model, targetMethod, targetReturnType);
 
 		    return VerifyTypeMatch(conversion, currentReturnType, targetReturnType);		    
 	    }

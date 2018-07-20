@@ -137,31 +137,28 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 			var dependencies = CheckForPhase3Dependencies(conversion, converted);
 
-			if (dependencies.Count == 0)
-			{
-				BuildPhase3_NoDependencies(conversion, converted);
-			}
+
+
+			if (dependencies.Count > 0) return;
+			
+			
+
+			BuildPhase4(conversion, converted);
 		}
 
-	    private void BuildPhase3_NoDependencies(ILConversion conversion, ConvertedTypeDefinition_I converted)
+	    private void BuildPhase4(ILConversion conversion, ConvertedTypeDefinition_I converted)
 	    {
-		    if (converted.AssemblyQualifiedName ==
-		        "Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies.AdditionApi_I`1, E01D.Pal.Apps.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
-		    )
-		    {
-			    
-		    }
-
 		    // This is null for closed generic types
 		    if (converted.TypeBuilder != null)
 		    {
-
 			    if (!(converted is ConvertedGenericTypeDefinition_I generic && generic.IsClosedType()))
 			    {
 				    NonGenericInstances.Phase3Instructions.Build(conversion, converted);
 			    }
 
-			    converted.TypeBuilder.CreateType();
+			    if (converted.ConversionState.Phase3Dependencies.Count > 0) return;
+
+				converted.TypeBuilder.CreateType();
 		    }
 
 		    Types.Building.UpdateBuildPhase(converted, BuildPhaseKind.TypeCreated);
@@ -176,7 +173,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 			    if (dependent.ConversionState.Phase3Dependencies.Count == 0)
 			    {
-				    BuildPhase3_NoDependencies(conversion, dependent);
+				    BuildPhase4(conversion, dependent);
 			    }
 		    }
 	    }

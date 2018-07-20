@@ -8,6 +8,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
     {
         ILApiMask_I IL { get; }
 
-        void BuildInstructions(ILConversion conversion, ConvertedTypeDefinition_I input);
+        bool BuildInstructions(ILConversion conversion, ConvertedTypeDefinition_I input);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Libs.Mono.Cecil.Metadata;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Types
@@ -278,7 +279,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			if (a == null || b == null)
 				return false;
 
-			if (a.MetadataType != b.MetadataType)
+			if (a.ElementKind != b.ElementKind)
 				return false;
 
 			if (a.IsGenericParameter)
@@ -290,31 +291,29 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			if (a.Name != b.Name || a.Namespace != b.Namespace)
 				return false;
 
-			//TODO: check scope
+			//TODO: check scope (aka Module and and Assembly)
 
 			return AreSame(a.DeclaringType, b.DeclaringType);
 		}
 
 		public bool IsTypeSpecification(TypeReference type)
 		{
-			switch (type.MetadataType)
+			switch (type.ElementKind)
 			{
-				case MetadataType.Array:
-				case MetadataType.ByReference:
-				case MetadataType.OptionalModifier:
-				case MetadataType.RequiredModifier:
-				case MetadataType.FunctionPointer:
-				case MetadataType.GenericInstance:
-				case MetadataType.MVar:
-				case MetadataType.Pinned:
-				case MetadataType.Pointer:
-				//case MetadataType.SzArray:
-				case MetadataType.Sentinel:
-				case MetadataType.Var:
+				case ElementType.Array:
+				case ElementType.ByRef:
+				case ElementType.CModOpt:
+				case ElementType.CModReqD:
+				case ElementType.FnPtr:
+				case ElementType.GenericInst:
+				case ElementType.MVar:
+				case ElementType.Pinned:
+				case ElementType.Ptr:
+				case ElementType.SzArray:
+				case ElementType.Sentinel:
+				case ElementType.Var:
 					return true;
 			}
-
-			if (type.IsArray) return true;
 
 			return false;
 		}

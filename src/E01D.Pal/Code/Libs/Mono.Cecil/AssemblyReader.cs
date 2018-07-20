@@ -2329,6 +2329,8 @@ namespace Root.Code.Libs.Mono.Cecil {
 
 		MemberReference ReadMemberReferenceSignature (uint signature, TypeReference declaring_type)
 		{
+			
+
 			var reader = ReadSignature (signature);
 			const byte field_sig = 0x6;
 
@@ -2340,6 +2342,9 @@ namespace Root.Code.Libs.Mono.Cecil {
 				return field;
 			} else {
 				var method = new MethodReference ();
+
+				
+
 				method.DeclaringType = declaring_type;
 				reader.ReadMethodSignature (method);
 				return method;

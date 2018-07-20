@@ -22,7 +22,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods
 			{
 				var method = list[i];
 
-				if (Cecil.Metadata.Members.Methods.AreSame(methodDefinition, method.MethodReference))
+				if (Cecil.Metadata.Members.Methods.AreSame(model, methodDefinition, method.MethodReference, false))
 				{
 					return method;
 				}

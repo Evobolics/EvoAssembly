@@ -1,8 +1,10 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Instructions.IL;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
 
 namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members
@@ -34,10 +36,21 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members
         public BoundTypeDefinitionMask_I ReturnType { get; set; }
 
         public abstract MemberInfo UnderlyingMember { get; }
+	    public bool AreLocalVariablesDeclared { get; set; }
+	    public bool IsBranchAndTypeScanComplete { get; set; }
+	    public ExceptionHandlingInfo ExceptionHandlingInfo { get; set; }
+	    public bool IsExceptionHandlingInfoPreprocessed { get; set; }
 
-        // TODO: // turn into extension method
-        public abstract bool IsConstructor();
+	    public Dictionary<int, ConvertedInstruction> ConvertedInstructions { get; set; } = new Dictionary<int, ConvertedInstruction>();
+	    public bool ILFullyEmitted { get; set; }
+
+	    // TODO: // turn into extension method
+		public abstract bool IsConstructor();
 
         public abstract bool IsMethod();
-    }
+
+	    public Dictionary<int, ConvertedLabel> LabelEntries = new Dictionary<int, ConvertedLabel>();
+
+	    public Dictionary<int, ConvertedLabel> SwitchEntries = new Dictionary<int, ConvertedLabel>();
+	}
 }

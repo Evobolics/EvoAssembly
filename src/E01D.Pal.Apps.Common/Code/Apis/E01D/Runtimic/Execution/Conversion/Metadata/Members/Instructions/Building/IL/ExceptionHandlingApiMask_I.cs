@@ -9,7 +9,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 {
     public interface ExceptionHandlingApiMask_I
     {
-        ExceptionHandlingInfo Preprocess(ILConversion conversion, MethodBody methodDefinitionBody);
+	    void Preprocess(ILConversion conversion, ConvertedRoutine routine);
 
         void AddEvent(ILConversion conversion, ExceptionBlockEventKind eventKind,
             ExceptionHandlingInfo handlingInfo, int offset, ExceptionBlock exceptionBlock,
@@ -18,6 +18,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
         void AddEvent(ILConversion conversion, ExceptionBlockEventKind eventKind,
             ExceptionHandlingInfo handlingInfo, int offset, ExceptionBlock exceptionBlock);
 
-        void ProcessInstruction(ILConversion conversion, ConvertedRoutine entry, ExceptionHandlingInfo info, Instruction instruction, ILGenerator ilGenerator);
+	    void ProcessInstruction(ILConversion conversion, ConvertedRoutine routine, Instruction instruction);
+
     }
 }

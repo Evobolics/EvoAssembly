@@ -16,37 +16,34 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
         ILApiMask_I BuildingApiMask_I.IL => IL;
 
-        public void BuildInstructions(ILConversion conversion, ConvertedTypeDefinition_I input)
+        public bool BuildInstructions(ILConversion conversion, ConvertedTypeDefinition_I input)
         {
             // Done on purpose to find errors
             var typeDefinition = (TypeDefinition)input.SourceTypeReference;
 
-            if (!typeDefinition.HasMethods) return;
+            if (!typeDefinition.HasMethods) return true;
 
-            if (input.SourceTypeReference.Name == "PublicClass_I")
+	        bool noDependenciesFound = true;
+
+			if (input is ConvertedTypeDefinitionWithConstructors_I convertedTypeWithConstructors)
             {
-
+	            noDependenciesFound &= BuildConstructorInstructions(conversion, input, convertedTypeWithConstructors.Constructors);
             }
-
-            if (input is ConvertedTypeDefinitionWithConstructors_I convertedTypeWithConstructors)
-            {
-                BuildConstructorInstructions(conversion, input, convertedTypeWithConstructors.Constructors);
-            }
-
-           
-
 
             if (input is ConvertedTypeDefinitionWithMethods_I convertedTypeWithMethods)
             {
-                BuildMethodInstructions(conversion, input, convertedTypeWithMethods.Methods);
+	            noDependenciesFound &= BuildMethodInstructions(conversion, input, convertedTypeWithMethods.Methods);
             }
 
-            
+	        return noDependenciesFound;
+
         }
 
-        private void BuildConstructorInstructions(ILConversion conversion, ConvertedTypeDefinition_I input, ConvertedTypeDefinitionConstructors constructors)
+        private bool BuildConstructorInstructions(ILConversion conversion, ConvertedTypeDefinition_I input, ConvertedTypeDefinitionConstructors constructors)
         {
-            foreach (var constructorEntry in constructors.All)
+	        bool noDependenciesFound = true;
+
+			foreach (var constructorEntry in constructors.All)
             {
                 if (!(constructorEntry is ConvertedEmittedConstructor convertedConstructor))
                 {
@@ -61,14 +58,21 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
                 if (methodDefinition.Body == null) continue;
 
-                convertedConstructor.IlGenerator = convertedConstructor.ConstructorBuilder.GetILGenerator();
+	            if (convertedConstructor.IlGenerator == null) // can be null if this is tried a second time.
+	            {
+					convertedConstructor.IlGenerator = convertedConstructor.ConstructorBuilder.GetILGenerator();
+				}
 
-                IL.GenerateIL(conversion, input, convertedConstructor);
+	            noDependenciesFound &= IL.GenerateIL(conversion, input, convertedConstructor);
             }
+
+	        return noDependenciesFound;
         }
 
-        private void BuildMethodInstructions(ILConversion conversion, ConvertedTypeDefinition_I input, ConvertedTypeDefinitionMethods methods)
+        private bool BuildMethodInstructions(ILConversion conversion, ConvertedTypeDefinition_I input, ConvertedTypeDefinitionMethods methods)
         {
+	        bool noDependenciesFound = true;
+
             foreach (var methodList in methods.ByName.Values)
             {
                 foreach (var methodEntry in methodList)
@@ -86,19 +90,20 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 					
                     if (methodDefinition.Body == null) continue;
 
-                    if (convertedMethod.DeclaringType.IsInterface())
-                    {
-
-                    }
-
 	                var methodBuilder = convertedMethod.MethodBuilder;
 
-					convertedMethod.IlGenerator = methodBuilder.GetILGenerator();
+	                if (convertedMethod.IlGenerator == null) // can be null if this is tried a second time.
+	                {
+		                convertedMethod.IlGenerator = methodBuilder.GetILGenerator();
+	                }
 
-                    IL.GenerateIL(conversion, input, convertedMethod);
+	                noDependenciesFound &= IL.GenerateIL(conversion, input, convertedMethod);
                 }
 
             }
+
+	        return noDependenciesFound;
+
         }
     }
 }

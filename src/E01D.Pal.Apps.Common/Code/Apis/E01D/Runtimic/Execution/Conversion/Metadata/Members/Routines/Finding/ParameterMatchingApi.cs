@@ -27,8 +27,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
 
                 if (!Routines.Finding.TypeMatching.VerifyTypeMatch(conversion, currentParameterType, targetParameterType, null)) return false;
 
-                if (currentParameter.IsIn != targetParameter.IsIn ||
-                    currentParameter.IsOut != targetParameter.IsOut ||
+                if (
+					//currentParameter.IsIn != targetParameter.IsIn ||
+     //               currentParameter.IsOut != targetParameter.IsOut ||
                     currentParameterType.IsByReference != targetParameterType.IsByReference)
                 {
                     return false;

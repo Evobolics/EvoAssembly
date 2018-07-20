@@ -27,184 +27,15 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		GettingApiMask_I MethodApiMask_I.Getting => Getting;
 
 
-		public bool ContainsMethodGenericParameters(MethodReference methodReference)
-		{
-			if (methodReference.GenericParameters.Count < 1) return false;
+		
 
-			for (int i = 0; i < methodReference.GenericParameters.Count; i++)
-			{
-				var genericParameter = methodReference.GenericParameters[i];
+		
 
-				if (genericParameter.DeclaringMethod != null) return true;
-			}
+		
 
-			return false;
-		}
+		
 
-		public bool ContainsClassGenericParameters(MethodReference methodReference)
-		{
-			throw new Exception("Wrong");
-			//if (methodReference.GenericParameters.Count < 1) return false;
-
-			//for (int i = 0; i < methodReference.GenericParameters.Count; i++)
-			//{
-			//	var genericParameter = methodReference.GenericParameters[i];
-
-			//	if (genericParameter.DeclaringType != null) return true;
-			//}
-
-			//return false;
-		}
-
-		/// <summary>
-		/// Used ot transform a reference from a 
-		/// </summary>
-		/// <param name="model"></param>
-		/// <param name="methodReference"></param>
-		/// <returns></returns>
-		public MethodReference ResolveSignatureReferenceToFullReference(StructuralRuntimicModelMask_I model, TypeReference callingMethodType, MethodDefinition callingMethodDefinition,
-			MethodReference signatureMethodReference)
-		{
-			if (callingMethodDefinition.FullName == "System.Collections.Generic.List`1<TOutput> System.Collections.Generic.List`1::ConvertAll(System.Converter`2<T,TOutput>)")
-			{
-				
-			}
-
-			if (!signatureMethodReference.IsGenericInstance)
-			{
-				var result = ResolveReferenceToNonSignatureDefinition(model, signatureMethodReference);
-
-				return result;
-			}
-
-			GenericInstanceMethod genericInstanceMethod = (GenericInstanceMethod)signatureMethodReference;
-
-			var genericMethodDefinition = genericInstanceMethod.ElementMethod;
-
-			var calledMethodDefinition = ResolveReferenceToNonSignatureDefinition(model, genericMethodDefinition);
-
-			if (ReferenceEquals(calledMethodDefinition, genericMethodDefinition)) return signatureMethodReference;
-
-
-			var genericArguments = genericInstanceMethod.GenericArguments;
-
-			var resolvedMethodReference = new GenericInstanceMethod(calledMethodDefinition)
-			{
-				ReturnType = ResolveTypeParameterIfPresent(model, callingMethodType, callingMethodDefinition, calledMethodDefinition, genericInstanceMethod.ReturnType),
-			};
-
-			AddGenericArguments(model, callingMethodType, callingMethodDefinition, calledMethodDefinition, resolvedMethodReference, genericArguments);
-
-			int orginalCount = genericInstanceMethod.Parameters.Count;
-
-			for (int i = 0; i < genericInstanceMethod.Parameters.Count; i++)
-			{
-				var inputParameter = genericInstanceMethod.Parameters[i];
-
-				var inputParameterType = inputParameter.ParameterType;
-
-				var outputParameterType = ResolveTypeParameterIfPresent(model, callingMethodType, callingMethodDefinition, calledMethodDefinition, inputParameterType);
-
-				var outputParameter = Parameters.Create(inputParameter, outputParameterType);
-
-				resolvedMethodReference.Parameters.Add(outputParameter);
-			}
-
-			if (orginalCount != genericInstanceMethod.Parameters.Count)
-			{
-				throw new Exception("Ddi not work");
-			}
-
-			return resolvedMethodReference;
-		}
-
-		private void AddGenericArguments(StructuralRuntimicModelMask_I model, TypeReference currentType, MethodDefinition callingMethod, MethodDefinition calledMethod, GenericInstanceMethod resolvedMethodReference, Collection<TypeReference> typeArgumentReferences)
-		{
-			for (int i = 0; i < typeArgumentReferences.Count; i++)
-			{
-				var currentArgument = typeArgumentReferences[i];
-
-				var resolved = ResolveTypeParameterIfPresent(model, currentType, callingMethod, calledMethod, currentArgument);
-
-				resolvedMethodReference.GenericArguments.Add(resolved);
-			}
-		}
-
-		private TypeReference ResolveTypeParameterIfPresent(StructuralRuntimicModelMask_I model, TypeReference currentType, 
-			MethodDefinition callingMethod, MethodDefinition calledMethod, TypeReference typeToResolve)
-		{
-			if (typeToResolve.IsByReference)
-			{
-				var inputByReferenceType = (ByReferenceType)typeToResolve;
-
-				var inputByReferenceTypeElement = inputByReferenceType.ElementType;
-
-				var result = ResolveTypeParameterIfPresent(model, currentType, callingMethod, calledMethod, inputByReferenceTypeElement);
-
-				return new ByReferenceType(result);
-			}
-
-			if (typeToResolve.IsArray)
-			{
-				var arrayType = (ArrayType)typeToResolve;
-
-				var rank = arrayType.Rank;
-
-				var arrayElementType = arrayType.ElementType;
-
-				var arrayElementReferenceType = ResolveTypeParameterIfPresent(model, currentType, callingMethod, calledMethod, arrayElementType);
-
-				if (rank == 1)
-				{
-					return new ArrayType(arrayElementReferenceType);
-				}
-				else
-				{
-					return new ArrayType(arrayElementReferenceType, rank);
-				}
-			}
-
-			if (!typeToResolve.IsGenericParameter)
-			{
-				return Types.Getting.GetInternalTypeReference(model, typeToResolve);
-			}
-
-			var genericParameter = (GenericParameter) typeToResolve;
-
-			if (genericParameter.Type == GenericParameterType.Type)
-			{
-				if (currentType.GenericParameters.Count < genericParameter.Position)
-				{
-					throw new Exception($"Expected a generic parameter on the current type for position { genericParameter.Position}.");
-				}
-
-				return currentType.GenericParameters[genericParameter.Position];
-			}
-
-			var genericParameterDeclaringMethod = genericParameter.DeclaringMethod;
-
-			MethodReference methodReferenceContainingParameters;
-
-			if (AreSame(callingMethod, genericParameterDeclaringMethod))
-			{
-				methodReferenceContainingParameters = callingMethod;
-			}
-			else if (AreSame(calledMethod, genericParameterDeclaringMethod))
-			{
-				methodReferenceContainingParameters = calledMethod;
-			}
-			else
-			{
-				throw new Exception("Could not match method");
-			}
-
-			if (methodReferenceContainingParameters.GenericParameters.Count < genericParameter.Position)
-			{
-				throw new Exception($"Expected a generic parameter on the current method for position { genericParameter.Position}.");
-			}
-
-			return methodReferenceContainingParameters.GenericParameters[genericParameter.Position];
-		}
+		
 
 		public MethodDefinition ResolveReferenceToNonSignatureDefinition(StructuralRuntimicModelMask_I model, MethodReference methodReference)
 		{
@@ -225,14 +56,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			{
 				var methodDefinition = methods[i];
 
-				if (AreSame(methodDefinition, methodReference)) return methodDefinition;
+				if (AreSame(model, methodDefinition, methodReference, false)) return methodDefinition;
 			}
 
 			throw new System.Exception("Could not find method");
 
 		}
 
-		public bool AreSame(MethodReference methodDefinition, MethodReference methodReference)
+
+
+		public bool AreSame(StructuralRuntimicModelMask_I model, MethodReference methodDefinition, MethodReference methodReference, bool resolveTypeParametersIfPresentInMethodB)
 		{
 			if (methodDefinition.Name != methodReference.Name)
 				return false;
@@ -258,13 +91,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			if (!methodDefinition.HasParameters && !methodReference.HasParameters)
 				return true;
 
-			if (!AreSame(methodDefinition.Parameters, methodReference.Parameters))
+			MethodReference methodReferenceToResolve = resolveTypeParametersIfPresentInMethodB ? methodReference : null;
+
+			if (!AreSame(model, methodDefinition.Parameters, methodReference.Parameters, methodReferenceToResolve))
 				return false;
 
 			return true;
 		}
 
-		public bool AreSame(Collection<ParameterDefinition> a, Collection<ParameterDefinition> b)
+		
+
+		public bool AreSame(StructuralRuntimicModelMask_I model, Collection<ParameterDefinition> a, Collection<ParameterDefinition> b, MethodReference bMethod)
 		{
 			var count = a.Count;
 
@@ -275,10 +112,79 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 				return true;
 
 			for (int i = 0; i < count; i++)
-				if (!Types.AreSame(a[i].ParameterType, b[i].ParameterType))
+			{
+				var aType = a[i].ParameterType;
+
+				var bType = b[i].ParameterType;
+
+				if (bMethod != null)
+				{
+					bType = ResolveTypeParameterIfPresent(model, bMethod, bType);
+				}
+
+				if (!Types.AreSame(aType, bType))
 					return false;
+			}
+				
 
 			return true;
+		}
+
+		public TypeReference ResolveTypeParameterIfPresent(StructuralRuntimicModelMask_I model, MethodReference calledMethod, TypeReference typeToResolve)
+		{
+			if (typeToResolve.IsByReference)
+			{
+				var inputByReferenceType = (ByReferenceType)typeToResolve;
+
+				var inputByReferenceTypeElement = inputByReferenceType.ElementType;
+
+				var result = ResolveTypeParameterIfPresent(model, calledMethod, inputByReferenceTypeElement);
+
+				return new ByReferenceType(result);
+			}
+
+			if (typeToResolve.IsArray)
+			{
+				var arrayType = (ArrayType)typeToResolve;
+
+				var rank = arrayType.Rank;
+
+				var arrayElementType = arrayType.ElementType;
+
+				var arrayElementReferenceType = ResolveTypeParameterIfPresent(model, calledMethod, arrayElementType);
+
+				if (rank == 1)
+				{
+					return new ArrayType(arrayElementReferenceType);
+				}
+				else
+				{
+					return new ArrayType(arrayElementReferenceType, rank);
+				}
+			}
+
+			if (!typeToResolve.IsGenericParameter)
+			{
+				return Types.Getting.GetInternalTypeReference(model, typeToResolve);
+			}
+
+			var genericParameter = (GenericParameter)typeToResolve;
+
+			if (genericParameter.Type == GenericParameterType.Type)
+			{
+				GenericInstanceType genericInstance = (GenericInstanceType)calledMethod.DeclaringType;
+
+				if (genericInstance.GenericArguments.Count < genericParameter.Position)
+				{
+					throw new Exception($"Expected a generic parameter on the current type for position { genericParameter.Position}.");
+				}
+
+				return genericInstance.GenericArguments[genericParameter.Position];
+			}
+
+			// Method parameters would never be converted because you whould not know in advance what they were going to be.
+
+			return typeToResolve;
 		}
 
 		public bool IsVarArgCallTo(MethodReference method, MethodReference reference)

@@ -5,6 +5,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 {
 	public interface Phase3InstructionBuildApiMask_I
 	{
-		void Build(ILConversion conversion, ConvertedTypeDefinition_I converted);
+		bool Build(ILConversion conversion, ConvertedTypeDefinition_I converted);
 	}
 }

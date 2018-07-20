@@ -226,6 +226,12 @@ namespace Root.Code.Libs.Mono.Cecil
 			get { return etype.IsPrimitive (); }
 		}
 
+		public ElementType ElementKind
+		{
+			get { return etype; }
+			set { etype = value; }
+		}
+
 		public virtual MetadataType MetadataType {
 			get {
 				switch (etype) {

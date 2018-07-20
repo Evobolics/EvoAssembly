@@ -7,7 +7,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 	public class Phase3InstructionBuildApi<TContainer> : ConversionApiNode<TContainer>, Phase3InstructionBuildApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public void Build(ILConversion conversion, ConvertedTypeDefinition_I converted)
+		public bool Build(ILConversion conversion, ConvertedTypeDefinition_I converted)
 		{
 			// DESIGN NOTE:
 			// Need to place this in this phase after members have been created, and after generic instances have been able to get a copy of the methods.
@@ -15,9 +15,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			// so their methods can be created. 
 
 			// The generic instances need the methods that orginate from this phase. 
-			Instructions.Building.BuildInstructions(conversion, converted);
+			if (!Instructions.Building.BuildInstructions(conversion, converted))
+			{
+				return false;
+			}
 
 			Methods.Building.Emitted.AddAllMethodOverrides(conversion, converted);
+
+			return true;
 		}
 	}
 }

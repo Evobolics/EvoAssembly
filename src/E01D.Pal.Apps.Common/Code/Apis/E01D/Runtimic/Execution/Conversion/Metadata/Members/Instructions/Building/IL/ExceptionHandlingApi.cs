@@ -15,11 +15,21 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
     public class ExceptionHandlingApi<TContainer> : ConversionApiNode<TContainer>, ExceptionHandlingApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        public ExceptionHandlingInfo Preprocess(ILConversion conversion, MethodBody methodDefinitionBody)
+        public void Preprocess(ILConversion conversion, ConvertedRoutine routine)
         {
-            var handlingInfo = new ExceptionHandlingInfo();
+	        if (routine.IsExceptionHandlingInfoPreprocessed) return;
 
-            if (!methodDefinitionBody.HasExceptionHandlers) return null;
+	        routine.IsExceptionHandlingInfoPreprocessed = true;
+
+			routine.ExceptionHandlingInfo = new ExceptionHandlingInfo();
+
+	        var handlingInfo = routine.ExceptionHandlingInfo;
+
+		   var methodDefinition = (MethodDefinition)routine.MethodReference;
+
+			var methodDefinitionBody = methodDefinition.Body;
+
+            if (!methodDefinitionBody.HasExceptionHandlers) return;
 
             foreach (var exceptionBlock in methodDefinitionBody.ExceptionHandlers)
             {
@@ -167,7 +177,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 AddEvent(conversion, ExceptionBlockEventKind.EndBlock, handlingInfo, lastHandlerEntry.HandlerEnd.Offset, tryCatchBlock);
             }
 
-            return handlingInfo;
+            
         }
 
         public void AddEvent(ILConversion conversion, ExceptionBlockEventKind eventKind, ExceptionHandlingInfo handlingInfo, int offset, ExceptionBlock exceptionBlock, ExceptionHandler exceptionHandler)
@@ -195,9 +205,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
             AddEvent(conversion, eventKind, handlingInfo, offset, exceptionBlock, null);
         }
 
-        public void ProcessInstruction(ILConversion conversion, ConvertedRoutine entry, ExceptionHandlingInfo info, Instruction instruction, ILGenerator ilGenerator)
+        public void ProcessInstruction(ILConversion conversion, ConvertedRoutine routine, Instruction instruction)
         {
-	        var methodReference = entry.MethodReference;
+	        var info = routine.ExceptionHandlingInfo;
+
+	        var ilGenerator = routine.IlGenerator;
+
+			var methodReference = routine.MethodReference;
 
 	        if (methodReference.IsDefinition) return;
 

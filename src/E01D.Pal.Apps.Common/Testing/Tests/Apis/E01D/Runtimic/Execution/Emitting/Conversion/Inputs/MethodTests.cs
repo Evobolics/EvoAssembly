@@ -95,12 +95,40 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 		}
 
 		[Test]
+		public void MethodTesting_FindConstructorBeforeCreated()
+		{
+			// Create a test container
+			var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+			var result2 = test.Api.ConvertCreateCall(typeof(MethodTesting_FindConstructorBeforeCreatedA), "Execute");
+
+
+
+
+
+		}
+
+		[Test]
 		public void MethodTesting_FindMethodBeforeCreated()
 		{
 			// Create a test container
 			var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
 			var result2 = test.Api.ConvertCreateCall(typeof(MethodTesting_FindMethodBeforeCreatedA), "Execute");
+
+
+
+
+
+		}
+
+		[Test]
+		public void MethodTesting_DictionaryTryGet()
+		{
+			// Create a test container
+			var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+			var result2 = test.Api.ConvertCreateCall(typeof(MethodTesting_DictionaryTryGet), "Execute");
 
 
 

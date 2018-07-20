@@ -1,6 +1,7 @@
 ﻿using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Building;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Getting;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Libs.Mono.Collections.Generic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods
@@ -14,15 +15,19 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		GettingApiMask_I Getting { get; }
 
 
-		bool ContainsMethodGenericParameters(MethodReference methodReference);
+		
 
-		bool ContainsClassGenericParameters(MethodReference methodReference);
+		
 
 		MethodDefinition ResolveReferenceToNonSignatureDefinition(StructuralRuntimicModelMask_I model, MethodReference methodReference);
 
-		MethodReference ResolveSignatureReferenceToFullReference(StructuralRuntimicModelMask_I model,
-			TypeReference currentType, MethodDefinition currentMethod, MethodReference signatureMethodReference);
+		bool AreSame(StructuralRuntimicModelMask_I model, Collection<ParameterDefinition> a,
+			Collection<ParameterDefinition> b, MethodReference bMethod);
 
-		bool AreSame(MethodReference methodDefinition, MethodReference methodReference);
+		bool AreSame(StructuralRuntimicModelMask_I model, MethodReference methodDefinition,
+			MethodReference methodReference, bool resolveTypeParametersIfPresentInMethodB);
+
+		TypeReference ResolveTypeParameterIfPresent(StructuralRuntimicModelMask_I model, MethodReference calledMethod,
+			TypeReference typeToResolve);
 	}
 }

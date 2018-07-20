@@ -95,7 +95,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members
 			// If a constructor 
 			if (methodReference.Name == ConstructorInfo.ConstructorName)
             {
-	            return Constructors.Getting.GetConstructor(conversion, typeBeingBuilt, methodReference, out memberInfo);
+	            // how does the member reference declaring type be resolved?
+	            var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion, methodReference.DeclaringType);
+
+				return Constructors.Getting.GetConstructor(conversion, typeBeingBuilt, declaringBound, methodReference, out memberInfo);
             }
 			
 			memberInfo = Methods.Getting.GetMethodInfoOrThrow(conversion, typeBeingBuilt, methodReference);
