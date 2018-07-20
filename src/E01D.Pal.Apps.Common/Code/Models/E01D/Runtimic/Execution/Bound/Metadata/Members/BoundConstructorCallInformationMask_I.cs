@@ -6,8 +6,8 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members
     {
         BoundTypeDefinitionWithConstructorsMask_I DeclaringTypeWithConstructors { get; }
 
-        bool CallingBaseConstructor { get;}
+        
 
-        bool DeclaringTypeHasTypeArgumentsThatAreTypeParameters { get; }
+        
     }
 }

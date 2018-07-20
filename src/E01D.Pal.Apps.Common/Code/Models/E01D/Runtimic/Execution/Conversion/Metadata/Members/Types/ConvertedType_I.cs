@@ -2,5 +2,6 @@
 {
     public interface ConvertedType_I: ConvertedMember_I, ConvertedTypeMask_I
     {
-    }
+	    new ConversionState ConversionState { get; set; }
+	}
 }

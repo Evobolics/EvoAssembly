@@ -34,24 +34,12 @@
     <Compile Include="Code\Apis\E01D\CommonAppPalDomainApi.cs" />
     <Compile Include="Code\Apis\E01D\Activation\CommonAppActivationDomainApi.cs" />
     <Compile Include="Code\Apis\E01D\Containment\CommonAppContainerDomainApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Constructors\Building\BuildingApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Constructors\Building\BuildingApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Constructors\Building\BuildingApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Constructors\Building\DynamicallyCreatedApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Constructors\Building\DynamicallyCreatedApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Constructors\Building\DynamicallyCreatedApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Constructors\Building\RuntimeCreatedApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Constructors\Building\RuntimeCreatedApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Constructors\Building\RuntimeCreatedApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\Building\BuildingApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\Building\BuildingApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\Building\BuildingApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\Building\DynamicallyCreatedApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\Building\DynamicallyCreatedApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\Building\DynamicallyCreatedApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\Building\RuntimeCreatedApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\Building\RuntimeCreatedApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\Building\RuntimeCreatedApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Constructors\BuildingApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Constructors\BuildingApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Constructors\BuildingApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\BuildingApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\BuildingApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\BuildingApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Internal\InternalApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Internal\InternalApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Internal\InternalApi_I.cs" />
@@ -82,9 +70,9 @@
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Getting\FromMethodReference\FromMethodReferenceApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Getting\FromMethodReference\FromMethodReferenceApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Getting\FromMethodReference\FromMethodReferenceApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\Getting\GettingApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\Getting\GettingApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\Getting\GettingApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\GettingApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\GettingApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\GettingApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\Building\ArrayApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\Building\ArrayApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\Building\ArrayApi_I.cs" />
@@ -136,15 +124,6 @@
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Building\RuntimeCreatedApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Building\RuntimeCreatedApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Building\RuntimeCreatedApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Getting\FromMethodInfo\NonGenericInstanceApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Getting\FromMethodInfo\DefinitionApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Getting\FromMethodInfo\NonGenericInstanceApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Getting\FromMethodInfo\FromMethodInfoApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Getting\FromMethodInfo\FromMethodInfoApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Getting\FromMethodInfo\FromMethodInfoApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Getting\FromMethodInfo\ReferenceApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Getting\FromMethodInfo\ReferenceApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Methods\Getting\FromMethodInfo\ReferenceApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Building\ArrayApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Building\ArrayApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Building\ArrayApi_I.cs" />
@@ -242,33 +221,18 @@
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\BuildingApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\BuildingApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\BuildingApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\GenericInstances\ClassApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\GenericInstances\ClassApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\GenericInstances\ClassApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\GenericInstances\GenericInstanceApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\GenericInstances\GenericInstanceApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\GenericInstances\GenericInstanceApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\GenericInstances\MethodApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\GenericInstances\MethodApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\GenericInstances\MethodApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\GenericInstanceApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\GenericInstanceApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\GenericInstanceApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\MethodDefinitionApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\MethodDefinitionApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Building\MethodDefinitionApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\EnsuringApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\EnsuringApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\EnsuringApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Getting\FromMethodInfo\DefinitionApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Getting\FromMethodInfo\DefinitionApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Getting\FromMethodInfo\DefinitionApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Getting\FromMethodInfo\FromMethodInfoApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Getting\FromMethodInfo\FromMethodInfoApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Getting\FromMethodInfo\FromMethodInfoApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Getting\FromMethodInfo\ReferenceApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Getting\FromMethodInfo\ReferenceApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Getting\FromMethodInfo\ReferenceApi_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Getting\GettingApi.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Getting\GettingApiMask_I.cs" />
-    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\Getting\GettingApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\GettingApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\GettingApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\GettingApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\MethodApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\MethodApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Methods\MethodApi_I.cs" />
@@ -864,6 +828,8 @@
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionTypesInput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionTypesOutput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\InputOutputKind.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\BuildPhaseKind.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\ConversionState.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Semantic\AssemblyMapEntry.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Semantic\AssemblyMap.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\Cecil\CecilTypeReferenceSet.cs" />
@@ -1450,7 +1416,11 @@
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\InterfaceTesting_SemanticTypeDefinitionMask_I.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\InterfaceWithProperties.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_CallGenericDelegate.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_CallGenericInstanceMethod.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_CallGenericInstanceMethodTypeArgumentInMethodSignature.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_ExplicitInterfaceImplementation.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_FindMethodBeforeCreatedA.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_FindMethodBeforeCreatedB.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_GenericClassWithTwoMethodsNamedTheSame.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_Polymorphism_Virtual.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_Polymorphism_Virtual_Base.cs" />
@@ -1490,6 +1460,7 @@
     <Folder Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Modules\" />
     <Folder Include="Code\Apis\E01D\Runtimic\Execution\Underlying\" />
     <Folder Include="Code\Apis\E01D\Runtimic\Infrastructure\Models\Unified\" />
+    <Folder Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Mono\" />
     <Folder Include="Code\Apis\E01D\Runtimic\TypeSystems\" />
     <Folder Include="Code\Containers\E01D\Runtimic\Execution\Emitting\Conversion\" />
     <Folder Include="Code\Enums\E01D\Runtimic\Infrastructure\Semantic\Metadata\Members\Typal\" />
@@ -1510,21 +1481,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Mono.Cecil, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Mdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Reflection, Version=1.1.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Reflection.1.1.0.0\lib\Mono.Reflection.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>

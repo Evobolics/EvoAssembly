@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Mono.Cecil;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Constructors;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Events;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Fields;
@@ -10,6 +9,7 @@ using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Routine
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.TypeArguments;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Parameters;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
@@ -45,8 +45,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members
 
         TypeApiMask_I Types { get;  }
 
-        MemberInfo GetMemberInfo(ILConversion conversion, ConvertedTypeDefinition_I input, MemberReference operand);
-        BoundTypeDefinitionMask_I GetDeclaringType(ILConversion conversion, MemberReference memberReference);
+	    bool GetMemberInfo(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt,
+		    MethodReference methodReference, out MemberInfo memberInfo);
+
+		BoundTypeDefinitionMask_I GetDeclaringType(ILConversion conversion, MemberReference memberReference);
     }
 }
 

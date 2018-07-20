@@ -550,11 +550,7 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 
 		    var type = instance.GetType();
 
-		    //TypeInfo x = (TypeInfo) type;
-
-		    //var y = x.GetCustomAttributesData();
-
-		    //var x1 = x.GetCustomAttributes();
+		
 			var attributes = type.CustomAttributes.ToList();
 			
 

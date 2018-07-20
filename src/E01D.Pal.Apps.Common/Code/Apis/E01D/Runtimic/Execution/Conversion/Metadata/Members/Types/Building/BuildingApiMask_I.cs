@@ -1,6 +1,7 @@
 ﻿using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Building.GenericInstances;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Building.NonGenericInstances;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Building
@@ -23,6 +24,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 	    void IfPossibleBuildPhase2(ILConversion conversion, ConvertedTypeDefinition_I converted);
 
 
-	    void UpdateBuildPhase(ConvertedTypeDefinition_I converted, int newPhaseNumber);
+	    void UpdateBuildPhase(ConvertedTypeDefinition_I converted, BuildPhaseKind newPhaseNumber);
     }
 }

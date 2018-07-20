@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Mono.Cecil;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Constructors;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Events;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Fields;
@@ -13,6 +12,7 @@ using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Parameters;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling;
 using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
@@ -83,33 +83,25 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members
 
         #endregion
 
-        public MemberInfo GetMemberInfo(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, MemberReference memberReference)
+        public bool GetMemberInfo(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, MethodReference methodReference, out MemberInfo memberInfo)
         {
-            if (memberReference == null)
+            if (methodReference == null)
             {
                 throw new System.Exception($"Member reference is null. Cannot resolve member info.");
             }
 
-	        MemberInfo result;
+	        
 
 			// If a constructor 
-			if (memberReference.Name == ConstructorInfo.ConstructorName)
+			if (methodReference.Name == ConstructorInfo.ConstructorName)
             {
-	            
-
-				result = Constructors.GetConstructor(conversion, typeBeingBuilt, memberReference);
+	            return Constructors.Getting.GetConstructor(conversion, typeBeingBuilt, methodReference, out memberInfo);
             }
-			else
-			{
-				result = Methods.Getting.GetMethodOrThrow(conversion, typeBeingBuilt, (MethodReference)memberReference);
-			}
+			
+			memberInfo = Methods.Getting.GetMethodInfoOrThrow(conversion, typeBeingBuilt, methodReference);
 
-	        if (result == null)
-	        {
-		        throw new System.Exception("Could not locate a member info.");
-	        }
-
-	        return result;
+			return memberInfo != null;
+	       
         }
 
         public BoundTypeDefinitionMask_I GetDeclaringType(ILConversion conversion, MemberReference memberReference)

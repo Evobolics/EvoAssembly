@@ -1,0 +1,1 @@
+﻿Contains types that have common implementations between DotNet Core and the .NET Framework, but are not part of the .NET Standard.

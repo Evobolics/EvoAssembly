@@ -1,4 +1,4 @@
-﻿using Mono.Cecil;
+﻿using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Types
@@ -25,7 +25,18 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		bool IsExternal(TypeReference typeReference);
 
+		bool AreSame(TypeSpecification a, TypeSpecification b);
 
-		
+		bool AreSame(ArrayType a, ArrayType b);
+
+		bool AreSame(IModifierType a, IModifierType b);
+
+		bool AreSame(GenericInstanceType a, GenericInstanceType b);
+
+		bool AreSame(GenericParameter a, GenericParameter b);
+
+		bool AreSame(TypeReference a, TypeReference b);
+
+		bool IsTypeSpecification(TypeReference type);
 	}
 }

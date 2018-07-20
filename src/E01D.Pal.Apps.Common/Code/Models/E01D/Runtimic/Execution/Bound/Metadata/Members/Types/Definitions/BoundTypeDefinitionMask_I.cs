@@ -11,7 +11,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.
 	    /// </summary>
 	    //bool IsBuilt { get; }
 
-		int BuildPhase { get; }
+		
 
 		System.Type UnderlyingType { get; }
 	    new BoundModuleMask_I Module { get;  }

@@ -1,7 +1,8 @@
 ﻿using System;
-using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Building.NonGenericInstances
@@ -67,7 +68,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 			this.Unified.Types.ExtendWithCrossReference(conversion.Model, converted, converted.UnderlyingType.AssemblyQualifiedName);
 
-			Types.Building.UpdateBuildPhase(converted, 1);
+			Types.Building.UpdateBuildPhase(converted, BuildPhaseKind.TypeDefined);
 		}
 	}
 }

@@ -1,6 +1,7 @@
-﻿using Mono.Cecil;
-using Root.Code.Containers.E01D.Runtimic;
+﻿using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types
 {
@@ -9,16 +10,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
     {
         
 
-        public void EnsureType(ILConversion conversion, TypeReference typeReference)
+        public SemanticTypeDefinitionMask_I EnsureType(ILConversion conversion, TypeReference typeReference)
         {
-            if (typeReference is Mono.Cecil.GenericParameter)
+            if (typeReference is GenericParameter)
             {
-                return;
+                return null;
             }
 
-            var typeScanReference = Cecil.ResolveForTypeScan(null, typeReference);
+            //var typeScanReference = Cecil.ResolveForTypeScan(null, typeReference);
 
-	        //Types.Ensuring.Ensure(conversion, typeScanReference, null);
+	        return Execution.Types.Ensuring.Ensure(conversion.Model, typeReference, null, null);
         }
     }
 

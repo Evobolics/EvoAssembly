@@ -7,7 +7,7 @@ using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
-
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Building
 {
@@ -48,7 +48,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 		{
 			// There is not just building work to be done.  There is actually pre and post being working to be done.  The dependency check is to verify if there is any
 			// post build work to be done.  
-			List<ConvertedTypeDefinition_I> dependencies = CheckForBuildDependencies(conversion, converted, 2);
+			List<ConvertedTypeDefinition_I> dependencies = CheckForBuildDependencies(conversion, converted, BuildPhaseKind.MembersDefined);
 
 			if (dependencies.Count < 1)
 			{
@@ -56,21 +56,21 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 				BuildPhase2(conversion, converted);
 
 				// Give a chance for all dependencies to build all members
-				var dependents = converted.Phase2Dependents;
+				var dependents = converted.ConversionState.Phase2Dependents;
 
 				for (int i = 0; i < dependents.Count; i++)
 				{
 					var dependent = dependents[i];
 
-					dependent.Phase2Dependencies.Remove(converted);
+					dependent.ConversionState.Phase2Dependencies.Remove(converted);
 
-					if (dependent.Phase2Dependencies.Count == 0)
+					if (dependent.ConversionState.Phase2Dependencies.Count == 0)
 					{
 						BuildPhase2(conversion, dependent);
 					}
 				}
 
-				converted.Phase2Dependents.Clear();
+				converted.ConversionState.Phase2Dependents.Clear();
 
 				BuildPhase3(conversion, converted);
 			}
@@ -80,22 +80,22 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 				{
 					var dependency = dependencies[i];
 
-					converted.Phase2Dependencies.Add(dependency);
+					converted.ConversionState.Phase2Dependencies.Add(dependency);
 
-					dependency.Phase2Dependents.Add(converted);
+					dependency.ConversionState.Phase2Dependents.Add(converted);
 				}
 			}
 		}
 
 	    
 
-	    private List<ConvertedTypeDefinition_I> CheckForBuildDependencies(ILConversion conversion, ConvertedTypeDefinition_I converted, int targetPhase)
+	    private List<ConvertedTypeDefinition_I> CheckForBuildDependencies(ILConversion conversion, ConvertedTypeDefinition_I converted, BuildPhaseKind targetPhase)
 	    {
 		    List<ConvertedTypeDefinition_I> result = new List<ConvertedTypeDefinition_I>();
 
 		    if (converted is ConvertedGenericTypeDefinition_I generic)
 		    {
-			    if (generic.Blueprint != null && generic.Blueprint is ConvertedTypeDefinition_I convertedBlueprint && convertedBlueprint.BuildPhase < targetPhase)
+			    if (generic.Blueprint != null && generic.Blueprint is ConvertedTypeDefinition_I convertedBlueprint && (int)convertedBlueprint.ConversionState.BuildPhase < (int)targetPhase)
 			    {
 				    result.Add(convertedBlueprint);
 			    }
@@ -109,7 +109,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 	    {
 		    
 
-		    if (converted.BuildPhase != 1)
+		    if (converted.ConversionState.BuildPhase != BuildPhaseKind.TypeDefined)
 		    {
 			    throw new System.Exception("Expecting the current build phase to be phase 1");
 		    }
@@ -123,35 +123,24 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			    NonGenericInstances.Phase2Members.Build(conversion, converted);
 		    }
 
-		    Types.Building.UpdateBuildPhase(converted, 2);
+		    Types.Building.UpdateBuildPhase(converted, BuildPhaseKind.MembersDefined);
 		}
 
 		private void BuildPhase3(ILConversion conversion, ConvertedTypeDefinition_I converted)
 		{
 			
 
-			if (converted.BuildPhase != 2)
+			if (converted.ConversionState.BuildPhase != BuildPhaseKind.MembersDefined)
 			{
-				throw new System.Exception("Expecting the current build phase to be phase 2");
+				throw new System.Exception("Expecting the current build phase to be phase 2 - Members Defined");
 			}
 
-			
-			// This is null for closed generic types
-			if (converted.TypeBuilder != null)
-			{
-				var dependencies = CheckForPhase3Dependencies(converted);
+			var dependencies = CheckForPhase3Dependencies(conversion, converted);
 
-				if (dependencies.Count == 0)
-				{
-					BuildPhase3_NoDependencies(conversion, converted);
-				}
-			}
-			else
+			if (dependencies.Count == 0)
 			{
-				// Go ahead and set their phase to 3.
-				Types.Building.UpdateBuildPhase(converted, 3);
+				BuildPhase3_NoDependencies(conversion, converted);
 			}
-			
 		}
 
 	    private void BuildPhase3_NoDependencies(ILConversion conversion, ConvertedTypeDefinition_I converted)
@@ -163,31 +152,36 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			    
 		    }
 
-		    if (!(converted is ConvertedGenericTypeDefinition_I generic && generic.IsClosedType()))
+		    // This is null for closed generic types
+		    if (converted.TypeBuilder != null)
 		    {
-			    NonGenericInstances.Phase3Instructions.Build(conversion, converted);
+
+			    if (!(converted is ConvertedGenericTypeDefinition_I generic && generic.IsClosedType()))
+			    {
+				    NonGenericInstances.Phase3Instructions.Build(conversion, converted);
+			    }
+
+			    converted.TypeBuilder.CreateType();
 		    }
 
-			converted.TypeBuilder.CreateType();
+		    Types.Building.UpdateBuildPhase(converted, BuildPhaseKind.TypeCreated);
 
-		    Types.Building.UpdateBuildPhase(converted, 3);
+		    var dependents = converted.ConversionState.Phase3Dependents.Values.ToArray();
 
-		    var dependents = converted.Phase3Dependents;
-
-		    for (int i = 0; i < dependents.Count; i++)
+		    for (int i = 0; i < dependents.Length; i++)
 		    {
 			    var dependent = dependents[i];
 
-			    dependent.Phase3Dependencies.Remove(converted);
+			    dependent.ConversionState.Phase3Dependencies.Remove(converted.ResolutionName);
 
-			    if (dependent.Phase3Dependencies.Count == 0)
+			    if (dependent.ConversionState.Phase3Dependencies.Count == 0)
 			    {
 				    BuildPhase3_NoDependencies(conversion, dependent);
 			    }
 		    }
 	    }
 
-	    private static List<ConvertedTypeDefinition_I> CheckForPhase3Dependencies(ConvertedTypeDefinition_I converted)
+	    public Dictionary<string, ConvertedTypeDefinition_I> CheckForPhase3Dependencies(ILConversion conversion, ConvertedTypeDefinition_I converted)
 	    {
 		    if (converted.BaseType != null)
 		    {
@@ -195,11 +189,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 			    if (baseType is ConvertedTypeDefinition_I convertedBaseType)
 			    {
-				    if (convertedBaseType.BuildPhase != 3)
+				    if (convertedBaseType.ConversionState.BuildPhase != BuildPhaseKind.TypeCreated)
 				    {
-					    convertedBaseType.Phase3Dependents.Add(converted);
+					    AddDependentOrDependency(convertedBaseType.ConversionState.Phase3Dependents, converted);
 
-					    converted.Phase3Dependencies.Add(convertedBaseType);
+					    AddDependentOrDependency(converted.ConversionState.Phase3Dependencies, convertedBaseType);
 				    }
 			    }
 		    }
@@ -214,11 +208,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 				    if (interfaceDeclaration is ConvertedTypeDefinition_I convertedInterface)
 				    {
-					    if (convertedInterface.BuildPhase != 3)
+					    if (convertedInterface.ConversionState.BuildPhase != BuildPhaseKind.TypeCreated)
 					    {
-						    convertedInterface.Phase3Dependents.Add(converted);
+						    AddDependentOrDependency(convertedInterface.ConversionState.Phase3Dependents, converted);
 
-						    converted.Phase3Dependencies.Add(convertedInterface);
+						    AddDependentOrDependency(converted.ConversionState.Phase3Dependencies, convertedInterface);
 					    }
 				    }
 			    }
@@ -228,6 +222,18 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 		    if (converted is ConvertedGenericTypeDefinition_I genericType)
 		    {
+			    var blueprint = genericType.Blueprint;
+
+			    if (blueprint is ConvertedGenericTypeDefinition_I convertedBlueprint)
+			    {
+					if (convertedBlueprint.ConversionState.BuildPhase != BuildPhaseKind.TypeCreated)
+					{
+						AddDependentOrDependency(convertedBlueprint.ConversionState.Phase3Dependents, converted);
+
+						AddDependentOrDependency(converted.ConversionState.Phase3Dependencies, convertedBlueprint);
+					}
+				}
+
 			    var typeParameters = genericType.TypeParameters.All;
 
 			    for (int i = 0; i < typeParameters.Count; i++)
@@ -240,11 +246,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 					    if (semanticBaseTypeConstraint != null && semanticBaseTypeConstraint is ConvertedTypeDefinition_I convertedBaseTypeConstraint)
 					    {
-							if (convertedBaseTypeConstraint.BuildPhase != 3)
+							if (convertedBaseTypeConstraint.ConversionState.BuildPhase != BuildPhaseKind.TypeCreated)
 							{
-								convertedBaseTypeConstraint.Phase3Dependents.Add(converted);
+								AddDependentOrDependency(convertedBaseTypeConstraint.ConversionState.Phase3Dependents, converted);
 
-								converted.Phase3Dependencies.Add(convertedBaseTypeConstraint);
+								AddDependentOrDependency(converted.ConversionState.Phase3Dependencies, convertedBaseTypeConstraint);
 							}
 						}
 
@@ -258,11 +264,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 							    if (semanticInterface is ConvertedTypeDefinition_I convertedInterface)
 							    {
-								    if (convertedInterface.BuildPhase != 3)
+								    if (convertedInterface.ConversionState.BuildPhase != BuildPhaseKind.TypeCreated)
 								    {
-									    convertedInterface.Phase3Dependents.Add(converted);
+									    AddDependentOrDependency(convertedInterface.ConversionState.Phase3Dependents, converted);
 
-									    converted.Phase3Dependencies.Add(convertedInterface);
+									    AddDependentOrDependency(converted.ConversionState.Phase3Dependencies, convertedInterface);
 								    }
 							    }
 						    }
@@ -271,14 +277,35 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			    }
 		    }
 
-			return converted.Phase3Dependencies;
+		    var typeDefinition = Cecil.Types.Getting.GetDefinition(conversion.Model, converted.SourceTypeReference);
+
+			var methods = typeDefinition.Methods;
+
+			for (int i = 0; i < methods.Count; i++)
+			{
+				var method = methods[i];
+
+				if (!method.HasBody || method.Body == null) continue; // can be null if it is a delegate
+
+				Instructions.TypeScanning.EnsureTypes(conversion, converted, method, method.Body.Instructions);
+			}
+
+			return converted.ConversionState.Phase3Dependencies;
 
 
 	    }
 
-	    public void UpdateBuildPhase(ConvertedTypeDefinition_I converted, int newPhaseNumber)
+	    public void AddDependentOrDependency(Dictionary<string, ConvertedTypeDefinition_I> dictionary, ConvertedTypeDefinition_I converted)
 	    {
-		    converted.BuildPhase = newPhaseNumber;
+		    if (!dictionary.ContainsKey(converted.ResolutionName))
+		    {
+			    dictionary.Add(converted.ResolutionName, converted);
+		    }
+	    }
+
+	    public void UpdateBuildPhase(ConvertedTypeDefinition_I converted, BuildPhaseKind buildPhase)
+	    {
+		    converted.ConversionState.BuildPhase = buildPhase;
 	    }
 	}
 }

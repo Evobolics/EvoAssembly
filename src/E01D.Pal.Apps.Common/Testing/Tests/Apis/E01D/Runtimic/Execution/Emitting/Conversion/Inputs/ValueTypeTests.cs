@@ -11,7 +11,7 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
         public void CanCreateBareBonesValueType()
         {
             // Create a test container
-            var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>();
+            var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
             var instance = test.Api.ConvertAndCreateInstance(typeof(SimpleValueType));

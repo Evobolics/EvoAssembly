@@ -181,6 +181,146 @@
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Metadata\Module_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\TypeSystems\TypeSystem_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\RuntimicNode_I.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\Code.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\CodeReader.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\CodeWriter.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\Document.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\ExceptionHandler.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\ILProcessor.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\Instruction.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\MethodBody.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\OpCode.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\OpCodes.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\PortablePdb.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\SequencePoint.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\Symbols.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\VariableDefinition.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Cil\VariableReference.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Metadata\BlobHeap.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Metadata\Buffers.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Metadata\CodedIndex.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Metadata\ElementType.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Metadata\GuidHeap.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Metadata\Heap.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Metadata\MetadataToken.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Metadata\PdbHeap.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Metadata\Row.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Metadata\StringHeap.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Metadata\TableHeap.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Metadata\TokenType.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Metadata\UserStringHeap.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\Utilities.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.PE\BinaryStreamReader.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.PE\BinaryStreamWriter.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.PE\ByteBuffer.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.PE\ByteBufferEqualityComparer.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.PE\DataDirectory.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.PE\Image.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.PE\ImageReader.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.PE\ImageWriter.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.PE\Section.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.PE\TextMap.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Rocks\DocCommentId.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Rocks\Functional.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Rocks\ILParser.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Rocks\MethodBodyRocks.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Rocks\MethodDefinitionRocks.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Rocks\ModuleDefinitionRocks.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Rocks\ParameterReferenceRocks.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Rocks\SecurityDeclarationRocks.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Rocks\TypeDefinitionRocks.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Rocks\TypeReferenceRocks.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\ArrayType.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\AssemblyDefinition.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\AssemblyFlags.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\AssemblyHashAlgorithm.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\AssemblyLinkedResource.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\AssemblyNameDefinition.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\AssemblyNameReference.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\AssemblyReader.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\AssemblyWriter.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\BaseAssemblyResolver.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\CallSite.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\Consts.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\CustomAttribute.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\DefaultAssemblyResolver.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\EmbeddedResource.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\EventAttributes.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\EventDefinition.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\EventReference.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\ExportedType.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\FieldAttributes.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\FieldDefinition.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\FieldReference.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\FileAttributes.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\FunctionPointerType.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\GenericInstanceMethod.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\GenericInstanceType.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\GenericParameter.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\GenericParameterAttributes.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\IConstantProvider.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\ICustomAttributeProvider.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\IGenericInstance.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\IGenericParameterProvider.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\IMarshalInfoProvider.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\IMemberDefinition.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\IMetadataScope.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\IMetadataTokenProvider.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\IMethodSignature.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\Import.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\LinkedResource.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\ManifestResourceAttributes.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\MarshalInfo.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\MemberDefinitionCollection.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\MemberReference.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\MetadataResolver.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\MetadataSystem.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\MethodAttributes.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\MethodCallingConvention.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\MethodDefinition.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\MethodImplAttributes.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\MethodReference.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\MethodReturnType.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\MethodSemanticsAttributes.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\MethodSpecification.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\Modifiers.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\ModuleDefinition.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\ModuleKind.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\ModuleReference.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\NativeType.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\ParameterAttributes.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\ParameterDefinition.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\ParameterDefinitionCollection.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\ParameterReference.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\PinnedType.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\PInvokeAttributes.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\PInvokeInfo.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\PointerType.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\PropertyAttributes.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\PropertyDefinition.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\PropertyReference.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\ReferenceType.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\Resource.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\SecurityDeclaration.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\SentinelType.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\TargetRuntime.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\Treatments.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\TypeAttributes.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\TypeDefinition.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\TypeDefinitionCollection.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\TypeParser.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\TypeReference.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\TypeSpecification.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\TypeSystem.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\VariantType.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil\WindowsRuntimeProjections.cs" />
+    <Compile Include="Code\Libs\Mono.Collections.Generic\Collection.cs" />
+    <Compile Include="Code\Libs\Mono.Collections.Generic\ReadOnlyCollection.cs" />
+    <Compile Include="Code\Libs\Mono.Security.Cryptography\CryptoConvert.cs" />
+    <Compile Include="Code\Libs\Mono.Security.Cryptography\CryptoService.cs" />
+    <Compile Include="Code\Libs\Mono\Disposable.cs" />
+    <Compile Include="Code\Libs\Mono\Empty.cs" />
+    <Compile Include="Code\Libs\Mono\Type.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -199,21 +339,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Mono.Cecil, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Mdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
-    </Reference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Content Include="Code\Libs\Mono Cecil License.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

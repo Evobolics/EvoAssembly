@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using Mono.Cecil;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Methods.Building;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Methods.Getting;
+using Root.Code.Libs.Mono.Cecil;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Methods
 {
@@ -27,8 +27,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 		CallingConventions GetCallingConventions(MethodReference methodDefinition);
 
-        //MethodInfo FindMethodByNameAndSignature(ILConversion conversion, BoundTypeDefinitionMask_I typeEntry, MethodReference methodSpecification);
-        //MethodInfo FindGenericMethodBySignature(ILConversion conversion, BoundTypeDefinitionMask_I typeEntry, GenericInstanceMethod genericMethod);
+       
         
 
         

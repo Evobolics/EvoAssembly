@@ -1,4 +1,5 @@
 ﻿using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
+using Root.Code.Libs.Mono.Cecil;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members
 {
@@ -6,6 +7,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 	{
 		System.Reflection.GenericParameterAttributes GetGenericParameterAttributes(TypeParameterConstraintKind attributes);
 
-		TypeParameterConstraintKind GetTypeParameterAttributes(Mono.Cecil.GenericParameter constraint);
+		TypeParameterConstraintKind GetTypeParameterAttributes(GenericParameter constraint);
 	}
 }

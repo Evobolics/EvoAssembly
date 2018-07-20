@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Reflection.Emit;
-using Mono.Cecil;
 using Root.Code.Apis.E01D.Runtimic.Execution.Emitting.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
@@ -14,10 +14,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
 {
     public abstract class ConvertedTypeDefinition : ConvertedType, ConvertedTypeDefinition_I
     {
-        ///// <summary>
-        ///// Gets or sets the base type associated with the type entry.
-        ///// </summary>
-        //public new BoundTypeMask_I BaseType { get; set; }
+        
 
 	    private System.Type _UnderlyingType;
 
@@ -28,24 +25,13 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
 
         SemanticTypeMask_I BoundTypeWithBaseTypeMask_I.BaseType => BaseType;
 
-	    public int BuildPhase { get; set; }
+	    
 
-		public List<ConvertedTypeDefinition_I> Phase2Dependencies { get; } =new List<ConvertedTypeDefinition_I>();
+		
 
-	    public List<ConvertedTypeDefinition_I> Phase2Dependents { get; } = new List<ConvertedTypeDefinition_I>();
+		
 
-	    public List<ConvertedTypeDefinition_I> Phase3Dependencies { get; } = new List<ConvertedTypeDefinition_I>();
-
-	    public List<ConvertedTypeDefinition_I> Phase3Dependents { get; } = new List<ConvertedTypeDefinition_I>();
-
-		//public ConvertedTypeDefinition_I DeclaringType { get; set; }
-
-		public bool IsBaked { get; set; }
-
-        /// <summary>
-        /// Gets or sets whether the type has been built.  It has been built if a type builder has been assigned.
-        /// </summary>
-        public bool IsBuilt { get; set; }
+		
 
 		public ConvertedModuleMask_I Module { get; set; }
 

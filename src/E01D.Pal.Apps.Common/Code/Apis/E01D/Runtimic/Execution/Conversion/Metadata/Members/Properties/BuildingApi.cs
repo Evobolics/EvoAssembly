@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection.Emit;
-using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
@@ -96,15 +96,15 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Pro
 
 		    var cecilAttributes = propertyDefinition.Attributes;
 
-		    if ((cecilAttributes & Mono.Cecil.PropertyAttributes.HasDefault)== Mono.Cecil.PropertyAttributes.HasDefault)
+		    if ((cecilAttributes & PropertyAttributes.HasDefault)== PropertyAttributes.HasDefault)
 		    {
 			    attributes |= System.Reflection.PropertyAttributes.HasDefault;
 		    }
-		    if ((cecilAttributes & Mono.Cecil.PropertyAttributes.RTSpecialName) == Mono.Cecil.PropertyAttributes.RTSpecialName)
+		    if ((cecilAttributes & PropertyAttributes.RTSpecialName) == PropertyAttributes.RTSpecialName)
 		    {
 			    attributes |= System.Reflection.PropertyAttributes.RTSpecialName;
 		    }
-		    if ((cecilAttributes & Mono.Cecil.PropertyAttributes.SpecialName) == Mono.Cecil.PropertyAttributes.SpecialName)
+		    if ((cecilAttributes & PropertyAttributes.SpecialName) == PropertyAttributes.SpecialName)
 		    {
 			    attributes |= System.Reflection.PropertyAttributes.SpecialName;
 		    }

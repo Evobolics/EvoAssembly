@@ -7,6 +7,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 	{
 		void BuildConstructors(ILConversion conversion, ConvertedGenericTypeDefinitionMask_I input);
 
-		void BuildConstructors(ILConversion conversion, ConvertedArrayTypeDefinitionMask_I input);
+		
 	}
 }

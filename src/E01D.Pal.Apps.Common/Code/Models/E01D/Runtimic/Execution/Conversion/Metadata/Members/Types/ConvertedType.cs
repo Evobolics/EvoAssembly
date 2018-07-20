@@ -14,8 +14,9 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
 		public virtual TypeKind TypeKind { get; set; } = TypeKind.App;
 
         public MemberKind MemberKind => MemberKind.Type;
-        
-        
-        
+
+	    public ConversionState ConversionState { get; set; } = new ConversionState();
+
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
-using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
@@ -74,6 +74,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 		        
 	        }
 
+	        if (input.IsGenericParameter) // DOES NOT USE UNDERLYING TYPE OR DECLARING TYPE
+	        {
+		        // You cannot create a generic parameter directly.  It is created when its parent type creates it.
+		        return GenericParameters.Ensure(semanticModel, input);
+	        }
+
 			if (underlyingType == null)
 	        {
 		        underlyingType = Models.Types.GetUnderlyingType(semanticModel, input);
@@ -104,11 +110,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 		        return GenericInstances.Ensure(semanticModel, input, declaringType, underlyingType);
 	        }
 
-			if (input.IsGenericParameter)
-	        {
-		        // You cannot create a generic parameter directly.  It is created when its parent type creates it.
-		        return GenericParameters.Ensure(semanticModel, input);
-	        }
+			
 	        if (input.IsPointer)
 	        {
 		        return Pointers.Ensure(semanticModel, input, declaringType, underlyingType);

@@ -65,5 +65,47 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 
 
 		}
+
+		[Test]
+		public void MethodTesting_CallGenericInstanceMethod()
+		{
+			// Create a test container
+			var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+			var result2 = test.Api.ConvertCreateCall(typeof(MethodTesting_CallGenericInstanceMethod<object>), "Execute");
+
+			
+
+
+
+		}
+
+		[Test]
+		public void MethodTesting_CallGenericInstanceMethodTypeArgumentInMethodSignature()
+		{
+			// Create a test container
+			var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+			var result2 = test.Api.ConvertCreateCall(typeof(MethodTesting_CallGenericInstanceMethodTypeArgumentInMethodSignature<object>), "Execute");
+
+
+
+
+
+		}
+
+		[Test]
+		public void MethodTesting_FindMethodBeforeCreated()
+		{
+			// Create a test container
+			var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+			var result2 = test.Api.ConvertCreateCall(typeof(MethodTesting_FindMethodBeforeCreatedA), "Execute");
+
+
+
+
+
+		}
 	}
 }

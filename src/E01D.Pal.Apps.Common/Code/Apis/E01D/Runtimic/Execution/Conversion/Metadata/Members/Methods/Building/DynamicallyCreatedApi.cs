@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
+using MethodAttributes = Root.Code.Libs.Mono.Cecil.MethodAttributes;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Methods.Building
 {
@@ -56,10 +57,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 				if (!(methodOverride is MethodDefinition methodOverrideDefinition))
 				{
-					throw new Exception("Override is not a method definition.  External?");
+					methodOverrideDefinition = Cecil.Metadata.Members.Methods.ResolveReferenceToNonSignatureDefinition(conversion.Model, methodOverride);
 				}
 
-				var semanticMethod = Methods.Getting.FindMethodByDefinition(conversion, (BoundTypeDefinitionWithMethodsMask_I)interfaceDeclaringType, methodOverrideDefinition);
+				var semanticMethod = Binding.Metadata.Members.Methods.Getting.FindMethodByDefinition(conversion.Model, (BoundTypeDefinitionWithMethodsMask_I)interfaceDeclaringType, methodOverrideDefinition);
 
 				if (!(semanticMethod is BoundMethodDefinitionMask_I boundMethod))
 				{
@@ -263,101 +264,101 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 			var attributes = methodDefinition.Attributes;
 
-			if ((attributes & Mono.Cecil.MethodAttributes.Public) == Mono.Cecil.MethodAttributes.Public)
+			if ((attributes & MethodAttributes.Public) == MethodAttributes.Public)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.Public;
 			}
-			else if ((attributes & Mono.Cecil.MethodAttributes.Family) == Mono.Cecil.MethodAttributes.Family)
+			else if ((attributes & MethodAttributes.Family) == MethodAttributes.Family)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.Family;
 			}
-			else if ((attributes & Mono.Cecil.MethodAttributes.FamANDAssem) == Mono.Cecil.MethodAttributes.FamANDAssem)
+			else if ((attributes & MethodAttributes.FamANDAssem) == MethodAttributes.FamANDAssem)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.FamANDAssem;
 			}
-			else if ((attributes & Mono.Cecil.MethodAttributes.Private) == Mono.Cecil.MethodAttributes.Private)
+			else if ((attributes & MethodAttributes.Private) == MethodAttributes.Private)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.Private;
 			}
 			else
 			{
-				if ((attributes & Mono.Cecil.MethodAttributes.Assembly) == Mono.Cecil.MethodAttributes.Assembly)
+				if ((attributes & MethodAttributes.Assembly) == MethodAttributes.Assembly)
 				{
 					newAttributes |= System.Reflection.MethodAttributes.Assembly;
 				}
 
-				if ((attributes & Mono.Cecil.MethodAttributes.FamORAssem) == Mono.Cecil.MethodAttributes.FamORAssem)
+				if ((attributes & MethodAttributes.FamORAssem) == MethodAttributes.FamORAssem)
 				{
 					newAttributes |= System.Reflection.MethodAttributes.FamORAssem;
 				}
 			}
 
-			if ((attributes & Mono.Cecil.MethodAttributes.Abstract) == Mono.Cecil.MethodAttributes.Abstract)
+			if ((attributes & MethodAttributes.Abstract) == MethodAttributes.Abstract)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.Abstract;
 			}
 
-			if ((attributes & Mono.Cecil.MethodAttributes.CheckAccessOnOverride) == Mono.Cecil.MethodAttributes.CheckAccessOnOverride)
+			if ((attributes & MethodAttributes.CheckAccessOnOverride) == MethodAttributes.CheckAccessOnOverride)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.CheckAccessOnOverride;
 			}
 
-			if ((attributes & Mono.Cecil.MethodAttributes.Final) == Mono.Cecil.MethodAttributes.Final)
+			if ((attributes & MethodAttributes.Final) == MethodAttributes.Final)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.Final;
 			}
 
-			if ((attributes & Mono.Cecil.MethodAttributes.HasSecurity) == Mono.Cecil.MethodAttributes.HasSecurity)
+			if ((attributes & MethodAttributes.HasSecurity) == MethodAttributes.HasSecurity)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.HasSecurity;
 			}
 
-			if ((attributes & Mono.Cecil.MethodAttributes.HideBySig) == Mono.Cecil.MethodAttributes.HideBySig)
+			if ((attributes & MethodAttributes.HideBySig) == MethodAttributes.HideBySig)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.HideBySig;
 			}
 
-			if ((attributes & Mono.Cecil.MethodAttributes.NewSlot) == Mono.Cecil.MethodAttributes.NewSlot)
+			if ((attributes & MethodAttributes.NewSlot) == MethodAttributes.NewSlot)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.NewSlot;
 			}
 
-			if ((attributes & Mono.Cecil.MethodAttributes.PInvokeImpl) == Mono.Cecil.MethodAttributes.PInvokeImpl)
+			if ((attributes & MethodAttributes.PInvokeImpl) == MethodAttributes.PInvokeImpl)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.PinvokeImpl;
 			}
 
-			if ((attributes & Mono.Cecil.MethodAttributes.RequireSecObject) == Mono.Cecil.MethodAttributes.RequireSecObject)
+			if ((attributes & MethodAttributes.RequireSecObject) == MethodAttributes.RequireSecObject)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.RequireSecObject;
 			}
 
-			if ((attributes & Mono.Cecil.MethodAttributes.ReuseSlot) == Mono.Cecil.MethodAttributes.ReuseSlot)
+			if ((attributes & MethodAttributes.ReuseSlot) == MethodAttributes.ReuseSlot)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.ReuseSlot;
 			}
 
-			if ((attributes & Mono.Cecil.MethodAttributes.RTSpecialName) == Mono.Cecil.MethodAttributes.RTSpecialName)
+			if ((attributes & MethodAttributes.RTSpecialName) == MethodAttributes.RTSpecialName)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.RTSpecialName;
 			}
 
-			if ((attributes & Mono.Cecil.MethodAttributes.SpecialName) == Mono.Cecil.MethodAttributes.SpecialName)
+			if ((attributes & MethodAttributes.SpecialName) == MethodAttributes.SpecialName)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.SpecialName;
 			}
 
-			if ((attributes & Mono.Cecil.MethodAttributes.Static) == Mono.Cecil.MethodAttributes.Static)
+			if ((attributes & MethodAttributes.Static) == MethodAttributes.Static)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.Static;
 			}
 
-			if ((attributes & Mono.Cecil.MethodAttributes.UnmanagedExport) == Mono.Cecil.MethodAttributes.UnmanagedExport)
+			if ((attributes & MethodAttributes.UnmanagedExport) == MethodAttributes.UnmanagedExport)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.UnmanagedExport;
 			}
 
-			if ((attributes & Mono.Cecil.MethodAttributes.Virtual) == Mono.Cecil.MethodAttributes.Virtual)
+			if ((attributes & MethodAttributes.Virtual) == MethodAttributes.Virtual)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.Virtual;
 			}

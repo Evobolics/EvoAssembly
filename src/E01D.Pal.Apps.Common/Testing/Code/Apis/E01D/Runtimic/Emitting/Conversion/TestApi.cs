@@ -5,7 +5,6 @@ using System.Reflection.Emit;
 using Root.Code.Apis.E01D;
 using Root.Code.Domains;
 using Root.Code.Models.E01D.Containment;
-using Mono.Reflection;
 using Root.Code.Domains.E01D;
 using Root.Code.Exts.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
@@ -104,13 +103,13 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
             if (methodInfo == null)
                 throw new Exception($"Could not find method named '{methodName}' on class named '{type.Name}'");
 
-	        var bytes = methodInfo.GetInstructions();
+	        //var bytes = methodInfo.GetInstructions();
 
-	        for (int i = 0; i < bytes.Count; i++)
-	        {
-		        Debug.WriteLine(bytes[i]);
+	        //for (int i = 0; i < bytes.Count; i++)
+	        //{
+		       // Debug.WriteLine(bytes[i]);
 
-	        }
+	        //}
 
             var result = methodInfo.Invoke(instance, new object[0]);
 

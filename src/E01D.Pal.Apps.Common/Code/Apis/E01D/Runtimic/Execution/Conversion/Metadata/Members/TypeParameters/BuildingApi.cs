@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types;
@@ -79,7 +79,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 					typeParameter.Builder.SetBaseTypeConstraint(baseTypeConstraint);
 				}
 
-				Types.Building.UpdateBuildPhase(typeParameter, 3);
+				Types.Building.UpdateBuildPhase(typeParameter, BuildPhaseKind.TypeCreated);
 			}
 		}
 
@@ -128,7 +128,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			}
 		}
 
-		public ConvertedGenericParameterTypeDefinition CreateTypeParameter(ILConversion conversion, TypeReference inputType, Mono.Cecil.GenericParameter typeParamterType)
+		public ConvertedGenericParameterTypeDefinition CreateTypeParameter(ILConversion conversion, TypeReference inputType, GenericParameter typeParamterType)
 		{
 
 

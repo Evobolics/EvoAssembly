@@ -1,8 +1,9 @@
 ﻿using System;
-using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
@@ -48,11 +49,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
                 converted.UnderlyingType = boundElementType.UnderlyingType.MakeArrayType(arrayType.Rank);
             }
 
-	        Routines.Building.BuildRoutines(conversion, converted);
+	        
 
 
 
-			Types.Building.UpdateBuildPhase(converted, 3);
+			Types.Building.UpdateBuildPhase(converted, BuildPhaseKind.TypeCreated);
 
             return converted;
         }

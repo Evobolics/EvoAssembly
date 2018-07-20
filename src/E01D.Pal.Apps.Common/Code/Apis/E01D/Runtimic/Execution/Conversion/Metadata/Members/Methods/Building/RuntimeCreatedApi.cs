@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
@@ -15,8 +15,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 	public class RuntimeCreatedApi<TContainer> : ConversionApiNode<TContainer>, RuntimeCreatedApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		
-
 		public void BuildMethods(ILConversion conversion, ConvertedGenericTypeDefinition_I input)
 		{
 			if (!(input is BoundTypeDefinitionWithMethodsMask_I convertedTypeWithMethods))
@@ -24,92 +22,47 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 				return;
 			}
 
-			// This MUST use typebuilder.GetMethod and not
-			// input.Blueprint.UnderlyingType, as different MethodInfo objects are returned.
-			var blueprintMethods = Methods.Getting.GetMethods(input.Blueprint);
+			if (input.UnderlyingType.IsGenericTypeDefinition)
+			{
+				throw new System.Exception("You cannot call a method that is part of a generic type definition.  Using this method info will cause a method invocation exeception. ");
+			}
 
-			// We chave to get the definition for a generic instance.
-			var declaringTypeDefinition = Cecil.Metadata.Members.Types.Getting.GetDefinition(conversion.Model, input.SourceTypeReference);
+			var blueprintMethods = Methods.Getting.GetMethods(input.Blueprint);
 
 			for (int i = 0; i < blueprintMethods.Count; i++)
 			{
-				var blueprintUnderlyingMethodInfo = blueprintMethods[i].UnderlyingMethod;
+				var blueprintMethod = blueprintMethods[i];
+
+				var blueprintUnderlyingMethodInfo = blueprintMethod.UnderlyingMethod;
+
+				// This MUST use typebuilder.GetMethod and not
+				// input.Blueprint.UnderlyingType, as different MethodInfo objects are returned.
 				var genericInstanceMethodInfo = TypeBuilder.GetMethod(input.UnderlyingType, blueprintUnderlyingMethodInfo);
-					
-				var methodSearch = new MethodReferenceSearch()
-				{ 
-					GenericTypeDefinitionMethodInfo = blueprintUnderlyingMethodInfo,
-					BoundGenericTypeDefinitionMethod = blueprintMethods[i],
-					GenericInstanceMethodInfo = genericInstanceMethodInfo,
-					GenericTypeDefinitionMethod = blueprintMethods[i].MethodReference,
-					IsGenericTypeDefinitionConverted = true
-						
-				};
 			
-				if (methodSearch.GenericInstanceMethodInfo?.DeclaringType != null && methodSearch.GenericInstanceMethodInfo.DeclaringType.IsGenericTypeDefinition)
-				{
-					throw new System.Exception("You cannot call a method that is part of a generic type definition.  Using this method info will cause a method invocation exeception. ");
-				}
+				var methodDefinition = (MethodDefinition)blueprintMethod.MethodReference;
 
-				methodSearch.Conversion = conversion;
-				methodSearch.GenericInstance = (GenericInstanceType) input.SourceTypeReference;
-				methodSearch.GenericTypeDefinition = declaringTypeDefinition;
+				var methodReference = Cecil.Methods.Building.MethodDefinitions.
+					MakeGenericInstanceTypeMethodReference(conversion.Model, (GenericInstanceType)input.SourceTypeReference, methodDefinition);
 
-				var methodReference = GetCorrespondingMethodReference(conversion, methodSearch);
+				var methodEntry = BuildMethod(conversion, input, genericInstanceMethodInfo, methodReference);
 
-				var methodEntry = BuildMethod(conversion, input, methodSearch.GenericInstanceMethodInfo, methodReference);
-
-				if (!convertedTypeWithMethods.Methods.ByName.TryGetValue(methodEntry.Name, out List<SemanticMethodMask_I> methodList))
-				{
-					methodList = new List<SemanticMethodMask_I>();
-
-					convertedTypeWithMethods.Methods.ByName.Add(methodEntry.Name, methodList);
-				}
-
-				methodList.Add(methodEntry);
+				AddMethodToConverted(convertedTypeWithMethods, methodEntry);
 			}
 		}
 
-		private MethodInfo GetMethodInfoDefinition(MethodInfo method)
+		private void AddMethodToConverted(BoundTypeDefinitionWithMethodsMask_I convertedTypeWithMethods,
+			ConvertedMethod methodEntry)
 		{
-			var token = method.MetadataToken;
-
-			if (method.DeclaringType != null && method.DeclaringType.IsGenericType)
+			if (!convertedTypeWithMethods.Methods.ByName.TryGetValue(methodEntry.Name, out List<SemanticMethodMask_I> methodList))
 			{
-				var x = method.DeclaringType.GetGenericTypeDefinition();
+				methodList = new List<SemanticMethodMask_I>();
 
-				var y = x.GetMethods();
-
-				for (int i = 0; i < y.Length; i++)
-				{
-					var method1 = y[i];
-
-					if (method1.MetadataToken == token)
-					{
-						return method1;
-					}
-				}
+				convertedTypeWithMethods.Methods.ByName.Add(methodEntry.Name, methodList);
 			}
 
-			return null;
+			methodList.Add(methodEntry);
 		}
 
-		private MethodReference GetCorrespondingMethodReference(ILConversion conversion, MethodReferenceSearch search)
-		{
-			//var methodDefinition =  Methods.Getting.FromMethodInfos.Definitions.GetMethodDefinition(search);
-			var methodDefinition = (MethodDefinition)search.GenericTypeDefinitionMethod;
-
-			// CANNOT USE THIS CECIL VERSION AS IT ONLY COMPARES METADATA TOKENS WHICH WILL NOT MATCH WHEN COMPARING DATA LOADED FROM A STATIC TYPE to a METHOD INFO 
-			// CREATED FROM A DYNAMIC TYPE.
-			//var methodReference = Cecil.Metadata.Members.Methods.Getting.FromMethodInfos.References.GetMethodReference(conversion.Model, input.SourceTypeReference, method);
-
-			return Cecil.Metadata.Members.Methods.Building.MethodDefinitions.MakeGenericInstanceTypeMethodReference(conversion.Model, search.GenericInstance, methodDefinition);
-		}
-
-		private MethodReference CreateGenericInstanceMethodReference(ILConversion conversion, MethodReferenceSearch search, MethodDefinition methodDefinition)
-		{
-			throw new System.NotImplementedException();
-		}
 
 		/// <summary>
 		/// The goal here is to get the method definition that corresponds to the method

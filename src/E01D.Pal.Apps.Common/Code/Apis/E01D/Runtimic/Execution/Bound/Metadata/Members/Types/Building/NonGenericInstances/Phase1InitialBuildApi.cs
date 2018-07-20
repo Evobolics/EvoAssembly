@@ -31,9 +31,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Bu
 
 			Fields.Building.NonGeneric.BuildFields(semanticModel, bound);
 
-			Constructors.Building.RuntimeCreated.BuildConstructors(semanticModel, bound);
+			Constructors.Building.BuildConstructors(semanticModel, bound);
 
-			Methods.Building.RuntimeCreated.BuildMethods(semanticModel, bound);
+			Methods.Building.BuildMethods(semanticModel, bound);
 
 			return bound;
 		}

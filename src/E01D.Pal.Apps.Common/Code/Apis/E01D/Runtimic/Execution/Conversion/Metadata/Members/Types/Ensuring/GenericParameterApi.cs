@@ -1,8 +1,8 @@
 ﻿using System;
-using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
@@ -56,42 +56,26 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 	            var semanticType = Models.Types.GetOrThrow(conversion.Model, resolutionName);
 
-	            if (semanticType.IsConverted())
+	            if (!(semanticType is BoundTypeDefinitionWithMethodsMask_I convertedTypeWithMethods))
 	            {
-		            if (!(semanticType is ConvertedTypeDefinitionWithMethods_I convertedTypeWithMethods))
-		            {
-			            throw new Exception("Trying to add a method to a type that does not support methods.");
-		            }
-
-		            var method = Methods.Getting.FindMethodByDefinition(conversion, convertedTypeWithMethods, methodDefinition);
-
-		            if (!method.TypeParameters.ByName.TryGetValue(parameter.Name,
-			            out SemanticGenericParameterTypeDefinitionMask_I semanticTypeParameter))
-		            {
-			            throw new Exception($"Expected the generic method to have a type parameter named {parameter.Name}.");
-		            }
-
-		            if (!semanticTypeParameter.IsBound())
-		            {
-			            throw new Exception("Expected the generic parameter type to be a bound type.");
-		            }
-
-		            return (BoundTypeDefinitionMask_I)semanticTypeParameter;
+		            throw new Exception("Trying to add a method to a type that does not support methods.");
 	            }
-	            else if (semanticType.IsBound())
+
+	            var method = Binding.Metadata.Members.Methods.Getting.FindMethodByDefinition(conversion.Model, convertedTypeWithMethods, methodDefinition);
+
+	            if (!method.TypeParameters.ByName.TryGetValue(parameter.Name,out SemanticGenericParameterTypeDefinitionMask_I semanticTypeParameter))
 	            {
-		            var bound1 = (BoundTypeDefinitionMask_I)semanticType;
-
-		            var underlyingType = bound1.UnderlyingType;
-
-		            var constraints = underlyingType.GetGenericParameterConstraints();
-
-		            throw new Exception("Not implemented");
-				}
-	            else
-	            {
-		            throw new Exception("The semantic type must be bound or converted.");
+		            throw new Exception($"Expected the generic method to have a type parameter named {parameter.Name}.");
 	            }
+
+	            if (!semanticTypeParameter.IsBound())
+	            {
+		            throw new Exception("Expected the generic parameter type to be a bound type.");
+	            }
+
+	            return (BoundTypeDefinitionMask_I)semanticTypeParameter;
+
+				
 			}
 		}
     }

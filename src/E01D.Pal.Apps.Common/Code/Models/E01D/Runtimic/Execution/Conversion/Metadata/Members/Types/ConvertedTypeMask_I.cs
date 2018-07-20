@@ -4,6 +4,6 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
 {
     public interface ConvertedTypeMask_I:BoundTypeMask_I
     {
-        
-    }
+		ConversionState ConversionState { get; }
+	}
 }

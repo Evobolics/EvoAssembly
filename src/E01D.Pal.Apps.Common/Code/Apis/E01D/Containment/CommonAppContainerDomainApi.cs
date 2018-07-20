@@ -40,7 +40,24 @@ namespace Root.Code.Apis.E01D.Containment
 
                 if (!allowDynamicTypes && assembly.IsDynamic) continue;
 
-                Type[] types = assembly.GetTypes();
+	            Type[] types = null;
+
+
+				try
+	            {
+		            types = assembly.GetTypes();
+				}
+	            catch (System.Reflection.ReflectionTypeLoadException e)
+	            {
+		            for (int j = 0; j < e.LoaderExceptions.Length; j++)
+		            {
+			            Console.WriteLine(e.LoaderExceptions[j].Message);
+					}
+
+		            
+		            throw e.LoaderExceptions[0];
+	            }
+                
 
                 for (int iType = 0; iType < types.Length; iType++)
                 {

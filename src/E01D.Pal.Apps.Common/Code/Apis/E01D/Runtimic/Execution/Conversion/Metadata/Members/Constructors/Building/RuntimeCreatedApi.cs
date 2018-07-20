@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Reflection.Emit;
-using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
@@ -13,37 +13,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 	public class RuntimeCreatedApi<TContainer> : ConversionApiNode<TContainer>, RuntimeCreatedApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public void BuildConstructors(ILConversion conversion, ConvertedArrayTypeDefinitionMask_I input)
-		{
-			//ModuleBuilder a;
-			//var xyz1 = input.Module.ModuleBuilder.GetArrayMethod(input.UnderlyingType, ".ctor", CallingConventions.Standard, input.UnderlyingType, new Type[2] { typeof(int), typeof(int) });
-			//var xyz2 = input.Module.ModuleBuilder.GetArrayMethod(input.UnderlyingType, ".ctor", CallingConventions.Standard, typeof(void), new Type[2] { typeof(int), typeof(int) });
-			//if (!(input is ConvertedTypeDefinitionWithConstructors_I withConstructors))
-			//{
-			//	return;
-			//}
-
-			//var y = input.UnderlyingType;
-			//var z = (Type)input.UnderlyingType;
-
-			//try
-			//{
-			//	var x1 = y.GetConstructors();
-			//}
-			//catch (Exception e)
-			//{
-				
-			//}
-
-			//try
-			//{
-			//	var x2 = z.GetConstructors();
-			//}
-			//catch (Exception e)
-			//{
-
-			//}
-		}
+		
 
 		public void BuildConstructors(ILConversion conversion, ConvertedGenericTypeDefinitionMask_I input)
 		{
@@ -59,7 +29,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 			{
 				var constructor = constructors[i];
 
-				var consturctorEntry = BuildConstructor(conversion, input, constructor.GenericTypeInstanceConstructorInfo, constructor.GenericTypeInstanceMethodReference);
+				var consturctorEntry = new ConvertedGenericInstanceConstructor()
+				{
+					MethodReference = constructor.GenericTypeInstanceMethodReference,
+					IsInstanceConstructor = true,
+					UnderlyingConstructor = constructor.GenericTypeInstanceConstructorInfo
+				};
 
 				withConstructors.Constructors.All.Add(consturctorEntry);
 			}
@@ -103,16 +78,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 			return constructors;
 		}
 
-		public ConvertedGenericInstanceConstructor BuildConstructor(ILConversion conversion, ConvertedGenericTypeDefinitionMask_I input, ConstructorInfo constructorInfo, MethodReference methodReference)
-		{
-			var constructor = new ConvertedGenericInstanceConstructor()
-			{
-				MethodReference = methodReference,
-				IsInstanceConstructor = true,
-				UnderlyingConstructor = constructorInfo
-			};
-
-			return constructor;
-		}
+		
 	}
 }

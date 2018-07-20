@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Mono.Cecil;
-using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Methods.Getting.FromMethodInfo;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Methods.Getting.FromMethodReference;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
@@ -21,10 +20,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
     public class GettingApi<TContainer> : ConversionApiNode<TContainer>, GettingApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-	    public FromMethodInfoApi_I<TContainer> FromMethodInfos { get; set; }
-
-
-	    FromMethodInfoApiMask_I GettingApiMask_I.FromMethodInfos => FromMethodInfos;
+	    
 
 	    public FromMethodReferenceApi_I<TContainer> FromMethodReference { get; set; }
 
@@ -90,7 +86,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 	    }
 
-	    public MethodInfo GetMethodOrThrow(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, MethodReference methodReference)
+	    public MethodInfo GetMethodInfoOrThrow(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, MethodReference methodReference)
 	    {
 
 		    var declaringType = Execution.Types.Ensuring.EnsureBound(conversion, methodReference.DeclaringType);
@@ -190,7 +186,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 		    for (int i = 0; i < list.Count; i++)
 		    {
-			    if (i == 6)
+			    
+
+				if (i == 6)
 			    {
 				    
 			    }
@@ -212,30 +210,52 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 			    return method;
 
+				//var currentSemanticMethod = list[i];
+
+				if (Cecil.Metadata.Members.Methods.AreSame(currentSemanticMethod.MethodReference, methodReference))
+				{
+					if (!(currentSemanticMethod is BoundMethodDefinitionMask_I boundMethod1))
+					{
+						throw new Exception($"The converted type {boundTypeWithMethods.FullName} has a non-bound method present and it cannot be used to get a method info.");
+					}
+
+					var method1 = boundMethod1.UnderlyingMethod;
+
+					return method1;
+				}
+
 			}
-
-		    throw new Exception("Could not find the method.");
-	    }
-
-	    public SemanticMethodMask_I FindMethodByDefinition(ILConversion conversion, BoundTypeDefinitionWithMethodsMask_I convertedTypeWithMethods, MethodDefinition methodDefinition)
-	    {
-		    if (!convertedTypeWithMethods.Methods.ByName.TryGetValue(methodDefinition.Name, out List<SemanticMethodMask_I> list))
-		    {
-			    throw new Exception("Could not find the method.");
-		    }
 
 		    for (int i = 0; i < list.Count; i++)
 		    {
-			    var method = list[i];
 
-			    if (method.MethodReference == methodDefinition)
+
+			    if (i == 6)
 			    {
-				    return method;
+
 			    }
+
+			    var currentSemanticMethod = list[i];
+
+
+			    if (Cecil.Metadata.Members.Methods.AreSame(currentSemanticMethod.MethodReference, methodReference))
+			    {
+				    if (!(currentSemanticMethod is BoundMethodDefinitionMask_I boundMethod1))
+				    {
+					    throw new Exception($"The converted type {boundTypeWithMethods.FullName} has a non-bound method present and it cannot be used to get a method info.");
+				    }
+
+				    var method1 = boundMethod1.UnderlyingMethod;
+
+				    return method1;
+			    }
+
 		    }
 
-		    throw new Exception("Could not find the method.");
+			throw new Exception("Could not find the method.");
 	    }
+
+	    
 
 		private bool VerifyParameters(ILConversion conversion, MethodReference currentMethod, MethodReference targetMethod)
 	    {
@@ -303,7 +323,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 		    targetReturnType = ResolveGenericParameterIfNeeded(targetMethod, targetReturnType);
 
-			return VerifyTypeMatch(conversion, currentReturnType, targetReturnType);		    
+		    return VerifyTypeMatch(conversion, currentReturnType, targetReturnType);		    
 	    }
 
 	    public bool VerifyGenericArguments(MethodReference currentMethod, MethodReference targetReference)
@@ -319,97 +339,103 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 	    private bool VerifyTypeMatch(ILConversion conversion, TypeReference currentType1, TypeReference currentType2)
 	    {
-		    if (currentType1.IsByReference != currentType2.IsByReference) return false;
+		    var test = Cecil.Types.AreSame(currentType1, currentType2);
 
-		    if (currentType1.IsByReference && currentType2.IsByReference)
-		    {
-			    return VerifyTypeMatch(conversion, currentType1.GetElementType(), currentType2.GetElementType());
-		    }
+		    return test;
 
-		    var currentType1IsGenericParameter = currentType1.IsGenericParameter;
+			// LEAVE CODE FOR NOW - OLD WAY STILL MIGHT BE USED IN FUTURE.
 
-		    var currentType2IsGenericParameter = currentType2.IsGenericParameter;
+			//if (currentType1.IsByReference != currentType2.IsByReference) return false;
 
-		    var currentType1IsGenericInstance = currentType1.IsGenericInstance;
+		 //   if (currentType1.IsByReference && currentType2.IsByReference)
+		 //   {
+			//    return VerifyTypeMatch(conversion, currentType1.GetElementType(), currentType2.GetElementType());
+		 //   }
 
-		    var currentType2IsGenericInstance = currentType2.IsGenericInstance;
+		 //   var currentType1IsGenericParameter = currentType1.IsGenericParameter;
 
-		    if (currentType1IsGenericParameter || currentType2IsGenericParameter)
-		    {
-			    if ((currentType1IsGenericParameter && !currentType2IsGenericParameter) ||
-			        (!currentType1IsGenericParameter && currentType2IsGenericParameter)) return false;
+		 //   var currentType2IsGenericParameter = currentType2.IsGenericParameter;
 
-			    var genericParameter1 = (GenericParameter) currentType1;
+		 //   var currentType1IsGenericInstance = currentType1.IsGenericInstance;
 
-			    var genericParameter2 = (GenericParameter)currentType2;
+		 //   var currentType2IsGenericInstance = currentType2.IsGenericInstance;
 
-			    if (genericParameter1.Position != genericParameter2.Position) return false;
+		 //   if (currentType1IsGenericParameter || currentType2IsGenericParameter)
+		 //   {
+			//    if ((currentType1IsGenericParameter && !currentType2IsGenericParameter) ||
+			//        (!currentType1IsGenericParameter && currentType2IsGenericParameter)) return false;
 
-				var genericParameter1HasDeclaringType = genericParameter1.DeclaringType != null;
-			    var genericParameter2HasDeclaringType = genericParameter2.DeclaringType != null;
+			//    var genericParameter1 = (GenericParameter) currentType1;
 
-			    if (genericParameter1HasDeclaringType || genericParameter2HasDeclaringType)
-			    {
-				    if ((genericParameter1HasDeclaringType && !genericParameter2HasDeclaringType) ||
-				        (!genericParameter1HasDeclaringType && genericParameter2HasDeclaringType)) return false;
+			//    var genericParameter2 = (GenericParameter)currentType2;
 
-				    if (!VerifyTypeMatch(conversion, genericParameter1.DeclaringType, genericParameter2.DeclaringType)) return false;
-			    }
-			    else // has method
-			    {
-				    var declaringMethod1 = genericParameter1.DeclaringMethod;
-				    var declaringMethod2 = genericParameter2.DeclaringMethod;
+			//    if (genericParameter1.Position != genericParameter2.Position) return false;
 
-				    if (declaringMethod1.Name != declaringMethod2.Name) return false;
+			//	var genericParameter1HasDeclaringType = genericParameter1.DeclaringType != null;
+			//    var genericParameter2HasDeclaringType = genericParameter2.DeclaringType != null;
 
-				    if (!VerifyTypeMatch(conversion, declaringMethod1.DeclaringType, declaringMethod2.DeclaringType)) return false;
-				}
+			//    if (genericParameter1HasDeclaringType || genericParameter2HasDeclaringType)
+			//    {
+			//	    if ((genericParameter1HasDeclaringType && !genericParameter2HasDeclaringType) ||
+			//	        (!genericParameter1HasDeclaringType && genericParameter2HasDeclaringType)) return false;
 
-			    // If it is a generic parameter type, whether class or method, it can be ignored as it does not make the signature unique.
-				return true;
-		    }
-		    if (currentType1IsGenericInstance || currentType2IsGenericInstance)
-		    {
-			    if ((currentType1IsGenericInstance && !currentType2IsGenericInstance) ||
-			        (!currentType1IsGenericInstance && currentType2IsGenericInstance)) return false;
+			//	    if (!VerifyTypeMatch(conversion, genericParameter1.DeclaringType, genericParameter2.DeclaringType)) return false;
+			//    }
+			//    else // has method
+			//    {
+			//	    var declaringMethod1 = genericParameter1.DeclaringMethod;
+			//	    var declaringMethod2 = genericParameter2.DeclaringMethod;
 
-			    var elementType1 = currentType1.GetElementType();
+			//	    if (declaringMethod1.Name != declaringMethod2.Name) return false;
 
-			    var elementType2 = currentType2.GetElementType();
+			//	    if (!VerifyTypeMatch(conversion, declaringMethod1.DeclaringType, declaringMethod2.DeclaringType)) return false;
+			//	}
 
-			    var result = VerifyTypeMatch(conversion, elementType1, elementType2);
+			//    // If it is a generic parameter type, whether class or method, it can be ignored as it does not make the signature unique.
+			//	return true;
+		 //   }
+		 //   if (currentType1IsGenericInstance || currentType2IsGenericInstance)
+		 //   {
+			//    if ((currentType1IsGenericInstance && !currentType2IsGenericInstance) ||
+			//        (!currentType1IsGenericInstance && currentType2IsGenericInstance)) return false;
 
-			    if (!result) return false;
+			//    var elementType1 = currentType1.GetElementType();
 
-			    var currentType1Arguments = ((GenericInstanceType)currentType1).GenericArguments;
+			//    var elementType2 = currentType2.GetElementType();
 
-			    var currentType2Arguments = ((GenericInstanceType)currentType2).GenericArguments;
+			//    var result = VerifyTypeMatch(conversion, elementType1, elementType2);
 
-			    if (currentType1Arguments.Count != currentType2Arguments.Count)
-			    {
-				    throw new Exception("Missing a case.");
-			    }
+			//    if (!result) return false;
 
-			    // Go through each generic argument.  
-			    for (int i = 0; i < currentType1Arguments.Count; i++)
-			    {
-				    var currentType1Argument = currentType1Arguments[i];
+			//    var currentType1Arguments = ((GenericInstanceType)currentType1).GenericArguments;
 
-				    var currentType2Argument = currentType2Arguments[i];
+			//    var currentType2Arguments = ((GenericInstanceType)currentType2).GenericArguments;
 
-				    result = VerifyTypeMatch(conversion, currentType1Argument, currentType2Argument);
+			//    if (currentType1Arguments.Count != currentType2Arguments.Count)
+			//    {
+			//	    throw new Exception("Missing a case.");
+			//    }
 
-				    if (!result) return false;
-			    }
+			//    // Go through each generic argument.  
+			//    for (int i = 0; i < currentType1Arguments.Count; i++)
+			//    {
+			//	    var currentType1Argument = currentType1Arguments[i];
 
-			    return true;
-			}
+			//	    var currentType2Argument = currentType2Arguments[i];
 
-		    var semanticType1 = Execution.Types.Ensuring.EnsureBound(conversion, currentType1);
+			//	    result = VerifyTypeMatch(conversion, currentType1Argument, currentType2Argument);
 
-		    var semanticType2 = Execution.Types.Ensuring.EnsureBound(conversion, currentType2);
+			//	    if (!result) return false;
+			//    }
 
-		    return ReferenceEquals(semanticType1, semanticType2);
+			//    return true;
+			//}
+
+		 //   var semanticType1 = Execution.Types.Ensuring.EnsureBound(conversion, currentType1);
+
+		 //   var semanticType2 = Execution.Types.Ensuring.EnsureBound(conversion, currentType2);
+
+		 //   return ReferenceEquals(semanticType1, semanticType2);
 	    }
 
 	   

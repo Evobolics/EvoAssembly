@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Mono.Cecil;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
@@ -24,11 +24,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
 
 		        Constructors.Building.RuntimeCreated.BuildConstructors(conversion, (ConvertedGenericTypeDefinition_I)input);
 			}
-			else if (input.SourceTypeReference.IsArray)
-	        {
-		        Constructors.Building.RuntimeCreated.BuildConstructors(conversion, (ConvertedArrayTypeDefinitionMask_I)input);
-			}
-	        else
+			else
 	        {
 		        // Done on purpose to find errors
 		        var typeDefinition = (TypeDefinition)input.SourceTypeReference;
@@ -82,7 +78,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
 
         private void CreateParameters(ILConversion conversion, ConvertedRoutine routine)
         {
-            var methodDefinition = routine.MethodReference;
+			var methodDefinition = Cecil.Metadata.Members.Methods.ResolveReferenceToNonSignatureDefinition(conversion.Model, routine.MethodReference);
 
             if (!methodDefinition.HasParameters) return;
 
@@ -97,9 +93,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
                     ParameterType = Execution.Types.Ensuring.EnsureBound(conversion, parameterDefinition.ParameterType)
                 };
 
-                if (convertedParameter.Position == 0)
+				// Make sure the 0th "this" parameter is not being overridden
+                if (!methodDefinition.IsStatic && convertedParameter.Position == 0)
                 {
-                    throw new Exception("Parameter position is zero.");
+                    throw new Exception("Parameter position is zero which should be reserved for the 'this' argument.");
                 }
 
                 routine.Parameters.ByName.Add(convertedParameter.Name, convertedParameter);
@@ -179,37 +176,37 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
         {
             ParameterAttributes result = ParameterAttributes.None;
 
-            if ((definition.Attributes & Mono.Cecil.ParameterAttributes.HasDefault) == Mono.Cecil.ParameterAttributes.HasDefault)
+            if ((definition.Attributes & Libs.Mono.Cecil.ParameterAttributes.HasDefault) == Libs.Mono.Cecil.ParameterAttributes.HasDefault)
             {
                 result |= ParameterAttributes.HasDefault;
             }
 
-            if ((definition.Attributes & Mono.Cecil.ParameterAttributes.HasFieldMarshal) == Mono.Cecil.ParameterAttributes.HasFieldMarshal)
+            if ((definition.Attributes & Libs.Mono.Cecil.ParameterAttributes.HasFieldMarshal) == Libs.Mono.Cecil.ParameterAttributes.HasFieldMarshal)
             {
                 result |= ParameterAttributes.HasFieldMarshal;
             }
 
-            if ((definition.Attributes & Mono.Cecil.ParameterAttributes.In) == Mono.Cecil.ParameterAttributes.In)
+            if ((definition.Attributes & Libs.Mono.Cecil.ParameterAttributes.In) == Libs.Mono.Cecil.ParameterAttributes.In)
             {
                 result |= ParameterAttributes.In;
             }
 
-            if ((definition.Attributes & Mono.Cecil.ParameterAttributes.Lcid) == Mono.Cecil.ParameterAttributes.Lcid)
+            if ((definition.Attributes & Libs.Mono.Cecil.ParameterAttributes.Lcid) == Libs.Mono.Cecil.ParameterAttributes.Lcid)
             {
                 result |= ParameterAttributes.Lcid;
             }
 
-            if ((definition.Attributes & Mono.Cecil.ParameterAttributes.Optional) == Mono.Cecil.ParameterAttributes.Optional)
+            if ((definition.Attributes & Libs.Mono.Cecil.ParameterAttributes.Optional) == Libs.Mono.Cecil.ParameterAttributes.Optional)
             {
                 result |= ParameterAttributes.Optional;
             }
 
-            if ((definition.Attributes & Mono.Cecil.ParameterAttributes.Out) == Mono.Cecil.ParameterAttributes.Out)
+            if ((definition.Attributes & Libs.Mono.Cecil.ParameterAttributes.Out) == Libs.Mono.Cecil.ParameterAttributes.Out)
             {
                 result |= ParameterAttributes.Out;
             }
 
-            if ((definition.Attributes & Mono.Cecil.ParameterAttributes.Retval) == Mono.Cecil.ParameterAttributes.Retval)
+            if ((definition.Attributes & Libs.Mono.Cecil.ParameterAttributes.Retval) == Libs.Mono.Cecil.ParameterAttributes.Retval)
             {
                 result |= ParameterAttributes.Retval;
             }

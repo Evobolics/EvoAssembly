@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection.Emit;
-using Mono.Cecil;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata;
 using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Libs.Mono.Cecil;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil
 {
@@ -184,19 +184,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil
 
         }
 
-        static MethodReference MakeGeneric(MethodReference method, TypeReference declaringType)
-        {
-            var reference = new MethodReference(method.Name, method.ReturnType);
-
-            reference.HasThis = method.HasThis;
-            reference.ExplicitThis = method.ExplicitThis;
-            reference.CallingConvention = MethodCallingConvention.Generic;
-	        foreach (var parameter in method.Parameters)
-	        {
-		        reference.Parameters.Add(new ParameterDefinition(parameter.ParameterType));
-	        }
-
-	        return reference;
-        }
+        
     }
 }
