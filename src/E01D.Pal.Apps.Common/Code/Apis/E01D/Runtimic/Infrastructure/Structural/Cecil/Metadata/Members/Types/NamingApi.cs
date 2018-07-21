@@ -1,4 +1,5 @@
-﻿using Root.Code.Containers.E01D.Runtimic;
+﻿using System;
+using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Types
@@ -23,19 +24,55 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return fullName + ", " + targetAssemblyName;
 		}
 
-		public string GetPointerElementName(TypeReference input)
-		{
-			if (!input.IsPointer) throw new System.Exception("Expecting a pointer type.");
-
-			var fullName = GetAssemblyQualifiedName(input);
-
-			fullName = fullName.Replace("*", "");
-
-			return fullName;
-		}
+		
 
 		public string GetCliFullName(TypeReference typeReference)
 		{
+			if (typeReference.IsByReference)
+			{
+				ByReferenceType byReferenceType = (ByReferenceType)typeReference;
+
+				return GetCliFullName(byReferenceType.ElementType) + "&";
+			}
+
+			if (typeReference.IsPointer)
+			{
+				PointerType pointerType = (PointerType)typeReference;
+
+				return GetCliFullName(pointerType.ElementType) + "*";
+			}
+
+			if (typeReference.IsArray)
+			{
+				ArrayType arrayType = (ArrayType) typeReference;
+				string fullNameArray = typeReference.FullName;
+				var suffixStartIndex = fullNameArray.IndexOf("[", StringComparison.Ordinal);
+
+				string suffix = typeReference.FullName.Substring(suffixStartIndex, fullNameArray.Length - suffixStartIndex);
+
+				fullNameArray = GetCliFullName(arrayType.ElementType) + suffix;
+
+				return fullNameArray;
+			}
+
+			if (typeReference.IsGenericParameter)
+			{
+				GenericParameter gp = (GenericParameter) typeReference;
+
+				if (gp.Type == GenericParameterType.Type)
+				{
+					return GetCliFullName(gp.DeclaringType) + "!!" + gp.Position;
+				}
+				else
+				{
+					string methodFullName = Methods.GetResolutionName(gp.DeclaringMethod);
+
+					return methodFullName + "!!" + gp.Position;
+				}
+
+				
+			}
+
 			var fullName = typeReference.FullName;
 
 			return fullName?.Replace("/", "+") ?? string.Empty;

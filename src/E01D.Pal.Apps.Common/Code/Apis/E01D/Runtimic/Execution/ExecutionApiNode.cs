@@ -15,7 +15,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution
 
 	    public ConversionApiMask_I Conversion => Container.Api.Runtimic.Execution.Conversion;
 
-	    public BindingApiMask_I Bound => Container.Api.Runtimic.Execution.Binding;
+	    public BindingApiMask_I Bound => Container.Api.Runtimic.Execution.Bound;
 	}
 
     public class ExecutionApiNode<TContainer, TUnderlying> : Api<TContainer, TUnderlying>

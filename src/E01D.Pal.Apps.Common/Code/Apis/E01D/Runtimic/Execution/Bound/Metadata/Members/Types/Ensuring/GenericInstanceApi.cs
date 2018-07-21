@@ -34,7 +34,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 
 		        if (IfAlreadyCreatedReturn(genericBlueprint, typeArgumentTypes, out SemanticTypeDefinitionMask_I ensure)) return ensure;
 
-		        bound.UnderlyingType = Binding.MakeGenericType(blueprint, typeArgumentTypes);
+		        bound.UnderlyingType = Bound.MakeGenericType(blueprint, typeArgumentTypes);
 
 		        genericBlueprint.Instances.Add((BoundGenericTypeDefinitionMask_I)bound);
 			}

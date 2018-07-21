@@ -26,7 +26,8 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Emitting.Metadata.Members
 
         public MemberKind MemberKind => MemberKind.Type;
 
-        public TypeReference SourceTypeReference { get; set; }
+	    public SemanticTypeDefinitionMask_I BaseType { get; set; }
+	    public TypeReference SourceTypeReference { get; set; }
         public ModuleDefinition SourceModuleDefinition { get; set; }
 
         public PackingSize PackingSize { get; set; }

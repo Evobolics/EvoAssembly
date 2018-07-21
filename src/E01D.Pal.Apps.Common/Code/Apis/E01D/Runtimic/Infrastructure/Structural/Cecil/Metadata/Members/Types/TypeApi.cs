@@ -215,9 +215,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			if (typeReference.IsRequiredModifier) return false;
 			if (typeReference.IsArray) return false;
 			if (typeReference.IsFunctionPointer) return false;
-			if (typeReference.IsPrimitive) return false;
+			//if (typeReference.IsPrimitive) return false;
 			if (typeReference.IsSentinel) return false;
-			if (typeReference.IsValueType) return false;
+			//if (typeReference.IsValueType) return false;
 
 			return true;
 		}

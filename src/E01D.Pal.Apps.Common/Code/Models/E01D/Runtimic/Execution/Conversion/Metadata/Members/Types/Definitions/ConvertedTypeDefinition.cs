@@ -23,7 +23,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
 
 		public BoundTypeDefinitionMask_I BaseType { get; set; }
 
-        SemanticTypeMask_I BoundTypeWithBaseTypeMask_I.BaseType => BaseType;
+        SemanticTypeDefinitionMask_I SemanticTypeDefinitionMask_I.BaseType => BaseType;
 
 	    
 

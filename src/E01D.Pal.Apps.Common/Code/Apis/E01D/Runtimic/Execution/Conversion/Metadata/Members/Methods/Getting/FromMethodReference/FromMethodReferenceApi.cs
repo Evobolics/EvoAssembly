@@ -106,10 +106,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 			}
 			else
 			{
-				type1 = Execution.Types.Ensuring.EnsureBound(conversion, currentTypeReference);
+				type1 = Execution.Types.Ensuring.EnsureBound(conversion.Model, currentTypeReference);
 			}
 
-			var type2 = Execution.Types.Ensuring.EnsureBound(conversion, currentType);
+			var type2 = Execution.Types.Ensuring.EnsureBound(conversion.Model, currentType);
 
 			return ReferenceEquals(type1, type2);
 		}
@@ -202,8 +202,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 				if (!VerifyTypeMatch(conversion, cecilParameterType, parameterType, method)) return false;
 
-				if (parameter.IsIn != currentParameter.IsIn ||
-					parameter.IsOut != currentParameter.IsOut ||
+				if (
+					//parameter.IsIn != currentParameter.IsIn ||
+					//parameter.IsOut != currentParameter.IsOut ||
 					parameterType.IsByRef != cecilParameterType.IsByReference)
 				{
 					return false;

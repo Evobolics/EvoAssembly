@@ -66,14 +66,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
         private System.Type GetObjectType(ILConversion conversion)
         {
-            return Binding.Models.Types.GetObjectType(conversion.Model);
+            return Bound.Models.Types.GetObjectType(conversion.Model);
         }
 
         
 
         private System.Type GetValueType(ILConversion conversion)
         {
-            return Binding.Models.Types.GetValueType(conversion.Model);
+            return Bound.Models.Types.GetValueType(conversion.Model);
         }
 
         public void EnsureInterfaces(ILConversion conversion, ConvertedTypeDefinition_I converted)

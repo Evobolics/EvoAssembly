@@ -103,10 +103,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Cr
 	        bound.AssemblyQualifiedName = Cecil.Metadata.Members.Types.Naming.GetAssemblyQualifiedName(typeInformation.TypeReference);
 			bound.FullName = typeInformation.FullName;
             bound.Name = typeInformation.Name;
-            
-            
-            bound.PackingSize = typeInformation.PackingSize;
+
+			
+			bound.PackingSize = typeInformation.PackingSize;
 	        bound.SourceTypeReference = typeInformation.TypeReference;
+	        bound.ResolutionName = Types.Naming.GetResolutionName(bound);
 			bound.UnderlyingType = underlyingType;
 
             if (typeInformation.IsGlobal)

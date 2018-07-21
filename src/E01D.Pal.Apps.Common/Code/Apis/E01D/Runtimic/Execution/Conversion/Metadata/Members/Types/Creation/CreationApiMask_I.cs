@@ -1,4 +1,5 @@
 ﻿using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 
@@ -18,8 +19,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 
 
-        ConvertedTypeDefinition Create(ILConversion conversion, System.Type type);
+        ConvertedTypeDefinition Create(BoundRuntimicModelMask_I semanticModel, System.Type type);
 
-        ConvertedTypeDefinition Create(ILConversion conversion,  TypeReference typeReference);
+        ConvertedTypeDefinition Create(BoundRuntimicModelMask_I semanticModel,  TypeReference typeReference);
     }
 }

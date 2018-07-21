@@ -20,7 +20,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution
         /// </summary>
         public AllocationApi_I<TContainer> Allocation { get; set; }
 
-        public BindingApi_I<TContainer> Binding { get; set; }
+        public BindingApi_I<TContainer> Bound { get; set; }
 
 	    /// <summary>
 	    /// Gets or sets the api used to convert assemblies from non-collectible to collectible.
@@ -53,7 +53,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution
 
         AllocationApiMask_I ExecutionApiMask_I.Allocation => Allocation;
 
-        BindingApiMask_I ExecutionApiMask_I.Binding => Binding;
+        BindingApiMask_I ExecutionApiMask_I.Bound => Bound;
 
 	    ConversionApiMask_I ExecutionApiMask_I.Conversion => Conversion;
 

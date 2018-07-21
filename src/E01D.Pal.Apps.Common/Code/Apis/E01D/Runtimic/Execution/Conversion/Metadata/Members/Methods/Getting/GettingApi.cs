@@ -90,7 +90,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 	    public MethodInfo GetMethodInfoOrThrow(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, MethodReference methodReference)
 	    {
 
-		    var declaringType = Execution.Types.Ensuring.EnsureBound(conversion, methodReference.DeclaringType);
+		    var declaringType = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodReference.DeclaringType);
 
 		    if (!(declaringType is BoundTypeDefinitionWithMethodsMask_I declaringTypeWithMethods))
 		    {

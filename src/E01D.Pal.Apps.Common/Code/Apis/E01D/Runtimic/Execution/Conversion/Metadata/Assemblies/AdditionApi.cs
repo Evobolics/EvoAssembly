@@ -21,7 +21,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 			    //conversion.Result.Assemblies.Add(convertedAssembly.AssemblyBuilder);
             }
 
-            Binding.Metadata.Assemblies.Addition.AddAssemblyEntry(conversion.Model, entry);	
+            Bound.Metadata.Assemblies.Addition.AddAssemblyEntry(conversion.Model, entry);	
 		}
 
         public void AddAssociatedDefinition(ILConversion conversion, ConvertedAssembly convertedAssembly,

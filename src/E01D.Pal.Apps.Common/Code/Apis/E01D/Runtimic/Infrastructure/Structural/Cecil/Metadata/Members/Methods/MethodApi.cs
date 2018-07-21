@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Building;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Getting;
@@ -185,6 +186,40 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			// Method parameters would never be converted because you whould not know in advance what they were going to be.
 
 			return typeToResolve;
+		}
+
+		public string GetResolutionName(MethodReference methodReference)
+		{
+			var builder = new StringBuilder();
+			
+			builder.Append(Types.Naming.GetResolutionName(methodReference.ReturnType));
+			builder.Append(" ");
+			builder.Append(Types.Naming.GetResolutionName(methodReference.DeclaringType));
+			builder.Append("::");
+			builder.Append(methodReference.Name);
+			
+			builder.Append("(");
+
+			if (methodReference.HasParameters)
+			{
+				var parameters = methodReference.Parameters;
+
+				for (int i = 0; i < parameters.Count; i++)
+				{
+					var parameter = parameters[i];
+					if (i > 0)
+						builder.Append(",");
+
+					if (parameter.ParameterType.IsSentinel)
+						builder.Append("...,");
+
+					builder.Append(Types.Naming.GetResolutionName(parameter.ParameterType));
+				}
+			}
+
+			builder.Append(")");
+			
+			return builder.ToString();
 		}
 
 		public bool IsVarArgCallTo(MethodReference method, MethodReference reference)

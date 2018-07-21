@@ -187,7 +187,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 
 				var referencedList = conversion.ReferencedAssemblies.Values.ToList();
 
-				Binding.Metadata.Assemblies.Building.Build(conversion.Model, referencedList);
+				Bound.Metadata.Assemblies.Building.Build(conversion.Model, referencedList);
 
 				var inputTypes = conversion.Input.NodesToConvert;
 

@@ -29,7 +29,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 			var genericElementType = genericInstanceType.ElementType; // Could be an external reference
 
-			var semanticBlueprint = Execution.Types.Ensuring.EnsureBound(conversion, genericElementType);
+			var semanticBlueprint = Execution.Types.Ensuring.EnsureBound(conversion.Model, genericElementType);
 
 			if (!(semanticBlueprint is BoundGenericTypeDefinitionMask_I boundBlueprint))
 			{

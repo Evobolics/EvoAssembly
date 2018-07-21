@@ -29,5 +29,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		TypeReference ResolveTypeParameterIfPresent(StructuralRuntimicModelMask_I model, MethodReference calledMethod,
 			TypeReference typeToResolve);
+
+		string GetResolutionName(MethodReference gpDeclaringMethod);
 	}
 }

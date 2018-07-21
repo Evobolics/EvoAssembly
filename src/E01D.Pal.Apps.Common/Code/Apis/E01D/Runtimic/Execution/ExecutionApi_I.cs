@@ -15,7 +15,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution
     {
         new AllocationApi_I<TContainer> Allocation { get; }
 
-        new BindingApi_I<TContainer> Binding { get; }
+        new BindingApi_I<TContainer> Bound { get; }
 
 	    new ConversionApi_I<TContainer> Conversion { get; set; }
 

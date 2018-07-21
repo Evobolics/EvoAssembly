@@ -50,7 +50,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Fields.B
 				fieldType = modifierType.ElementType;
 			}
 
-			Models.Types.ResolveToType(semanticModel, fieldType, fieldInfo.FieldType, out BoundTypeDefinitionMask_I semanticFieldType);
+			Execution.Types.Ensuring.EnsureToType(semanticModel, fieldType, fieldInfo.FieldType, out BoundTypeDefinitionMask_I semanticFieldType);
 
 			var convertedField = new BoundField()
 			{

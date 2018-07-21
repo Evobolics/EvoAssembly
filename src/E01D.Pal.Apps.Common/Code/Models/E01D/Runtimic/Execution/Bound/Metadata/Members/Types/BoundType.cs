@@ -16,7 +16,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types
         public MemberKind MemberKind => MemberKind.Type;
 
 
-        public SemanticTypeMask_I BaseType { get; set; }
+        
 
 	    public string ResolutionName { get; set; }
 		public System.Type UnderlyingType { get; set; }

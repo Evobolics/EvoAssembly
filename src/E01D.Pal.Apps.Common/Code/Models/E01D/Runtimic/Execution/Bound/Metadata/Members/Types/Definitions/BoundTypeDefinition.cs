@@ -7,7 +7,9 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.
 {
     public class BoundTypeDefinition: BoundType, BoundTypeDefinition_I//, BoundTypeWithInterfaceTypeListMask_I
     {
-	    public int BuildPhase { get; set; }
+		public BoundTypeDefinitionMask_I BaseType { get; set; }
+
+	    SemanticTypeDefinitionMask_I SemanticTypeDefinitionMask_I.BaseType => BaseType;
 
 		public override TypeKind TypeKind { get; set; } = TypeKind.Definition;
 
@@ -18,9 +20,10 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.
 		//SemanticTypeDefinitionInterfacesMask_I SemanticTypeWithInterfaceTypeListMask_I.Interfaces => Interfaces;
 
 
+	    
 	    SemanticModuleMask_I SemanticTypeDefinitionMask_I.Module => base.Module;
 
-	    public Dictionary<int, SemanticArrayTypeDefinitionMask_I> Arrays { get; set; } =
-		    new Dictionary<int, SemanticArrayTypeDefinitionMask_I>();
+	    //public Dictionary<int, SemanticArrayTypeDefinitionMask_I> Arrays { get; set; } =
+		   // new Dictionary<int, SemanticArrayTypeDefinitionMask_I>();
     }
 }

@@ -41,7 +41,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			// Conversion is going to occur.
 			//---------------------------------
 
-			ConvertedTypeDefinition converted = Types.Creation.Create(conversion, input);
+			ConvertedTypeDefinition converted = Types.Creation.Create(conversion.Model, input);
 
 	        // Get the module to ensure that the type is part of the module.
 	        var semanticModule = Modules.Ensuring.EnsureAssignedModule(conversion, input);

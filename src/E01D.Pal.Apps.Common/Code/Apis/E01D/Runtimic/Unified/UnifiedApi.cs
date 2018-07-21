@@ -5,6 +5,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Unified
 	public class UnifiedApi<TContainer> : UnifiedApiNode<TContainer>, UnifiedApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
+		public ArrayApi_I<TContainer> Arrays { get; set; }
+
+		ArrayApiMask_I UnifiedApiMask_I.Arrays => Arrays;
+
 		public AssemblyApi_I<TContainer> Assemblies { get; set; }
 
 		AssemblyApiMask_I UnifiedApiMask_I.Assemblies => Assemblies;

@@ -28,7 +28,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Fie
         public FieldInfo GetFieldInfo(ILConversion conversion, SemanticTypeDefinitionMask_I declaringType, string fieldReferenceName)
         {
             // There is nothing that is conversion specific.  Shoot the call downstream.
-            return Binding.Metadata.Members.Fields.GetFieldInfo(conversion.Model, declaringType, fieldReferenceName);   
+            return Bound.Metadata.Members.Fields.GetFieldInfo(conversion.Model, declaringType, fieldReferenceName);   
         }
 
         public FieldInfo GetFieldInfo(ILConversion conversion, Type declaringType, FieldReference fieldReference)

@@ -2,7 +2,7 @@
 
 namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions
 {
-    public interface BoundTypeDefinitionMask_I: SemanticTypeDefinitionMask_I, BoundTypeWithBaseTypeMask_I
+    public interface BoundTypeDefinitionMask_I: ExecutionTypeDefinitionMask_I, BoundTypeWithBaseTypeMask_I
     {
 
 		/// <summary>
@@ -13,7 +13,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.
 
 		
 
-		System.Type UnderlyingType { get; }
+		
 	    new BoundModuleMask_I Module { get;  }
 
 

@@ -96,7 +96,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members
 			if (methodReference.Name == ConstructorInfo.ConstructorName)
             {
 	            // how does the member reference declaring type be resolved?
-	            var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion, methodReference.DeclaringType);
+	            var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodReference.DeclaringType);
 
 				return Constructors.Getting.GetConstructor(conversion, typeBeingBuilt, declaringBound, methodReference, out memberInfo);
             }
@@ -116,7 +116,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members
 
             var declaringTypeRef = memberReference.DeclaringType;
 
-            return Execution.Types.Ensuring.EnsureBound(conversion, declaringTypeRef);
+            return Execution.Types.Ensuring.EnsureBound(conversion.Model, declaringTypeRef);
         }
     }
 }

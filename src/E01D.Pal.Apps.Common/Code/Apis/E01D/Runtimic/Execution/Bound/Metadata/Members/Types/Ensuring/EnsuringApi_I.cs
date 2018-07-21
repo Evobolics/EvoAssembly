@@ -5,7 +5,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 	public interface EnsuringApi_I<TContainer> : EnsuringApiMask_I
         where TContainer : RuntimicContainer_I<TContainer>
     {
-		new ArrayApi_I<TContainer> Arrays { get; set; }
+		//new ArrayApi_I<TContainer> Arrays { get; set; }
 
 
 
@@ -17,7 +17,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 
 	    new NonGenericApi_I<TContainer> NonGenericInstances { get; set; }
 
-	    new PointerApi_I<TContainer> Pointers { get; set; }
+	    //new PointerApi_I<TContainer> Pointers { get; set; }
 
 	    new RequiredModifierApi_I<TContainer> RequiredModifiers { get; set; }
 	}

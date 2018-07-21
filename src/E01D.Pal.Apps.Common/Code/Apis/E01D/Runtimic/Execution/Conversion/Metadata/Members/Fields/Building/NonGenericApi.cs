@@ -39,7 +39,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Fie
 
 			var fieldAttributes = GetFieldAttributes(field);
 
-			var boundFieldType = Execution.Types.Ensuring.EnsureToType(conversion, field.FieldType, out BoundTypeDefinitionMask_I semanticFieldType);
+			var boundFieldType = Execution.Types.Ensuring.EnsureToType(conversion.Model, field.FieldType, out BoundTypeDefinitionMask_I semanticFieldType);
 
 			var builder = typeWithFields.TypeBuilder.DefineField(field.Name, boundFieldType, fieldAttributes);
 

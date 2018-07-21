@@ -32,7 +32,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 		    if (!declaringBound.IsConverted())
 		    {
 				// NOTE - This call can only be used when accessing types that fully built.  
-			    memberInfo = Binding.Metadata.Members.Constructors.FindConstructorBySignature(conversion.Model,declaringBound, methodReference);
+			    memberInfo = Bound.Metadata.Members.Constructors.FindConstructorBySignature(conversion.Model,declaringBound, methodReference);
 		    }
 		    else
 		    {

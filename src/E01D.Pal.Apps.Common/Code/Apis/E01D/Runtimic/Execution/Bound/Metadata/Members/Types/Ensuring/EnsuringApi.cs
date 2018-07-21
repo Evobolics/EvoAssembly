@@ -3,6 +3,7 @@ using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Modeling;
@@ -16,9 +17,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 
 		#region Api(s)
 
-		public ArrayApi_I<TContainer> Arrays { get; set; }
+		//public ArrayApi_I<TContainer> Arrays { get; set; }
 
-	    ArrayApiMask_I EnsuringApiMask_I.Arrays => Arrays;
+	 //   ArrayApiMask_I EnsuringApiMask_I.Arrays => Arrays;
 
 
 
@@ -43,9 +44,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 
 	    NonGenericInstanceApiMask_I EnsuringApiMask_I.NonGenericInstances => NonGenericInstances;
 
-	    public PointerApi_I<TContainer> Pointers { get; set; }
+	    //public PointerApi_I<TContainer> Pointers { get; set; }
 
-	    PointerApiMask_I EnsuringApiMask_I.Pointers => Pointers;
+	    //PointerApiMask_I EnsuringApiMask_I.Pointers => Pointers;
 
 	    public RequiredModifierApi_I<TContainer> RequiredModifiers { get; set; }
 
@@ -56,85 +57,78 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 		/// <summary>
 		/// Ensures the type is part of the module.
 		/// </summary>
-		public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I semanticModel, TypeReference input, System.Type underlyingType, BoundTypeDefinitionMask_I declaringType)
+		public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I semanticModel, BoundEnsureContext context)
         {
-	        if (input.FullName == "System.Action`1<System.Reflection.Emit.ILGenerator>")
-	        {
-		        
-	        }
-
-	        // Should be Tabular.Cecil.
-	        if (Cecil.Types.IsExternal(input))
-	        {
-		        input = Models.Types.External.Resolve(semanticModel, input);
-	        }
-
-	        if (input.Name == "Api`1" && input.IsGenericInstance)
-	        {
-		        
-	        }
-
-	        if (input.IsGenericParameter) // DOES NOT USE UNDERLYING TYPE OR DECLARING TYPE
+	        if (context.TypeReference.IsGenericParameter) // DOES NOT USE UNDERLYING TYPE OR DECLARING TYPE
 	        {
 		        // You cannot create a generic parameter directly.  It is created when its parent type creates it.
-		        return GenericParameters.Ensure(semanticModel, input);
+		        return GenericParameters.Ensure(semanticModel, context.TypeReference);
 	        }
 
-			if (underlyingType == null)
+	        //if (context.TypeReference.IsArray)
+	        //{
+		       // return Arrays.Ensure(semanticModel, context.TypeReference, context.DeclaringType, context.UnderlyingType);
+	        //}
+
+	        //if (context.TypeReference.IsPointer)
+	        //{
+		       // return Pointers.Ensure(semanticModel, context.TypeReference, context.DeclaringType, context.UnderlyingType);
+	        //}
+
+			// Prior to this point, the underlying type could have been fetched from a generic type or generic method.  After this point, it is not possible.
+
+			if (context.UnderlyingType == null)
 	        {
-		        underlyingType = Models.Types.GetUnderlyingType(semanticModel, input);
+		        context.UnderlyingType = Models.Types.GetUnderlyingType(semanticModel, context.TypeReference);
 		        
 	        }
 
-			if (declaringType == null && underlyingType?.DeclaringType != null)
+			if (context.DeclaringType == null && context.UnderlyingType?.DeclaringType != null)
 	        {
-		        if (input.IsRequiredModifier)
+		        if (context.TypeReference.IsRequiredModifier)
 		        {
 					// Call back to the execution's type system so it can determine where to make the type
-					declaringType = (BoundTypeDefinitionMask_I)Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, input.GetElementType(), underlyingType.DeclaringType, null);
+			        context.DeclaringType = (BoundTypeDefinitionMask_I)Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, context.TypeReference.GetElementType(), context.UnderlyingType.DeclaringType, null);
 				}
 		        else
 		        {
-			        // Call back to the execution's type system so it can determine where to make the type
-					declaringType = (BoundTypeDefinitionMask_I)Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, input.DeclaringType, underlyingType.DeclaringType, null);
+					// Call back to the execution's type system so it can determine where to make the type
+			        context.DeclaringType = (BoundTypeDefinitionMask_I)Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, context.TypeReference.DeclaringType, context.UnderlyingType.DeclaringType, null);
 				}
 	        }
 
-			if (input.IsArray)
-	        {
-		        return Arrays.Ensure(semanticModel, input, declaringType, underlyingType);
-	        }
+			
 
-	        if (input.IsGenericInstance)
+			if (context.TypeReference.IsGenericInstance)
 	        {
-		        return GenericInstances.Ensure(semanticModel, input, declaringType, underlyingType);
+		        return GenericInstances.Ensure(semanticModel, context.TypeReference, context.DeclaringType, context.UnderlyingType);
 	        }
 
 			
-	        if (input.IsPointer)
+	        
+
+
+			if (context.TypeReference.IsRequiredModifier)
 	        {
-		        return Pointers.Ensure(semanticModel, input, declaringType, underlyingType);
+		        return RequiredModifiers.Ensure(semanticModel, context.TypeReference, context.DeclaringType, context.UnderlyingType);
+	        }
+	        if (context.TypeReference.IsDefinition)
+	        {
+		        return NonGenericInstances.Ensure(semanticModel, context.TypeReference, context.DeclaringType, context.UnderlyingType);
 	        }
 
+	        throw new Exception("Should never have happened.  External references are now handled prior to calling this method bye the execution ensuring mechanism.");
 
-			if (input.IsRequiredModifier)
-	        {
-		        return RequiredModifiers.Ensure(semanticModel, input, declaringType, underlyingType);
-	        }
-	        if (input.IsDefinition)
-	        {
-		        return NonGenericInstances.Ensure(semanticModel, input, declaringType, underlyingType);
-	        }
+			// External 
+			//var internalTypReference = Models.Types.External.Resolve(semanticModel, context.TypeReference);
 
-			// Extenral 
-	        var internalTypReference = Models.Types.External.Resolve(semanticModel, input);
 
-	        return Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, internalTypReference, underlyingType, declaringType);
+			//return Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, internalTypReference, context.UnderlyingType, context.DeclaringType);
 
 
 
-	       
-        }
+
+		}
 
 
 		public void EnsureTypes(BoundRuntimicModelMask_I semanticModel, BoundModule_I boundModule)

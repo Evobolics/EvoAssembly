@@ -90,7 +90,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
                     Position = parameterDefinition.Sequence,
                     Name = parameterDefinition.Name,
                     Builder = null,
-                    ParameterType = Execution.Types.Ensuring.EnsureBound(conversion, parameterDefinition.ParameterType)
+                    ParameterType = Execution.Types.Ensuring.EnsureBound(conversion.Model, parameterDefinition.ParameterType)
                 };
 
 				// Make sure the 0th "this" parameter is not being overridden
@@ -113,7 +113,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
 
             if (methodDefinition.ReturnType == null) return null;
 
-            return Execution.Types.Ensuring.EnsureBound(conversion, methodDefinition.ReturnType);
+            return Execution.Types.Ensuring.EnsureBound(conversion.Model, methodDefinition.ReturnType);
         }
 
         [Obsolete] //?
@@ -127,7 +127,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
 
                 foreach (var parameterDefinition in methodDefinition.Parameters)
                 {
-                    var parameterType = Execution.Types.Ensuring.EnsureBound(conversion, parameterDefinition.ParameterType);
+                    var parameterType = Execution.Types.Ensuring.EnsureBound(conversion.Model, parameterDefinition.ParameterType);
 
                     parameterTypeList.Add(parameterType);
                 }

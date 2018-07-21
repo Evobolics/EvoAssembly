@@ -54,7 +54,23 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies
 
         public Type GetTypeInAssembly(Assembly assembly, Type type)
         {
-            var types = assembly.GetTypes();
+	        Type[] types;
+
+	        try
+	        {
+		        types = assembly.GetTypes();
+	        }
+	        catch (System.Reflection.ReflectionTypeLoadException e)
+	        {
+		        for (int j = 0; j < e.LoaderExceptions.Length; j++)
+		        {
+			        Console.WriteLine(e.LoaderExceptions[j].Message);
+		        }
+
+
+		        throw e.LoaderExceptions[0];
+	        }
+			
 
             return GetTypeInAssembly(types, type);
         }

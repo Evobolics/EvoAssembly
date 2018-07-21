@@ -5,7 +5,6 @@ using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Ensuring
@@ -61,7 +60,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 		            throw new Exception("Trying to add a method to a type that does not support methods.");
 	            }
 
-	            var method = Binding.Metadata.Members.Methods.Getting.FindMethodByDefinition(conversion.Model, convertedTypeWithMethods, methodDefinition);
+	            var method = Bound.Metadata.Members.Methods.Getting.FindMethodByDefinition(conversion.Model, convertedTypeWithMethods, methodDefinition);
 
 	            if (!method.TypeParameters.ByName.TryGetValue(parameter.Name,out SemanticGenericParameterTypeDefinitionMask_I semanticTypeParameter))
 	            {

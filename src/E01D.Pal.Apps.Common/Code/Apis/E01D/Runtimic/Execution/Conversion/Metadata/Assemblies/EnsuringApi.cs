@@ -92,7 +92,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
 			if (!Assemblies.Query.IsConverted(conversion, name))
 			{
-				return Binding.Metadata.Assemblies.Ensuring.Ensure(conversion.Model, assemblyDefinition);
+				return Bound.Metadata.Assemblies.Ensuring.Ensure(conversion.Model, assemblyDefinition);
 			}
 
 			var convertedAssembly = Assemblies.Creation.CreateConvertedAssembly(conversion, name, assemblyDefinition);

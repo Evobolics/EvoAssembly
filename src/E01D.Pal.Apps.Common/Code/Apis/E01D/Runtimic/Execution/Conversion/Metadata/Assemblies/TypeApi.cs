@@ -77,7 +77,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
                 if (Assemblies.Query.IsCorlib(item.Name))
                 {
-                    Binding.Metadata.Assemblies.Building.BuildOut(conversionModel, item);
+                    Bound.Metadata.Assemblies.Building.BuildOut(conversionModel, item);
                 }
             }
         }

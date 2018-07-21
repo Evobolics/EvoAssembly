@@ -9,18 +9,18 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
     {
 		public string GetResolutionName(TypeReference input)
 		{
-			return Binding.Metadata.Members.Types.Naming.GetResolutionName(input);
+			return Bound.Metadata.Members.Types.Naming.GetResolutionName(input);
 			
 		}
 
         public string GetResolutionName(System.Type input)
         {
-	        return Binding.Metadata.Members.Types.Naming.GetResolutionName(input);
+	        return Bound.Metadata.Members.Types.Naming.GetResolutionName(input);
         }
 
 	    public string GetResolutionName(SemanticTypeMask_I input)
 	    {
-		    return Binding.Metadata.Members.Types.Naming.GetResolutionName(input);
+		    return Bound.Metadata.Members.Types.Naming.GetResolutionName(input);
 
 		}
 

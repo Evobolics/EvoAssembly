@@ -21,7 +21,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Parameters
 
             foreach (var typeReference in collection)
             {
-                types[i] = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+                types[i] = Execution.Types.Ensuring.EnsureToType(conversion.Model, typeReference);
 
                 i++;
             }
@@ -42,7 +42,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Parameters
 
             foreach (var parameter in parameters)
             {
-                types[i] = Execution.Types.Ensuring.EnsureToType(conversion, parameter.ParameterType);
+                types[i] = Execution.Types.Ensuring.EnsureToType(parameter.ParameterType);
 
                 i++;
             }
@@ -58,7 +58,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Parameters
 
             foreach (var parameter in parameters)
             {
-                types[i] = Execution.Types.Ensuring.EnsureToType(conversion, parameter.ParameterType);
+                types[i] = Execution.Types.Ensuring.EnsureToType(conversion.Model, parameter.ParameterType);
 
                 i++;
             }

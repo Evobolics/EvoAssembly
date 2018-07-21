@@ -21,7 +21,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 		    
 
 			// Search the model.
-			var assemblyEntry = Binding.Models.Assemblies.Get(model, typeReference);
+			var assemblyEntry = Bound.Models.Assemblies.Get(model, typeReference);
 
 			if (assemblyEntry != null) return assemblyEntry;
 

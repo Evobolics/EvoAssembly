@@ -5,7 +5,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 	public interface EnsuringApi_I<TContainer> : EnsuringApiMask_I
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        new ArrayApi_I<TContainer> Arrays { get; set; }
+        //new ArrayApi_I<TContainer> Arrays { get; set; }
 
         
 

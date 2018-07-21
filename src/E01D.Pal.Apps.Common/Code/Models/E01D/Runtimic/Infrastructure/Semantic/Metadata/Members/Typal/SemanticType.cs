@@ -18,7 +18,7 @@ namespace Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Member
         public MemberKind MemberKind => MemberKind.Type;
 
         public SemanticModuleMask_I Module { get; set; }
-        public SemanticTypeMask_I BaseType { get; set; }
+        
 
 
         public Dictionary<string, SemanticTypeMask_I> NestedTypes { get; set; } = new Dictionary<string, SemanticTypeMask_I>();

@@ -1,13 +1,8 @@
-﻿using System;
-using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Ensuring.Gathering;
-using Root.Code.Attributes.E01D;
+﻿using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Ensuring.Gathering;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 using GatheringApiMask_I = Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Ensuring.Gathering.GatheringApiMask_I;
 
@@ -19,9 +14,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 		#region Api(s)
 
 		
-        public ArrayApi_I<TContainer> Arrays { get; set; }
+        //public ArrayApi_I<TContainer> Arrays { get; set; }
 
-        ArrayApiMask_I EnsuringApiMask_I.Arrays => Arrays;
+        //ArrayApiMask_I EnsuringApiMask_I.Arrays => Arrays;
 
         
 
@@ -76,16 +71,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			// The choice was made to seperate out the various cases.  This enables each one to be developed seperately without having ot worry about how code 
 			// changes will affect the other cases.  It does have some duplication of code, but not much.  This keeps the code cleaner and easier to read.
 
-			if (typeReference.IsGenericParameter)
-            {
-                // You cannot create a generic parameter directly.  It is created when its parent type creates it.
-                return GenericParameters.Ensure(conversion, (GenericParameter)typeReference);
-            }
+			//if (typeReference.IsGenericParameter)
+   //         {
+   //             // You cannot create a generic parameter directly.  It is created when its parent type creates it.
+   //             return GenericParameters.Ensure(conversion, (GenericParameter)typeReference);
+   //         }
 
-            if (typeReference.IsArray)
-            {
-                return Arrays.Ensure(conversion, typeReference, declaringType);
-            }
+            //if (typeReference.IsArray)
+            //{
+            //    return Arrays.Ensure(conversion, typeReference, declaringType);
+            //}
 	        
 
 			if (typeReference.IsGenericInstance)

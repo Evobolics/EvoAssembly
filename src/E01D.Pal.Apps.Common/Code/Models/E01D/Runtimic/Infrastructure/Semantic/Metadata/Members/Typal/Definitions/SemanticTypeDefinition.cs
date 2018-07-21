@@ -5,7 +5,8 @@ namespace Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Member
 {
     public class SemanticTypeDefinition: SemanticType, SemanticTypeDefinition_I
     {
-        public TypeReference SourceTypeReference => throw new System.NotImplementedException();
+	    public SemanticTypeDefinitionMask_I BaseType { get; set; }
+	    public TypeReference SourceTypeReference => throw new System.NotImplementedException();
 
         
 

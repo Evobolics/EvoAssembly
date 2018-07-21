@@ -25,7 +25,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
 
 	    System.Type GetUnderlyingType(BoundRuntimicModelMask_I model, TypeReference typeReference);
 
-		TypeDefinition Resolve(BoundRuntimicModelMask_I model, Type genericTypeDefinitionType);
+		
 
         System.Type GetBoundUnderlyingTypeOrThrow(BoundRuntimicModelMask_I model, string resolutionName);
 
@@ -38,16 +38,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
 
 	    TypeReference GetTypeReference(BoundRuntimicModelMask_I model, Type input, out SemanticTypeDefinitionMask_I possibleSemanticType);
 
+	    TypeDefinition Resolve(BoundRuntimicModelMask_I model, Type genericTypeDefinitionType);
 
-		Type ResolveToType(BoundRuntimicModelMask_I model, TypeReference typeReference);
 
-        System.Type ResolveToType(BoundRuntimicModelMask_I model, BoundTypeDefinitionMask_I semanticType);
 
-        System.Type ResolveToType(BoundRuntimicModelMask_I model, SemanticTypeDefinitionMask_I semanticType, out BoundTypeDefinitionMask_I resultingBound);
 
-	    System.Type ResolveToType(BoundRuntimicModelMask_I model, TypeReference typeReference, System.Type type, out BoundTypeDefinitionMask_I resultingBound);
 
-		System.Type ResolveToType(BoundRuntimicModelMask_I model, TypeReference typeReference, out BoundTypeDefinitionMask_I boundType);
+
+		
 
 
 

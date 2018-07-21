@@ -132,19 +132,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
             return (TypeDefinition)Cecil.Types.Getting.GetStoredTypeReference(model, genericTypeDefinitionType);
         }
 
-	    public System.Type ResolveToType(BoundRuntimicModelMask_I model, TypeReference typeReference, System.Type underlyingType, out BoundTypeDefinitionMask_I boundType)
-	    {
-		    boundType = ResolveToBound(model, typeReference, underlyingType);
-
-		    return underlyingType;
-	    }
-
-		public System.Type ResolveToType(BoundRuntimicModelMask_I model, TypeReference typeReference, out BoundTypeDefinitionMask_I boundType)
-	    {
-		    boundType = ResolveToBound(model, typeReference);
-
-		    return ResolveToType(model, boundType);
-	    }
+	    
 
 		public Type ResolveToType(BoundRuntimicModelMask_I model, TypeReference typeReference)
 		{
@@ -163,45 +151,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
 			throw new Exception("There was not a bound type mapped to the type reference.");
 		}
 
-        public System.Type ResolveToType(BoundRuntimicModelMask_I model, SemanticTypeDefinitionMask_I semanticType, out BoundTypeDefinitionMask_I resultingBound)
-        {
-            if (!semanticType.IsBound())
-            {
-                resultingBound = null;
-
-                return Infrastructure.Models.Semantic.Types.ResolveToType(model, semanticType);
-            }
-
-            // Can only build and bake types that are definitions.  References cannot be turned into full types.
-            if (!(semanticType is BoundTypeDefinitionMask_I bound))
-            {
-                throw new Exception("Can only resolve semantic types to System.Types that are bound definitions.");
-            }
-
-            resultingBound = bound;
-
-            return ResolveToType(model, bound);
-        }
+        
 
         
 
-        // TODO: Rename to GetRuntimeType
-        public System.Type ResolveToType(BoundRuntimicModelMask_I model, BoundTypeDefinitionMask_I semanticType)
-        {
-            
-            // TODO: 2) Building needs to be decoupled from baking, to allow for field types to be resolved without causing the baking to occur that can prevent other fields 
-            //          from being added.
-
-            var underlyingType = semanticType.UnderlyingType;
-
-            if (underlyingType == null)
-            {
-                throw new System.Exception("Expected the underlying type to be filled in with a instance of a runtime type.");
-            }
-
-            return underlyingType;
-            
-        }
+        
 
 
 	    public BoundTypeDefinitionMask_I ResolveToBound(BoundRuntimicModelMask_I model, TypeReference typeReference)

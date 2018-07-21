@@ -37,22 +37,22 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling.Types
 
         public System.Type GetBoundUnderlyingTypeOrThrow(SemanticTypeMask_I semanticType)
         {
-            return Binding.Models.Types.GetBoundUnderlyingTypeOrThrow(semanticType);
+            return Bound.Models.Types.GetBoundUnderlyingTypeOrThrow(semanticType);
         }
 
         public BoundTypeDefinitionMask_I GetBoundTypeOrThrow(SemanticTypeMask_I semanticType, bool allowNulls)
         {
-            return Binding.Models.Types.GetBoundTypeOrThrow(semanticType, allowNulls);
+            return Bound.Models.Types.GetBoundTypeOrThrow(semanticType, allowNulls);
         }
 
 		public TypeReference GetTypeReference(ILConversion conversion, Type input)
 		{
-			return Binding.Models.Types.GetTypeReference(conversion.Model, input);
+			return Bound.Models.Types.GetTypeReference(conversion.Model, input);
 		}
 
 	    public TypeReference GetTypeReference(ILConversion conversion, Type input, out SemanticTypeDefinitionMask_I possibleSemanticType)
 	    {
-		    return Binding.Models.Types.GetTypeReference(conversion.Model, input, out possibleSemanticType);
+		    return Bound.Models.Types.GetTypeReference(conversion.Model, input, out possibleSemanticType);
 	    }
 
 

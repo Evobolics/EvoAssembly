@@ -32,13 +32,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
             }
         } 
 
-        public BindingApiMask_I Binding => Container.Api.Runtimic.Execution.Binding;
+        
 
         
 
         public ConstructorApiMask_I Constructors => Container.Api.Runtimic.Execution.Conversion.Metadata.Members.Constructors;
 
-        public ConversionApiMask_I Conversion => Container.Api.Runtimic.Execution.Conversion;
+        
 
 	    public CustomAttributeApiMask_I CustomAttributes => Container.Api.Runtimic.Execution.Conversion.Metadata.CustomAttributes;
 

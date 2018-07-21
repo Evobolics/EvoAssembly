@@ -5,6 +5,7 @@ using System.Reflection.Emit;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Libs.Mono.Cecil.Cil;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
@@ -262,7 +263,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+				    var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
 				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Box, declaringType);
 
@@ -374,7 +375,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+				    var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
 				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Castclass, declaringType);
 
@@ -414,9 +415,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+                        var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
-				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Constrained, declaringType);
+                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Constrained, declaringType);
 
 				    break;
 			    }
@@ -594,7 +595,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+				    var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
 				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Cpobj, declaringType);
 
@@ -634,7 +635,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+				    var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
 				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Initobj, declaringType);
 
@@ -644,7 +645,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+				    var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
 				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Isinst, declaringType);
 
@@ -844,22 +845,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    }
 			    case Libs.Mono.Cecil.Cil.Code.Leave:
 			    {
-				    //ilGenerator.Emit(System.Reflection.Emit.OpCodes.Leave, Labeling.GetLabel(labelEntries, instructionDefinition));
-
 				    break;
 			    }
-
 			    case Libs.Mono.Cecil.Cil.Code.Leave_S:
 			    {
-				    // ilGenerator.Emit(System.Reflection.Emit.OpCodes.Leave_S, Labeling.GetLabel(labelEntries, instructionDefinition));
-
 				    break;
 			    }
 			    case Libs.Mono.Cecil.Cil.Code.Ldelema:
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+				    var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
 				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldelema, declaringType);
 
@@ -1116,7 +1112,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+				    var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
 				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldobj, declaringType);
 
@@ -1160,7 +1156,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 				    }
 				    else
 				    {
-					    resolvedType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+					    resolvedType = Execution.Types.Ensuring.EnsureToType(conversion.Model, typeReference);
 				    }
 
 
@@ -1189,7 +1185,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+				    var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
 				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Mkrefany, declaringType);
 
@@ -1219,7 +1215,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+				    var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
 				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Newarr, declaringType);
 
@@ -1293,9 +1289,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+					var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
-				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Refanyval, declaringType);
+					ilGenerator.Emit(System.Reflection.Emit.OpCodes.Refanyval, declaringType);
 
 				    break;
 			    }
@@ -1323,9 +1319,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+					var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
-				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Sizeof, declaringType);
+					ilGenerator.Emit(System.Reflection.Emit.OpCodes.Sizeof, declaringType);
 
 				    break;
 			    }
@@ -1540,9 +1536,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+					var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
-				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Stobj, declaringType);
+					ilGenerator.Emit(System.Reflection.Emit.OpCodes.Stobj, declaringType);
 
 				    break;
 			    }
@@ -1597,9 +1593,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+					var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
-				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Unbox, declaringType);
+					ilGenerator.Emit(System.Reflection.Emit.OpCodes.Unbox, declaringType);
 
 				    break;
 			    }
@@ -1607,7 +1603,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var typeReference = instructionDefinition.Operand as TypeReference;
 
-				    var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
+				    var declaringType = EnsureToType(conversion, typeBeingBuilt, routine, typeReference);
 
 				    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Unbox_Any, declaringType);
 
@@ -1631,6 +1627,18 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 		    }
 	    }
 
+	    private System.Type EnsureToType(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, ConvertedRoutine routine, TypeReference typeReference)
+	    {
+		    var context = new BoundEnsureContext()
+		    {
+			    TypeReference = typeReference,
+			    Routine = routine,
+			    RoutineDeclaringType = typeBeingBuilt
+		    };
+
+			return Execution.Types.Ensuring.EnsureToType(conversion.Model, context);
+		}
+
 	    private bool ScanILForBranchesAndTypes(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, ConvertedRoutine routine)
 	    {
 		    if (routine.IsBranchAndTypeScanComplete) return false;
@@ -1638,8 +1646,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			var methodDefinition = (MethodDefinition)routine.MethodReference;
 
 		    var ilGenerator = routine.IlGenerator;
-
-			
 
 		    var labelEntries = routine.LabelEntries;
 
@@ -1767,7 +1773,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 				    {
 					    var methodReference = (MethodReference) instructionDefinition.Operand;
 
-					    operandDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion, methodReference.DeclaringType);
+					    operandDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodReference.DeclaringType);
 
 						break;
 				    }
@@ -1784,7 +1790,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 				    {
 					    var fieldReference = (FieldReference)instructionDefinition.Operand;
 
-					    operandDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion, fieldReference.DeclaringType);
+					    operandDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion.Model, fieldReference.DeclaringType);
 
 						break;
 				    }
@@ -1865,7 +1871,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    {
 				    var variableTypeReference = variable.VariableType;
 
-				    System.Type variableType = Execution.Types.Ensuring.EnsureToType(conversion, variableTypeReference);
+				    System.Type variableType = Execution.Types.Ensuring.EnsureToType(conversion.Model, variableTypeReference);
 
 				    LocalBuilder localBuilder = ilGenerator.DeclareLocal(variableType);
 			    }

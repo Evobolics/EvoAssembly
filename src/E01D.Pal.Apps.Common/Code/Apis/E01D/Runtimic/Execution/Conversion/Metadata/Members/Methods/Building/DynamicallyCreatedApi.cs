@@ -53,14 +53,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 			{
 				var methodOverride = methodDefinition.Overrides[j];
 
-				var interfaceDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion, methodOverride.DeclaringType);
+				var interfaceDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodOverride.DeclaringType);
 
 				if (!(methodOverride is MethodDefinition methodOverrideDefinition))
 				{
 					methodOverrideDefinition = Cecil.Metadata.Members.Methods.ResolveReferenceToNonSignatureDefinition(conversion.Model, methodOverride);
 				}
 
-				var semanticMethod = Binding.Metadata.Members.Methods.Getting.FindMethodByDefinition(conversion.Model, (BoundTypeDefinitionWithMethodsMask_I)interfaceDeclaringType, methodOverrideDefinition);
+				var semanticMethod = Bound.Metadata.Members.Methods.Getting.FindMethodByDefinition(conversion.Model, (BoundTypeDefinitionWithMethodsMask_I)interfaceDeclaringType, methodOverrideDefinition);
 
 				if (!(semanticMethod is BoundMethodDefinitionMask_I boundMethod))
 				{

@@ -12,7 +12,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic
     {
       
 
-        public BindingApiMask_I Binding => Container.Api.Runtimic.Execution.Binding;
+        public BindingApiMask_I Binding => Container.Api.Runtimic.Execution.Bound;
 
 
 

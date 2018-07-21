@@ -14,7 +14,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution
     {
         AllocationApiMask_I Allocation { get;  }
 
-        BindingApiMask_I Binding { get;  }
+        BindingApiMask_I Bound { get;  }
 
 	    ConversionApiMask_I Conversion { get; }
 

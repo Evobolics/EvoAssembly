@@ -1,4 +1,5 @@
-﻿using Root.Code.Containers.E01D.Runtimic;
+﻿using Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring;
+using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 
@@ -29,16 +30,18 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types
 				{
 					return IsConverted(boundModel, parameter.DeclaringType);
 				}
+
+				return false;
 				
-				if (parameter.DeclaringMethod.FullName ==
-					"System.Collections.Generic.List`1<TOutput> ConvertAll(System.Converter`2<T,TOutput>)")
-				{
+				//if (parameter.DeclaringMethod.FullName ==
+				//	"System.Collections.Generic.List`1<TOutput> ConvertAll(System.Converter`2<T,TOutput>)")
+				//{
 
-				}
+				//}
 
-				var declaredMethodDefinition = Cecil.Metadata.Members.Methods.ResolveReferenceToNonSignatureDefinition(boundModel, parameter.DeclaringMethod);
+				//var declaredMethodDefinition = Cecil.Metadata.Members.Methods.ResolveReferenceToNonSignatureDefinition(boundModel, parameter.DeclaringMethod);
 
-				return IsConverted(boundModel, declaredMethodDefinition.DeclaringType);
+				//return IsConverted(boundModel, declaredMethodDefinition.DeclaringType);
 			}
 
 			string assemlbyName = Cecil.Metadata.Assemblies.Naming.GetAssemblyName(typeReference);

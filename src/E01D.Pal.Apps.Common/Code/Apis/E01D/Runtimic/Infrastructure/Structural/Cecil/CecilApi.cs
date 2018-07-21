@@ -49,7 +49,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil
             {
                 var loadedAssembly = System.Reflection.Assembly.Load(Metadata.Assemblies.Naming.GetAssemblyName(input));
 
-                underlyingType = this.Execution.Binding.Metadata.Assemblies.GetTypeFromAssembly(loadedAssembly, input.FullName);
+                underlyingType = Execution.Bound.Metadata.Assemblies.GetTypeFromAssembly(loadedAssembly, input.FullName);
             }
 
             // TODO: need to have an exclusion list.

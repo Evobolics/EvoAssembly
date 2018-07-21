@@ -271,7 +271,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Cr
 
         private bool IsSimpleType(string typeDefinitionFullName)
         {
-            return Binding.Metadata.Members.Types.Simple.IsSimpleType(typeDefinitionFullName);
+            return Bound.Metadata.Members.Types.Simple.IsSimpleType(typeDefinitionFullName);
         }
 
 

@@ -1,4 +1,5 @@
-﻿using Root.Code.Libs.Mono.Cecil;
+﻿using System.Collections.Generic;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Models.E01D.Runtimic.Unified
@@ -18,8 +19,12 @@ namespace Root.Code.Models.E01D.Runtimic.Unified
 		public SemanticTypeDefinitionMask_I SemanticType { get; set; }
 
 	    public SemanticTypeDefinitionMask_I PointerType { get; set; }
+
+	    public SemanticTypeDefinitionMask_I ByReferenceType { get; set; }
 		public UnifiedTypeNode Next { get; set; }
 
-		
+        
+
+
     }
 }

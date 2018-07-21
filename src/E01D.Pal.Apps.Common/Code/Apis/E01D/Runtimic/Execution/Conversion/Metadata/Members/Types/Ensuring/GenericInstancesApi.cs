@@ -32,7 +32,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 	        }
 	        // -----------------------------------
 
-	        var converted = (ConvertedGenericTypeDefinition_I) Types.Creation.Create(conversion, input);
+	        var converted = (ConvertedGenericTypeDefinition_I) Types.Creation.Create(conversion.Model, input);
 
 			// Perform Phase 1 Build - Pre Search - Build out all the neccesary information to determine if the instance is already created.
 			// NOTE - I do not like that this is done after the creation call immediately above.  The searching should be possible without having to create the type

@@ -11,7 +11,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 {
     public interface EnsuringApiMask_I
     {
-        ArrayApiMask_I Arrays { get; }
+        //ArrayApiMask_I Arrays { get; }
 
 
 
