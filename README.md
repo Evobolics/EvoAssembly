@@ -32,4 +32,4 @@ var convertedAssemblies = EvoAssembly.QuickConvert(new []{inputAssembly1, inputA
 * modifiers not fully supported
 
 
-*Last Updated:* July 21th, 2018
+*Last Updated:* July 21st, 2018
