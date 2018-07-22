@@ -23,6 +23,11 @@ namespace Root.Code.Exts.Runtimic
 			return container.Api.Runtimic.Execution.Conversion.QuickConvert(assembly);
 		}
 
+		public static System.Reflection.Assembly Convert(this RuntimicContainer container, System.Reflection.Assembly assembly, AssemblyBuilderAccess access)
+		{
+			return container.Api.Runtimic.Execution.Conversion.QuickConvert(assembly, access);
+		}
+
 		public static Type QuickConvert(this RuntimicContainer container, Type type)
 		{
 			return container.Api.Runtimic.Execution.Conversion.QuickConvert(type);

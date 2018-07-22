@@ -187,6 +187,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 			return QuickConvert(assembly, out ILConversionResult result);
 		}
 
+	    public Assembly QuickConvert(Assembly assembly, AssemblyBuilderAccess access)
+	    {
+		    return QuickConvert(assembly, access, out ILConversionResult result);
+	    }
+
 		// -------- CONVERSION CASE C2 ---------------
 		/// <summary>
 		/// Converts the assembly an assembly to a dynamic assembly and returns the conversion result as an out parameter.
@@ -194,28 +199,40 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 		/// <param name="assembly"></param>
 		/// <param name="result"></param>
 		/// <returns></returns>
-	    public Assembly QuickConvert(Assembly assembly, out ILConversionResult result)
+		public Assembly QuickConvert(Assembly assembly, out ILConversionResult result)
 		{
-			var conversion = CreateConversion(new ILConversionAssembliesInput()
-			{
-				Assemblies = new []{ assembly }
-			});
-
-			result = Internal.Convert(conversion, assembly);
-
-			var output = (ILConversionAssembliesOutput)result.Output;
-
-			return output.Assemblies[0];
+			return QuickConvert(assembly, AssemblyBuilderAccess.RunAndCollect, out result);
 
 		}
 
-	    // -------- CONVERSION CASE D1 ---------------
 	    /// <summary>
-	    /// 
+	    /// Converts the assembly an assembly to a dynamic assembly and returns the conversion result as an out parameter.
 	    /// </summary>
 	    /// <param name="assembly"></param>
+	    /// <param name="result"></param>
 	    /// <returns></returns>
-	    public Assembly[] QuickConvert(Assembly[] assemblies)
+	    public Assembly QuickConvert(Assembly assembly, AssemblyBuilderAccess access, out ILConversionResult result)
+	    {
+		    var conversion = CreateConversion(new ILConversionAssembliesInput()
+		    {
+			    Assemblies = new[] { assembly }
+		    });
+
+		    result = Internal.Convert(conversion, assembly, access);
+
+		    var output = (ILConversionAssembliesOutput)result.Output;
+
+		    return output.Assemblies[0];
+
+	    }
+
+		// -------- CONVERSION CASE D1 ---------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="assembly"></param>
+		/// <returns></returns>
+		public Assembly[] QuickConvert(Assembly[] assemblies)
 	    {
 		    return QuickConvert(assemblies, out ILConversionResult result);
 	    }

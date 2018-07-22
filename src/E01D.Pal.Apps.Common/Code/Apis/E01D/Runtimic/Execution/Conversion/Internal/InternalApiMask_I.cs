@@ -13,6 +13,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 
 		ILConversionResult Convert(ILConversion conversion, Assembly assembly);
 
+		ILConversionResult Convert(ILConversion conversion, Assembly assembly, AssemblyBuilderAccess builderAccess);
+
 		ILConversionResult Convert(ILConversion conversion, Assembly[] assembly);
 
 		ILConversionResult Convert(ILConversion conversion, System.Type type);

@@ -182,8 +182,15 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring
 				
 			}
 
-            // The entire ensure algorithm works on making sure a semantic type exists for a type reference.  If a type reference is not passed in, 
-            // then the only other arugument 
+			if (context.TypeReference.FullName ==
+			    "Root.Code.Containers.E01D.Runtimic.RuntimicContainer_I`1<TContainer>"
+			)
+			{
+
+			}
+
+			// The entire ensure algorithm works on making sure a semantic type exists for a type reference.  If a type reference is not passed in, 
+			// then the only other arugument 
 			if (context.TypeReference == null)
 			{
 				context.TypeReference = Infrastructure.Models.Semantic.Types.GetTypeReference(boundModel, context.UnderlyingType, out SemanticTypeDefinitionMask_I possibleSemanticType);

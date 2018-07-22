@@ -37,14 +37,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 	    /// <returns></returns>
 	    Assembly QuickConvert(Assembly assembly);
 
-	    
-	    /// <summary>
-	    /// Converts the assembly an assembly to a dynamic assembly and returns the conversion result as an out parameter.
-	    /// </summary>
-	    /// <param name="assembly"></param>
-	    /// <param name="result"></param>
-	    /// <returns></returns>
-	    Assembly QuickConvert(Assembly assembly, out ILConversionResult result);
+	    Assembly QuickConvert(Assembly assembly, AssemblyBuilderAccess builder);
+
+
+		/// <summary>
+		/// Converts the assembly an assembly to a dynamic assembly and returns the conversion result as an out parameter.
+		/// </summary>
+		/// <param name="assembly"></param>
+		/// <param name="result"></param>
+		/// <returns></returns>
+		Assembly QuickConvert(Assembly assembly, out ILConversionResult result);
 
 	    
 	    /// <summary>

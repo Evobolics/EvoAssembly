@@ -652,5 +652,73 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 
 			Assert.IsNotNull(type1);
 		}
+
+	    [Test]
+	    public void CreateRuntimicContainer()
+	    {
+		    // Create a test container
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var type = test.Api.ConvertSingleType(typeof(Root.Code.Containers.E01D.Runtimic.RuntimicContainer));
+
+		    //
+
+		    Assert.IsNotNull(type);
+
+
+	    }
+
+	    [Test]
+	    public void CreateRuntimicContainer_I()
+	    {
+		    // Create a test container
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var type = test.Api.ConvertSingleType(typeof(Root.Code.Containers.E01D.Runtimic.RuntimicContainer_I<>));
+
+		    //
+
+		    Assert.IsNotNull(type);
+
+
+	    }
+
+		/// <summary>
+		/// Verifies that the dependency checking algorithm does not check generic class instances.  
+		/// </summary>
+		[Test] 
+	    public void VerifiesPhase3DependencyCheckingAlgorithmDoesNotCheckGenericInstances()
+	    {
+		    // Create a test container
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var type = test.Api.ConvertSingleType(typeof(GenericClassWithInterfaceASubClass));
+
+		    //
+
+		    Assert.IsNotNull(type);
+
+
+	    }
+
+	    [Test] // Verifies that the dependency checking algorithm thins generic class instances DO NOT have any phase 3 dependencies.
+	    public void VerifiesPhase3DependencyCheckingAlgorithmDoesNotCheckGenericInstances_1()
+	    {
+		    // Create a test container
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var type = test.Api.ConvertSingleType(typeof(RuntimicContainerB));
+
+		    //
+
+		    Assert.IsNotNull(type);
+
+
+	    }
+
 	}
 }

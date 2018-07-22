@@ -1809,16 +1809,19 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
 				routine.ConvertedInstructions.Add(instructionDefinition.Offset, convertedInstruction);
 
-				if (!(operandDeclaringType is ConvertedTypeDefinition_I convertedType) || 
-					convertedType.ConversionState.BuildPhase == BuildPhaseKind.MembersDefined ||
-				    convertedType.ConversionState.BuildPhase == BuildPhaseKind.TypeCreated) continue;
+				if (!(operandDeclaringType is ConvertedTypeDefinition_I convertedType)
+					//|| convertedType.ConversionState.BuildPhase == BuildPhaseKind.MembersDefined  // ADDITIONAL FILTER REQUIRED.
+					 //|| convertedType.ConversionState.BuildPhase == BuildPhaseKind.TypeCreated
+					) continue;
 					
-				foundDependencies = true;
+//				foundDependencies = true;
 
-				AddDependentOrDependency(convertedType.ConversionState.Phase3Dependents, typeBeingBuilt);
+				foundDependencies |= Types.Building.CheckForPhase3Dependency(convertedType, typeBeingBuilt, true);
 
-				AddDependentOrDependency(typeBeingBuilt.ConversionState.Phase3Dependencies, convertedType);
-			}
+                //AddDependentOrDependency(convertedType.ConversionState.Phase3Dependents, typeBeingBuilt);
+
+                //AddDependentOrDependency(typeBeingBuilt.ConversionState.Phase3Dependencies, convertedType);
+            }
 
 		    routine.IsBranchAndTypeScanComplete = true;
 
@@ -1848,14 +1851,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 		    
 	    }
 
-	    public void AddDependentOrDependency(Dictionary<string, ConvertedTypeDefinition_I> dictionary, ConvertedTypeDefinition_I converted)
-	    {
+		public void AddDependentOrDependency(Dictionary<string, ConvertedTypeDefinition_I> dictionary, ConvertedTypeDefinition_I converted)
+		{
 
-		    if (!dictionary.ContainsKey(converted.ResolutionName))
-		    {
-			    dictionary.Add(converted.ResolutionName, converted);
-		    }
-	    }
+			if (!dictionary.ContainsKey(converted.ResolutionName))
+			{
+				dictionary.Add(converted.ResolutionName, converted);
+			}
+		}
 
 		private void DeclareLocalVariables(ILConversion conversion, ConvertedRoutine routine)
 	    {

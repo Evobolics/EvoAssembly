@@ -25,5 +25,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 
 	    void UpdateBuildPhase(ConvertedTypeDefinition_I converted, BuildPhaseKind newPhaseNumber);
+
+	    void CheckForPhase3Dependency(ConvertedTypeDefinition_I dependency, ConvertedTypeDefinition_I dependent);
+
+	    bool CheckForPhase3Dependency(ConvertedTypeDefinition_I dependency, ConvertedTypeDefinition_I dependent,
+		    bool allowMembersDefined);
+
+
     }
 }
