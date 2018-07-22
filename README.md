@@ -26,10 +26,10 @@ var convertedAssemblies = EvoAssembly.QuickConvert(new []{inputAssembly1, inputA
 ## Known Issues / To-Do List
 
 * calli instruction not implemented yet
-* anything resolving around unsafe code not implemented / tested yet
+* unsafe code not tested yet, though pointers types should be supported.
 * no p-invoke support yet
-* full attribute support still in progress
-* no support for modifiers yet
-* whole assembly level conversion is having issues in some cases.  Currently working through them.
+* assembly and module attributes not supported
+* modifiers not fully supported
 
-*Last Updated:* July 16th, 2018
+
+*Last Updated:* July 21st, 2018
