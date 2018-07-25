@@ -4,12 +4,25 @@ using Root.Code.Domains;
 using Root.Code.Domains.E01D;
 using Root.Testing.Code.Containers.E01D.Runtimic.Execution.Emitting.Conversion;
 using Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Instructions;
+using Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types;
 
 namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.Inputs
 {
 
     public class InstructionTests
     {
+        [Test]
+        public void InstructionTesting_ExecptionHandling_TryCatch_NoNested()
+        {
+            // Create a test container
+            var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+            // Convert the type. The test api code will check to make sure the instance is not null.
+            var result = test.Api.ConvertCreateCall(typeof(InstructionTesting_ExecptionHandling_TryCatch_NoNested), "Execute");
+
+            Assert.AreEqual(1, (int)result);
+        }
+
         [Test]
         public void Insturction_Support_For_Add()
         {

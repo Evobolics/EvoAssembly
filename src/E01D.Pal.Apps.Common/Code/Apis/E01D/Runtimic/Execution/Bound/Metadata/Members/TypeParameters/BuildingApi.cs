@@ -2,9 +2,12 @@
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using BoundTypeParameterConstraint = Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions.BoundTypeParameterConstraint;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypeParameters
 {
@@ -25,7 +28,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 
 			for (var i = 0; i < parameters.Count; i++)
 			{
-				var typeParameter = CreateTypeParameter(model, typeArguments, inputType, parameters[i]);
+				var context = new BoundEnsureContext<BoundGenericParameterTypeDefinition>()
+				{
+					TypeReference = parameters[i],
+					DeclaringType = converted
+				};
+
+				var typeParameter = (BoundGenericParameterTypeDefinition)Execution.Types.Ensuring.Ensure(model, context);
+
+				typeParameter.UnderlyingType = FindMatchingType(typeArguments, typeParameter.SourceTypeReference);
+
+				//var typeParameter = CreateTypeParameter(model, typeArguments, inputType, parameters[i]);
 
 				Members.TypeParameters.Add(model, generic.TypeParameters, typeParameter);
 			}
@@ -39,18 +52,18 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 				BuildConstraints(model, typeParameter);
 			}
 
-			for (var i = 0; i < parameters.Count; i++)
-			{
-				var typeParameter = (BoundGenericParameterTypeDefinition)generic.TypeParameters.All[i];
+			//for (var i = 0; i < parameters.Count; i++)
+			//{
+			//	var typeParameter = (BoundGenericParameterTypeDefinition)generic.TypeParameters.All[i];
 
-				//if (typeParameter.InterfaceTypeConstraints != null && typeParameter.InterfaceTypeConstraints.Count > 0)
-				//{
-				//	GetInterfaceTypeConstraints(model, typeParameter.InterfaceTypeConstraints);
-				//}
+			//	//if (typeParameter.InterfaceTypeConstraints != null && typeParameter.InterfaceTypeConstraints.Count > 0)
+			//	//{
+			//	//	GetInterfaceTypeConstraints(model, typeParameter.InterfaceTypeConstraints);
+			//	//}
 
-				//GetBaseTypeConstraint(model, typeParameter.BaseTypeConstraint);
+			//	//GetBaseTypeConstraint(model, typeParameter.BaseTypeConstraint);
 
-			}
+			//}
 		}
 
 		private void BuildConstraints(BoundRuntimicModelMask_I model, BoundGenericParameterTypeDefinition typeParameter)
@@ -65,7 +78,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 			{
 				var constraint = constraints[i];
 
-				BoundGenericParameterTypeDefinitionConstraint semanticConstraint;
+				BoundTypeParameterConstraint semanticConstraint;
 
 				bool isClassConstraint = IsClassConstraint(model, constraint);
 
@@ -74,7 +87,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 					var x = new BoundClassTypeParameterConstraint()
 					{
 						Attributes = typeParameter.Attributes,
-						Class = Models.Types.ResolveToBound(model, constraint)
+						Class = Execution.Metadata.Members.Types.Ensuring.EnsureBound(model, constraint)
 					};
 
 					typeParameter.BaseTypeConstraint = x;
@@ -86,7 +99,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 					var x = new BoundInterfaceTypeParameterConstraint()
 					{
 						Attributes = typeParameter.Attributes,
-						Interface = Models.Types.ResolveToBound(model, constraint)
+						Interface = Execution.Metadata.Members.Types.Ensuring.EnsureBound(model, constraint)
 					};
 
 					semanticConstraint = x;
@@ -124,7 +137,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 				FullName = typeParamterType.FullName,
 				Position = typeParamterType.Position,
 				TypeParameterKind = GetTypeParameterKind(typeParamterType.Type),
-				Definition = typeParamterType
+				Definition = typeParamterType,
+				SourceTypeReference = inputType
 			};
 
 			typeParameter.UnderlyingType = FindMatchingType(typeArguments, typeParamterType);

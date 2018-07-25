@@ -15,6 +15,7 @@ using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using TypeParameterApiMask_I = Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.TypeParameters.TypeParameterApiMask_I;
 
@@ -83,7 +84,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members
 
         #endregion
 
-        public bool GetMemberInfo(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, MethodReference methodReference, out MemberInfo memberInfo)
+        public bool GetMemberInfo(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, ConvertedRoutine routineBeingBuilt, MethodReference methodReference, out MemberInfo memberInfo)
         {
             if (methodReference == null)
             {
@@ -101,7 +102,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members
 				return Constructors.Getting.GetConstructor(conversion, typeBeingBuilt, declaringBound, methodReference, out memberInfo);
             }
 			
-			memberInfo = Methods.Getting.GetMethodInfoOrThrow(conversion, typeBeingBuilt, methodReference);
+			memberInfo = Methods.Getting.GetMethodInfoOrThrow(conversion, typeBeingBuilt, routineBeingBuilt, methodReference);
 
 			return memberInfo != null;
 	       

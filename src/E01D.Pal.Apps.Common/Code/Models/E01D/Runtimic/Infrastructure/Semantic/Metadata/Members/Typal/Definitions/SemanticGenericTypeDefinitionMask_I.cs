@@ -3,7 +3,7 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 
 namespace Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions
 {
-    public interface SemanticGenericTypeDefinitionMask_I: SemanticTypeDefinitionWithTypeParametersMask_I, GenericTypeMask_I
+    public interface SemanticGenericTypeDefinitionMask_I: SemanticTypeDefinitionWithTypeParametersMask_I, GenericTypeMask_I, SemanticTypeDefinitionMask_I
 	{
         SemanticGenericTypeDefinitionMask_I Blueprint { get; }
 

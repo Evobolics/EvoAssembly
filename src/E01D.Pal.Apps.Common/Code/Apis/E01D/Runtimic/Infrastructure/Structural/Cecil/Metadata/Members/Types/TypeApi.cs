@@ -39,9 +39,27 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 
 
-		
 
 
+		public bool ContainsGenericMethodParameters(GenericInstanceType bound)
+		{
+			for (int i = 0; i < bound.GenericArguments.Count; i++)
+			{
+				var argument = bound.GenericArguments[i];
+
+				if (argument.IsGenericParameter)
+				{
+					var genericParameter = (GenericParameter)argument;
+
+					if (genericParameter.Type == GenericParameterType.Method)
+					{
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
 
 		public System.Reflection.TypeAttributes GetTypeAttributes(TypeDefinition typeDefinition)
 		{

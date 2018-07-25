@@ -5,9 +5,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Fields.B
 {
     public interface GenericApiMask_I
     {
-	    void BuildFields(InfrastructureRuntimicModelMask_I semanticModel, BoundTypeDefinition converted);
+	    void BuildFields(InfrastructureRuntimicModelMask_I semanticModel, BoundGenericTypeDefinition_I converted);
 
-	    void BuildFields_WithGenericTypeParameters(InfrastructureRuntimicModelMask_I semanticModel, BoundTypeDefinition input, BoundGenericTypeDefinition_I blueprint);
+	    void BuildFields_WithGenericTypeParameters(InfrastructureRuntimicModelMask_I semanticModel, BoundGenericTypeDefinition_I input, BoundGenericTypeDefinitionMask_I blueprint);
 
 
 

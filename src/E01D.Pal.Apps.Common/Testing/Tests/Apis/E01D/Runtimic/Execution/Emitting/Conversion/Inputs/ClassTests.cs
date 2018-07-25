@@ -720,5 +720,21 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 
 	    }
 
+	    [Test] // Verifies that the dependency checking algorithm thins generic class instances DO NOT have any phase 3 dependencies.
+	    public void ConvertedWithBoundGenericInstanceWithParameter()
+	    {
+		    // Create a test container
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var type = test.Api.ConvertSingleType(typeof(ConvertedWithBoundGenericInstanceWithParameter<int>));
+
+		    //
+
+		    Assert.IsNotNull(type);
+
+
+	    }
+
 	}
 }

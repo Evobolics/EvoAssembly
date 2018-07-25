@@ -110,8 +110,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                         {
                             tryCatchBlock = new TryCatchBlock()
                             {
+                                // The first instruction that is included in the try catch block
                                 TryStartOffset = exceptionBlock.TryStart.Offset,
+                                // Gets the first instruction of the catch statement
                                 TryEndOffset = exceptionBlock.TryEnd.Offset,
+                                // Gets the first instruction that is outside of the catch statement
                                 HandlerEndOffset = exceptionBlock.HandlerEnd.Offset,
                                 FilterStartOffset = exceptionBlock.FilterStart?.Offset ?? -1,
                                 HandlerEntries = new Dictionary<int, List<ExceptionHandler>>()
@@ -120,6 +123,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                             handlingInfo.TryCatchEntries.Add(tryCatchBlock);
 
                             handlingInfo.ExceptionBlocks.Add(tryCatchBlock);
+                            
+                            System.Diagnostics.Debug.WriteLine($"Try-Catch:  BEGIN @ {exceptionBlock.TryStart.Offset.ToString("X2")}");
 
                             AddEvent(conversion, ExceptionBlockEventKind.Begin, handlingInfo, exceptionBlock.TryStart.Offset, tryCatchBlock);
                         }
@@ -133,6 +138,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
                         list.Add(exceptionBlock);
 
+                        System.Diagnostics.Debug.WriteLine($"Try-Catch:  CATCH @ {exceptionBlock.HandlerStart.Offset.ToString("X2")}");
                         AddEvent(conversion, ExceptionBlockEventKind.Catch, handlingInfo, exceptionBlock.HandlerStart.Offset, tryCatchBlock, exceptionBlock);
 
                         break;
@@ -174,6 +180,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
                 if (lastHandlerEntry == null) continue;
 
+                System.Diagnostics.Debug.WriteLine($"Try-Catch:  END CATCH @ {lastHandlerEntry.HandlerEnd.Offset.ToString("X2")}");
+
                 AddEvent(conversion, ExceptionBlockEventKind.EndBlock, handlingInfo, lastHandlerEntry.HandlerEnd.Offset, tryCatchBlock);
             }
 
@@ -213,7 +221,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
 			var methodReference = routine.MethodReference;
 
-	        if (methodReference.IsDefinition) return;
+	        if (!methodReference.IsDefinition) return;
 
 	        var methodDefintion = (MethodDefinition) methodReference;
 
@@ -231,12 +239,15 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 {
                     case ExceptionBlockEventKind.Begin:
                     {
+                        System.Diagnostics.Debug.WriteLine($"try     @ {instruction.Offset.ToString("X2")}");
+                        
                         ilGenerator.BeginExceptionBlock();
                         break;
                     }
                     case ExceptionBlockEventKind.Catch:
                     {
-                        var typeReference = eventEntry.ExceptionHandler.CatchType;
+                        System.Diagnostics.Debug.WriteLine($"catch   @ {instruction.Offset.ToString("X2")}");
+                            var typeReference = eventEntry.ExceptionHandler.CatchType;
 
                         var declaringType = Execution.Types.Ensuring.EnsureToType(conversion.Model, typeReference);
 
@@ -247,6 +258,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
                     case ExceptionBlockEventKind.Finally:
                     {
+                        System.Diagnostics.Debug.WriteLine($"finally @ {instruction.Offset.ToString("X2")}");
                         ilGenerator.BeginFinallyBlock();
                         break;
                     }
@@ -263,6 +275,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                     }
                     case ExceptionBlockEventKind.EndBlock:
                     {
+                        System.Diagnostics.Debug.WriteLine($"end     @ {instruction.Offset.ToString("X2")}");
                         ilGenerator.EndExceptionBlock();
                         break;
                     }

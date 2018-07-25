@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Reflection.Emit;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Libs.Mono.Cecil.Metadata;
@@ -42,15 +43,43 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Construc
             }
         }
 
-        public ConstructorInfo FindConstructorBySignature(BoundRuntimicModelMask_I conversionModel, BoundTypeDefinitionMask_I declaringType, MethodReference methodReference)
+        public ConstructorInfo FindConstructorBySignature(BoundRuntimicModelMask_I boundModel, 
+            BoundTypeDefinitionMask_I methodReferenceDeclaringType, MethodReference methodReference)
         {
             // NOTE - This version of the method cannot access constructor builders, which are neccessary when building
             //        constructor calls for a converted classes instructions.
 
-            var parameterTypes = Parameters.GetSystemParameterTypes(conversionModel, methodReference);
+            var parameterTypes = Parameters.GetSystemParameterTypes(boundModel, methodReference);
+
+            //if (methodReferenceDeclaringType.SourceTypeReference.IsGenericInstance)
+            //{
+            //    GenericInstanceType genericInstance = (GenericInstanceType)methodReferenceDeclaringType.SourceTypeReference;
+
+            //    if (Execution.Types.IsConverted(boundModel, methodReference.DeclaringType) && Cecil.Types.ContainsGenericMethodParameters(genericInstance))
+            //    {
+            //        var dictionaryType = methodReferenceDeclaringType.UnderlyingType.GetGenericTypeDefinition();
+            //        var x = dictionaryType.GetConstructor(parameterTypes);
+            //        var y = TypeBuilder.GetConstructor(methodReferenceDeclaringType.UnderlyingType, x);
+
+            //        return y;
+            //    }
+            //}
+
+            //if (declaringType.FullName == "System.Collections.Generic.Dictionary`2<System.String,T1>")
+            //{
+            //    var generic = declaringType.UnderlyingType.GetGenericTypeDefinition();
+
+            //    var x1 = (TypeBuilder) declaringType.UnderlyingType;
+
+            //    var x = generic.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+            //    var y = generic.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+            //    var result = TypeBuilder.GetConstructor(generic, x[0]);
+            //}
 
 			// Using the BindingFlags.Instance is important as certain constructors (like System.Attribute) will not show up without it.
-            var constructor = declaringType.UnderlyingType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, parameterTypes, null); 
+            var constructor = methodReferenceDeclaringType.UnderlyingType.GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, parameterTypes, null); 
 
             if (constructor == null)
             {

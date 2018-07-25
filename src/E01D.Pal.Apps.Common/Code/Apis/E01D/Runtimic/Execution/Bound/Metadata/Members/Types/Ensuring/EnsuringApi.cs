@@ -59,54 +59,41 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 		/// </summary>
 		public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I semanticModel, BoundEnsureContext context)
         {
+	        if (context.TypeReference.FullName == "Root.Code.Containers.E01D.Sorting.SortingContainer_I`1<TContainer>")
+	        {
+		        
+	        }
+
 	        if (context.TypeReference.IsGenericParameter) // DOES NOT USE UNDERLYING TYPE OR DECLARING TYPE
 	        {
 		        // You cannot create a generic parameter directly.  It is created when its parent type creates it.
 		        return GenericParameters.Ensure(semanticModel, context.TypeReference);
 	        }
 
-	        //if (context.TypeReference.IsArray)
-	        //{
-		       // return Arrays.Ensure(semanticModel, context.TypeReference, context.DeclaringType, context.UnderlyingType);
-	        //}
+			if (context.TypeReference.IsGenericInstance)
+			{
+				return GenericInstances.Ensure(semanticModel, (GenericInstanceType)context.TypeReference, context.DeclaringType);
+			}
 
-	        //if (context.TypeReference.IsPointer)
-	        //{
-		       // return Pointers.Ensure(semanticModel, context.TypeReference, context.DeclaringType, context.UnderlyingType);
-	        //}
-
-			// Prior to this point, the underlying type could have been fetched from a generic type or generic method.  After this point, it is not possible.
-
-			if (context.UnderlyingType == null)
+			// Ultimately the conversion process needs type and member infos
+	        if (context.UnderlyingType == null)
 	        {
 		        context.UnderlyingType = Models.Types.GetUnderlyingType(semanticModel, context.TypeReference);
-		        
 	        }
 
-			if (context.DeclaringType == null && context.UnderlyingType?.DeclaringType != null)
+	        if (context.DeclaringType == null && context.UnderlyingType?.DeclaringType != null)
 	        {
 		        if (context.TypeReference.IsRequiredModifier)
 		        {
-					// Call back to the execution's type system so it can determine where to make the type
+			        // Call back to the execution's type system so it can determine where to make the type
 			        context.DeclaringType = (BoundTypeDefinitionMask_I)Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, context.TypeReference.GetElementType(), context.UnderlyingType.DeclaringType, null);
-				}
+		        }
 		        else
 		        {
-					// Call back to the execution's type system so it can determine where to make the type
+			        // Call back to the execution's type system so it can determine where to make the type
 			        context.DeclaringType = (BoundTypeDefinitionMask_I)Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, context.TypeReference.DeclaringType, context.UnderlyingType.DeclaringType, null);
-				}
+		        }
 	        }
-
-			
-
-			if (context.TypeReference.IsGenericInstance)
-	        {
-		        return GenericInstances.Ensure(semanticModel, context.TypeReference, context.DeclaringType, context.UnderlyingType);
-	        }
-
-			
-	        
-
 
 			if (context.TypeReference.IsRequiredModifier)
 	        {

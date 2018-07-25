@@ -10,6 +10,6 @@ namespace Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Member
 
         
 
-	    public Dictionary<int, SemanticArrayTypeDefinitionMask_I> Arrays { get; set; } = new Dictionary<int, SemanticArrayTypeDefinitionMask_I>();
+	    
 	}
 }

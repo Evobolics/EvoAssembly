@@ -129,12 +129,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
                 Name = typeParamterType.Name,
                 FullName = typeParamterType.FullName,
                 Position = typeParamterType.GenericParameterPosition,
-                TypeParameterKind = TypeParameterKind.Type
+                TypeParameterKind = TypeParameterKind.Type,
+                ConstructorMethod = 3
             };
 
             var constraints = typeParamterType.GetGenericParameterConstraints();
             
-            var semanticConstraints = new BoundGenericParameterTypeDefinitionConstraintMask_I[constraints.Length];
+            //var semanticConstraints = new BoundGenericParameterTypeDefinitionConstraintMask_I[constraints.Length];
 
             for (int i = 0; i < constraints.Length; i++)
             {
@@ -152,7 +153,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
                     typeParameter.BaseTypeConstraint = x;
 
-                    semanticConstraint = x;
+                    //semanticConstraint = x;
                 }
                 else
                 {
@@ -162,12 +163,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
                         Interface = Types.Ensuring.DotNet.EnsureType(conversion, constraint)
                     };
 
-                    semanticConstraint = x;
+                    //semanticConstraint = x;
 
                     typeParameter.InterfaceTypeConstraints.Add(x);
                 }
 
-                semanticConstraints[i] = semanticConstraint;
+                //semanticConstraints[i] = semanticConstraint;
             }
 
             return typeParameter;

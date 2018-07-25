@@ -4,8 +4,12 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Ty
 
 namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions
 {
-    public class BoundStructTypeDefinition : BoundValueTypeDefinition, BoundTypeDefinitionWithFields_I, BoundTypeDefinitionWithMethods_I
+    public class BoundStructTypeDefinition : BoundValueTypeDefinition, BoundTypeDefinitionWithFields_I, BoundTypeDefinitionWithMethods_I, BoundTypeDefinitionWithConstructors_I
 	{
+		public BoundTypeDefinitionConstructors Constructors { get; set; } = new BoundTypeDefinitionConstructors();
+
+		SemanticTypeConstructorsMask_I SemanticTypeWithConstructorsMask_I.Constructors => this.Constructors;
+
 		public BoundTypeDefinitionFields Fields { get; set; } = new BoundTypeDefinitionFields();
 
 		SemanticTypeFieldsMask_I SemanticTypeDefinitionWithFieldsMask_I.Fields => Fields;

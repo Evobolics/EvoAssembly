@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic.Execution.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions
@@ -34,6 +35,8 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.
 	    public BoundGenericTypeDefinitionGenericTypeArguments_I TypeArguments { get; set; } = new BoundGenericTypeDefinitionGenericTypeArguments();
 
 	    BoundGenericTypeDefinitionGenericTypeArgumentsMask_I BoundGenericTypeDefinitionMask_I.TypeArguments => TypeArguments;
+
+	    ExecutionGenericTypeDefinitionGenericTypeArgumentsMask_I ExecutionGenericTypeDefinitionMask_I.TypeArguments => TypeArguments;
 
 		SemanticGenericTypeDefinitionGenericTypeArgumentsMask_I SemanticGenericTypeDefinitionMask_I.TypeArguments => TypeArguments;
 

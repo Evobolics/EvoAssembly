@@ -11,50 +11,96 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
     public class GenericApi<TContainer> : BoundApiNode<TContainer>, GenericApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I semanticModel, TypeReference input, BoundTypeDefinitionMask_I declaringType, System.Type type)
+		
+
+	    public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I semanticModel, GenericInstanceType input, BoundTypeDefinitionMask_I declaringType)
         {
-            BoundTypeDefinition bound = Types.Creation.Create(semanticModel, input, type);
+	        
 
-            Type[] typeArgumentTypes = Members.TypeArguments.Building.Build(semanticModel, bound, type);
+            var typeArguments = Members.TypeArguments.Building.Build(semanticModel, input);
 
-	        if (input.FullName == "System.Action`1<System.Reflection.Emit.ILGenerator>")
+            var blueprint = (BoundGenericTypeDefinitionMask_I)Execution.Types.Ensuring.EnsureBound(semanticModel, input.ElementType, null);
+
+			if (IfAlreadyCreatedReturn(blueprint, typeArguments, out SemanticTypeDefinitionMask_I ensure)) return ensure;
+
+	        var typeArgumentTypes = GetTypes(typeArguments, out bool hasGenericParameters);
+
+			var underlyingType = Bound.MakeGenericType(blueprint, typeArgumentTypes);
+
+			var bound = (BoundGenericTypeDefinition_I)Types.Creation.Create(semanticModel, input, underlyingType);
+
+	        for (var j = 0; j < typeArguments.Length; j++)
 	        {
+		        var currentTypeArgument = typeArguments[j];
 
+				bound.TypeArguments.All.Add(currentTypeArgument);
 	        }
 
-			bool hasGenericParameters = HasGenericParameters(typeArgumentTypes);
+			bound.Blueprint = blueprint;
 
-            var blueprint = EnsureGenericBlueprint(semanticModel, bound);
+			blueprint.Instances.Add(bound);
 
-	        BoundGenericTypeDefinition_I genericBlueprint = null;
-
-			if (blueprint != null)
+	        if (bound.FullName == "System.Collections.Generic.Dictionary`2<System.String,T>")
 	        {
-		        genericBlueprint = (BoundGenericTypeDefinition_I) blueprint;
+		        
+	        }
 
-		        if (IfAlreadyCreatedReturn(genericBlueprint, typeArgumentTypes, out SemanticTypeDefinitionMask_I ensure)) return ensure;
+	        if (bound.FullName == "System.Collections.Generic.Dictionary`2+ValueCollection+Enumerator")
+	        {
+	        }
 
-		        bound.UnderlyingType = Bound.MakeGenericType(blueprint, typeArgumentTypes);
 
-		        genericBlueprint.Instances.Add((BoundGenericTypeDefinitionMask_I)bound);
+	        if (input.IsGenericInstance && underlyingType.IsGenericTypeDefinition)
+	        {
+				//throw new Exception("Semantic types that are generic instances but treated as a genreic type definition are not directly supported yet.");
+			}
+
+	        if (hasGenericParameters && underlyingType.IsGenericTypeDefinition)
+	        {
+		        // Check to see if effectively is a generic type definition.
+		        // A) Do not try to get methods for types that are generic type definitions
+		        
 			}
 			else
-			{
-				bound.UnderlyingType = type;
-			}
-
-	        if (hasGenericParameters)
 	        {
-				Fields.Building.Generic.BuildFields_WithGenericTypeParameters(semanticModel, bound, genericBlueprint); 
+				Fields.Building.Generic.BuildFields(semanticModel, bound);
 
-			}
-	        else
-	        {
-		        Fields.Building.Generic.BuildFields(semanticModel, bound);
+		        Constructors.Building.BuildConstructors(semanticModel, bound);
 
 				Methods.Building.BuildMethods(semanticModel, bound);
 			}
+	  //      //Fields.Building.Generic.BuildFields_WithGenericTypeParameters(semanticModel, bound, blueprint);
 
+			//	// Check to see if effectively is a generic type definition.
+			//	// A) Do not try to get methods for types that are generic type definitions
+			//	// B) Do not try to get methods for typee that are effectively generic type definitions becuase they contain
+			//	//    unbound method generic parameters which can only become bound when the method arguments are filled in with 
+			//	//    non-geneic parameters or generic type parmeters (not method parameters)
+			//	//
+			//	//    Notes:
+			//	//    The issue is not creating the type, the issue is creating the methods.  The runtime does not allow you to
+			//	//    ask for a list of runtime methods that have open type parameters becuase they are not invokeable.  It will give
+			//	//    you the type to use as you mgiht need the type for declaring method return types or parameter types.  
+			//	//     
+			//	//var containsGenericMethodParameters = Cecil.Types.ContainsGenericMethodParameters(input);
+
+		 //       if (!underlyingType.IsGenericTypeDefinition 
+			//		//&& !containsGenericMethodParameters
+			//		)
+		 //       {
+			//	Fields.Building.Generic.BuildFields(semanticModel, bound);
+
+			//        Methods.Building.BuildMethods(semanticModel, bound);
+			//}
+			
+	  //      else
+	  //      {
+		 //       Fields.Building.Generic.BuildFields(semanticModel, bound);
+
+			//	Methods.Building.BuildMethods(semanticModel, bound);
+			//}
+
+			//
             
 
             
@@ -62,44 +108,30 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
             return bound;
         }
 
-	    public BoundTypeDefinitionMask_I EnsureGenericBlueprint(BoundRuntimicModelMask_I semanticModel, BoundTypeDefinition bound)
+	    
+
+	    private Type[] GetTypes(BoundTypeDefinitionMask_I[] typeArguments, out bool hasGenericParameters)
 	    {
-		    if (!bound.IsGeneric()) return null;
+		    Type[] result = new Type[typeArguments.Length];
 
-		    var generic = (BoundGenericTypeDefinition_I)bound;
+		    hasGenericParameters = false;
 
-		    
+			for (var j = 0; j < typeArguments.Length; j++)
+			{
+				var currentTypeArgument = typeArguments[j];
 
-		    TypeDefinition typeDefinition = Types.GenericInstances.GetElementType(semanticModel, bound);
-			
+				hasGenericParameters |=currentTypeArgument.SourceTypeReference.IsGenericParameter;
 
-		    var genericTypeDefinition = bound.UnderlyingType.GetGenericTypeDefinition();
+				result[j] = currentTypeArgument.UnderlyingType;
+			}
 
-		    var semanticBlueprint = Execution.Types.Ensuring.Ensure(semanticModel, typeDefinition, genericTypeDefinition, null);
-
-		    if (!(semanticBlueprint is BoundGenericTypeDefinitionMask_I boundBlueprint))
-		    {
-			    throw new Exception("When creating a conversion model, the base type needs to be a bound type.");
-		    }
-
-		    generic.Blueprint = boundBlueprint;
-
-		    return boundBlueprint;
+		    return result;
 	    }
 
-		private bool HasGenericParameters(Type[] typeArgumentTypes)
-	    {
-		    for (int i = 0; i < typeArgumentTypes.Length; i++)
-		    {
-			    var typeArgument = typeArgumentTypes[i];
 
-			    if (typeArgument.IsGenericParameter) return true;
-		    }
+	   
 
-		    return false;
-	    }
-
-	    private bool IfAlreadyCreatedReturn(BoundGenericTypeDefinition_I genericBlueprint, Type[] typeArgumentTypes,out SemanticTypeDefinitionMask_I ensure)
+	    private bool IfAlreadyCreatedReturn(BoundGenericTypeDefinitionMask_I genericBlueprint, BoundTypeDefinitionMask_I[] typeArgumentTypes,out SemanticTypeDefinitionMask_I ensure)
         {
             for (int i = 0; i < genericBlueprint.Instances.Count; i++)
             {
@@ -107,18 +139,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 
                 var currentInstance = (BoundGenericTypeDefinitionMask_I) instance;
 
-                bool found = true;
-
-                for (int j = 0; j < currentInstance.TypeArguments.All.Count; j++)
+                var found = true;
+				
+                for (var j = 0; j < currentInstance.TypeArguments.All.Count; j++)
                 {
-                    var underlyingType = ((BoundTypeDefinitionMask_I) currentInstance.TypeArguments.All[j]).UnderlyingType;
+	                var currentTypeArgument = currentInstance.TypeArguments.All[j];
 
-                    if (!ReferenceEquals(underlyingType, typeArgumentTypes[j]))
-                    {
-                        found = false;
+	                if (ReferenceEquals(currentTypeArgument, typeArgumentTypes[j])) continue;
 
-                        break;
-                    }
+	                found = false;
+
+	                break;
                 }
 
                 if (found)

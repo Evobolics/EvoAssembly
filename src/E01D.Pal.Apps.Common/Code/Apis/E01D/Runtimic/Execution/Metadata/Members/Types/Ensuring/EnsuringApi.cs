@@ -169,7 +169,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring
 		    return Ensure(boundModel, context);
 	    }
 
-	    public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I boundModel, BoundEnsureContext context)
+	    
+
+		public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I boundModel, BoundEnsureContext context)
 		{
             // Make sure valid search criteria is set.
 			if (context.TypeReference == null && context.UnderlyingType == null)

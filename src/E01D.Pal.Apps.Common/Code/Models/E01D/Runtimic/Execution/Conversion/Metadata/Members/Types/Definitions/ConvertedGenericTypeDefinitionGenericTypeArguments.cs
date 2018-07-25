@@ -5,12 +5,12 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
 {
 	public class ConvertedGenericTypeDefinitionGenericTypeArguments: ConvertedGenericTypeDefinitionGenericTypeArguments_I
 	{
-		public List<SemanticTypeDefinitionMask_I> All { get; set; }
+		public List<SemanticTypeDefinitionMask_I> All { get; set; } = new List<SemanticTypeDefinitionMask_I>();
 
-		public bool HasGenericParametersAsTypeArguments { get; set; }
+		
 
 		List<SemanticTypeDefinitionMask_I> SemanticGenericTypeDefinitionGenericTypeArgumentsMask_I.All => All;
 
-		bool SemanticGenericTypeDefinitionGenericTypeArgumentsMask_I.HasGenericParametersAsTypeArguments =>HasGenericParametersAsTypeArguments;
+		
 	}
 }

@@ -131,7 +131,23 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies
 			    return typeBuilder.MakeGenericType(typeParameters);
 		    }
 
-		    return genericTypeDefinition.MakeGenericType(typeParameters);
+		    //for (int i = 0; i < typeParameters.Length; i++)
+		    //{
+			   // var parameter = typeParameters[i];
+
+			   // if (parameter.DeclaringType != null && ReferenceEquals(genericTypeDefinition, parameter.DeclaringType))
+			   // {
+				  //  throw new Exception("Declaring type of parameter is same as generic type definition.");
+			   // }
+		    //}
+
+		    var result = genericTypeDefinition.MakeGenericType(typeParameters);
+
+		    //if (result.IsGenericTypeDefinition)
+		    //{
+			   // throw new Exception("MakeGenericType returned a generic type definition and not a generic instance.");
+		    //}
+            return result;
 	    }
 
 		private Type GetTypeInCorLib(Type argument)

@@ -95,13 +95,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 				return Bound.Metadata.Assemblies.Ensuring.Ensure(conversion.Model, assemblyDefinition);
 			}
 
-			var convertedAssembly = Assemblies.Creation.CreateConvertedAssembly(conversion, name, assemblyDefinition);
+			//var convertedAssembly = Assemblies.Creation.CreateConvertedAssembly(conversion, name, assemblyDefinition);
 
 			// Ensure all the module entries are added.
 			//Modules.Ensuring.EnsureModuleEntries(convertedAssembly);
 			throw new Exception("Debug");
 
-			return convertedAssembly;
+			//return convertedAssembly;
 		}
 
 

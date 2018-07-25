@@ -1,4 +1,5 @@
-﻿using Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring;
+﻿using System.Runtime.CompilerServices;
+using Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
@@ -11,7 +12,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types
 
 		public EnsuringApi_I<TContainer> Ensuring { get; set; }
 
-        EnsuringApiMask_I TypeApiMask_I.Ensuring => Ensuring;
+
+	    EnsuringApiMask_I TypeApiMask_I.Ensuring
+	    {
+		    get { return Ensuring; }
+	    } 
 
 
 		public bool IsConverted(BoundRuntimicModelMask_I boundModel, TypeReference typeReference)
@@ -30,8 +35,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types
 				{
 					return IsConverted(boundModel, parameter.DeclaringType);
 				}
-
-				return false;
+				else
+				{
+					return IsConverted(boundModel, parameter.DeclaringMethod.DeclaringType);
+				}
+				
 				
 				//if (parameter.DeclaringMethod.FullName ==
 				//	"System.Collections.Generic.List`1<TOutput> ConvertAll(System.Converter`2<T,TOutput>)")
@@ -67,13 +75,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types
 			
 		}
 
-
-
-
-
-
-
-
-
-	}
+	    public bool ContainsGenericMethodParameters(BoundRuntimicModelMask_I boundModel, GenericInstanceType genericInstance)
+	    {
+		    throw new System.NotImplementedException();
+	    }
+    }
 }

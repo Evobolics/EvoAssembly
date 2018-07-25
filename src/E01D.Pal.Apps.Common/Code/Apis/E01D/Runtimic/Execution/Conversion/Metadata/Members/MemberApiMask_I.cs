@@ -12,6 +12,7 @@ using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Parameters;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using TypeParameterApiMask_I = Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.TypeParameters.TypeParameterApiMask_I;
 
@@ -45,8 +46,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members
 
         TypeApiMask_I Types { get;  }
 
-	    bool GetMemberInfo(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt,
-		    MethodReference methodReference, out MemberInfo memberInfo);
+	    bool GetMemberInfo(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, ConvertedRoutine routineBeingBuilt,
+
+			MethodReference methodReference, out MemberInfo memberInfo);
 
 		BoundTypeDefinitionMask_I GetDeclaringType(ILConversion conversion, MemberReference memberReference);
     }

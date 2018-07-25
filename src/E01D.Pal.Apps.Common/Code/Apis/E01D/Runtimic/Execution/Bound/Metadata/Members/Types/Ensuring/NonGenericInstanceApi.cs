@@ -26,11 +26,15 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 			    return boundType;
 		    }
 
-	        //---------------------------------
-	        // Conversion is going to occur.
-	        //---------------------------------
+	        if (input.FullName == "System.Collections.Generic.Dictionary`2/ValueCollection/Enumerator")
+	        {
+	        }
 
-	        
+			//---------------------------------
+			// Conversion is going to occur.
+			//---------------------------------
+
+
 
 			var bound = Types.Creation.Create(semanticModel, input, underlyingType);
 

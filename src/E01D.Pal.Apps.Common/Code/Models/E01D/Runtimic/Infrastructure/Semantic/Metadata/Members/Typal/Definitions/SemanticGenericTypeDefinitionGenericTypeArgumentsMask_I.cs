@@ -9,6 +9,6 @@ namespace Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Member
 		/// </summary>
 		List<SemanticTypeDefinitionMask_I> All { get; }
 
-		bool HasGenericParametersAsTypeArguments { get;  }
+		//bool HasGenericParametersAsTypeArguments { get;  }
 	}
 }

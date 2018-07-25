@@ -1,5 +1,4 @@
 ﻿using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types
@@ -9,7 +8,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
         public TypeParameterConstraintKind Attributes { get; set; }
 
         public abstract SemanticTypeDefinitionMask_I SemanticType { get; }
-        SemanticTypeMask_I SemanticGenericParameterTypeDefinitionConstraintMask_I.SemanticType => SemanticType;
+        
 
         
     }

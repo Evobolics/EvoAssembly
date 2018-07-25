@@ -4,10 +4,12 @@ using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
+using Root.Code.Models.E01D.Runtimic.Execution.Metadata.Members;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.TypeParameters
 {
@@ -28,7 +30,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 			for (var i = 0; i < parameters.Count; i++)
 			{
-				var typeParameter = CreateTypeParameter(conversion, inputType, parameters[i]);
+				var context = new BoundEnsureContext<ConvertedGenericParameterTypeDefinition>()
+				{
+					TypeReference = parameters[i],
+					DeclaringType = converted
+				};
+
+				var typeParameter = (ConvertedGenericParameterTypeDefinition)Execution.Types.Ensuring.Ensure(conversion.Model, context);
 
 				Types.TypeParameters.Add(conversion, generic, typeParameter);
 			}
@@ -89,65 +97,46 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 			var constraints = typeParamterType.Constraints;
 
-			var semanticConstraints = new BoundGenericParameterTypeDefinitionConstraintMask_I[constraints.Count];
+			//var executionConstraints = new ExecutionTypeParameterConstraintMask_I[constraints.Count];
 
 			for (int i = 0; i < constraints.Count; i++)
 			{
 				var constraint = constraints[i];
 
-				ConvertedTypeParameterConstraint semanticConstraint;
+				//ConvertedTypeParameterConstraint semanticConstraint;
 
-				bool isClassConstraint = IsClassConstraint(conversion, constraint);
-
-				if (isClassConstraint)
+				if (Cecil.Types.IsClass(conversion.Model, constraint))
 				{
 					var x = new ConvertedClassTypeParameterConstraint()
 					{
 						Attributes = typeParameter.Attributes,
-						Class = Execution.Types.Ensuring.Ensure(conversion.Model, constraint, null, null)
+						Class = (ExecutionTypeDefinitionMask_I)Execution.Types.Ensuring.Ensure(conversion.Model, constraint, null, null)
 					};
 
 					typeParameter.BaseTypeConstraint = x;
 
-					semanticConstraint = x;
+					//semanticConstraint = x;
 				}
 				else
 				{
 					var x = new ConvertedInterfaceTypeParameterConstraint()
 					{
 						Attributes = typeParameter.Attributes,
-						Interface = Execution.Types.Ensuring.Ensure(conversion.Model, constraint, null, null)
+						Interface = (ExecutionTypeDefinitionMask_I)Execution.Types.Ensuring.Ensure(conversion.Model, constraint, null, null)
 					};
 
-					semanticConstraint = x;
+					//semanticConstraint = x;
 
 					typeParameter.InterfaceTypeConstraints.Add(x);
 				}
 
-				semanticConstraints[i] = semanticConstraint;
+				//executionConstraints[i] = semanticConstraint;
 			}
 		}
 
-		public ConvertedGenericParameterTypeDefinition CreateTypeParameter(ILConversion conversion, TypeReference inputType, GenericParameter typeParamterType)
-		{
+		
 
-
-			var typeParameter = new ConvertedGenericParameterTypeDefinition
-			{
-				Attributes = Cecil.Metadata.Members.GenericParameters.GetTypeParameterAttributes(typeParamterType),
-				Name = typeParamterType.Name,
-				FullName = typeParamterType.FullName,
-				Position = typeParamterType.Position,
-				TypeParameterKind = GetTypeParameterKind(typeParamterType.Type),
-				Definition = typeParamterType
-			};
-
-
-
-			return typeParameter;
-		}
-
-		private Type GetBaseTypeConstraint(ILConversion conversion, ConvertedClassTypeParameterConstraint tpBaseTypeConstraint)
+		private Type GetBaseTypeConstraint(ILConversion conversion, ExecutionClassTypeParameterConstraintMask_I tpBaseTypeConstraint)
 		{
 			if (tpBaseTypeConstraint == null) return null;
 
@@ -156,22 +145,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 				throw new Exception("The class of a base type constraint should not be null.");
 			}
 
-			if (tpBaseTypeConstraint.Class.IsConverted())
-			{
-				ConvertedTypeDefinition_I convertedInterface = (ConvertedTypeDefinition_I)tpBaseTypeConstraint.Class;
-
-				//if (!convertedInterface.IsBuilt)
-				//{
-				//	Types.Ensuring.Ensure(conversion, convertedInterface);
-				//}
-			}
-
 			var result = Models.Types.GetBoundUnderlyingTypeOrThrow(tpBaseTypeConstraint.Class);
 
 			return result;
 		}
 
-		private Type[] GetInterfaceTypeConstraints(ILConversion conversion, List<ConvertedInterfaceTypeParameterConstraint> tpInterfaceTypeConstraints)
+		private Type[] GetInterfaceTypeConstraints(ILConversion conversion, List<ExecutionInterfaceTypeParameterConstraintMask_I> tpInterfaceTypeConstraints)
 		{
 			var types = new List<Type>();
 
@@ -182,15 +161,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 					throw new Exception("The interface of a constraint should not be null.");
 				}
 
-				if (x.Interface != null && x.Interface.IsConverted())
-				{
-					ConvertedTypeDefinition_I convertedInterface = (ConvertedTypeDefinition_I)x.Interface;
-
-					//if (!convertedInterface.IsBuilt)
-					//{
-					//	Types.Ensuring.Ensure(conversion, convertedInterface);
-					//}
-				}
+				
 
 				var result = Models.Types.GetBoundUnderlyingTypeOrThrow(x.Interface);
 
@@ -200,27 +171,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			return types.ToArray();
 		}
 
-		private bool IsClassConstraint(ILConversion conversion, TypeReference constraint)
-		{
-			return Cecil.Types.IsClass(conversion.Model, constraint);
+		
 
-		}
-
-		private TypeParameterKind GetTypeParameterKind(GenericParameterType type)
-		{
-			switch (type)
-			{
-				case GenericParameterType.Type:
-					return TypeParameterKind.Type;
-				case GenericParameterType.Method:
-					return TypeParameterKind.Method;
-				default:
-				{
-					throw new Exception(
-						$"Expected either a type parameter kind of type or method, but not {type.ToString()}");
-				}
-			}
-		}
+		
 
 		
 

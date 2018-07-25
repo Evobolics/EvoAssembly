@@ -5,8 +5,8 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Ty
 
 namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions
 {
-    public interface BoundGenericTypeDefinition_I: BoundTypeDefinitionWithTypeParameters_I, BoundGenericTypeDefinitionMask_I, GenericType_I
-    {
+    public interface BoundGenericTypeDefinition_I: BoundTypeDefinitionWithTypeParameters_I, BoundGenericTypeDefinitionMask_I, GenericType_I, BoundTypeDefinition_I
+	{
         new BoundGenericTypeDefinitionMask_I Blueprint { get; set; }
         GenericInstanceType SourceGenericInstanceType { get; set; }
 

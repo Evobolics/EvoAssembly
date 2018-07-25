@@ -1,5 +1,7 @@
-﻿using System.Reflection.Emit;
+﻿using System.Reflection;
+using System.Reflection.Emit;
 using Root.Code.Attributes.E01D;
+using Root.Code.Domains.E01D;
 using Root.Code.Exts.Runtimic;
 using Root.Code.PI.E01D;
 
@@ -14,19 +16,28 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 			var container = EvoAssembly.CreateContainer();
 
 			// 2) Create a conversion container
-			//var collectibleAssembly = container.Convert(typeof(AssemblyTests).Assembly, AssemblyBuilderAccess.RunAndSave);
+		    //var collectibleAssembly = container.Convert(typeof(AssemblyTests).Assembly, AssemblyBuilderAccess.RunAndSave);
 
 			var collectibleAssembly = container.Convert(typeof(AssemblyTests).Assembly, AssemblyBuilderAccess.RunAndCollect);
 
-            //var modules = collectibleAssembly.GetModules();
+			// c prefix for converted.
+			
 
-            //var module = modules[0];
+			var modules = collectibleAssembly.GetModules();
 
-            //var collectibleAssemblyBuilder = (AssemblyBuilder) collectibleAssembly;
+			var module = modules[0];
 
-            //collectibleAssemblyBuilder.Save(module.ScopeName);
+			var collectibleAssemblyBuilder = (AssemblyBuilder)collectibleAssembly;
 
-            try
+			//collectibleAssemblyBuilder.Save(module.ScopeName);
+
+			var cEvoAssembly = XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.GetTypeInAssembly(collectibleAssembly, typeof(EvoAssembly));
+
+			var createContainerMethod = cEvoAssembly.GetMethod("CreateContainer", BindingFlags.Public | BindingFlags.Static);
+
+			var cContainer = createContainerMethod.Invoke(null, new object[] { });
+
+			try
 			{
 				var types = collectibleAssembly.GetTypes();
 			}

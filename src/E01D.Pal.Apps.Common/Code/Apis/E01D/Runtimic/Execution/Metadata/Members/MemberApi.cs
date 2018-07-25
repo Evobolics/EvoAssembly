@@ -11,7 +11,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members
         
 		
 
-        public TypeApi_I<TContainer> Types { get; set; }
+        public new TypeApi_I<TContainer> Types { get; set; }
 
 	   
 

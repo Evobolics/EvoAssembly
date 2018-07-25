@@ -71,21 +71,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			// The choice was made to seperate out the various cases.  This enables each one to be developed seperately without having ot worry about how code 
 			// changes will affect the other cases.  It does have some duplication of code, but not much.  This keeps the code cleaner and easier to read.
 
-			//if (typeReference.IsGenericParameter)
-   //         {
-   //             // You cannot create a generic parameter directly.  It is created when its parent type creates it.
-   //             return GenericParameters.Ensure(conversion, (GenericParameter)typeReference);
-   //         }
-
-            //if (typeReference.IsArray)
-            //{
-            //    return Arrays.Ensure(conversion, typeReference, declaringType);
-            //}
+			
 	        
 
 			if (typeReference.IsGenericInstance)
             {
-                return Generic.Ensure(conversion, typeReference, declaringType);
+                return Generic.Ensure(conversion, (GenericInstanceType)typeReference, declaringType);
             }
 
             return NonGenericInstances.Ensure(conversion, typeReference, declaringType);

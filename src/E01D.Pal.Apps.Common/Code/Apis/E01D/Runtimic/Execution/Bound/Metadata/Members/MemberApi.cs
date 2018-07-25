@@ -83,7 +83,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members
 
             var declaringTypeRef = memberReference.DeclaringType;
 
-            return Models.Types.ResolveToBound(model, declaringTypeRef);
+            return Execution.Metadata.Members.Types.Ensuring.EnsureBound(model, declaringTypeRef);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
 
         System.Type GetValueType(BoundRuntimicModelMask_I model);
 
-        System.Type GetEnumType(BoundRuntimicModelMask_I model);
+        
 
 
         
@@ -49,7 +49,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
 
 
 
-		BoundTypeDefinitionMask_I ResolveToBound(BoundRuntimicModelMask_I model, TypeReference declaringTypeRef);
+		//BoundTypeDefinitionMask_I ResolveToBound(BoundRuntimicModelMask_I model, TypeReference declaringTypeRef);
 
 	    
 

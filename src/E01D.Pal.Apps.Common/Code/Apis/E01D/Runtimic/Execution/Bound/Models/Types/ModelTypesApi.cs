@@ -41,11 +41,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
             return GetBoundUnderlyingTypeOrThrow(model, typeof(ValueType).AssemblyQualifiedName);
         }
 
-        public System.Type GetEnumType(BoundRuntimicModelMask_I model)
-        {
-            return GetBoundUnderlyingTypeOrThrow(model, typeof(Enum).AssemblyQualifiedName);
-        }
-
+       
 
 
 	    public System.Type GetUnderlyingType(BoundRuntimicModelMask_I model, TypeReference typeReference)
@@ -59,19 +55,27 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
 
 		    if (typeReference.IsGenericInstance)
 		    {
-			    var genericInstance = (GenericInstanceType)typeReference;
+			    throw new Exception("Should never happen.");
+			    //var genericInstance = (GenericInstanceType)typeReference;
 
-			    var genericTypeDefinitionType = GetUnderlyingType(model, genericInstance.ElementType);
+			    //var genericTypeDefinitionType = GetUnderlyingType(model, genericInstance.ElementType);
 
-			    System.Type[] genericArguments = new System.Type[genericInstance.GenericArguments.Count];
+			    //System.Type[] genericArguments = new System.Type[genericInstance.GenericArguments.Count];
 
-			    for (int i = 0; i < genericInstance.GenericArguments.Count; i++)
-			    {
-				    genericArguments[i] = GetUnderlyingType(model, genericInstance.GenericArguments[i]);
+			    //for (int i = 0; i < genericInstance.GenericArguments.Count; i++)
+			    //{
+				   // genericArguments[i] = GetUnderlyingType(model, genericInstance.GenericArguments[i]);
 
-			    }
+				   // if (genericArguments[i] == null)
+				   // {
+					  //  throw new Exception("The underlying type was null.");
+				   // }
 
-			    return XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.MakeGenericType(genericTypeDefinitionType, genericArguments);
+			    //}
+
+			    //var result = XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.MakeGenericType(genericTypeDefinitionType, genericArguments);
+
+			    //return result;
 		    }
 
 		    return Cecil.GetUnderlyingType(typeReference);
@@ -158,30 +162,30 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
         
 
 
-	    public BoundTypeDefinitionMask_I ResolveToBound(BoundRuntimicModelMask_I model, TypeReference typeReference)
-	    {
-		    return ResolveToBound(model, typeReference, null);
-	    }
+	    //public BoundTypeDefinitionMask_I ResolveToBound(BoundRuntimicModelMask_I model, TypeReference typeReference)
+	    //{
+		   // return ResolveToBound(model, typeReference, null);
+	    //}
 
 
-		public BoundTypeDefinitionMask_I ResolveToBound(BoundRuntimicModelMask_I model, TypeReference typeReference, Type underlyingType)
-        {
-            if (typeReference.IsGenericParameter)
-            {
-                GenericParameter parameter = (GenericParameter)typeReference;
+		//public BoundTypeDefinitionMask_I ResolveToBound(BoundRuntimicModelMask_I model, TypeReference typeReference, Type underlyingType)
+  //      {
+  //          if (typeReference.IsGenericParameter)
+  //          {
+  //              GenericParameter parameter = (GenericParameter)typeReference;
 
-                return ResolveToBound_GenericParameter(model, parameter);
-            }
+  //              return ResolveToBound_GenericParameter(model, parameter);
+  //          }
 
-            SemanticTypeMask_I semanticMask = Execution.Types.Ensuring.Ensure(model, typeReference, underlyingType, null);
+  //          SemanticTypeMask_I semanticMask = Execution.Types.Ensuring.Ensure(model, typeReference, underlyingType, null);
 
-            if (!(semanticMask is BoundTypeDefinitionMask_I bound))
-            {
-                throw new Exception($"Expected the resolved semantic type of type '{semanticMask.GetType()}' to be a bound type definition.");
-            }
+  //          if (!(semanticMask is BoundTypeDefinitionMask_I bound))
+  //          {
+  //              throw new Exception($"Expected the resolved semantic type of type '{semanticMask.GetType()}' to be a bound type definition.");
+  //          }
 
-            return bound;
-        }
+  //          return bound;
+  //      }
 
         /// <summary>
         /// Will resolve a type reference that is a generic parameter to a bound type.

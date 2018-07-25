@@ -49,11 +49,23 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
 			DeclareLocalVariables(conversion, routine);
 
-	        ExceptionHandling.Preprocess(conversion, routine);
+	        if (typeBeingBuilt.FullName ==
+	            "Root.Code.Apis.E01D.Activation.CommonAppActivationDomainApi"
+	            && routine.MethodReference.FullName == "System.Object Root.Code.Apis.E01D.Activation.CommonAppActivationDomainApi::CreateInstance(System.Type)"
+	        )
+	        {
+
+
+
+	        }
+
+			ExceptionHandling.Preprocess(conversion, routine);
 
 			var methodDefinition = (MethodDefinition)routine.MethodReference;
 
-	        for (int iInstruction = 0; iInstruction < methodDefinition.Body.Instructions.Count; iInstruction++)
+	        
+
+			for (int iInstruction = 0; iInstruction < methodDefinition.Body.Instructions.Count; iInstruction++)
 	        {
 		        var instructionDefinition = methodDefinition.Body.Instructions[iInstruction];
 
@@ -94,7 +106,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 		    var switchEntries = routine.SwitchEntries;
 
 		    if (typeBeingBuilt.FullName ==
-		        "Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies.AssemblyDomainApi" && routine.MethodReference.FullName == "System.Type Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies.AssemblyDomainApi::GetTypeInAssembly(System.Type[],System.Type)")
+				"Root.Code.Apis.E01D.Activation.CommonAppActivationDomainApi" 
+				//&& routine.MethodReference.FullName == "System.Type Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies.AssemblyDomainApi::GetTypeInAssembly(System.Type[],System.Type)"
+				)
 		    {
 			    if (ilGenerator.ILOffset != instructionDefinition.Offset)
 			    {
@@ -323,7 +337,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
 			    case Libs.Mono.Cecil.Cil.Code.Call:
 			    {
-				    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, (MethodReference) instructionDefinition.Operand,
+				    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, routine, (MethodReference) instructionDefinition.Operand,
 					    out MemberInfo memberInfo))
 				    {
 					    throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
@@ -350,7 +364,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    }
 			    case Libs.Mono.Cecil.Cil.Code.Callvirt:
 			    {
-				    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, (MethodReference) instructionDefinition.Operand,
+				    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, routine, (MethodReference) instructionDefinition.Operand,
 					    out MemberInfo memberInfo))
 				    {
 					    throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
@@ -653,7 +667,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    }
 			    case Libs.Mono.Cecil.Cil.Code.Jmp:
 			    {
-				    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, (MethodReference) instructionDefinition.Operand,
+				    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, routine, (MethodReference) instructionDefinition.Operand,
 					    out MemberInfo memberInfo))
 				    {
 					    throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
@@ -954,7 +968,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    }
 			    case Libs.Mono.Cecil.Cil.Code.Ldftn:
 			    {
-				    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, (MethodReference) instructionDefinition.Operand,
+				    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, routine, (MethodReference) instructionDefinition.Operand,
 					    out MemberInfo memberInfo))
 				    {
 					    throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
@@ -1166,7 +1180,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 			    }
 			    case Libs.Mono.Cecil.Cil.Code.Ldvirtftn:
 			    {
-				    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, (MethodReference) instructionDefinition.Operand,
+				    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, routine, (MethodReference) instructionDefinition.Operand,
 					    out MemberInfo memberInfo))
 				    {
 					    throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
@@ -1632,7 +1646,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 		    var context = new BoundEnsureContext()
 		    {
 			    TypeReference = typeReference,
-			    Routine = routine,
+			    MethodReference = routine.MethodReference,
 			    RoutineDeclaringType = typeBeingBuilt
 		    };
 

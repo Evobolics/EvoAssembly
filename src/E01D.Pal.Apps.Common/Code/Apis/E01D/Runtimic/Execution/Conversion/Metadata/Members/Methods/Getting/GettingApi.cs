@@ -9,6 +9,7 @@ using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members;
@@ -27,54 +28,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 	    FromMethodReferenceApiMask_I GettingApiMask_I.FromMethodReference => FromMethodReference;
 
-	    public MethodInfo[] GetMethodInfos(BoundTypeDefinitionMask_I inputBlueprint)
-	    {
-		    var methodEntries = GetMethods(inputBlueprint);
-
-			var methods = new MethodInfo[methodEntries.Count];
-
-		    for (int i = 0; i < methodEntries.Count; i++)
-		    {
-			    methods[i] = methodEntries[i].UnderlyingMethod;
-		    }
-
-		    return methods;
-	    }
+	    
 
 	   
 
-		public List<BoundMethodDefinitionMask_I> GetMethods(BoundTypeDefinitionMask_I inputBlueprint)
-	    {
-		    if (!(inputBlueprint is BoundTypeDefinitionWithMethodsMask_I withMethods))
-		    {
-			    throw new System.Exception("GenericClassDefinition should have methods if this type has methods.");
-		    }
-
-		    var collection = withMethods.Methods.ByName.Values.ToList();
-
-		    List<BoundMethodDefinitionMask_I> methods = new List<BoundMethodDefinitionMask_I>();
-
-		    for (int i = 0; i < collection.Count; i++)
-		    {
-			    var semanticList = collection[i];
-
-			    for (int j = 0; j < semanticList.Count; j++)
-			    {
-				    var semantic = semanticList[j];
-
-				    if (!(semantic is BoundMethodDefinitionMask_I bound))
-				    {
-					    throw new System.Exception("Semantic method should be a bound method to use it in conversion.");
-				    }
-
-				    methods.Add(bound);
-			    }
-
-
-		    }
-
-		    return methods;
-	    }
+		
 
 	    public BoundMethodDefinitionMask_I GetBoundMethod(ILConversionRuntimicModel conversionModel, BoundModuleMask_I module, MethodInfo genericTypeDefinitionMethodInfo)
 	    {
@@ -87,7 +45,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 	    }
 
-	    public MethodInfo GetMethodInfoOrThrow(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, MethodReference methodReference)
+	    public MethodInfo GetMethodInfoOrThrow(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, ConvertedRoutine methodBeingBuilt, MethodReference methodReference)
 	    {
 
 		    var declaringType = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodReference.DeclaringType);
@@ -119,7 +77,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 		    {
 			    var typeArgumentReference = genericInstanceMethod.GenericArguments[i];
 
-			    var semanticType = Execution.Types.Ensuring.Ensure(conversion.Model, typeArgumentReference, null, null);
+			    var semanticType = Execution.Types.Ensuring.Ensure(conversion.Model, new BoundEnsureContext()
+				{
+				    TypeReference = typeArgumentReference,
+					MethodReference = methodBeingBuilt.MethodReference
+				});
 
 			    if (!(semanticType is BoundTypeDefinitionMask_I bound))
 			    {
@@ -187,11 +149,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 			    throw new Exception("Could not find the method.");
 		    }
 
-		    if (methodReference.FullName ==
-		        "System.Boolean System.Collections.Generic.Dictionary`2<System.String,System.String>::TryGetValue(!0,!1&)")
-		    {
-			    
-		    }
+		    
 
 
 

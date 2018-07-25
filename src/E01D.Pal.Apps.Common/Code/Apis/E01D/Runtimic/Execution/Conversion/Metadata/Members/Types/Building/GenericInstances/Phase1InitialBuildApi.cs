@@ -18,9 +18,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 		/// <returns></returns>
 		public void Build(ILConversion conversion, ConvertedGenericTypeDefinition_I converted, Type[] typeArgumentTypes)
 		{
-			converted.UnderlyingType = Bound.MakeGenericType(converted.Blueprint, typeArgumentTypes);
-
-			Types.Building.UpdateBuildPhase(converted, BuildPhaseKind.TypeDefined);
+			
 		}
 	}
 }

@@ -8,8 +8,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types
 	{
 		public TypeParameterConstraintKind Attributes { get; set; }
 
-		public abstract SemanticTypeDefinitionMask_I SemanticType { get; }
-		SemanticTypeMask_I SemanticGenericParameterTypeDefinitionConstraintMask_I.SemanticType => SemanticType;
+		
 
 
 	}

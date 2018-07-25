@@ -19,7 +19,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Fields.B
 		    
 	    }
         // go through each field, and check if the field definition has a reference to a gneric parameter, and replace it.
-	    public void BuildFields(InfrastructureRuntimicModelMask_I semanticModel, BoundTypeDefinition converted)
+	    public void BuildFields(InfrastructureRuntimicModelMask_I semanticModel, BoundGenericTypeDefinition_I converted)
 	    {
 		    if (!(converted is BoundTypeDefinitionWithFields_I typeWithFields))
 		    {
@@ -36,7 +36,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Fields.B
 		    }
 		}
 
-	    public void BuildFields_WithGenericTypeParameters(InfrastructureRuntimicModelMask_I semanticModel, BoundTypeDefinition input, BoundGenericTypeDefinition_I blueprint)
+	    public void BuildFields_WithGenericTypeParameters(InfrastructureRuntimicModelMask_I semanticModel, BoundGenericTypeDefinition_I input, BoundGenericTypeDefinitionMask_I blueprint)
 	    {
 		    if (!(input is BoundTypeDefinitionWithFieldsMask_I typeWithFields))
 		    {

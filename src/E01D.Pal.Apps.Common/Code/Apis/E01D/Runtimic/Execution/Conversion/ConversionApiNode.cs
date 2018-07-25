@@ -81,7 +81,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 
 		public SortingApiMask_I Sorting => Container.Api.Sorting;
 
-        public TypeApiMask_I Types
+        public new TypeApiMask_I Types
         {
             get
             {

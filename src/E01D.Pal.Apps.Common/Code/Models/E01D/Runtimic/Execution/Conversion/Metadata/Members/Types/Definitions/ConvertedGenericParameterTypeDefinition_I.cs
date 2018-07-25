@@ -1,18 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Reflection.Emit;
-using Root.Code.Libs.Mono.Cecil;
+﻿using System.Reflection.Emit;
+using Root.Code.Models.E01D.Runtimic.Execution.Metadata.Members;
 
 namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions
 {
-    public interface ConvertedGenericParameterTypeDefinition_I: ConvertedGenericParameterTypeDefinitionMask_I
-    {
+    public interface ConvertedGenericParameterTypeDefinition_I: ConvertedTypeParameterDefinitionMask_I, ExecutionTypeParameterDefinition_I
+	{
         new GenericTypeParameterBuilder Builder { get; set; }
 
-        new GenericParameter Definition { get; set; }
-        new System.Type UnderlyingType { get; set; }
-
-	    ConvertedClassTypeParameterConstraint BaseTypeConstraint { get; set; }
-
-	    List<ConvertedInterfaceTypeParameterConstraint> InterfaceTypeConstraints { get; set; } 
+        
 	}
 }

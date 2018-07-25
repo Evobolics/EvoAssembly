@@ -285,9 +285,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			    {
 				    var typeParameter = typeParameters[i];
 
-				    if (typeParameter is ConvertedGenericParameterTypeDefinitionMask_I convertedTypeParameter)
+				    if (typeParameter is ConvertedTypeParameterDefinitionMask_I convertedTypeParameter)
 				    {
-					    var semanticBaseTypeConstraint = convertedTypeParameter?.BaseTypeConstraint?.SemanticType;
+					    var semanticBaseTypeConstraint = convertedTypeParameter?.BaseTypeConstraint?.Class;
 
 					    if (semanticBaseTypeConstraint != null && semanticBaseTypeConstraint is ConvertedTypeDefinition_I convertedBaseTypeConstraint)
 					    {
@@ -300,7 +300,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 					    {
 						    for (int j = 0; j < semanticInterfaceConstraints.Count; j++)
 						    {
-							    var semanticInterface = semanticInterfaceConstraints[j].SemanticType;
+							    var semanticInterface = semanticInterfaceConstraints[j].Interface;
 
 							    if (semanticInterface is ConvertedTypeDefinition_I convertedInterface)
 							    {

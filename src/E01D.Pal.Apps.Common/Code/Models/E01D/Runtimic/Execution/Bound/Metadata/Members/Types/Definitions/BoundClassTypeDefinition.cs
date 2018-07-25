@@ -7,7 +7,10 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.
 {
     public class BoundClassTypeDefinition: BoundReferenceTypeDefinition, BoundTypeWithBaseType_I, BoundClassTypeDefinition_I
 	{
-        public new SemanticTypeMask_I BaseType { get; set; }
+		public BoundClassTypeDefinition()
+		{
+				
+		}
 
         public override TypeKind TypeKind => base.TypeKind | TypeKind.Class;
 

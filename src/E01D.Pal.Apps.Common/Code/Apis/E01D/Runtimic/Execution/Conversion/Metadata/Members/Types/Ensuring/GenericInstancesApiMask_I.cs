@@ -6,6 +6,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 {
     public interface GenericInstancesApiMask_I
     {
-        SemanticTypeDefinitionMask_I Ensure(ILConversion conversion,TypeReference input, SemanticTypeDefinitionMask_I declaringType);
+        SemanticTypeDefinitionMask_I Ensure(ILConversion conversion, GenericInstanceType input, SemanticTypeDefinitionMask_I declaringType);
     }
 }

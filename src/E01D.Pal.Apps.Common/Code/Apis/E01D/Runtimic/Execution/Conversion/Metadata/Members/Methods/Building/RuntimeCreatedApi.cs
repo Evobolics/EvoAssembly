@@ -27,7 +27,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 				throw new System.Exception("You cannot call a method that is part of a generic type definition.  Using this method info will cause a method invocation exeception. ");
 			}
 
-			var blueprintMethods = Methods.Getting.GetMethods(input.Blueprint);
+			var blueprintMethods = Bound.Metadata.Members.Methods.Getting.GetMethods(input.Blueprint);
 
 			for (int i = 0; i < blueprintMethods.Count; i++)
 			{

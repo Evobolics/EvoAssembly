@@ -38,5 +38,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		bool AreSame(TypeReference a, TypeReference b);
 
 		bool IsTypeSpecification(TypeReference type);
+		bool ContainsGenericMethodParameters(GenericInstanceType input);
 	}
 }

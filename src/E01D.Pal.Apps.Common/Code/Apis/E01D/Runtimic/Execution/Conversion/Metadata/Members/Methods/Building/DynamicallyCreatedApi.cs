@@ -7,6 +7,7 @@ using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members;
@@ -31,7 +32,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 				throw new Exception("Trying to add a method to a type that does not support methods.");
 			}
 
-			var methods = Methods.Getting.GetMethods(input);
+			var methods = Bound.Metadata.Members.Methods.Getting.GetMethods(input);
 
 			for (int i = 0; i < methods.Count; i++)
 			{
@@ -161,14 +162,15 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 			foreach (var genericParamater in methodDefinition.GenericParameters)
 			{
-				var genericParamaterTypeDefintionEntry = new ConvertedGenericParameterTypeDefinition()
+
+				var genericParamaterTypeDefintionEntry = (ConvertedGenericParameterTypeDefinition)
+					Execution.Metadata.Members.Types.Ensuring.Ensure(conversion.Model, new BoundEnsureContext()
 				{
-					Name = genericParamater.Name,
-					DeclaringTypeDefinitionEntry = input,
-					Definition = genericParamater,
-					Position = genericParamater.Position,
-					TypeParameterKind = TypeParameterKind.Method
-				};
+					TypeReference = genericParamater,
+					MethodReference = methodDefinition
+				});
+
+				
 
 				genericParameterNamesList.Add(genericParamaterTypeDefintionEntry.Name);
 

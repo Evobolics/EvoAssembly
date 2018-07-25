@@ -48,7 +48,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			ConvertedGenericTypeDefinition_I generic = (ConvertedGenericTypeDefinition_I)converted;
 
 			generic.TypeArguments.All = list;
-			generic.TypeArguments.HasGenericParametersAsTypeArguments = hasGenericParametersAsTypeArguments;
+			//generic.TypeArguments.HasGenericParametersAsTypeArguments = hasGenericParametersAsTypeArguments;
 
 			return types;
 		}

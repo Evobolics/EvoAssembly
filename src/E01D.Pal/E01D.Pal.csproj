@@ -102,7 +102,7 @@
     <Compile Include="Code\Exts\E01D\Runtimic\Infrastructure\Metadata\Members\MemberExts.cs" />
     <Compile Include="Code\Exts\E01D\Runtimic\Infrastructure\Metadata\Members\TypeExts.cs" />
     <Compile Include="Code\Exts\E01D\Runtimic\Infrastructure\Metadata\MetadataExts.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\ExecutionType_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\PalExecutionType_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\ClInfrastructureNode.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\ClInfrastructureNode_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Cl\ClInfrastructure_I.cs" />

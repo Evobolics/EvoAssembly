@@ -15,5 +15,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types
 	    bool IsConverted(BoundRuntimicModelMask_I boundModel, TypeReference input);
 
 
+        bool ContainsGenericMethodParameters(BoundRuntimicModelMask_I boundModel, GenericInstanceType genericInstance);
     }
 }

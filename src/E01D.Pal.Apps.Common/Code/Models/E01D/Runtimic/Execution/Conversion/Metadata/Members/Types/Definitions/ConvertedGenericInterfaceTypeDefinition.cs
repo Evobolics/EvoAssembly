@@ -2,6 +2,7 @@
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
+using Root.Code.Models.E01D.Runtimic.Execution.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions
@@ -34,7 +35,9 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
 
 	    BoundGenericTypeDefinitionGenericTypeArgumentsMask_I BoundGenericTypeDefinitionMask_I.TypeArguments => TypeArguments;
 
-	    SemanticGenericTypeDefinitionGenericTypeArgumentsMask_I SemanticGenericTypeDefinitionMask_I.TypeArguments => TypeArguments;
+	    ExecutionGenericTypeDefinitionGenericTypeArgumentsMask_I ExecutionGenericTypeDefinitionMask_I.TypeArguments => TypeArguments;
+
+		SemanticGenericTypeDefinitionGenericTypeArgumentsMask_I SemanticGenericTypeDefinitionMask_I.TypeArguments => TypeArguments;
 
 		public override TypeKind TypeKind => base.TypeKind | TypeKind.Generic;
 

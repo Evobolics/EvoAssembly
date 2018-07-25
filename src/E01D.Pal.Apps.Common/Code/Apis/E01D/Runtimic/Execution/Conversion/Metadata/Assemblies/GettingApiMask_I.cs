@@ -16,12 +16,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
 	    SemanticAssemblyMask_I GetAssembly(InfrastructureRuntimicModelMask_I model, string fullName);
 
-	    SemanticAssemblyMask_I GetAssembly(InfrastructureRuntimicModelMask_I model, AssemblyNameReference fullName);
+	    
 
 	    SemanticAssemblyMask_I GetAssembly(ILConversionRuntimicModel conversion, AssemblyDefinition assemblyDefinition);
 
-	    AssemblyDefinitionAndStream GetAssemblyDefinition(ILConversion conversion, Assembly assembly);
+	    
 
-		bool TryGet(ILConversion conversion, string fullName, out SemanticAssemblyMask_I semanticAssemblyMask);
+		
 	}
 }

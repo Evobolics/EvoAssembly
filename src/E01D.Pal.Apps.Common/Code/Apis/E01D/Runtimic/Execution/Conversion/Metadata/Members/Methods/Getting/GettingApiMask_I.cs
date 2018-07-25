@@ -20,16 +20,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 	    FromMethodReferenceApiMask_I FromMethodReference { get; }
 
-	    MethodInfo[] GetMethodInfos(BoundTypeDefinitionMask_I inputBlueprint);
+	    //MethodInfo[] GetMethodInfos(BoundTypeDefinitionMask_I inputBlueprint);
 
-	    List<BoundMethodDefinitionMask_I> GetMethods(BoundTypeDefinitionMask_I inputBlueprint);
+		// MOVED TO BOUND
+	    //List<BoundMethodDefinitionMask_I> GetMethods(BoundTypeDefinitionMask_I inputBlueprint);
 
 
 	    BoundMethodDefinitionMask_I GetBoundMethod(ILConversionRuntimicModel conversionModel, BoundModuleMask_I module, MethodInfo genericTypeDefinitionMethodInfo);
 
 	    
 
-	    MethodInfo GetMethodInfoOrThrow(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, MethodReference methodReference);
+	    MethodInfo GetMethodInfoOrThrow(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, ConvertedRoutine methodBeingBuilt, MethodReference methodReference);
 	    ConvertedMethodMask_I GetMethod(ConvertedTypeDefinition_I convertedType, MethodDefinition propertyDefinitionGetMethod);
     }
 }

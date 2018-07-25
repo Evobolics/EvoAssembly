@@ -20,7 +20,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Construc
 			    return;
 		    }
 
-		    if (input.FullName == "Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types.GenericClassWithMembersThatTakeInGenericClassParameters`1<T>")
+		    if (input.FullName == "System.Collections.Generic.Dictionary`2+ValueCollection+Enumerator")
 		    {
 
 		    }
@@ -46,7 +46,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Construc
 
 			    boundConstructors.Add(boundConstructor);
 
-			    input.Module.ConstructorsByMetadataToken.Add(constructor.MetadataToken, boundConstructor);
+			    
+				    input?.Module?.ConstructorsByMetadataToken.Add(constructor.MetadataToken, boundConstructor);
+			    
 		    }
 
 		    // Get the type definition that corresponds to the type reference.  This will store all the constructors that are available.
