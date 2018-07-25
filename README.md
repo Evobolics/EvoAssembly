@@ -30,6 +30,8 @@ var convertedAssemblies = EvoAssembly.QuickConvert(new []{inputAssembly1, inputA
 * no p-invoke support yet
 * assembly and module attributes not supported
 * modifiers not fully supported
+* issues with exception handling
+* structs not marke with the correct size
 
 
-*Last Updated:* July 21st, 2018
+*Last Updated:* July 25th, 2018
