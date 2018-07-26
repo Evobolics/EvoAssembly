@@ -470,14 +470,14 @@ namespace Root.Code.Libs.Mono.Cecil {
 				AppendTypeSpecification ((TypeSpecification) type.ElementType, name);
 
 			switch (type.etype) {
-			case ElementType.Ptr:
+			case CecilElementType.Ptr:
 				name.Append ('*');
 				break;
-			case ElementType.ByRef:
+			case CecilElementType.ByRef:
 				name.Append ('&');
 				break;
-			case ElementType.SzArray:
-			case ElementType.Array:
+			case CecilElementType.SzArray:
+			case CecilElementType.Array:
 				var array = (ArrayType) type;
 				if (array.IsVector) {
 					name.Append ("[]");
@@ -488,7 +488,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 					name.Append (']');
 				}
 				break;
-			case ElementType.GenericInst:
+			case CecilElementType.GenericInst:
 				var instance = (GenericInstanceType) type;
 				var arguments = instance.GenericArguments;
 

@@ -51,14 +51,8 @@ namespace Root.Code.Apis.E01D.Activation
 				}
 	            catch (Exception exception)
 	            {
-		            var assembly1 = type.Assembly;
-		            var assemblyBuilder = (AssemblyBuilder) assembly1;
-
-		            var types = assemblyBuilder.DefinedTypes.ToArray();
-		            //var typeBuilder = (TypeBuilder) types[0];
-		            //var x = typeBuilder.IsCreated();
-
-					Console.WriteLine(exception);
+		            Console.WriteLine(exception.Message);
+					
 		            throw;
 	            }
                 

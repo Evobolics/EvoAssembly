@@ -2,6 +2,7 @@
 using Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types
@@ -76,6 +77,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types
 		}
 
 	    public bool ContainsGenericMethodParameters(BoundRuntimicModelMask_I boundModel, GenericInstanceType genericInstance)
+	    {
+		    throw new System.NotImplementedException();
+	    }
+
+	    public int GetToken(BoundTypeDefinitionMask_I boundType)
 	    {
 		    throw new System.NotImplementedException();
 	    }

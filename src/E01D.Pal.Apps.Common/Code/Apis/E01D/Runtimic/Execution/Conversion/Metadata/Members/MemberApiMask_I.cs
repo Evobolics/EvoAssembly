@@ -46,7 +46,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members
 
         TypeApiMask_I Types { get;  }
 
-	    bool GetMemberInfo(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, ConvertedRoutine routineBeingBuilt,
+	    bool GetMemberInfo(ILConversion conversion, ConvertedTypeDefinitionMask_I typeBeingBuilt, ConvertedRoutine routineBeingBuilt,
 
 			MethodReference methodReference, out MemberInfo memberInfo);
 

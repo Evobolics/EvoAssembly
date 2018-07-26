@@ -17,37 +17,37 @@ namespace Root.Code.Libs.Mono.Cecil
 {
 
 	public enum MetadataType : byte {
-		Void = ElementType.Void,
-		Boolean = ElementType.Boolean,
-		Char = ElementType.Char,
-		SByte = ElementType.I1,
-		Byte = ElementType.U1,
-		Int16 = ElementType.I2,
-		UInt16 = ElementType.U2,
-		Int32 = ElementType.I4,
-		UInt32 = ElementType.U4,
-		Int64 = ElementType.I8,
-		UInt64 = ElementType.U8,
-		Single = ElementType.R4,
-		Double = ElementType.R8,
-		String = ElementType.String,
-		Pointer = ElementType.Ptr,
-		ByReference = ElementType.ByRef,
-		ValueType = ElementType.ValueType,
-		Class = ElementType.Class,
-		Var = ElementType.Var,
-		Array = ElementType.Array,
-		GenericInstance = ElementType.GenericInst,
-		TypedByReference = ElementType.TypedByRef,
-		IntPtr = ElementType.I,
-		UIntPtr = ElementType.U,
-		FunctionPointer = ElementType.FnPtr,
-		Object = ElementType.Object,
-		MVar = ElementType.MVar,
-		RequiredModifier = ElementType.CModReqD,
-		OptionalModifier = ElementType.CModOpt,
-		Sentinel = ElementType.Sentinel,
-		Pinned = ElementType.Pinned,
+		Void = CecilElementType.Void,
+		Boolean = CecilElementType.Boolean,
+		Char = CecilElementType.Char,
+		SByte = CecilElementType.I1,
+		Byte = CecilElementType.U1,
+		Int16 = CecilElementType.I2,
+		UInt16 = CecilElementType.U2,
+		Int32 = CecilElementType.I4,
+		UInt32 = CecilElementType.U4,
+		Int64 = CecilElementType.I8,
+		UInt64 = CecilElementType.U8,
+		Single = CecilElementType.R4,
+		Double = CecilElementType.R8,
+		String = CecilElementType.String,
+		Pointer = CecilElementType.Ptr,
+		ByReference = CecilElementType.ByRef,
+		ValueType = CecilElementType.ValueType,
+		Class = CecilElementType.Class,
+		Var = CecilElementType.Var,
+		Array = CecilElementType.Array,
+		GenericInstance = CecilElementType.GenericInst,
+		TypedByReference = CecilElementType.TypedByRef,
+		IntPtr = CecilElementType.I,
+		UIntPtr = CecilElementType.U,
+		FunctionPointer = CecilElementType.FnPtr,
+		Object = CecilElementType.Object,
+		MVar = CecilElementType.MVar,
+		RequiredModifier = CecilElementType.CModReqD,
+		OptionalModifier = CecilElementType.CModOpt,
+		Sentinel = CecilElementType.Sentinel,
+		Pinned = CecilElementType.Pinned,
 	}
 
 	public class TypeReference : MemberReference, IGenericParameterProvider, IGenericContext {
@@ -57,7 +57,7 @@ namespace Root.Code.Libs.Mono.Cecil
 		internal IMetadataScope scope;
 		internal ModuleDefinition module;
 
-		internal ElementType etype = ElementType.None;
+		internal CecilElementType etype = CecilElementType.None;
 
 		string fullname;
 
@@ -226,7 +226,7 @@ namespace Root.Code.Libs.Mono.Cecil
 			get { return etype.IsPrimitive (); }
 		}
 
-		public ElementType ElementKind
+		public CecilElementType ElementKind
 		{
 			get { return etype; }
 			set { etype = value; }
@@ -235,7 +235,7 @@ namespace Root.Code.Libs.Mono.Cecil
 		public virtual MetadataType MetadataType {
 			get {
 				switch (etype) {
-				case ElementType.None:
+				case CecilElementType.None:
 					return IsValueType ? MetadataType.ValueType : MetadataType.Class;
 				default:
 					return (MetadataType) etype;
@@ -290,23 +290,23 @@ namespace Root.Code.Libs.Mono.Cecil
 
 	static partial class Mixin {
 
-		public static bool IsPrimitive (this ElementType self)
+		public static bool IsPrimitive (this CecilElementType self)
 		{
 			switch (self) {
-			case ElementType.Boolean:
-			case ElementType.Char:
-			case ElementType.I:
-			case ElementType.U:
-			case ElementType.I1:
-			case ElementType.U1:
-			case ElementType.I2:
-			case ElementType.U2:
-			case ElementType.I4:
-			case ElementType.U4:
-			case ElementType.I8:
-			case ElementType.U8:
-			case ElementType.R4:
-			case ElementType.R8:
+			case CecilElementType.Boolean:
+			case CecilElementType.Char:
+			case CecilElementType.I:
+			case CecilElementType.U:
+			case CecilElementType.I1:
+			case CecilElementType.U1:
+			case CecilElementType.I2:
+			case CecilElementType.U2:
+			case CecilElementType.I4:
+			case CecilElementType.U4:
+			case CecilElementType.I8:
+			case CecilElementType.U8:
+			case CecilElementType.R4:
+			case CecilElementType.R8:
 				return true;
 			default:
 				return false;
@@ -329,18 +329,18 @@ namespace Root.Code.Libs.Mono.Cecil
 		public static bool IsTypeSpecification (this TypeReference type)
 		{
 			switch (type.etype) {
-			case ElementType.Array:
-			case ElementType.ByRef:
-			case ElementType.CModOpt:
-			case ElementType.CModReqD:
-			case ElementType.FnPtr:
-			case ElementType.GenericInst:
-			case ElementType.MVar:
-			case ElementType.Pinned:
-			case ElementType.Ptr:
-			case ElementType.SzArray:
-			case ElementType.Sentinel:
-			case ElementType.Var:
+			case CecilElementType.Array:
+			case CecilElementType.ByRef:
+			case CecilElementType.CModOpt:
+			case CecilElementType.CModReqD:
+			case CecilElementType.FnPtr:
+			case CecilElementType.GenericInst:
+			case CecilElementType.MVar:
+			case CecilElementType.Pinned:
+			case CecilElementType.Ptr:
+			case CecilElementType.SzArray:
+			case CecilElementType.Sentinel:
+			case CecilElementType.Var:
 				return true;
 			}
 

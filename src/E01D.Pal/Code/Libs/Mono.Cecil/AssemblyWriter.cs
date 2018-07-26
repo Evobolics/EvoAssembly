@@ -39,7 +39,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 	using ParamRow       = Row<ParameterAttributes, ushort, StringIndex>;
 	using InterfaceImplRow = Row<uint, CodedRID>;
 	using MemberRefRow   = Row<CodedRID, StringIndex, BlobIndex>;
-	using ConstantRow    = Row<ElementType, CodedRID, BlobIndex>;
+	using ConstantRow    = Row<CecilElementType, CodedRID, BlobIndex>;
 	using CustomAttributeRow = Row<CodedRID, CodedRID, BlobIndex>;
 	using FieldMarshalRow = Row<CodedRID, BlobIndex>;
 	using DeclSecurityRow = Row<SecurityAction, CodedRID, BlobIndex>;
@@ -1869,88 +1869,88 @@ namespace Root.Code.Libs.Mono.Cecil {
 				GetBlobIndex (GetConstantSignature (etype, constant))));
 		}
 
-		static ElementType GetConstantType (TypeReference constant_type, object constant)
+		static CecilElementType GetConstantType (TypeReference constant_type, object constant)
 		{
 			if (constant == null)
-				return ElementType.Class;
+				return CecilElementType.Class;
 
 			var etype = constant_type.etype;
 			switch (etype) {
-			case ElementType.None:
+			case CecilElementType.None:
 				var type = constant_type.CheckedResolve ();
 				if (type.IsEnum)
 					return GetConstantType (type.GetEnumUnderlyingType (), constant);
 
-				return ElementType.Class;
-			case ElementType.String:
-				return ElementType.String;
-			case ElementType.Object:
+				return CecilElementType.Class;
+			case CecilElementType.String:
+				return CecilElementType.String;
+			case CecilElementType.Object:
 				return GetConstantType (constant.GetType ());
-			case ElementType.Array:
-			case ElementType.SzArray:
-			case ElementType.MVar:
-			case ElementType.Var:
-				return ElementType.Class;
-			case ElementType.GenericInst:
+			case CecilElementType.Array:
+			case CecilElementType.SzArray:
+			case CecilElementType.MVar:
+			case CecilElementType.Var:
+				return CecilElementType.Class;
+			case CecilElementType.GenericInst:
 				var generic_instance = (GenericInstanceType) constant_type;
 				if (generic_instance.ElementType.IsTypeOf ("System", "Nullable`1"))
 					return GetConstantType (generic_instance.GenericArguments [0], constant);
 
 				return GetConstantType (((TypeSpecification) constant_type).ElementType, constant);
-			case ElementType.CModOpt:
-			case ElementType.CModReqD:
-			case ElementType.ByRef:
-			case ElementType.Sentinel:
+			case CecilElementType.CModOpt:
+			case CecilElementType.CModReqD:
+			case CecilElementType.ByRef:
+			case CecilElementType.Sentinel:
 				return GetConstantType (((TypeSpecification) constant_type).ElementType, constant);
-			case ElementType.Boolean:
-			case ElementType.Char:
-			case ElementType.I:
-			case ElementType.I1:
-			case ElementType.I2:
-			case ElementType.I4:
-			case ElementType.I8:
-			case ElementType.U:
-			case ElementType.U1:
-			case ElementType.U2:
-			case ElementType.U4:
-			case ElementType.U8:
-			case ElementType.R4:
-			case ElementType.R8:
+			case CecilElementType.Boolean:
+			case CecilElementType.Char:
+			case CecilElementType.I:
+			case CecilElementType.I1:
+			case CecilElementType.I2:
+			case CecilElementType.I4:
+			case CecilElementType.I8:
+			case CecilElementType.U:
+			case CecilElementType.U1:
+			case CecilElementType.U2:
+			case CecilElementType.U4:
+			case CecilElementType.U8:
+			case CecilElementType.R4:
+			case CecilElementType.R8:
 				return GetConstantType (constant.GetType ());
 			default:
 				return etype;
 			}
 		}
 
-		static ElementType GetConstantType (Type type)
+		static CecilElementType GetConstantType (Type type)
 		{
 			switch (type.GetTypeCode ()) {
 			case TypeCode.Boolean:
-				return ElementType.Boolean;
+				return CecilElementType.Boolean;
 			case TypeCode.Byte:
-				return ElementType.U1;
+				return CecilElementType.U1;
 			case TypeCode.SByte:
-				return ElementType.I1;
+				return CecilElementType.I1;
 			case TypeCode.Char:
-				return ElementType.Char;
+				return CecilElementType.Char;
 			case TypeCode.Int16:
-				return ElementType.I2;
+				return CecilElementType.I2;
 			case TypeCode.UInt16:
-				return ElementType.U2;
+				return CecilElementType.U2;
 			case TypeCode.Int32:
-				return ElementType.I4;
+				return CecilElementType.I4;
 			case TypeCode.UInt32:
-				return ElementType.U4;
+				return CecilElementType.U4;
 			case TypeCode.Int64:
-				return ElementType.I8;
+				return CecilElementType.I8;
 			case TypeCode.UInt64:
-				return ElementType.U8;
+				return CecilElementType.U8;
 			case TypeCode.Single:
-				return ElementType.R4;
+				return CecilElementType.R4;
 			case TypeCode.Double:
-				return ElementType.R8;
+				return CecilElementType.R8;
 			case TypeCode.String:
-				return ElementType.String;
+				return CecilElementType.String;
 			default:
 				throw new NotSupportedException (type.FullName);
 			}
@@ -2167,21 +2167,21 @@ namespace Root.Code.Libs.Mono.Cecil {
 			return signature;
 		}
 
-		SignatureWriter GetConstantSignature (ElementType type, object value)
+		SignatureWriter GetConstantSignature (CecilElementType type, object value)
 		{
 			var signature = CreateSignatureWriter ();
 
 			switch (type) {
-			case ElementType.Array:
-			case ElementType.SzArray:
-			case ElementType.Class:
-			case ElementType.Object:
-			case ElementType.None:
-			case ElementType.Var:
-			case ElementType.MVar:
+			case CecilElementType.Array:
+			case CecilElementType.SzArray:
+			case CecilElementType.Class:
+			case CecilElementType.Object:
+			case CecilElementType.None:
+			case CecilElementType.Var:
+			case CecilElementType.MVar:
 				signature.WriteInt32 (0);
 				break;
-			case ElementType.String:
+			case CecilElementType.String:
 				signature.WriteConstantString ((string) value);
 				break;
 			default:
@@ -2664,7 +2664,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 			this.metadata = metadata;
 		}
 
-		public void WriteElementType (ElementType element_type)
+		public void WriteElementType (CecilElementType element_type)
 		{
 			WriteByte ((byte) element_type);
 		}
@@ -2734,8 +2734,8 @@ namespace Root.Code.Libs.Mono.Cecil {
 			var etype = type.etype;
 
 			switch (etype) {
-			case ElementType.MVar:
-			case ElementType.Var: {
+			case CecilElementType.MVar:
+			case CecilElementType.Var: {
 				var generic_parameter = (GenericParameter) type;
 
 				WriteElementType (etype);
@@ -2747,54 +2747,54 @@ namespace Root.Code.Libs.Mono.Cecil {
 				break;
 			}
 
-			case ElementType.GenericInst: {
+			case CecilElementType.GenericInst: {
 				var generic_instance = (GenericInstanceType) type;
-				WriteElementType (ElementType.GenericInst);
-				WriteElementType (generic_instance.IsValueType ? ElementType.ValueType : ElementType.Class);
+				WriteElementType (CecilElementType.GenericInst);
+				WriteElementType (generic_instance.IsValueType ? CecilElementType.ValueType : CecilElementType.Class);
 				WriteCompressedUInt32 (MakeTypeDefOrRefCodedRID (generic_instance.ElementType));
 
 				WriteGenericInstanceSignature (generic_instance);
 				break;
 			}
 
-			case ElementType.Ptr:
-			case ElementType.ByRef:
-			case ElementType.Pinned:
-			case ElementType.Sentinel: {
+			case CecilElementType.Ptr:
+			case CecilElementType.ByRef:
+			case CecilElementType.Pinned:
+			case CecilElementType.Sentinel: {
 				var type_spec = (TypeSpecification) type;
 				WriteElementType (etype);
 				WriteTypeSignature (type_spec.ElementType);
 				break;
 			}
 
-			case ElementType.FnPtr: {
+			case CecilElementType.FnPtr: {
 				var fptr = (FunctionPointerType) type;
-				WriteElementType (ElementType.FnPtr);
+				WriteElementType (CecilElementType.FnPtr);
 				WriteMethodSignature (fptr);
 				break;
 			}
 
-			case ElementType.CModOpt:
-			case ElementType.CModReqD: {
+			case CecilElementType.CModOpt:
+			case CecilElementType.CModReqD: {
 				var modifier = (IModifierType) type;
 				WriteModifierSignature (etype, modifier);
 				break;
 			}
 
-			case ElementType.Array: {
+			case CecilElementType.Array: {
 				var array = (ArrayType) type;
 				if (!array.IsVector) {
 					WriteArrayTypeSignature (array);
 					break;
 				}
 
-				WriteElementType (ElementType.SzArray);
+				WriteElementType (CecilElementType.SzArray);
 				WriteTypeSignature (array.ElementType);
 				break;
 			}
 
-			case ElementType.None: {
-				WriteElementType (type.IsValueType ? ElementType.ValueType : ElementType.Class);
+			case CecilElementType.None: {
+				WriteElementType (type.IsValueType ? CecilElementType.ValueType : CecilElementType.Class);
 				WriteCompressedUInt32 (MakeTypeDefOrRefCodedRID (type));
 				break;
 			}
@@ -2810,7 +2810,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 
 		void WriteArrayTypeSignature (ArrayType array)
 		{
-			WriteElementType (ElementType.Array);
+			WriteElementType (CecilElementType.Array);
 			WriteTypeSignature (array.ElementType);
 
 			var dimensions = array.Dimensions;
@@ -2860,7 +2860,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 				WriteTypeSignature (generic_arguments [i]);
 		}
 
-		void WriteModifierSignature (ElementType element_type, IModifierType type)
+		void WriteModifierSignature (CecilElementType element_type, IModifierType type)
 		{
 			WriteElementType (element_type);
 			WriteCompressedUInt32 (MakeTypeDefOrRefCodedRID (type.ModifierType));
@@ -2871,7 +2871,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 		{
 			var element = type.etype;
 
-			if (element == ElementType.None)
+			if (element == CecilElementType.None)
 				return false;
 
 			WriteElementType (element);
@@ -2943,7 +2943,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 				return;
 			}
 
-			if (type.etype == ElementType.Object) {
+			if (type.etype == CecilElementType.Object) {
 				argument = (CustomAttributeArgument) argument.Value;
 				type = argument.Type;
 
@@ -2960,14 +2960,14 @@ namespace Root.Code.Libs.Mono.Cecil {
 			var etype = type.etype;
 
 			switch (etype) {
-			case ElementType.String:
+			case CecilElementType.String:
 				var @string = (string) value;
 				if (@string == null)
 					WriteByte (0xff);
 				else
 					WriteUTF8String (@string);
 				break;
-			case ElementType.None:
+			case CecilElementType.None:
 				if (type.IsTypeOf ("System", "Type"))
 					WriteTypeReference ((TypeReference) value);
 				else
@@ -3039,7 +3039,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 		{
 			if (type.IsArray) {
 				var array = (ArrayType) type;
-				WriteElementType (ElementType.SzArray);
+				WriteElementType (CecilElementType.SzArray);
 				WriteCustomAttributeFieldOrPropType (array.ElementType);
 				return;
 			}
@@ -3047,14 +3047,14 @@ namespace Root.Code.Libs.Mono.Cecil {
 			var etype = type.etype;
 
 			switch (etype) {
-			case ElementType.Object:
-				WriteElementType (ElementType.Boxed);
+			case CecilElementType.Object:
+				WriteElementType (CecilElementType.Boxed);
 				return;
-			case ElementType.None:
+			case CecilElementType.None:
 				if (type.IsTypeOf ("System", "Type"))
-					WriteElementType (ElementType.Type);
+					WriteElementType (CecilElementType.Type);
 				else {
-					WriteElementType (ElementType.Enum);
+					WriteElementType (CecilElementType.Enum);
 					WriteTypeReference (type);
 				}
 				return;

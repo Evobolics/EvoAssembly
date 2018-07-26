@@ -17,7 +17,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
         public TypeScanningApi_I<TContainer> TypeScanning { get; set; }
 
-        public System.Type GetGenericParameterType(ILConversion conversion, ConvertedTypeDefinition_I input, ConvertedRoutine routine, GenericParameter genericParameter)
+        public System.Type GetGenericParameterType(ILConversion conversion, ConvertedTypeDefinitionMask_I input, ConvertedRoutine routine, GenericParameter genericParameter)
         {
             
 

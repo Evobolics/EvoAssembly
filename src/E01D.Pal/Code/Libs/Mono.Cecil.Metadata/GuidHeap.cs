@@ -12,7 +12,7 @@ using System;
 
 namespace Root.Code.Libs.Mono.Cecil.Metadata {
 
-	sealed class GuidHeap : Heap {
+	public sealed class GuidHeap : Heap {
 
 		public GuidHeap (byte [] data)
 			: base (data)

@@ -12,7 +12,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 	    RuntimeCreatedApiMask_I RuntimeCreated { get; }
 
-	    MethodInfo MakeArrayMethod(ILConversion conversion, ConvertedTypeDefinition_I callingType, BoundTypeDefinitionMask_I declaringType, MethodReference methodReference);
+	    MethodInfo MakeArrayMethod(ILConversion conversion, ConvertedTypeDefinitionMask_I callingType, BoundTypeDefinitionMask_I declaringType, MethodReference methodReference);
 	    
     }
 }

@@ -117,14 +117,33 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
 
         }
 
-        public object ConvertAndCreateInstance(Type type, AssemblyBuilderAccess buidlerAccess = AssemblyBuilderAccess.RunAndCollect)
-        {
-            var convertedType = ConvertSingleType(type, buidlerAccess);
+	    public object ConvertAndCreateInstance(Type type)
+	    {
+		    var convertedType = ConvertSingleType(type,  new ILConversionOptions());
+
+		    return CreateInstance(convertedType);
+	    }
+
+		public object ConvertAndCreateInstance(Type type, AssemblyBuilderAccess buidlerAccess)
+		{
+			var options = new ILConversionOptions()
+			{
+				BuilderAccess = buidlerAccess
+			};
+
+            var convertedType = ConvertSingleType(type, options);
 
             return CreateInstance(convertedType);
         }
 
-        public object ConvertAndCreateInstance(Type type, out Type convertedType)
+	    public object ConvertAndCreateInstance(Type type, ILConversionOptions conversionOptions)
+	    {
+		    var convertedType = ConvertSingleType(type, conversionOptions);
+
+		    return CreateInstance(convertedType);
+	    }
+
+		public object ConvertAndCreateInstance(Type type, out Type convertedType)
         {
             convertedType = ConvertSingleType(type);
 
@@ -133,26 +152,31 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
 
         public object ConvertAndCreateInstance(Type type, out Assembly assembly, out Type convertedType)
         {
-            convertedType = ConvertSingleType(type, AssemblyBuilderAccess.RunAndCollect, out assembly);
+            convertedType = ConvertSingleType(type, new ILConversionOptions(), out assembly);
 
             return CreateInstance(convertedType);
         }
 
-        public System.Type ConvertSingleType(System.Type type, AssemblyBuilderAccess builderAccess = AssemblyBuilderAccess.RunAndCollect)
+	    public System.Type ConvertSingleType(System.Type type)
+	    {
+		    return ConvertSingleType(type, new ILConversionOptions(), out Assembly collectibleAssembly);
+	    }
+
+		public System.Type ConvertSingleType(System.Type type, ILConversionOptions options)
         {
-            return ConvertSingleType(type, builderAccess, out Assembly collectibleAssembly);
+            return ConvertSingleType(type, options, out Assembly collectibleAssembly);
         }
 
 	    
 
 
-		public System.Type ConvertSingleType(System.Type type, AssemblyBuilderAccess builderAccess, out Assembly collectibleAssembly)
+		public System.Type ConvertSingleType(System.Type type, ILConversionOptions options, out Assembly collectibleAssembly)
         {
             // Use the default static api to create a container to do the conversion.
             var container = EvoAssembly.CreateContainer();
 
             // do the conversion
-            var conversionResult = container.Convert(type, builderAccess);
+            var conversionResult = container.Convert(type, options);
 
 	        
 
@@ -170,7 +194,7 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
 
 			Assert.IsNotNull(collectibleType);
 
-	        if (builderAccess == AssemblyBuilderAccess.RunAndSave)
+	        if (options.BuilderAccess == AssemblyBuilderAccess.RunAndSave)
 	        {
 		        var saveAssembly = conversionResult.Output.Assemblies[0];
 

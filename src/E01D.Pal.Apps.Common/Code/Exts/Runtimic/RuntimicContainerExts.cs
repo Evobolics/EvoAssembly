@@ -18,6 +18,11 @@ namespace Root.Code.Exts.Runtimic
 			return container.Api.Runtimic.Execution.Conversion.Convert(type, access);
 		}
 
+		public static ILConversionResult Convert(this RuntimicContainer container, System.Type type, ILConversionOptions conversionOptions)
+		{
+			return container.Api.Runtimic.Execution.Conversion.Convert(type, conversionOptions);
+		}
+
 		public static System.Reflection.Assembly Convert(this RuntimicContainer container, System.Reflection.Assembly assembly)
 		{
 			return container.Api.Runtimic.Execution.Conversion.QuickConvert(assembly);
@@ -26,6 +31,11 @@ namespace Root.Code.Exts.Runtimic
 		public static System.Reflection.Assembly Convert(this RuntimicContainer container, System.Reflection.Assembly assembly, AssemblyBuilderAccess access)
 		{
 			return container.Api.Runtimic.Execution.Conversion.QuickConvert(assembly, access);
+		}
+
+		public static System.Reflection.Assembly Convert(this RuntimicContainer container, System.Reflection.Assembly assembly, ILConversionOptions conversionOptions)
+		{
+			return container.Api.Runtimic.Execution.Conversion.QuickConvert(assembly, conversionOptions);
 		}
 
 		public static Type QuickConvert(this RuntimicContainer container, Type type)

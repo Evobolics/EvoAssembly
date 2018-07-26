@@ -7,6 +7,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling
 {
     public interface ModelFieldsApiMask_I
     {
-        FieldInfo ResolveFieldReference(ILConversion conversion, ConvertedTypeDefinition_I currentType, FieldReference fieldReference);
+        FieldInfo ResolveFieldReference(ILConversion conversion, ConvertedTypeDefinitionMask_I currentType, FieldReference fieldReference);
     }
 }

@@ -13,7 +13,7 @@ using Root.Code.Libs.Mono;
 
 namespace Root.Code.Libs.Mono.Cecil.Metadata {
 
-	sealed class BlobHeap : Heap {
+	public sealed class BlobHeap : Heap {
 
 		public BlobHeap (byte [] data)
 			: base (data)

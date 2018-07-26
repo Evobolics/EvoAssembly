@@ -25,38 +25,38 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 
 		public ILConversionResult Convert(ILConversion conversion, Type type)
 		{
-			return Convert(conversion, type, AssemblyBuilderAccess.RunAndCollect);
+			return Convert(conversion, type, CreateDefaultConversionOptions());
 		}
 
-		public ILConversionResult Convert(ILConversion conversion, Type type, AssemblyBuilderAccess builderAccess)
+		public ILConversionResult Convert(ILConversion conversion, Type type, ILConversionOptions conversionOptions)
 		{
 			var typeDefinition = Cecil.Types.Ensuring.EnsureReference(conversion.Model, type);
 
-			return Convert(conversion, typeDefinition, builderAccess);
+			return Convert(conversion, typeDefinition, conversionOptions);
 		}
 
 		public ILConversionResult Convert(ILConversion conversion, Type[] types)
 		{
-			return Convert(conversion, types, AssemblyBuilderAccess.RunAndCollect);
+			return Convert(conversion, types, CreateDefaultConversionOptions());
 		}
 
-		public ILConversionResult Convert(ILConversion conversion, Type[] types, AssemblyBuilderAccess builderAccess)
+		public ILConversionResult Convert(ILConversion conversion, Type[] types, ILConversionOptions conversionOptions)
 		{
 			var typeSet = Cecil.Types.Ensuring.EnsureReferences(conversion.Model, types);
 
-			return Convert(conversion, typeSet.Assemblies, builderAccess, typeSet.Types); // Make work
+			return Convert(conversion, typeSet.Assemblies, conversionOptions, typeSet.Types); // Make work
 		}
 
 		public ILConversionResult Convert(ILConversion conversion, TypeReference typeReference)
 		{
-			return Convert(conversion, typeReference, AssemblyBuilderAccess.RunAndCollect);
+			return Convert(conversion, typeReference, CreateDefaultConversionOptions());
 		}
 
-		public ILConversionResult Convert(ILConversion conversion, TypeReference typeReference, AssemblyBuilderAccess builderAccess)
+		public ILConversionResult Convert(ILConversion conversion, TypeReference typeReference, ILConversionOptions conversionOptions)
 		{
 			var typeReferences = new List<TypeReference> {typeReference};
 
-			return Convert(conversion, typeReferences, builderAccess);
+			return Convert(conversion, typeReferences, conversionOptions);
 		}
 
 		/// <summary>
@@ -66,14 +66,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 		/// <param name="typeReferences"></param>
 		public ILConversionResult Convert(ILConversion conversion, List<TypeReference> typeReferences)
 		{
-			return Convert(conversion, typeReferences, AssemblyBuilderAccess.RunAndCollect);
+			return Convert(conversion, typeReferences, CreateDefaultConversionOptions());
 		}
 
-		public ILConversionResult Convert(ILConversion conversion, List<TypeReference> typeReferences, AssemblyBuilderAccess builderAccess)
+		public ILConversionResult Convert(ILConversion conversion, List<TypeReference> typeReferences, ILConversionOptions conversionOptions)
 		{
 			var typeSet = Cecil.Types.Ensuring.EnsureReferences(conversion.Model, typeReferences);
 
-			return Convert(conversion, typeSet.Assemblies, builderAccess, typeSet.Types);
+			return Convert(conversion, typeSet.Assemblies, conversionOptions, typeSet.Types);
 		}
 
 		
@@ -86,7 +86,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 		public ILConversionResult Convert(ILConversion conversion, Assembly assembly)
 		{
 			// Convert the assembly using the default AssemblyBuilderAccess.RunAndCollect.
-			return Convert(conversion, assembly, AssemblyBuilderAccess.RunAndCollect);
+			return Convert(conversion, assembly, CreateDefaultConversionOptions());
 		}
 
 		/// <summary>
@@ -94,26 +94,26 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 		/// </summary>
 		/// <param name="conversion"></param>
 		/// <param name="assembly"></param>
-		/// <param name="builderAccess">The dynamic assembly access mode.</param>
+		/// <param name="conversionOptions">The IL Conversion options to use for this conversion</param>
 		/// <returns></returns>
-		public ILConversionResult Convert(ILConversion conversion, Assembly assembly, AssemblyBuilderAccess builderAccess)
+		public ILConversionResult Convert(ILConversion conversion, Assembly assembly, ILConversionOptions conversionOptions)
 		{
-			var result = Convert(conversion, new []{ assembly }, builderAccess);
+			var result = Convert(conversion, new []{ assembly }, conversionOptions);
 
 			return result;
 		}
 
 		public ILConversionResult Convert(ILConversion conversion, Assembly[] assemblies)
 		{
-			return Convert(conversion, assemblies, AssemblyBuilderAccess.RunAndCollect);
+			return Convert(conversion, assemblies, CreateDefaultConversionOptions());
 		}
 
-		public ILConversionResult Convert(ILConversion conversion, Assembly[] assemblies, AssemblyBuilderAccess builderAccess)
+		public ILConversionResult Convert(ILConversion conversion, Assembly[] assemblies, ILConversionOptions conversionOptions)
 		{
 			// Load the assembly definition associated with the assembly into the model.
 			var set = Cecil.Assemblies.Ensuring.Ensure(conversion.Model, assemblies);
 
-			return Convert(conversion, set.Assemblies, builderAccess, set.Types);
+			return Convert(conversion, set.Assemblies, conversionOptions, set.Types);
 		}
 
 		/// <summary>
@@ -124,44 +124,47 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 		public ILConversionResult Convert(ILConversion conversion, AssemblyDefinition assemblyDefinition)
 		{
 			// Convert the assembly using the default AssemblyBuilderAccess.RunAndCollect.
-			return Convert(conversion, assemblyDefinition, AssemblyBuilderAccess.RunAndCollect);
+			return Convert(conversion, assemblyDefinition, CreateDefaultConversionOptions());
 		}
 
-		
+
 
 		/// <summary>
 		/// Converts the specified assembly to a dynamic assembly.
 		/// </summary>
 		/// <param name="conversion"></param>
 		/// <param name="assemblyDefinition"></param>
-		/// <param name="builderAccess">The dynamic assembly access mode.</param>
+		/// <param name="conversionOptions">The IL Conversion options to use for this conversion</param>
 		/// <returns></returns>
-		public ILConversionResult Convert(ILConversion conversion, AssemblyDefinition assemblyDefinition, AssemblyBuilderAccess builderAccess)
+		public ILConversionResult Convert(ILConversion conversion, AssemblyDefinition assemblyDefinition, ILConversionOptions conversionOptions)
 		{
-			return Convert(conversion, new[] { assemblyDefinition}, builderAccess);
+			return Convert(conversion, new[] { assemblyDefinition}, conversionOptions);
 		}
 
 		public ILConversionResult Convert(ILConversion conversion, AssemblyDefinition[] assemblyDefinitions)
 		{
 			// Convert the assembly using the default AssemblyBuilderAccess.RunAndCollect.
-			return Convert(conversion, assemblyDefinitions, AssemblyBuilderAccess.RunAndCollect);
+			return Convert(conversion, assemblyDefinitions, CreateDefaultConversionOptions());
 		}
 
-		public ILConversionResult Convert(ILConversion conversion, AssemblyDefinition[] assemblyDefinitions, AssemblyBuilderAccess builderAccess)
+		
+
+		public ILConversionResult Convert(ILConversion conversion, AssemblyDefinition[] assemblyDefinitions, ILConversionOptions conversionOptions)
 		{
 			// Load all the types in the provide assemblies, and 
 			var set = Cecil.Assemblies.Ensuring.Ensure(conversion.Model, assemblyDefinitions);
 
 			// Now that all inputs have been provided, proceed with the conversion.
-			return Convert(conversion, set.Assemblies, builderAccess, set.Types);
+			return Convert(conversion, set.Assemblies, conversionOptions, set.Types);
 		}
 
 		public ILConversionResult Convert(ILConversion conversion, 
 			List<UnifiedAssemblyNode> assemblies, 
-			AssemblyBuilderAccess builderAccess, 
+			ILConversionOptions options, 
 			List<UnifiedTypeNode> nodesToConvert)
 		{
-			conversion.Configuration.BuilderAccess = builderAccess;
+			conversion.Configuration.BuilderAccess = options.BuilderAccess;
+			conversion.Configuration.UseILGenerator = options.UseILGenerator;
 
 			conversion.Input.AssemlyNodesToConvert = assemblies;
 
@@ -333,6 +336,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 					}
 				}
 			}
+		}
+
+		public ILConversionOptions CreateDefaultConversionOptions()
+		{
+			return new ILConversionOptions()
+			{
+				BuilderAccess = AssemblyBuilderAccess.RunAndCollect
+			};
 		}
 
 	}

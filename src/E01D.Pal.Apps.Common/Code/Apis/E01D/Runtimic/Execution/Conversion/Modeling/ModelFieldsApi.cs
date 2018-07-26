@@ -11,7 +11,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling
     public class ModelFieldsApi<TContainer> : ConversionApiNode<TContainer>, ModelFieldsApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        public FieldInfo ResolveFieldReference(ILConversion conversion, ConvertedTypeDefinition_I accessingType, FieldReference fieldReference)
+        public FieldInfo ResolveFieldReference(ILConversion conversion, ConvertedTypeDefinitionMask_I accessingType, FieldReference fieldReference)
         {
             // The problem we run into is that for generic types, we need the fully baked type and we do not have access to a builder
             // that is able to act as a type.  So I think we are going to have to bake the types.  It looks like we will have to figure out

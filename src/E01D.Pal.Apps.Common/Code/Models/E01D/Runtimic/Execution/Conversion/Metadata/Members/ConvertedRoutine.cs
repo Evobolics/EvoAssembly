@@ -10,17 +10,23 @@ using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
 namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members
 {
     /// <summary>
-    /// The base class for a constructor OR a method that contains the properties that they share in common.  This allows for routine searching algoirthms to be created.
+    /// The base class for a constructor OR a method that contains the properties that they share in common.  
+    /// This allows for routine searching algoirthms to be created.
     /// </summary>
     public abstract class ConvertedRoutine: ConvertedMemberWithDeclaringType, ConvertedRoutineMask_I
     {
-        
+		/// <summary>
+		/// Gets or sets the body of the routine.
+		/// </summary>
+		public ConvertedRoutineBody Body { get; set; }
 
-        public ILGenerator IlGenerator { get; set; }
+		public ILGenerator IlGenerator { get; set; }
 
         public MethodReference MethodReference { get; set; }
 
-        public ConvertedRoutineParameters_I Parameters { get; set; } = new ConvertedRoutineParameters();
+		
+
+		public ConvertedRoutineParameters_I Parameters { get; set; } = new ConvertedRoutineParameters();
 
         BoundRoutineParametersMask_I BoundRoutineDefinitionMask_I.Parameters => Parameters;
         SemanticRoutineParametersMask_I SemanticRoutineMask_I.Parameters => Parameters;
@@ -30,8 +36,8 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members
         /// </summary>
         /// <remarks>
         /// For a constructor, this should always be set to the return type of 'System.Void'.  In C#, this return type is 
-        /// implicit, since the compiler does not require it to be present.  But in IL, this is specified.  By haivng the return type and return type both in the routine
-        /// it simplifies routine matching algorithms.
+        /// implicit, since the compiler does not require it to be present.  But in IL, this is specified.  By haivng the 
+        /// return type in the routine, it simplifies routine matching algorithms.
         /// </remarks>
         public BoundTypeDefinitionMask_I ReturnType { get; set; }
 
@@ -52,5 +58,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members
 	    public Dictionary<int, ConvertedLabel> LabelEntries = new Dictionary<int, ConvertedLabel>();
 
 	    public Dictionary<int, ConvertedLabel> SwitchEntries = new Dictionary<int, ConvertedLabel>();
+
+		
 	}
 }

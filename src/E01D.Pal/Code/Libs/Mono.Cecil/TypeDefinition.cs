@@ -424,14 +424,14 @@ namespace Root.Code.Libs.Mono.Cecil
 
 		public override bool IsPrimitive {
 			get {
-				ElementType primitive_etype;
+				CecilElementType primitive_etype;
 				return MetadataSystem.TryGetPrimitiveElementType (this, out primitive_etype) && primitive_etype.IsPrimitive ();
 			}
 		}
 
 		public override MetadataType MetadataType {
 			get {
-				ElementType primitive_etype;
+				CecilElementType primitive_etype;
 				if (MetadataSystem.TryGetPrimitiveElementType (this, out primitive_etype))
 					return (MetadataType) primitive_etype;
 

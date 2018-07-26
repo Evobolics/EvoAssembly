@@ -56,7 +56,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 			: base (type)
 		{
 			base.IsValueType = type.IsValueType;
-			this.etype = Root.Code.Libs.Mono.Cecil.Metadata.ElementType.GenericInst;
+			this.etype = Root.Code.Libs.Mono.Cecil.Metadata.CecilElementType.GenericInst;
 		}
 	}
 }

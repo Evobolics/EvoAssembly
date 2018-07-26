@@ -12,7 +12,7 @@ using RID = System.UInt32;
 
 namespace Root.Code.Libs.Mono.Cecil.Metadata {
 
-	sealed class PdbHeap : Heap {
+	public sealed class PdbHeap : Heap {
 
 		public byte [] Id;
 		public RID EntryPoint;

@@ -128,6 +128,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies
 				// For TypeBuilder.GetConstructor(), TypeBuilder.GetMethod() and TypeBuilder.GetField() to work,
 				// the typebuilder needs to keep track of generic types that it produces.  To do this, the typeBuilder
 				// MakeGeneric method needs to be used over just the normal Type.MakeGenericType() method.
+			    //for (int i = 0; i < typeParameters.Length; i++)
+			    //{
+				   // Console.WriteLine($"MakeGenericType TP[{i}]: {typeParameters[i].Name}");
+			    //}
+				
 			    return typeBuilder.MakeGenericType(typeParameters);
 		    }
 

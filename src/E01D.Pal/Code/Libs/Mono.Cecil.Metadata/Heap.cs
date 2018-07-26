@@ -10,11 +10,11 @@
 
 namespace Root.Code.Libs.Mono.Cecil.Metadata {
 
-	abstract class Heap {
+	public abstract class Heap {
 
 		public int IndexSize;
 
-		readonly internal byte [] data;
+		public readonly byte [] data;
 
 		protected Heap (byte [] data)
 		{

@@ -18,7 +18,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 
 	    ILConversionResult Convert(Type type);
 
-	    ILConversionResult Convert(Type type, AssemblyBuilderAccess builder);
+	    ILConversionResult Convert(Type type, ILConversionOptions conversionOptions);
 
 		Type QuickConvert(Type type);
 
@@ -37,7 +37,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 	    /// <returns></returns>
 	    Assembly QuickConvert(Assembly assembly);
 
-	    Assembly QuickConvert(Assembly assembly, AssemblyBuilderAccess builder);
+	    ILConversionResult Convert(Type type, AssemblyBuilderAccess access);
+
+
+		Assembly QuickConvert(Assembly assembly, AssemblyBuilderAccess access);
+
+	    Assembly QuickConvert(Assembly assembly, ILConversionOptions conversionOptions);
 
 
 		/// <summary>

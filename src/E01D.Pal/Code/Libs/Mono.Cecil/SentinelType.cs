@@ -27,7 +27,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 			: base (type)
 		{
 			Root.Code.Libs.Mono.Cecil.Mixin.CheckType (type);
-			this.etype = Root.Code.Libs.Mono.Cecil.Metadata.ElementType.Sentinel;
+			this.etype = Root.Code.Libs.Mono.Cecil.Metadata.CecilElementType.Sentinel;
 		}
 	}
 }

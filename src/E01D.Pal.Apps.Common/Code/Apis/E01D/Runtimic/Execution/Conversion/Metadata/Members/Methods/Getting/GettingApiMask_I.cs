@@ -30,7 +30,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 	    
 
-	    MethodInfo GetMethodInfoOrThrow(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, ConvertedRoutine methodBeingBuilt, MethodReference methodReference);
+	    MethodInfo GetMethodInfoOrThrow(ILConversion conversion, ConvertedTypeDefinitionMask_I typeBeingBuilt, ConvertedRoutine methodBeingBuilt, MethodReference methodReference);
 	    ConvertedMethodMask_I GetMethod(ConvertedTypeDefinition_I convertedType, MethodDefinition propertyDefinitionGetMethod);
     }
 }

@@ -120,7 +120,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 			: base (type)
 		{
 			Mixin.CheckType (type);
-			this.etype = Metadata.ElementType.Array;
+			this.etype = Metadata.CecilElementType.Array;
 		}
 
 		public ArrayType (TypeReference type, int rank)
@@ -134,7 +134,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 			dimensions = new Collection<ArrayDimension> (rank);
 			for (int i = 0; i < rank; i++)
 				dimensions.Add (new ArrayDimension ());
-			this.etype = Metadata.ElementType.Array;
+			this.etype = Metadata.CecilElementType.Array;
 		}
 	}
 }

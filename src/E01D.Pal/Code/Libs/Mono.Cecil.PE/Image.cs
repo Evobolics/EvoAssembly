@@ -17,7 +17,7 @@ using RVA = System.UInt32;
 
 namespace Root.Code.Libs.Mono.Cecil.PE {
 
-	sealed class Image : IDisposable {
+	public sealed class Image : IDisposable {
 
 		public Disposable<Stream> Stream;
 		public string FileName;

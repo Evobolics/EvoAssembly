@@ -58,7 +58,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 				throw new ArgumentNullException (Root.Code.Libs.Mono.Cecil.Mixin.Argument.modifierType.ToString ());
 			Root.Code.Libs.Mono.Cecil.Mixin.CheckType (type);
 			this.modifier_type = modifierType;
-			this.etype = Metadata.ElementType.CModOpt;
+			this.etype = Metadata.CecilElementType.CModOpt;
 		}
 	}
 
@@ -103,7 +103,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 				throw new ArgumentNullException (Root.Code.Libs.Mono.Cecil.Mixin.Argument.modifierType.ToString ());
 			Root.Code.Libs.Mono.Cecil.Mixin.CheckType (type);
 			this.modifier_type = modifierType;
-			this.etype = Metadata.ElementType.CModReqD;
+			this.etype = Metadata.CecilElementType.CModReqD;
 		}
 
 	}

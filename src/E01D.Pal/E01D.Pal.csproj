@@ -199,7 +199,7 @@
     <Compile Include="Code\Libs\Mono.Cecil.Metadata\BlobHeap.cs" />
     <Compile Include="Code\Libs\Mono.Cecil.Metadata\Buffers.cs" />
     <Compile Include="Code\Libs\Mono.Cecil.Metadata\CodedIndex.cs" />
-    <Compile Include="Code\Libs\Mono.Cecil.Metadata\ElementType.cs" />
+    <Compile Include="Code\Libs\Mono.Cecil.Metadata\CecilElementType.cs" />
     <Compile Include="Code\Libs\Mono.Cecil.Metadata\GuidHeap.cs" />
     <Compile Include="Code\Libs\Mono.Cecil.Metadata\Heap.cs" />
     <Compile Include="Code\Libs\Mono.Cecil.Metadata\MetadataToken.cs" />

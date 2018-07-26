@@ -25,7 +25,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 			{
 				Conversion = conversion,
 				DeclaringType = input,
-				MethodReference = methodDefinition
+				MethodReference = methodDefinition,
 			};
 
 			Routines.Building.BuildRoutine(conversion, input, constructorEntry);

@@ -5,6 +5,6 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.
 {
     public interface BoundGenericParameterTypeDefinitionMask_I: BoundTypeDefinitionMask_I, ExecutionTypeParameterDefinitionMask_I
     {
-        List<ExecutionInterfaceTypeParameterConstraintMask_I> InterfaceTypeConstraints { get; }
+        new List<ExecutionInterfaceTypeParameterConstraintMask_I> InterfaceTypeConstraints { get; set; }
     }
 }

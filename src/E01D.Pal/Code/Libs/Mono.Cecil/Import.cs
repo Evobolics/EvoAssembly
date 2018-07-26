@@ -140,27 +140,27 @@ namespace Root.Code.Libs.Mono.Cecil {
 			Open,
 		}
 
-		static readonly Dictionary<Type, ElementType> type_etype_mapping = new Dictionary<Type, ElementType> (18) {
-			{ typeof (void), ElementType.Void },
-			{ typeof (bool), ElementType.Boolean },
-			{ typeof (char), ElementType.Char },
-			{ typeof (sbyte), ElementType.I1 },
-			{ typeof (byte), ElementType.U1 },
-			{ typeof (short), ElementType.I2 },
-			{ typeof (ushort), ElementType.U2 },
-			{ typeof (int), ElementType.I4 },
-			{ typeof (uint), ElementType.U4 },
-			{ typeof (long), ElementType.I8 },
-			{ typeof (ulong), ElementType.U8 },
-			{ typeof (float), ElementType.R4 },
-			{ typeof (double), ElementType.R8 },
-			{ typeof (string), ElementType.String },
+		static readonly Dictionary<Type, CecilElementType> type_etype_mapping = new Dictionary<Type, CecilElementType> (18) {
+			{ typeof (void), CecilElementType.Void },
+			{ typeof (bool), CecilElementType.Boolean },
+			{ typeof (char), CecilElementType.Char },
+			{ typeof (sbyte), CecilElementType.I1 },
+			{ typeof (byte), CecilElementType.U1 },
+			{ typeof (short), CecilElementType.I2 },
+			{ typeof (ushort), CecilElementType.U2 },
+			{ typeof (int), CecilElementType.I4 },
+			{ typeof (uint), CecilElementType.U4 },
+			{ typeof (long), CecilElementType.I8 },
+			{ typeof (ulong), CecilElementType.U8 },
+			{ typeof (float), CecilElementType.R4 },
+			{ typeof (double), CecilElementType.R8 },
+			{ typeof (string), CecilElementType.String },
 #if !NET_CORE
-			{ typeof (TypedReference), ElementType.TypedByRef },
+			{ typeof (TypedReference), CecilElementType.TypedByRef },
 #endif
-			{ typeof (IntPtr), ElementType.I },
-			{ typeof (UIntPtr), ElementType.U },
-			{ typeof (object), ElementType.Object },
+			{ typeof (IntPtr), CecilElementType.I },
+			{ typeof (UIntPtr), CecilElementType.U },
+			{ typeof (object), CecilElementType.Object },
 		};
 
 		TypeReference ImportType (Type type, ImportGenericContext context)
@@ -290,11 +290,11 @@ namespace Root.Code.Libs.Mono.Cecil {
 			return type.IsGenericType () && !type.IsGenericTypeDefinition ();
 		}
 
-		static ElementType ImportElementType (Type type)
+		static CecilElementType ImportElementType (Type type)
 		{
-			ElementType etype;
+			CecilElementType etype;
 			if (!type_etype_mapping.TryGetValue (type, out etype))
-				return ElementType.None;
+				return CecilElementType.None;
 
 			return etype;
 		}
@@ -584,22 +584,22 @@ namespace Root.Code.Libs.Mono.Cecil {
 		TypeReference ImportTypeSpecification (TypeReference type, ImportGenericContext context)
 		{
 			switch (type.etype) {
-			case ElementType.SzArray:
+			case CecilElementType.SzArray:
 				var vector = (ArrayType) type;
 				return new ArrayType (ImportType (vector.ElementType, context));
-			case ElementType.Ptr:
+			case CecilElementType.Ptr:
 				var pointer = (PointerType) type;
 				return new PointerType (ImportType (pointer.ElementType, context));
-			case ElementType.ByRef:
+			case CecilElementType.ByRef:
 				var byref = (ByReferenceType) type;
 				return new ByReferenceType (ImportType (byref.ElementType, context));
-			case ElementType.Pinned:
+			case CecilElementType.Pinned:
 				var pinned = (PinnedType) type;
 				return new PinnedType (ImportType (pinned.ElementType, context));
-			case ElementType.Sentinel:
+			case CecilElementType.Sentinel:
 				var sentinel = (SentinelType) type;
 				return new SentinelType (ImportType (sentinel.ElementType, context));
-			case ElementType.FnPtr:
+			case CecilElementType.FnPtr:
 				var fnptr = (FunctionPointerType) type;
 				var imported_fnptr = new FunctionPointerType () {
 					HasThis = fnptr.HasThis,
@@ -616,17 +616,17 @@ namespace Root.Code.Libs.Mono.Cecil {
 						ImportType (fnptr.Parameters [i].ParameterType, context)));
 
 				return imported_fnptr;
-			case ElementType.CModOpt:
+			case CecilElementType.CModOpt:
 				var modopt = (OptionalModifierType) type;
 				return new OptionalModifierType (
 					ImportType (modopt.ModifierType, context),
 					ImportType (modopt.ElementType, context));
-			case ElementType.CModReqD:
+			case CecilElementType.CModReqD:
 				var modreq = (RequiredModifierType) type;
 				return new RequiredModifierType (
 					ImportType (modreq.ModifierType, context),
 					ImportType (modreq.ElementType, context));
-			case ElementType.Array:
+			case CecilElementType.Array:
 				var array = (ArrayType) type;
 				var imported_array = new ArrayType (ImportType (array.ElementType, context));
 				if (array.IsVector)
@@ -644,7 +644,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 				}
 
 				return imported_array;
-			case ElementType.GenericInst:
+			case CecilElementType.GenericInst:
 				var instance = (GenericInstanceType) type;
 				var element_type = ImportType (instance.ElementType, context);
 				var imported_instance = new GenericInstanceType (element_type);
@@ -656,12 +656,12 @@ namespace Root.Code.Libs.Mono.Cecil {
 					imported_arguments.Add (ImportType (arguments [i], context));
 
 				return imported_instance;
-			case ElementType.Var:
+			case CecilElementType.Var:
 				var var_parameter = (GenericParameter) type;
 				if (var_parameter.DeclaringType == null)
 					throw new InvalidOperationException ();
 				return context.TypeParameter (var_parameter.DeclaringType.FullName, var_parameter.Position);
-			case ElementType.MVar:
+			case CecilElementType.MVar:
 				var mvar_parameter = (GenericParameter) type;
 				if (mvar_parameter.DeclaringMethod == null)
 					throw new InvalidOperationException ();

@@ -94,7 +94,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 		{
 			this.function = new MethodReference ();
 			this.function.Name = "method";
-			this.etype = Root.Code.Libs.Mono.Cecil.Metadata.ElementType.FnPtr;
+			this.etype = Root.Code.Libs.Mono.Cecil.Metadata.CecilElementType.FnPtr;
 		}
 
 		public override TypeDefinition Resolve ()

@@ -152,19 +152,19 @@ namespace Root.Code.Apis.E01D.Containment
 
                 if (apiInstance == null)
                 {
-                    try
-                    {
+                    //try
+                    //{
                         apiInstance = XCommonAppPal.Api.Activation.CreateInstance(property.PropertyType);
 
                         if (property.CanWrite)
                         {
                             property.SetValue(currentInstance, apiInstance);
                         }
-                    }
-                    catch
-                    {
+                    //}
+                    //catch
+                    //{
                         // ignore
-                    }
+                    //}
 
                 }
             }
@@ -196,8 +196,8 @@ namespace Root.Code.Apis.E01D.Containment
 
                                     if (classType == null) throw new Exception();
 
-                                    try
-                                    {
+                                    //try
+                                    //{
 	                                    var result = XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.MakeGenericType(classType,
 		                                    new Type[] {container.GetType()});
 										
@@ -208,11 +208,11 @@ namespace Root.Code.Apis.E01D.Containment
                                         {
                                             property.SetValue(currentInstance, apiInstance);
                                         }
-                                    }
-                                    catch (System.Exception)
-                                    {
+                                    //}
+                                    //catch (System.Exception)
+                                    //{
 
-                                    }
+                                    //}
 
 
                                 }
@@ -252,8 +252,8 @@ namespace Root.Code.Apis.E01D.Containment
 
                                     if (classType == null) throw new Exception();
 
-                                    try
-                                    {
+                                    //try
+                                    //{
 	                                    var result = XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.MakeGenericType(classType,
 		                                    new Type[] { container.GetType() });
 										
@@ -264,11 +264,11 @@ namespace Root.Code.Apis.E01D.Containment
                                         {
                                             property.SetValue(currentInstance, apiInstance);
                                         }
-                                    }
-                                    catch (System.Exception)
-                                    {
+                                    //}
+                                    //catch (System.Exception)
+                                    //{
 
-                                    }
+                                    //}
 
 
                                 }

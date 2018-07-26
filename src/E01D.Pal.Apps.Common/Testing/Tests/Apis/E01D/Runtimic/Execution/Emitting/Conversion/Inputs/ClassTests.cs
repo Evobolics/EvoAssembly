@@ -69,7 +69,9 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 
         }
 
-        [Test]
+	   
+
+		[Test]
         public void CanCreateBareBonesClassWithBaseType()
         {
             // Create a test container

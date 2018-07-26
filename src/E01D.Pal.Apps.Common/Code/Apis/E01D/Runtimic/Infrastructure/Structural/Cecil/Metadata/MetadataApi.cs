@@ -12,6 +12,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata
 
 		AssemblyApiMask_I MetadataApiMask_I.Assemblies => Assemblies;
 
+		public InstructionApi_I<TContainer> Instructions { get; set; }
+
+		InstructionApiMask_I MetadataApiMask_I.Instructions => Instructions;
+
 		public MemberApi_I<TContainer> Members { get; set; }
 
 		MemberApiMask_I MetadataApiMask_I.Members => Members;

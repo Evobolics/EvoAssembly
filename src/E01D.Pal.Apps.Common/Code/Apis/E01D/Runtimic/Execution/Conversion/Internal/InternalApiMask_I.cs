@@ -13,17 +13,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 
 		ILConversionResult Convert(ILConversion conversion, Assembly assembly);
 
-		ILConversionResult Convert(ILConversion conversion, Assembly assembly, AssemblyBuilderAccess builderAccess);
+		ILConversionResult Convert(ILConversion conversion, Assembly assembly, ILConversionOptions conversionOptions);
 
 		ILConversionResult Convert(ILConversion conversion, Assembly[] assembly);
 
 		ILConversionResult Convert(ILConversion conversion, System.Type type);
 
-		ILConversionResult Convert(ILConversion conversion, System.Type type, AssemblyBuilderAccess builderAccess);
+		ILConversionResult Convert(ILConversion conversion, System.Type type, ILConversionOptions conversionOptions);
 
 		ILConversionResult Convert(ILConversion conversion, System.Type[] type);
 
-		ILConversionResult Convert(ILConversion conversion, Type[] type, AssemblyBuilderAccess builderAccess);
+		ILConversionResult Convert(ILConversion conversion, Type[] type, ILConversionOptions conversionOptions);
 
 		ILConversionResult Convert(ILConversion conversion, TypeReference typeDefinition);
 
@@ -32,5 +32,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 		ILConversionResult Convert(ILConversion conversion, AssemblyDefinition assemblies);
 
 		ILConversionResult Convert(ILConversion conversion, AssemblyDefinition[] assemblies);
+
+		ILConversionOptions CreateDefaultConversionOptions();
 	}
 }

@@ -35,7 +35,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 			: base (type)
 		{
 			Root.Code.Libs.Mono.Cecil.Mixin.CheckType (type);
-			this.etype = Root.Code.Libs.Mono.Cecil.Metadata.ElementType.Ptr;
+			this.etype = Root.Code.Libs.Mono.Cecil.Metadata.CecilElementType.Ptr;
 		}
 	}
 }

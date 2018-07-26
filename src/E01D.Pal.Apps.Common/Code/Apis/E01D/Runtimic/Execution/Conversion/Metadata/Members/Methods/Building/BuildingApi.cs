@@ -21,7 +21,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 	    RuntimeCreatedApiMask_I BuildingApiMask_I.RuntimeCreated => RuntimeCreated;
 
-	    public MethodInfo MakeArrayMethod(ILConversion conversion, ConvertedTypeDefinition_I callingType,
+	    public MethodInfo MakeArrayMethod(ILConversion conversion, ConvertedTypeDefinitionMask_I callingType,
 		    BoundTypeDefinitionMask_I declaringType, MethodReference methodReference)
 	    {
 			var systemParameters = Parameters.GetSystemParameterTypes(conversion, methodReference.Parameters);

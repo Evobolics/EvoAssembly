@@ -47,7 +47,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 		internal Dictionary<uint, uint> FieldLayouts;
 		internal Dictionary<uint, uint> FieldRVAs;
 		internal Dictionary<MetadataToken, uint> FieldMarshals;
-		internal Dictionary<MetadataToken, Row<ElementType, uint>> Constants;
+		internal Dictionary<MetadataToken, Row<CecilElementType, uint>> Constants;
 		internal Dictionary<uint, Collection<MetadataToken>> Overrides;
 		internal Dictionary<MetadataToken, Range []> CustomAttributes;
 		internal Dictionary<MetadataToken, Range []> SecurityDeclarations;
@@ -64,29 +64,29 @@ namespace Root.Code.Libs.Mono.Cecil {
 		internal Dictionary<uint, uint> StateMachineMethods;
 		internal Dictionary<MetadataToken, Row<Guid, uint, uint> []> CustomDebugInformations;
 
-		static Dictionary<string, Row<ElementType, bool>> primitive_value_types;
+		static Dictionary<string, Row<CecilElementType, bool>> primitive_value_types;
 
 		static void InitializePrimitives ()
 		{
-			primitive_value_types = new Dictionary<string, Row<ElementType, bool>> (18, StringComparer.Ordinal) {
-				{ "Void", new Row<ElementType, bool> (ElementType.Void, false) },
-				{ "Boolean", new Row<ElementType, bool> (ElementType.Boolean, true) },
-				{ "Char", new Row<ElementType, bool> (ElementType.Char, true) },
-				{ "SByte", new Row<ElementType, bool> (ElementType.I1, true) },
-				{ "Byte", new Row<ElementType, bool> (ElementType.U1, true) },
-				{ "Int16", new Row<ElementType, bool> (ElementType.I2, true) },
-				{ "UInt16", new Row<ElementType, bool> (ElementType.U2, true) },
-				{ "Int32", new Row<ElementType, bool> (ElementType.I4, true) },
-				{ "UInt32", new Row<ElementType, bool> (ElementType.U4, true) },
-				{ "Int64", new Row<ElementType, bool> (ElementType.I8, true) },
-				{ "UInt64", new Row<ElementType, bool> (ElementType.U8, true) },
-				{ "Single", new Row<ElementType, bool> (ElementType.R4, true) },
-				{ "Double", new Row<ElementType, bool> (ElementType.R8, true) },
-				{ "String", new Row<ElementType, bool> (ElementType.String, false) },
-				{ "TypedReference", new Row<ElementType, bool> (ElementType.TypedByRef, false) },
-				{ "IntPtr", new Row<ElementType, bool> (ElementType.I, true) },
-				{ "UIntPtr", new Row<ElementType, bool> (ElementType.U, true) },
-				{ "Object", new Row<ElementType, bool> (ElementType.Object, false) },
+			primitive_value_types = new Dictionary<string, Row<CecilElementType, bool>> (18, StringComparer.Ordinal) {
+				{ "Void", new Row<CecilElementType, bool> (CecilElementType.Void, false) },
+				{ "Boolean", new Row<CecilElementType, bool> (CecilElementType.Boolean, true) },
+				{ "Char", new Row<CecilElementType, bool> (CecilElementType.Char, true) },
+				{ "SByte", new Row<CecilElementType, bool> (CecilElementType.I1, true) },
+				{ "Byte", new Row<CecilElementType, bool> (CecilElementType.U1, true) },
+				{ "Int16", new Row<CecilElementType, bool> (CecilElementType.I2, true) },
+				{ "UInt16", new Row<CecilElementType, bool> (CecilElementType.U2, true) },
+				{ "Int32", new Row<CecilElementType, bool> (CecilElementType.I4, true) },
+				{ "UInt32", new Row<CecilElementType, bool> (CecilElementType.U4, true) },
+				{ "Int64", new Row<CecilElementType, bool> (CecilElementType.I8, true) },
+				{ "UInt64", new Row<CecilElementType, bool> (CecilElementType.U8, true) },
+				{ "Single", new Row<CecilElementType, bool> (CecilElementType.R4, true) },
+				{ "Double", new Row<CecilElementType, bool> (CecilElementType.R8, true) },
+				{ "String", new Row<CecilElementType, bool> (CecilElementType.String, false) },
+				{ "TypedReference", new Row<CecilElementType, bool> (CecilElementType.TypedByRef, false) },
+				{ "IntPtr", new Row<CecilElementType, bool> (CecilElementType.I, true) },
+				{ "UIntPtr", new Row<CecilElementType, bool> (CecilElementType.U, true) },
+				{ "Object", new Row<CecilElementType, bool> (CecilElementType.Object, false) },
 			};
 		}
 
@@ -99,7 +99,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 			if (scope == null || scope.MetadataScopeType != MetadataScopeType.AssemblyNameReference)
 				return;
 
-			Row<ElementType, bool> primitive_data;
+			Row<CecilElementType, bool> primitive_data;
 			if (!TryGetPrimitiveData (type, out primitive_data))
 				return;
 
@@ -107,14 +107,14 @@ namespace Root.Code.Libs.Mono.Cecil {
 			type.IsValueType = primitive_data.Col2;
 		}
 
-		public static bool TryGetPrimitiveElementType (TypeDefinition type, out ElementType etype)
+		public static bool TryGetPrimitiveElementType (TypeDefinition type, out CecilElementType etype)
 		{
-			etype = ElementType.None;
+			etype = CecilElementType.None;
 
 			if (type.Namespace != "System")
 				return false;
 
-			Row<ElementType, bool> primitive_data;
+			Row<CecilElementType, bool> primitive_data;
 			if (TryGetPrimitiveData (type, out primitive_data)) {
 				etype = primitive_data.Col1;
 				return true;
@@ -123,7 +123,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 			return false;
 		}
 
-		static bool TryGetPrimitiveData (TypeReference type, out Row<ElementType, bool> primitive_data)
+		static bool TryGetPrimitiveData (TypeReference type, out Row<CecilElementType, bool> primitive_data)
 		{
 			if (primitive_value_types == null)
 				InitializePrimitives ();
@@ -140,7 +140,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 			if (FieldLayouts != null) FieldLayouts = new Dictionary<uint, uint> (capacity: 0);
 			if (FieldRVAs != null) FieldRVAs = new Dictionary<uint, uint> (capacity: 0);
 			if (FieldMarshals != null) FieldMarshals = new Dictionary<MetadataToken, uint> (capacity: 0);
-			if (Constants != null) Constants = new Dictionary<MetadataToken, Row<ElementType, uint>> (capacity: 0);
+			if (Constants != null) Constants = new Dictionary<MetadataToken, Row<CecilElementType, uint>> (capacity: 0);
 			if (Overrides != null) Overrides = new Dictionary<uint, Collection<MetadataToken>> (capacity: 0);
 			if (CustomAttributes != null) CustomAttributes = new Dictionary<MetadataToken, Range []> (capacity: 0);
 			if (SecurityDeclarations != null) SecurityDeclarations = new Dictionary<MetadataToken, Range []> (capacity: 0);

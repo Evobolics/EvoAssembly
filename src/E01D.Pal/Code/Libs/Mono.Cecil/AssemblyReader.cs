@@ -1342,32 +1342,32 @@ namespace Root.Code.Libs.Mono.Cecil {
 			int size = 0;
 
 			switch (type.etype) {
-			case ElementType.Boolean:
-			case ElementType.U1:
-			case ElementType.I1:
+			case CecilElementType.Boolean:
+			case CecilElementType.U1:
+			case CecilElementType.I1:
 				size = 1;
 				break;
-			case ElementType.U2:
-			case ElementType.I2:
-			case ElementType.Char:
+			case CecilElementType.U2:
+			case CecilElementType.I2:
+			case CecilElementType.Char:
 				size = 2;
 				break;
-			case ElementType.U4:
-			case ElementType.I4:
-			case ElementType.R4:
+			case CecilElementType.U4:
+			case CecilElementType.I4:
+			case CecilElementType.R4:
 				size = 4;
 				break;
-			case ElementType.U8:
-			case ElementType.I8:
-			case ElementType.R8:
+			case CecilElementType.U8:
+			case CecilElementType.I8:
+			case CecilElementType.R8:
 				size = 8;
 				break;
-			case ElementType.Ptr:
-			case ElementType.FnPtr:
+			case CecilElementType.Ptr:
+			case CecilElementType.FnPtr:
 				size = IntPtr.Size;
 				break;
-			case ElementType.CModOpt:
-			case ElementType.CModReqD:
+			case CecilElementType.CModOpt:
+			case CecilElementType.CModReqD:
 				return GetFieldTypeSize (((IModifierType) type).ElementType);
 			default:
 				var field_type = type.Resolve ();
@@ -2400,14 +2400,14 @@ namespace Root.Code.Libs.Mono.Cecil {
 
 			var length = MoveTo (Table.Constant);
 
-			var constants = metadata.Constants = new Dictionary<MetadataToken, Row<ElementType, uint>> (length);
+			var constants = metadata.Constants = new Dictionary<MetadataToken, Row<CecilElementType, uint>> (length);
 
 			for (uint i = 1; i <= length; i++) {
-				var type = (ElementType) ReadUInt16 ();
+				var type = (CecilElementType) ReadUInt16 ();
 				var owner = ReadMetadataToken (CodedIndex.HasConstant);
 				var signature = ReadBlobIndex ();
 
-				constants.Add (owner, new Row<ElementType, uint> (type, signature));
+				constants.Add (owner, new Row<CecilElementType, uint> (type, signature));
 			}
 		}
 
@@ -2429,7 +2429,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 		{
 			InitializeConstants ();
 
-			Row<ElementType, uint> row;
+			Row<CecilElementType, uint> row;
 			if (!metadata.Constants.TryGetValue (owner.MetadataToken, out row))
 				return Root.Code.Libs.Mono.Cecil.Mixin.NoValue;
 
@@ -2438,13 +2438,13 @@ namespace Root.Code.Libs.Mono.Cecil {
 			return ReadConstantValue (row.Col1, row.Col2);
 		}
 
-		object ReadConstantValue (ElementType etype, uint signature)
+		object ReadConstantValue (CecilElementType etype, uint signature)
 		{
 			switch (etype) {
-			case ElementType.Class:
-			case ElementType.Object:
+			case CecilElementType.Class:
+			case CecilElementType.Object:
 				return null;
-			case ElementType.String:
+			case CecilElementType.String:
 				return ReadConstantString (signature);
 			default:
 				return ReadConstantPrimitive (etype, signature);
@@ -2466,7 +2466,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 			return Encoding.Unicode.GetString (blob, index, count);
 		}
 
-		object ReadConstantPrimitive (ElementType type, uint signature)
+		object ReadConstantPrimitive (CecilElementType type, uint signature)
 		{
 			var reader = ReadSignature (signature);
 			return reader.ReadConstantSignature (type);
@@ -2993,7 +2993,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 			var type = signature.ReadTypeSignature ();
 
 			object value;
-			if (type.etype == ElementType.String) {
+			if (type.etype == CecilElementType.String) {
 				if (signature.buffer [signature.position] != 0xff) {
 					var bytes = signature.ReadBytes ((int) (signature.sig_length - (signature.position - signature.start)));
 					value = Encoding.Unicode.GetString (bytes, 0, bytes.Length);
@@ -3004,7 +3004,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 				value = new decimal (signature.ReadInt32 (), signature.ReadInt32 (), signature.ReadInt32 (), (b & 0x80) != 0, (byte) (b & 0x7f));
 			} else if (type.IsTypeOf ("System", "DateTime")) {
 				value = new DateTime (signature.ReadInt64());
-			} else if (type.etype == ElementType.Object || type.etype == ElementType.None || type.etype == ElementType.Class) {
+			} else if (type.etype == CecilElementType.Object || type.etype == CecilElementType.None || type.etype == CecilElementType.Class) {
 				value = null;
 			} else
 				value = signature.ReadConstantSignature (type.etype);
@@ -3364,7 +3364,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 
 		public TypeReference ReadTypeSignature ()
 		{
-			return ReadTypeSignature ((ElementType) ReadByte ());
+			return ReadTypeSignature ((CecilElementType) ReadByte ());
 		}
 
 		public TypeReference ReadTypeToken ()
@@ -3372,45 +3372,45 @@ namespace Root.Code.Libs.Mono.Cecil {
 			return GetTypeDefOrRef (ReadTypeTokenSignature ());
 		}
 
-		TypeReference ReadTypeSignature (ElementType etype)
+		TypeReference ReadTypeSignature (CecilElementType etype)
 		{
 			switch (etype) {
-			case ElementType.ValueType: {
+			case CecilElementType.ValueType: {
 				var value_type = GetTypeDefOrRef (ReadTypeTokenSignature ());
 				value_type.KnownValueType ();
 				return value_type;
 			}
-			case ElementType.Class:
+			case CecilElementType.Class:
 				return GetTypeDefOrRef (ReadTypeTokenSignature ());
-			case ElementType.Ptr:
+			case CecilElementType.Ptr:
 				return new PointerType (ReadTypeSignature ());
-			case ElementType.FnPtr: {
+			case CecilElementType.FnPtr: {
 				var fptr = new FunctionPointerType ();
 				ReadMethodSignature (fptr);
 				return fptr;
 			}
-			case ElementType.ByRef:
+			case CecilElementType.ByRef:
 				return new ByReferenceType (ReadTypeSignature ());
-			case ElementType.Pinned:
+			case CecilElementType.Pinned:
 				return new PinnedType (ReadTypeSignature ());
-			case ElementType.SzArray:
+			case CecilElementType.SzArray:
 				return new ArrayType (ReadTypeSignature ());
-			case ElementType.Array:
+			case CecilElementType.Array:
 				return ReadArrayTypeSignature ();
-			case ElementType.CModOpt:
+			case CecilElementType.CModOpt:
 				return new OptionalModifierType (
 					GetTypeDefOrRef (ReadTypeTokenSignature ()), ReadTypeSignature ());
-			case ElementType.CModReqD:
+			case CecilElementType.CModReqD:
 				return new RequiredModifierType (
 					GetTypeDefOrRef (ReadTypeTokenSignature ()), ReadTypeSignature ());
-			case ElementType.Sentinel:
+			case CecilElementType.Sentinel:
 				return new SentinelType (ReadTypeSignature ());
-			case ElementType.Var:
+			case CecilElementType.Var:
 				return GetGenericParameter (GenericParameterType.Type, ReadCompressedUInt32 ());
-			case ElementType.MVar:
+			case CecilElementType.MVar:
 				return GetGenericParameter (GenericParameterType.Method, ReadCompressedUInt32 ());
-			case ElementType.GenericInst: {
-				var is_value_type = ReadByte () == (byte) ElementType.ValueType;
+			case CecilElementType.GenericInst: {
+				var is_value_type = ReadByte () == (byte) CecilElementType.ValueType;
 				var element_type = GetTypeDefOrRef (ReadTypeTokenSignature ());
 				var generic_instance = new GenericInstanceType (element_type);
 
@@ -3423,11 +3423,11 @@ namespace Root.Code.Libs.Mono.Cecil {
 
 				return generic_instance;
 			}
-			case ElementType.Object: return TypeSystem.Object;
-			case ElementType.Void: return TypeSystem.Void;
-			case ElementType.TypedByRef: return TypeSystem.TypedReference;
-			case ElementType.I: return TypeSystem.IntPtr;
-			case ElementType.U: return TypeSystem.UIntPtr;
+			case CecilElementType.Object: return TypeSystem.Object;
+			case CecilElementType.Void: return TypeSystem.Void;
+			case CecilElementType.TypedByRef: return TypeSystem.TypedReference;
+			case CecilElementType.I: return TypeSystem.IntPtr;
+			case CecilElementType.U: return TypeSystem.UIntPtr;
 			default: return GetPrimitiveType (etype);
 			}
 		}
@@ -3481,7 +3481,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 				parameters.Add (new ParameterDefinition (ReadTypeSignature ()));
 		}
 
-		public object ReadConstantSignature (ElementType type)
+		public object ReadConstantSignature (CecilElementType type)
 		{
 			return ReadPrimitiveValue (type);
 		}
@@ -3571,7 +3571,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 
 			return new CustomAttributeArgument (
 				type,
-				type.etype == ElementType.Object
+				type.etype == CecilElementType.Object
 					? ReadCustomAttributeElement (ReadCustomAttributeFieldOrPropType ())
 					: ReadCustomAttributeElementValue (type));
 		}
@@ -3581,9 +3581,9 @@ namespace Root.Code.Libs.Mono.Cecil {
 			var etype = type.etype;
 
 			switch (etype) {
-			case ElementType.String:
+			case CecilElementType.String:
 				return ReadUTF8String ();
-			case ElementType.None:
+			case CecilElementType.None:
 				if (type.IsTypeOf ("System", "Type"))
 					return ReadTypeReference ();
 
@@ -3593,66 +3593,66 @@ namespace Root.Code.Libs.Mono.Cecil {
 			}
 		}
 
-		object ReadPrimitiveValue (ElementType type)
+		object ReadPrimitiveValue (CecilElementType type)
 		{
 			switch (type) {
-			case ElementType.Boolean:
+			case CecilElementType.Boolean:
 				return ReadByte () == 1;
-			case ElementType.I1:
+			case CecilElementType.I1:
 				return (sbyte) ReadByte ();
-			case ElementType.U1:
+			case CecilElementType.U1:
 				return ReadByte ();
-			case ElementType.Char:
+			case CecilElementType.Char:
 				return (char) ReadUInt16 ();
-			case ElementType.I2:
+			case CecilElementType.I2:
 				return ReadInt16 ();
-			case ElementType.U2:
+			case CecilElementType.U2:
 				return ReadUInt16 ();
-			case ElementType.I4:
+			case CecilElementType.I4:
 				return ReadInt32 ();
-			case ElementType.U4:
+			case CecilElementType.U4:
 				return ReadUInt32 ();
-			case ElementType.I8:
+			case CecilElementType.I8:
 				return ReadInt64 ();
-			case ElementType.U8:
+			case CecilElementType.U8:
 				return ReadUInt64 ();
-			case ElementType.R4:
+			case CecilElementType.R4:
 				return ReadSingle ();
-			case ElementType.R8:
+			case CecilElementType.R8:
 				return ReadDouble ();
 			default:
 				throw new NotImplementedException (type.ToString ());
 			}
 		}
 
-		TypeReference GetPrimitiveType (ElementType etype)
+		TypeReference GetPrimitiveType (CecilElementType etype)
 		{
 			switch (etype) {
-			case ElementType.Boolean:
+			case CecilElementType.Boolean:
 				return TypeSystem.Boolean;
-			case ElementType.Char:
+			case CecilElementType.Char:
 				return TypeSystem.Char;
-			case ElementType.I1:
+			case CecilElementType.I1:
 				return TypeSystem.SByte;
-			case ElementType.U1:
+			case CecilElementType.U1:
 				return TypeSystem.Byte;
-			case ElementType.I2:
+			case CecilElementType.I2:
 				return TypeSystem.Int16;
-			case ElementType.U2:
+			case CecilElementType.U2:
 				return TypeSystem.UInt16;
-			case ElementType.I4:
+			case CecilElementType.I4:
 				return TypeSystem.Int32;
-			case ElementType.U4:
+			case CecilElementType.U4:
 				return TypeSystem.UInt32;
-			case ElementType.I8:
+			case CecilElementType.I8:
 				return TypeSystem.Int64;
-			case ElementType.U8:
+			case CecilElementType.U8:
 				return TypeSystem.UInt64;
-			case ElementType.R4:
+			case CecilElementType.R4:
 				return TypeSystem.Single;
-			case ElementType.R8:
+			case CecilElementType.R8:
 				return TypeSystem.Double;
-			case ElementType.String:
+			case CecilElementType.String:
 				return TypeSystem.String;
 			default:
 				throw new NotImplementedException (etype.ToString ());
@@ -3661,16 +3661,16 @@ namespace Root.Code.Libs.Mono.Cecil {
 
 		TypeReference ReadCustomAttributeFieldOrPropType ()
 		{
-			var etype = (ElementType) ReadByte ();
+			var etype = (CecilElementType) ReadByte ();
 
 			switch (etype) {
-			case ElementType.Boxed:
+			case CecilElementType.Boxed:
 				return TypeSystem.Object;
-			case ElementType.SzArray:
+			case CecilElementType.SzArray:
 				return new ArrayType (ReadCustomAttributeFieldOrPropType ());
-			case ElementType.Enum:
+			case CecilElementType.Enum:
 				return ReadTypeReference ();
-			case ElementType.Type:
+			case CecilElementType.Type:
 				return TypeSystem.LookupType ("System", "Type");
 			default:
 				return GetPrimitiveType (etype);

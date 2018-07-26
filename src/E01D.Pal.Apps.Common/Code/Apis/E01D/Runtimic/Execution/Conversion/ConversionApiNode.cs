@@ -10,6 +10,7 @@ using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Propert
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Routines;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Parameters;
+using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Signatures;
 using Root.Code.Apis.E01D.Runtimic.Execution.Emitting;
 using Root.Code.Apis.E01D.Runtimic.Execution.Metadata;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic;
@@ -77,7 +78,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 
         public SemanticApiMask_I Semantic => Container.Api.Runtimic.Infrastructure.Semantic;
 
-	    public StructuralApiMask_I Structural => Container.Api.Runtimic.Infrastructure.Structural;
+        public SignatureApiMask_I Signatures => Container.Api.Runtimic.Execution.Conversion.Metadata.Signatures;
+
+        public StructuralApiMask_I Structural => Container.Api.Runtimic.Infrastructure.Structural;
 
 		public SortingApiMask_I Sorting => Container.Api.Sorting;
 

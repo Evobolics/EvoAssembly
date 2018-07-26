@@ -12,7 +12,7 @@ using System.IO;
 
 namespace Root.Code.Libs.Mono.Cecil.PE {
 
-	class BinaryStreamReader : BinaryReader {
+	public class BinaryStreamReader : BinaryReader {
 
 		public int Position {
 			get { return (int) BaseStream.Position; }

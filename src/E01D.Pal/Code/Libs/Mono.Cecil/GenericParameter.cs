@@ -195,13 +195,13 @@ namespace Root.Code.Libs.Mono.Cecil {
 			this.token = new MetadataToken (TokenType.GenericParam);
 		}
 
-		static ElementType ConvertGenericParameterType (GenericParameterType type)
+		static CecilElementType ConvertGenericParameterType (GenericParameterType type)
 		{
 			switch (type) {
 			case GenericParameterType.Type:
-				return ElementType.Var;
+				return CecilElementType.Var;
 			case GenericParameterType.Method:
-				return ElementType.MVar;
+				return CecilElementType.MVar;
 			}
 
 			throw new ArgumentOutOfRangeException ();

@@ -10,5 +10,7 @@ namespace Root.Code.Apis.E01D
 
         public CommonAppContainerDomainApi Containment { get; set; } = new CommonAppContainerDomainApi();
         public CommonAppRuntimicDomainApi Runtimic { get; set; } = new CommonAppRuntimicDomainApi();
+
+        
     }
 }

@@ -7,6 +7,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata
 	{
 		AssemblyApiMask_I Assemblies { get; }
 
+		InstructionApiMask_I Instructions { get; }
+
 		MemberApiMask_I Members { get; }
 
 		ModuleApiMask_I Modules { get; }

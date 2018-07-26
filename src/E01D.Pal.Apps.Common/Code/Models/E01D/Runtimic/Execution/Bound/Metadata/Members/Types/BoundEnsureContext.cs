@@ -23,7 +23,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types
 		public System.Type UnderlyingType { get; set; }
 
 		public MethodReference MethodReference { get; set; }
-		public ConvertedTypeDefinition_I RoutineDeclaringType { get; set; }
+		public ConvertedTypeDefinitionMask_I RoutineDeclaringType { get; set; }
 	}
 
 	public class BoundEnsureContext<T>:BoundEnsureContext

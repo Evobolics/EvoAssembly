@@ -13,7 +13,7 @@ using System;
 namespace Root.Code.Libs.Mono
 {
 
-	static class Disposable {
+	public static class Disposable {
 
 		public static Disposable<T> Owned<T> (T value) where T : class, IDisposable
 		{
@@ -26,7 +26,7 @@ namespace Root.Code.Libs.Mono
 		}
 	}
 
-	struct Disposable<T> : IDisposable where T : class, IDisposable {
+	public struct Disposable<T> : IDisposable where T : class, IDisposable {
 
 		internal readonly T value;
 		readonly bool owned;

@@ -10,7 +10,7 @@
 
 namespace Root.Code.Libs.Mono.Cecil.Metadata {
 
-	enum Table : byte {
+	public enum Table : byte {
 		Module = 0x00,
 		TypeRef = 0x01,
 		TypeDef = 0x02,
@@ -67,7 +67,7 @@ namespace Root.Code.Libs.Mono.Cecil.Metadata {
 		CustomDebugInformation = 0x37,
 	}
 
-	struct TableInformation {
+	public struct TableInformation {
 		public uint Offset;
 		public uint Length;
 		public uint RowSize;
@@ -77,7 +77,7 @@ namespace Root.Code.Libs.Mono.Cecil.Metadata {
 		}
 	}
 
-	sealed class TableHeap : Heap {
+	public sealed class TableHeap : Heap {
 
 		public long Valid;
 		public long Sorted;

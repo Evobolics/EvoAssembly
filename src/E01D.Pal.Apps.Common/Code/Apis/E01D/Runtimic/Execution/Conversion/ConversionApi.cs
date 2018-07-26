@@ -112,9 +112,22 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 		    var conversion = CreateConversion(new ILConversionTypesInput()
 		    {
 			    Types = new[] { type }
+		    });
+
+		    var conversionOptions = Internal.CreateDefaultConversionOptions();
+		    conversionOptions.BuilderAccess = access;
+
+		    return Internal.Convert(conversion, type, conversionOptions);
+	    }
+
+		public ILConversionResult Convert(Type type, ILConversionOptions conversionOptions)
+	    {
+		    var conversion = CreateConversion(new ILConversionTypesInput()
+		    {
+			    Types = new[] { type }
 			});
 
-		    return Internal.Convert(conversion, type, access);
+		    return Internal.Convert(conversion, type, conversionOptions);
 	    }
 
 		public Type QuickConvert(Type type)
@@ -187,9 +200,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 			return QuickConvert(assembly, out ILConversionResult result);
 		}
 
-	    public Assembly QuickConvert(Assembly assembly, AssemblyBuilderAccess access)
+	    public Assembly QuickConvert(Assembly assembly, ILConversionOptions options)
 	    {
-		    return QuickConvert(assembly, access, out ILConversionResult result);
+		    return QuickConvert(assembly, options, out ILConversionResult result);
+	    }
+
+	    public Assembly QuickConvert(Assembly assembly, AssemblyBuilderAccess assemblyBuilderAccess)
+	    {
+		    var conversionOptions = Internal.CreateDefaultConversionOptions();
+		    conversionOptions.BuilderAccess = assemblyBuilderAccess;
+
+			return QuickConvert(assembly, conversionOptions, out ILConversionResult result);
 	    }
 
 		// -------- CONVERSION CASE C2 ---------------
@@ -201,7 +222,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 		/// <returns></returns>
 		public Assembly QuickConvert(Assembly assembly, out ILConversionResult result)
 		{
-			return QuickConvert(assembly, AssemblyBuilderAccess.RunAndCollect, out result);
+			return QuickConvert(assembly, Internal.CreateDefaultConversionOptions(), out result);
 
 		}
 
@@ -211,14 +232,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 	    /// <param name="assembly"></param>
 	    /// <param name="result"></param>
 	    /// <returns></returns>
-	    public Assembly QuickConvert(Assembly assembly, AssemblyBuilderAccess access, out ILConversionResult result)
+	    public Assembly QuickConvert(Assembly assembly, ILConversionOptions conversionOptions, out ILConversionResult result)
 	    {
 		    var conversion = CreateConversion(new ILConversionAssembliesInput()
 		    {
 			    Assemblies = new[] { assembly }
 		    });
 
-		    result = Internal.Convert(conversion, assembly, access);
+		    result = Internal.Convert(conversion, assembly, conversionOptions);
 
 		    var output = (ILConversionAssembliesOutput)result.Output;
 

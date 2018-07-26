@@ -14,7 +14,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 
 	    SemanticConstructorMask_I GetConstructor(ILConversion conversion, BoundTypeDefinitionWithConstructorsMask_I declaringType, MethodReference methodReference);
 
-	    bool GetConstructor(ILConversion conversion, ConvertedTypeDefinition_I callingType,
+	    bool GetConstructor(ILConversion conversion, ConvertedTypeDefinitionMask_I callingType,
 		    BoundTypeDefinitionMask_I declaringBound, MethodReference methodReference, out MemberInfo memberInfo);
 
 

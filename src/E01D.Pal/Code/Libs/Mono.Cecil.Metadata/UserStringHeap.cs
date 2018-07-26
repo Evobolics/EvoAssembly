@@ -10,7 +10,7 @@
 
 namespace Root.Code.Libs.Mono.Cecil.Metadata {
 
-	sealed class UserStringHeap : StringHeap {
+	public sealed class UserStringHeap : StringHeap {
 
 		public UserStringHeap (byte [] data)
 			: base (data)

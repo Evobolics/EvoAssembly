@@ -167,7 +167,7 @@ namespace Root.Code.Libs.Mono.Cecil
 
 		internal abstract TypeReference LookupType (string @namespace, string name);
 
-		TypeReference LookupSystemType (ref TypeReference reference, string name, ElementType element_type)
+		TypeReference LookupSystemType (ref TypeReference reference, string name, CecilElementType element_type)
 		{
 			lock (module.SyncRoot) {
 				if (reference != null)
@@ -178,7 +178,7 @@ namespace Root.Code.Libs.Mono.Cecil
 			}
 		}
 
-		TypeReference LookupSystemValueType (ref TypeReference typeRef, string name, ElementType element_type)
+		TypeReference LookupSystemValueType (ref TypeReference typeRef, string name, CecilElementType element_type)
 		{
 			lock (module.SyncRoot) {
 				if (typeRef != null)
@@ -206,75 +206,75 @@ namespace Root.Code.Libs.Mono.Cecil
 		}
 
 		public TypeReference Object {
-			get { return type_object ?? (LookupSystemType (ref type_object, "Object", ElementType.Object)); }
+			get { return type_object ?? (LookupSystemType (ref type_object, "Object", CecilElementType.Object)); }
 		}
 
 		public TypeReference Void {
-			get { return type_void ?? (LookupSystemType (ref type_void, "Void", ElementType.Void)); }
+			get { return type_void ?? (LookupSystemType (ref type_void, "Void", CecilElementType.Void)); }
 		}
 
 		public TypeReference Boolean {
-			get { return type_bool ?? (LookupSystemValueType (ref type_bool, "Boolean", ElementType.Boolean)); }
+			get { return type_bool ?? (LookupSystemValueType (ref type_bool, "Boolean", CecilElementType.Boolean)); }
 		}
 
 		public TypeReference Char {
-			get { return type_char ?? (LookupSystemValueType (ref type_char, "Char", ElementType.Char)); }
+			get { return type_char ?? (LookupSystemValueType (ref type_char, "Char", CecilElementType.Char)); }
 		}
 
 		public TypeReference SByte {
-			get { return type_sbyte ?? (LookupSystemValueType (ref type_sbyte, "SByte", ElementType.I1)); }
+			get { return type_sbyte ?? (LookupSystemValueType (ref type_sbyte, "SByte", CecilElementType.I1)); }
 		}
 
 		public TypeReference Byte {
-			get { return type_byte ?? (LookupSystemValueType (ref type_byte, "Byte", ElementType.U1)); }
+			get { return type_byte ?? (LookupSystemValueType (ref type_byte, "Byte", CecilElementType.U1)); }
 		}
 
 		public TypeReference Int16 {
-			get { return type_int16 ?? (LookupSystemValueType (ref type_int16, "Int16", ElementType.I2)); }
+			get { return type_int16 ?? (LookupSystemValueType (ref type_int16, "Int16", CecilElementType.I2)); }
 		}
 
 		public TypeReference UInt16 {
-			get { return type_uint16 ?? (LookupSystemValueType (ref type_uint16, "UInt16", ElementType.U2)); }
+			get { return type_uint16 ?? (LookupSystemValueType (ref type_uint16, "UInt16", CecilElementType.U2)); }
 		}
 
 		public TypeReference Int32 {
-			get { return type_int32 ?? (LookupSystemValueType (ref type_int32, "Int32", ElementType.I4)); }
+			get { return type_int32 ?? (LookupSystemValueType (ref type_int32, "Int32", CecilElementType.I4)); }
 		}
 
 		public TypeReference UInt32 {
-			get { return type_uint32 ?? (LookupSystemValueType (ref type_uint32, "UInt32", ElementType.U4)); }
+			get { return type_uint32 ?? (LookupSystemValueType (ref type_uint32, "UInt32", CecilElementType.U4)); }
 		}
 
 		public TypeReference Int64 {
-			get { return type_int64 ?? (LookupSystemValueType (ref type_int64, "Int64", ElementType.I8)); }
+			get { return type_int64 ?? (LookupSystemValueType (ref type_int64, "Int64", CecilElementType.I8)); }
 		}
 
 		public TypeReference UInt64 {
-			get { return type_uint64 ?? (LookupSystemValueType (ref type_uint64, "UInt64", ElementType.U8)); }
+			get { return type_uint64 ?? (LookupSystemValueType (ref type_uint64, "UInt64", CecilElementType.U8)); }
 		}
 
 		public TypeReference Single {
-			get { return type_single ?? (LookupSystemValueType (ref type_single, "Single", ElementType.R4)); }
+			get { return type_single ?? (LookupSystemValueType (ref type_single, "Single", CecilElementType.R4)); }
 		}
 
 		public TypeReference Double {
-			get { return type_double ?? (LookupSystemValueType (ref type_double, "Double", ElementType.R8)); }
+			get { return type_double ?? (LookupSystemValueType (ref type_double, "Double", CecilElementType.R8)); }
 		}
 
 		public TypeReference IntPtr {
-			get { return type_intptr ?? (LookupSystemValueType (ref type_intptr, "IntPtr", ElementType.I)); }
+			get { return type_intptr ?? (LookupSystemValueType (ref type_intptr, "IntPtr", CecilElementType.I)); }
 		}
 
 		public TypeReference UIntPtr {
-			get { return type_uintptr ?? (LookupSystemValueType (ref type_uintptr, "UIntPtr", ElementType.U)); }
+			get { return type_uintptr ?? (LookupSystemValueType (ref type_uintptr, "UIntPtr", CecilElementType.U)); }
 		}
 
 		public TypeReference String {
-			get { return type_string ?? (LookupSystemType (ref type_string, "String", ElementType.String)); }
+			get { return type_string ?? (LookupSystemType (ref type_string, "String", CecilElementType.String)); }
 		}
 
 		public TypeReference TypedReference {
-			get { return type_typedref ?? (LookupSystemValueType (ref type_typedref, "TypedReference", ElementType.TypedByRef)); }
+			get { return type_typedref ?? (LookupSystemValueType (ref type_typedref, "TypedReference", CecilElementType.TypedByRef)); }
 		}
 	}
 

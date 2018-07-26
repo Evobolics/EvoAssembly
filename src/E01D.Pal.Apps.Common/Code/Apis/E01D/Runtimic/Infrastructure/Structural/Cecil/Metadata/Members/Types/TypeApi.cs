@@ -318,18 +318,18 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		{
 			switch (type.ElementKind)
 			{
-				case ElementType.Array:
-				case ElementType.ByRef:
-				case ElementType.CModOpt:
-				case ElementType.CModReqD:
-				case ElementType.FnPtr:
-				case ElementType.GenericInst:
-				case ElementType.MVar:
-				case ElementType.Pinned:
-				case ElementType.Ptr:
-				case ElementType.SzArray:
-				case ElementType.Sentinel:
-				case ElementType.Var:
+				case CecilElementType.Array:
+				case CecilElementType.ByRef:
+				case CecilElementType.CModOpt:
+				case CecilElementType.CModReqD:
+				case CecilElementType.FnPtr:
+				case CecilElementType.GenericInst:
+				case CecilElementType.MVar:
+				case CecilElementType.Pinned:
+				case CecilElementType.Ptr:
+				case CecilElementType.SzArray:
+				case CecilElementType.Sentinel:
+				case CecilElementType.Var:
 					return true;
 			}
 

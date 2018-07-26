@@ -23,7 +23,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 
 	    
 
-	    public bool GetConstructor(ILConversion conversion, ConvertedTypeDefinition_I callingType, BoundTypeDefinitionMask_I declaringBound, MethodReference methodReference, out MemberInfo memberInfo)
+	    public bool GetConstructor(ILConversion conversion, ConvertedTypeDefinitionMask_I callingType, BoundTypeDefinitionMask_I declaringBound, MethodReference methodReference, out MemberInfo memberInfo)
 	    {
 		    memberInfo = null;
 

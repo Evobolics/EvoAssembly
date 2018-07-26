@@ -446,7 +446,7 @@ namespace Root.Code.Libs.Mono.Cecil.Cil {
 				if (instruction.opcode.Code == Code.Calli)
 					stack_size--;
 				// push return value
-				if (method.ReturnType.etype != ElementType.Void || instruction.opcode.Code == Code.Newobj)
+				if (method.ReturnType.etype != CecilElementType.Void || instruction.opcode.Code == Code.Newobj)
 					stack_size++;
 				break;
 			}

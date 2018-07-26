@@ -45,7 +45,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 	    }
 
-	    public MethodInfo GetMethodInfoOrThrow(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, ConvertedRoutine methodBeingBuilt, MethodReference methodReference)
+	    public MethodInfo GetMethodInfoOrThrow(ILConversion conversion, ConvertedTypeDefinitionMask_I typeBeingBuilt, ConvertedRoutine methodBeingBuilt, MethodReference methodReference)
 	    {
 
 		    var declaringType = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodReference.DeclaringType);
@@ -129,7 +129,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 		    return null;
 	    }
 
-	    public MethodInfo GetMethodOrThrow_Internal(ILConversion conversion, ConvertedTypeDefinition_I callingType, 
+	    public MethodInfo GetMethodOrThrow_Internal(ILConversion conversion, ConvertedTypeDefinitionMask_I callingType, 
 			BoundTypeDefinitionWithMethodsMask_I boundTypeWithMethods, MethodReference methodReference)
 	    {
 		    if (boundTypeWithMethods.IsArrayType())
