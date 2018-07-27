@@ -18,7 +18,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 		public void BuildConstructors(ILConversion conversion, ConvertedGenericTypeDefinitionMask_I input)
 		{
 
-			if (!(input is ConvertedTypeDefinitionWithConstructors_I withConstructors))
+			if (!(input is ConvertedTypeWithConstructors_I withConstructors))
 			{
 				return;
 			}

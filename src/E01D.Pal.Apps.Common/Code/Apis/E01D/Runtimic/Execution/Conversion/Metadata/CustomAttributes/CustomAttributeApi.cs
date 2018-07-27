@@ -56,7 +56,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.CustomAttri
 		    }
 		}
 
-	    public void BuildCustomAttributes(ILConversion conversion, ConvertedTypeDefinitionWithMethods_I input, ConvertedBuiltMethod methodEntry)
+	    public void BuildCustomAttributes(ILConversion conversion, ConvertedTypeWithMethods_I input, ConvertedBuiltMethod methodEntry)
 	    {
 		    var methodDefinition = (MethodDefinition)methodEntry.MethodReference;
 

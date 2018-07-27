@@ -6,8 +6,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
     public interface ConvertedArrayTypeDefinition_I: ExecutionArrayTypeDefinition_I,
         ConvertedArrayTypeDefinitionMask_I,
 		ConvertedArrayTypeDefinitionClassifier_I,
-		ConvertedTypeDefinitionWithMethods_I,
-	    ConvertedTypeDefinitionWithConstructors_I
+	    ConvertedTypeWithConstructors_I
 
 	{
         

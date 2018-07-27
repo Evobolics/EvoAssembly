@@ -6,6 +6,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 {
     public interface WithILGeneratorApiMask_I
     {
-        bool GenerateIL(ILConversion conversion, ConvertedTypeDefinition_I input, ConvertedRoutine method);
+        bool GenerateIL(ILConversion conversion, ConvertedTypeDefinition_I convertedType);
+
+        
     }
 }

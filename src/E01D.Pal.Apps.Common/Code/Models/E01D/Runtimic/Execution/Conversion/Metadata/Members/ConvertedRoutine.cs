@@ -24,7 +24,8 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members
 
         public MethodReference MethodReference { get; set; }
 
-		
+		public ConvertedRoutineEmitState EmitState { get; set; }
+
 
 		public ConvertedRoutineParameters_I Parameters { get; set; } = new ConvertedRoutineParameters();
 

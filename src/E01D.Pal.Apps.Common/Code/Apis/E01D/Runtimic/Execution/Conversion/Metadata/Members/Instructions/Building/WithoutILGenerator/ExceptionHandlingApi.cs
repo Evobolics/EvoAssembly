@@ -11,37 +11,43 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
     public class ExceptionHandlingApi<TContainer> : ConversionApiNode<TContainer>, ExceptionHandlingApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        public ExceptionHandler[] GetExceptionHandlerList(ILConversion conversion, ConvertedRoutine convertedRoutine)
+        public bool GetExceptionHandlerList(ILConversion conversion, ConvertedRoutine convertedRoutine)
         {
             var methodDefinition = (MethodDefinition)convertedRoutine.MethodReference;
 
 
-
+            var moduleBuilder = convertedRoutine.DeclaringType.Module.ModuleBuilder;
             var regions = methodDefinition.Body.ExceptionHandlers;
             var handlers = new ExceptionHandler[regions.Count];
-            int i = 0;
-            foreach (var info in regions)
+            var bodyEmitState = convertedRoutine.EmitState.Body;
+
+            for (int i = bodyEmitState.CurrentExceptionHandler; i < regions.Count; bodyEmitState.CurrentExceptionHandler = ++i)
             {
+                var info = regions[i];
+
                 int catchToken = 0;
 
                 if (info.HandlerType == ExceptionHandlerType.Catch)
                 {
                     var boundType = Execution.Types.Ensuring.EnsureBound(conversion.Model, info.CatchType);
 
-                    catchToken = Execution.Types.GetToken(boundType);
+                    catchToken = moduleBuilder.GetTypeToken(boundType.UnderlyingType).Token;
                 }
 
                 handlers[i++] = new ExceptionHandler(
-                    tryOffset: (int)info.TryStart.Offset,
-                    tryLength: (int)info.TryEnd.Offset - (int)info.TryStart.Offset,
-                    filterOffset: (int)info.FilterStart.Offset,
-                    handlerOffset: (int)info.HandlerStart.Offset,
-                    handlerLength: (int)info.HandlerEnd.Offset - (int)info.HandlerStart.Offset,
+                    tryOffset: info.TryStart.Offset,
+                    tryLength: info.TryEnd.Offset - info.TryStart.Offset,
+                    filterOffset: info.FilterStart?.Offset ?? 0,
+                    handlerOffset: info.HandlerStart.Offset,
+                    handlerLength: info.HandlerEnd.Offset - info.HandlerStart.Offset,
                     kind: (ExceptionHandlingClauseOptions)info.HandlerType,
                     exceptionTypeToken: catchToken);
             }
+          
 
-            return handlers;
+            convertedRoutine.EmitState.Body.ExceptionHandlers = handlers;
+
+            return true;
         }
     }
 }

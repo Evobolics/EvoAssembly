@@ -122,38 +122,40 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies
 		/// <param name="typeParameters"></param>
 		/// <returns></returns>
 	    public System.Type MakeGenericType(System.Type genericTypeDefinition, Type[] typeParameters)
-	    {
-		    if (genericTypeDefinition is TypeBuilder typeBuilder)
-		    {
-				// For TypeBuilder.GetConstructor(), TypeBuilder.GetMethod() and TypeBuilder.GetField() to work,
-				// the typebuilder needs to keep track of generic types that it produces.  To do this, the typeBuilder
-				// MakeGeneric method needs to be used over just the normal Type.MakeGenericType() method.
-			    //for (int i = 0; i < typeParameters.Length; i++)
-			    //{
-				   // Console.WriteLine($"MakeGenericType TP[{i}]: {typeParameters[i].Name}");
-			    //}
-				
-			    return typeBuilder.MakeGenericType(typeParameters);
-		    }
+		{
+			return AssemblyLib.MakeGenericType(genericTypeDefinition, typeParameters);
 
-		    //for (int i = 0; i < typeParameters.Length; i++)
-		    //{
-			   // var parameter = typeParameters[i];
+			//  if (genericTypeDefinition is TypeBuilder typeBuilder)
+			//  {
+			//// For TypeBuilder.GetConstructor(), TypeBuilder.GetMethod() and TypeBuilder.GetField() to work,
+			//// the typebuilder needs to keep track of generic types that it produces.  To do this, the typeBuilder
+			//// MakeGeneric method needs to be used over just the normal Type.MakeGenericType() method.
+			//   //for (int i = 0; i < typeParameters.Length; i++)
+			//   //{
+			//   // Console.WriteLine($"MakeGenericType TP[{i}]: {typeParameters[i].Name}");
+			//   //}
 
-			   // if (parameter.DeclaringType != null && ReferenceEquals(genericTypeDefinition, parameter.DeclaringType))
-			   // {
-				  //  throw new Exception("Declaring type of parameter is same as generic type definition.");
-			   // }
-		    //}
+			//   return typeBuilder.MakeGenericType(typeParameters);
+			//  }
 
-		    var result = genericTypeDefinition.MakeGenericType(typeParameters);
+			//  //for (int i = 0; i < typeParameters.Length; i++)
+			//  //{
+			//  // var parameter = typeParameters[i];
 
-		    //if (result.IsGenericTypeDefinition)
-		    //{
-			   // throw new Exception("MakeGenericType returned a generic type definition and not a generic instance.");
-		    //}
-            return result;
-	    }
+			//  // if (parameter.DeclaringType != null && ReferenceEquals(genericTypeDefinition, parameter.DeclaringType))
+			//  // {
+			//  //  throw new Exception("Declaring type of parameter is same as generic type definition.");
+			//  // }
+			//  //}
+
+			//  var result = genericTypeDefinition.MakeGenericType(typeParameters);
+
+			//  //if (result.IsGenericTypeDefinition)
+			//  //{
+			//  // throw new Exception("MakeGenericType returned a generic type definition and not a generic instance.");
+			//  //}
+			//        return result;
+		}
 
 		private Type GetTypeInCorLib(Type argument)
         {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Reflection.Emit;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Libs.Mono.Cecil.Cil;
@@ -20,34 +19,61 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
         GenerationApiMask_I ILApiMask_I.Generation => Generation;
 
-        public ConvertedILStream EmitILStream(ILConversion conversion, ConvertedEmittedConstructor convertedConstructor)
+        public bool EmitILStream(ILConversion conversion, ConvertedRoutine convertedConstructor)
         {
-            var methodDefinition = (MethodDefinition)convertedConstructor.MethodReference;
+            if (!EmitOpCodes(conversion, convertedConstructor))
+            {
+                return false;
+            }
 
-            var ilStream = EmitOpCodes(conversion, convertedConstructor, methodDefinition);
+            CreateTokenFixups(conversion, convertedConstructor);
 
-            return ilStream;
+            return true;
         }
 
-        private ConvertedILStream EmitOpCodes(ILConversion conversion, ConvertedEmittedConstructor convertedConstructor, MethodDefinition methodDefinition)
+        private void CreateTokenFixups(ILConversion conversion, ConvertedRoutine convertedConstructor)
         {
-            var stream = new ConvertedILStream
-            {
-                Buffer = new byte[methodDefinition.Body.CodeSize],
-                ModuleBuilder = convertedConstructor.DeclaringType.Module.ModuleBuilder
-            };
+            var bodyState = convertedConstructor.EmitState.Body;
 
-            for (int iInstruction = 0; iInstruction < methodDefinition.Body.Instructions.Count; iInstruction++)
+            var ilInstructionStream = bodyState.InstructionStream;
+
+            int[] tokenFixups = new int[ilInstructionStream.FixupCount];
+
+            Array.Copy(ilInstructionStream.Fixups, 0, tokenFixups, 0, ilInstructionStream.FixupCount);
+
+            bodyState.TokenFixups = tokenFixups;
+        }
+
+        private bool EmitOpCodes(ILConversion conversion, ConvertedRoutine routine)
+        {
+            var methodDefinition = (MethodDefinition)routine.MethodReference;
+
+            var bodyState = routine.EmitState.Body;
+
+            if (bodyState.InstructionStream == null)
+            {
+                bodyState.InstructionStream = new ConvertedILStream
+                {
+                    Buffer = new byte[methodDefinition.Body.CodeSize],
+                    ModuleBuilder = routine.DeclaringType.Module.ModuleBuilder
+                };
+            }
+
+            for (int iInstruction = bodyState.CurrentInstruction; iInstruction < methodDefinition.Body.Instructions.Count; bodyState.CurrentInstruction = ++iInstruction)
             {
                 var instructionDefinition = methodDefinition.Body.Instructions[iInstruction];
 
-                EmitOpCode(conversion, convertedConstructor, methodDefinition, stream, instructionDefinition);
+                if (!EmitOpCode(conversion, routine, methodDefinition, bodyState.InstructionStream, instructionDefinition))
+                {
+                    return false;
+                }
             }
 
-            return stream;
+            return true;
         }
 
-        private void EmitOpCode(ILConversion conversion, ConvertedEmittedConstructor convertedConstructor, 
+        private bool EmitOpCode(ILConversion conversion, 
+            ConvertedRoutine routine, 
             MethodDefinition methodDefinition,
             ConvertedILStream stream,
             Instruction instructionDefinition)
@@ -216,7 +242,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 case Libs.Mono.Cecil.Cil.Code.Br_S:
                 case Libs.Mono.Cecil.Cil.Code.Leave_S:
                 {
-                    Generation.Emit(conversion, stream, opCode, (byte)((Instruction)instructionDefinition.Operand).Offset);
+                    var startingOffset = instructionDefinition.Offset;
+                    var targetOffset = ((Instruction) instructionDefinition.Operand).Offset;
+                    var relativeOffset = targetOffset - startingOffset - 2;
+                    Generation.Emit(conversion, stream, opCode, (sbyte)relativeOffset);
                     break;
                 }
                 case Libs.Mono.Cecil.Cil.Code.Beq:
@@ -234,7 +263,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 case Libs.Mono.Cecil.Cil.Code.Brtrue:
                 case Libs.Mono.Cecil.Cil.Code.Leave:
                 {
-                    Generation.Emit(conversion, stream, opCode, (int)((Instruction)instructionDefinition.Operand).Offset);
+                    var startingOffset = instructionDefinition.Offset;
+                    var targetOffset = ((Instruction)instructionDefinition.Operand).Offset;
+                    var relativeOffset = targetOffset - startingOffset - 4;
+                    Generation.Emit(conversion, stream, opCode, relativeOffset);
                     break;
                 }
                 case Libs.Mono.Cecil.Cil.Code.Box:
@@ -257,7 +289,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                     {
                         TypeReference = (TypeReference)instructionDefinition.Operand,
                         MethodReference = methodDefinition,
-                        RoutineDeclaringType = convertedConstructor.DeclaringType
+                        RoutineDeclaringType = routine.DeclaringType
                     });
                         
                     Generation.Emit(conversion, stream, opCode, type);
@@ -270,7 +302,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 {
                     if (instructionDefinition.Operand is ParameterDefinition parameter)
                     {
-                        ConvertedMethodParameterMask_I convertedParameter = GetParameter(convertedConstructor, parameter);
+                        ConvertedMethodParameterMask_I convertedParameter = GetParameter(routine, parameter);
 
                         Generation.Emit(conversion, stream, opCode, (ushort)convertedParameter.Position);
                     }
@@ -286,7 +318,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 {
                     if (instructionDefinition.Operand is ParameterDefinition parameter)
                     {
-                        ConvertedMethodParameterMask_I convertedParameter = GetParameter(convertedConstructor, parameter);
+                        ConvertedMethodParameterMask_I convertedParameter = GetParameter(routine, parameter);
 
                         Generation.Emit(conversion, stream, opCode, (byte)convertedParameter.Position);
                     }
@@ -376,7 +408,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 case Libs.Mono.Cecil.Cil.Code.Callvirt:
                 case Libs.Mono.Cecil.Cil.Code.Call:
                 {
-                    if (!Members.GetMemberInfo(conversion, convertedConstructor.DeclaringType, convertedConstructor, (MethodReference)instructionDefinition.Operand,
+                    if (!Members.GetMemberInfo(conversion, routine.DeclaringType, routine, (MethodReference)instructionDefinition.Operand,
                         out MemberInfo memberInfo))
                     {
                         throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
@@ -405,7 +437,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 case Libs.Mono.Cecil.Cil.Code.Ldftn:
                 case Libs.Mono.Cecil.Cil.Code.Ldvirtftn:
                 {
-                    if (!Members.GetMemberInfo(conversion, convertedConstructor.DeclaringType, convertedConstructor, (MethodReference)instructionDefinition.Operand,
+                    if (!Members.GetMemberInfo(conversion, routine.DeclaringType, routine, (MethodReference)instructionDefinition.Operand,
                         out MemberInfo memberInfo))
                     {
                         throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
@@ -423,7 +455,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 case Libs.Mono.Cecil.Cil.Code.Stsfld:
                 {
                     var fieldInfo = Models.Fields.ResolveFieldReference(conversion, 
-                        convertedConstructor.DeclaringType, (FieldReference)instructionDefinition.Operand);
+                        routine.DeclaringType, (FieldReference)instructionDefinition.Operand);
 
                     Generation.Emit(conversion, stream, opCode, fieldInfo);
 
@@ -439,7 +471,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                     if (typeReference is GenericParameter genericParameter)
                     {
                         // This hard cast is safe as constructors do not have generic parameters.
-                        resolvedType = Instructions.GetGenericParameterType(conversion, convertedConstructor.DeclaringType, convertedConstructor, genericParameter);
+                        resolvedType = Instructions.GetGenericParameterType(conversion, routine.DeclaringType, routine, genericParameter);
                     }
                     else
                     {
@@ -465,7 +497,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
                     var operandDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodReference.DeclaringType);
 
-                        var found = Constructors.Getting.GetConstructor(conversion, convertedConstructor.DeclaringType, operandDeclaringType, methodReference, out MemberInfo memberInfo);
+                        var found = Constructors.Getting.GetConstructor(conversion, routine.DeclaringType, operandDeclaringType, methodReference, out MemberInfo memberInfo);
 
                     if (!found)
                     {
@@ -514,6 +546,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                     throw new System.Exception($"Code {instructionDefinition.OpCode.Code.ToString()} not handled.");
                 }
             }
+
+            return true;
         }
         private ConvertedMethodParameterMask_I GetParameter(ConvertedRoutine routine, ParameterDefinition parameter)
         {

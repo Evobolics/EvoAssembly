@@ -8,7 +8,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 	{
 		void BuildMethods(ILConversion conversion, ConvertedTypeDefinitionMask_I input);
 
-		void BuildMethod(ILConversion conversion, ConvertedTypeDefinitionWithMethods_I input, MethodDefinition method);
+		void BuildMethod(ILConversion conversion, ConvertedTypeWithMethods_I input, MethodDefinition method);
 
 		void AddAllMethodOverrides(ILConversion conversion, ConvertedTypeDefinition_I converted);
 	}

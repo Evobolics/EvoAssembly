@@ -97,7 +97,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 	    public ConvertedMethodMask_I GetMethod(ConvertedTypeDefinition_I convertedType, MethodDefinition methodDefinition)
 	    {
-			if (!(convertedType is ConvertedTypeDefinitionWithMethods_I withMethods))
+			if (!(convertedType is ConvertedTypeWithMethods_I withMethods))
 		    {
 			    throw new System.Exception("Expecting a type with methods.");
 		    }

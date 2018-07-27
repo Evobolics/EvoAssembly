@@ -24,131 +24,68 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
 		public bool BuildInstructions(ILConversion conversion, ConvertedTypeDefinition_I convertedType)
         {
-	        var noDependenciesFound = true;
-
 	        if (conversion.Configuration.UseILGenerator)
 	        {
-		        // Done on purpose to find errors
-		        var typeDefinition = (TypeDefinition)convertedType.SourceTypeReference;
-
-		        if (!typeDefinition.HasMethods) return true;
-
-		        if (convertedType is ConvertedTypeDefinitionWithConstructors_I convertedTypeWithConstructors)
-		        {
-			        noDependenciesFound &= BuildConstructorInstructions(conversion, convertedType, convertedTypeWithConstructors.Constructors);
-		        }
-
-		        if (convertedType is ConvertedTypeDefinitionWithMethods_I convertedTypeWithMethods)
-		        {
-			        noDependenciesFound &= BuildMethodInstructions(conversion, convertedType, convertedTypeWithMethods.Methods);
-		        }
+		        return WithILGenerator.GenerateIL(conversion, convertedType);
 	        }
-	        else
-	        {
-		        if (convertedType is ConvertedTypeDefinitionWithConstructors_I convertedTypeWithConstructors)
-		        {
-					foreach (var constructorEntry in convertedTypeWithConstructors.Constructors.All)
-					{
-						if (!(constructorEntry is ConvertedEmittedConstructor convertedConstructor))
-						{
-							throw new Exception("Expected a converted constructor to build.");
-						}
+	        
+		    if (!(convertedType is ConvertedTypeWithRoutines_I convertedWithRoutines)) return true;
 
-						var methodReference = constructorEntry.MethodReference;
+	        var nextMethodToEmit = convertedWithRoutines.RoutinesEmitState.CurrentRoutineToEmit;
 
-						if (!methodReference.IsDefinition) continue;
+			for (int i = nextMethodToEmit; i < convertedWithRoutines.Routines.Count; convertedWithRoutines.RoutinesEmitState.CurrentRoutineToEmit = ++i)
+		    {
+			    var routine = convertedWithRoutines.Routines[i];
 
-						var methodDefinition = (MethodDefinition)methodReference;
+			    if (!BuildRoutineBody(conversion, routine)) return false;
+			}
 
-						if (methodDefinition.Body == null) continue;
-
-						
-
-						WithoutILGenerator.BuildBody(conversion, convertedType, convertedConstructor);
-
-						
-
-						//noDependenciesFound &= IL.WithILGenerator.GenerateIL(conversion, input, convertedConstructor);
-					}
-				}
-
-
-
-				
-	        }
-
-	        return noDependenciesFound;
+	        return true;
 
         }
 
-        private bool BuildConstructorInstructions(ILConversion conversion, ConvertedTypeDefinition_I input, ConvertedTypeDefinitionConstructors constructors)
-        {
-	        bool noDependenciesFound = true;
+	    private bool BuildRoutineBody(ILConversion conversion, ConvertedRoutineMask_I routine)
+	    {
+			if (!routine.MethodReference.IsDefinition) return true;
 
-			foreach (var constructorEntry in constructors.All)
-            {
-                if (!(constructorEntry is ConvertedEmittedConstructor convertedConstructor))
-                {
-                    throw new Exception("Expected a converted constructor to build.");
-                }
+			var methodDefinition = (MethodDefinition)routine.MethodReference;
 
-                var methodReference = constructorEntry.MethodReference;
+		    if (!methodDefinition.HasBody) return true;
 
-	            if (!methodReference.IsDefinition) continue;
+		    if (!(routine is ConvertedRoutine convertedRoutine))
+		    {
+			    throw new Exception($"Expected the routine to be of type type {typeof(ConvertedRoutine)}");
+		    }
 
-	            var methodDefinition = (MethodDefinition) methodReference;
+		    if (!WithoutILGenerator.BuildBody(conversion, convertedRoutine))
+		    {
+			    return false;
+		    }
 
-                if (methodDefinition.Body == null) continue;
+		    if (routine is ConvertedEmittedConstructor emittedConstructor)
+		    {
+			    var emitState = convertedRoutine.EmitState.Body;
+			    emittedConstructor.ConstructorBuilder.InitLocals = methodDefinition.Body.InitLocals;
+			    emittedConstructor.ConstructorBuilder.SetMethodBody(
+				    emitState.InstructionStream.Buffer,
+				    emitState.MaxStack,
+				    emitState.LocalSignature,
+				    emitState.ExceptionHandlers,
+				    emitState.TokenFixups);
+		    }
+		    else if (routine is ConvertedBuiltMethod emittedMethod)
+		    {
+			    var emitState = convertedRoutine.EmitState.Body;
+			    emittedMethod.MethodBuilder.InitLocals = methodDefinition.Body.InitLocals;
+			    emittedMethod.MethodBuilder.SetMethodBody(
+				    emitState.InstructionStream.Buffer,
+				    emitState.MaxStack,
+				    emitState.LocalSignature,
+				    emitState.ExceptionHandlers,
+				    emitState.TokenFixups);
+		    }
 
-	            if (convertedConstructor.IlGenerator == null) // can be null if this is tried a second time.
-	            {
-					convertedConstructor.IlGenerator = convertedConstructor.ConstructorBuilder.GetILGenerator();
-				}
-
-	            noDependenciesFound &= WithILGenerator.GenerateIL(conversion, input, convertedConstructor);
-            }
-
-	        return noDependenciesFound;
-        }
-
-        private bool BuildMethodInstructions(ILConversion conversion, ConvertedTypeDefinition_I input, ConvertedTypeDefinitionMethods methods)
-        {
-	        bool noDependenciesFound = true;
-
-            foreach (var methodList in methods.ByName.Values)
-            {
-                foreach (var methodEntry in methodList)
-                {
-                    if (!(methodEntry is ConvertedBuiltMethod convertedMethod))
-                    {
-                        throw new Exception("Expected a converted method to build.");
-                    }
-
-	                var methodReference = methodEntry.MethodReference;
-
-					if (!methodReference.IsDefinition) continue;
-
-	                var methodDefinition = (MethodDefinition)methodReference;
-					
-                    if (methodDefinition.Body == null) continue;
-
-	                var methodBuilder = convertedMethod.MethodBuilder;
-
-	                
-
-
-					if (convertedMethod.IlGenerator == null) // can be null if this is tried a second time.
-	                {    
-						convertedMethod.IlGenerator = methodBuilder.GetILGenerator();
-					}
-
-	                noDependenciesFound &= WithILGenerator.GenerateIL(conversion, input, convertedMethod);
-                }
-
-            }
-
-	        return noDependenciesFound;
-
-        }
+		    return true;
+	    }
     }
 }

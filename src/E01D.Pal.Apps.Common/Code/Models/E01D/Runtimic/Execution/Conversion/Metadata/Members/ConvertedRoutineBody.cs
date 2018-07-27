@@ -11,6 +11,6 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members
 		/// <summary>
 		/// Gets or sets a list of all the local variables declared in the body.
 		/// </summary>
-		public List<ConvertedRoutineLocalVariable> LocalVariables { get; set; }
+		public ConvertedRoutineLocalVariable[] LocalVariables { get; set; }
 	}
 }

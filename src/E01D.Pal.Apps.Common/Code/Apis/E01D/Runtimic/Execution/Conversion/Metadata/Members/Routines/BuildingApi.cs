@@ -56,7 +56,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
             }
             else
             {
-                Methods.Building.Emitted.BuildMethod(conversion, (ConvertedTypeDefinitionWithMethods_I)input, method);
+                Methods.Building.Emitted.BuildMethod(conversion, (ConvertedTypeWithMethods_I)input, method);
             }
         }
 
@@ -74,6 +74,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
             CreateParameters(conversion, routine);
 
             routine.ReturnType = GetReturnType(conversion, routine);
+
+            
         }
 
         private void CreateParameters(ILConversion conversion, ConvertedRoutine routine)

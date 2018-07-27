@@ -27,7 +27,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 			if (!typeDefinition.HasMethods) return;
 
-			if (!(input is ConvertedTypeDefinitionWithMethods_I convertedTypeWithMethods))
+			if (!(input is ConvertedTypeWithMethods_I convertedTypeWithMethods))
 			{
 				throw new Exception("Trying to add a method to a type that does not support methods.");
 			}
@@ -81,7 +81,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 			if (!typeDefinition.HasMethods) return;
 
-			if (!(input is ConvertedTypeDefinitionWithMethods_I convertedTypeWithMethods))
+			if (!(input is ConvertedTypeWithMethods_I convertedTypeWithMethods))
 			{
 				throw new Exception("Trying to add a method to a type that does not support methods.");
 			}
@@ -94,7 +94,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 			}
 		}
 
-		public void BuildMethod(ILConversion conversion, ConvertedTypeDefinitionWithMethods_I input, MethodDefinition method)
+		public void BuildMethod(ILConversion conversion, ConvertedTypeWithMethods_I input, MethodDefinition method)
 		{
 			if (input.IsGeneric() && input is ConvertedGenericTypeDefinition_I generic && generic.IsClosedType())
 			{

@@ -44,5 +44,23 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 
 
 		}
+
+		[Test]
+		public void ClassTesting_LocalsViaAddition()
+		{
+			// Create a test container
+			var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+			// Convert the type. The test api code will check to make sure the instance is not null.
+			var instance = test.Api.ConvertAndCreateInstance(typeof(ClassTesting_LocalsViaAddition), new ILConversionOptions()
+			{
+				BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+				UseILGenerator = false
+			});
+
+
+
+
+		}
 	}
 }

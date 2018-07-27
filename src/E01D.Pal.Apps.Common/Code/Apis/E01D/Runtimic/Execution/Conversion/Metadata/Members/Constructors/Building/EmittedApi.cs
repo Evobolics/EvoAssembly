@@ -14,7 +14,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 	{
 		public void BuildConstructor(ILConversion conversion, ConvertedTypeDefinitionMask_I input, MethodDefinition methodDefinition)
 		{
-			if (!(input is ConvertedTypeDefinitionWithConstructors_I typeWithConstructors))
+			if (!(input is ConvertedTypeWithConstructors_I typeWithConstructors))
 			{
 				throw new Exception("Trying to build a field on a type that does not support fields.");
 			}
@@ -29,6 +29,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 			};
 
 			Routines.Building.BuildRoutine(conversion, input, constructorEntry);
+
+			
 
 			// ReSharper disable once AssignmentInConditionalExpression
 			if (constructorEntry.IsStaticConstructor = (methodDefinition.Name == ConstructorInfo.TypeConstructorName))
@@ -51,7 +53,32 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 				throw new Exception("Expected a method definition marked as a constructor.");
 			}
 
+			if (methodDefinition.HasBody)
+			{
+				constructorEntry.Body = new ConvertedRoutineBody();
 
+				if (methodDefinition.Body.HasVariables)
+				{
+					constructorEntry.Body.LocalVariables = new ConvertedRoutineLocalVariable[methodDefinition.Body.Variables.Count];
+
+					for (int i = 0; i < methodDefinition.Body.Variables.Count; i++)
+					{
+						var variable = methodDefinition.Body.Variables[i];
+
+						var variableTypeReference = variable.VariableType;
+
+						var variableType = Execution.Types.Ensuring.EnsureToType(conversion.Model, variableTypeReference);
+
+						constructorEntry.Body.LocalVariables[i] = new ConvertedRoutineLocalVariable()
+						{
+							IsPinned = variable.IsPinned,
+							UnderlyingType = variableType,
+							Index = variable.Index
+						};
+					}
+
+				}
+			}
 
 			constructorEntry.ConstructorBuilder = constructorBuilder;
 
@@ -59,11 +86,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 
 			SetImplementationFlagsIfPresent(methodDefinition, constructorBuilder);
 
+			typeWithConstructors.Routines.Add(constructorEntry);
 			typeWithConstructors.Constructors.All.Add(constructorEntry);
 
 			CustomAttributes.BuildCustomAttributes(conversion, input, constructorEntry);
-
-
 		}
 
 		public void SetImplementationFlagsIfPresent(MethodDefinition methodDefintion, ConstructorBuilder constructorBuilder)

@@ -6,30 +6,25 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
 {
     public class ConvertedClassTypeDefinition: ConvertedReferenceTypeDefinition, ConvertedClassTypeDefinition_I
     {
-
-        public override TypeKind TypeKind => base.TypeKind | TypeKind.Class | TypeKind.SupportsInterfaceTypeList;
-
-        public SemanticTypeDefinitionInterfaces Interfaces { get; set; } = new SemanticTypeDefinitionInterfaces();
-
-        SemanticTypeDefinitionInterfacesMask_I SemanticTypeWithInterfaceTypeListMask_I.Interfaces => Interfaces;
-
         public ConvertedTypeDefinitionConstructors Constructors { get; set; } = new ConvertedTypeDefinitionConstructors();
-
-        public ConvertedTypeDefinitionFields Fields { get; set; } = new ConvertedTypeDefinitionFields();
-
-        public ConvertedTypeDefinitionMethods Methods { get; set; } = new ConvertedTypeDefinitionMethods();
 
         public ConvertedTypeDefinitionEvents Events { get; set; } = new ConvertedTypeDefinitionEvents();
 
+        public ConvertedTypeDefinitionFields Fields { get; set; } = new ConvertedTypeDefinitionFields();
+
+        public SemanticTypeDefinitionInterfaces Interfaces { get; set; } = new SemanticTypeDefinitionInterfaces();
+
         public ConvertedTypeDefinitionProperties Properties { get; set; } = new ConvertedTypeDefinitionProperties();
+
+        public override TypeKind TypeKind => base.TypeKind | TypeKind.Class | TypeKind.SupportsInterfaceTypeList;
 
         SemanticTypeConstructorsMask_I SemanticTypeWithConstructorsMask_I.Constructors => this.Constructors;
 
         SemanticTypeFieldsMask_I SemanticTypeDefinitionWithFieldsMask_I.Fields => this.Fields;
 
-        SemanticTypeMethodsMask_I SemanticTypeWithMethodsMask_I.Methods => this.Methods;
-
         SemanticTypeEventsMask_I SemanticTypeWithEventsMask_I.Events => this.Events;
+
+        SemanticTypeDefinitionInterfacesMask_I SemanticTypeWithInterfaceTypeListMask_I.Interfaces => Interfaces;
 
         SemanticTypePropertiesMask_I SemanticTypeWithPropertiesMask_I.Properties => this.Properties;
 

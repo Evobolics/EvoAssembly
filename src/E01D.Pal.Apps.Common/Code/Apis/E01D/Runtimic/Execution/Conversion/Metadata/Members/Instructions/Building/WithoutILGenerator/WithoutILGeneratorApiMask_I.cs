@@ -13,6 +13,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
         LocalVariableSignatureApiMask_I LocalVariableSignatures { get; }
 
-        void BuildBody(ILConversion conversion, ConvertedTypeDefinition_I convertedType, ConvertedEmittedConstructor convertedConstructor);
+        bool BuildBody(ILConversion conversion, ConvertedRoutine convertedConstructor);
     }
 }

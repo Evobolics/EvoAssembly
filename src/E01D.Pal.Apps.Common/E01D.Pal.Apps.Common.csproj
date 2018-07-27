@@ -867,6 +867,10 @@
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionTypesOutput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\InputOutputKind.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\ConvertedILStream.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedRoutineBodyEmitState.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedRoutineEmitState.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedRoutinesEmitState.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeWithRoutines_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Signatures\ConvertedLocalVariableSignature.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Signatures\ConvertedLocationSignature.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Signatures\ConvertedMethodSignature.cs" />
@@ -1117,11 +1121,11 @@
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeDefinitionProperties.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeDefinitionPropertiesMask_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeDefinitionTypeParameters.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeDefinitionWithConstructors_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeWithConstructors_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeDefinitionWithDeclaringType_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeDefinitionWithEvents_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeDefinitionWithFields_I.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeDefinitionWithMethods_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeWithMethods_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeDefinitionWithProperties_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeDefinitionWithTypeBuilder_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeDefinitionWithTypeParametersMask_I.cs" />
@@ -1441,7 +1445,12 @@
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_CircularReference_1.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_CircularReference_2.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_ClassWithBlankAttribute.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_ConstructTryCatchFinally.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_GenericListCanBeEmitted.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_Generics_SelfConstraintInterface.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_Generics_SelfConstraintInterface_I.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_LocalsViaAddition.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_MakeGenericTest.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_SoleNestedType.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassWithDifferentKindsOfFields.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassWithFieldsWithDifferentAccessModifiers.cs" />

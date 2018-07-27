@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members;
@@ -19,30 +15,37 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
         /// <param name="conversion"></param>
         /// /// <param name="routine"></param>
         /// <returns></returns>
-        public byte[] GetLocalSignature(ILConversion conversion, ConvertedRoutine routine)
+        public bool GetLocalSignature(ILConversion conversion, ConvertedRoutine routine)
         {
-            var sigHelper = SignatureHelper.GetLocalVarSigHelper(routine.DeclaringType.Module.ModuleBuilder);
+            var bodyEmitState = routine.EmitState.Body;
+
+            if (bodyEmitState.SignatureHelper == null)
+            {
+                bodyEmitState.SignatureHelper = SignatureHelper.GetLocalVarSigHelper(routine.DeclaringType.Module.ModuleBuilder);
+            }
 
             var localVariables = routine.Body.LocalVariables;
 
-            for (int i = 0; i < localVariables.Count; i++)
+            if (localVariables != null)
             {
-                var localVariable = localVariables[i];
+                for (int i = bodyEmitState.CurrentLocalVariable; i < localVariables.Length; bodyEmitState.CurrentLocalVariable = ++i)
+                {
+                    var localVariable = localVariables[i];
 
-                if (localVariable.CustomModifiers != null && localVariable.CustomModifiers.Count > 0)
-                {
-                    throw new Exception("Currently do not support emitted custom modifiers in local variables");
-                }
-                else
-                {
-                    sigHelper.AddArgument(localVariable.UnderlyingType, localVariable.IsPinned);
+                    if (localVariable.CustomModifiers != null && localVariable.CustomModifiers.Count > 0)
+                    {
+                        throw new Exception("Currently do not support emitted custom modifiers in local variables");
+                    }
+
+                    bodyEmitState.SignatureHelper.AddArgument(localVariable.UnderlyingType, localVariable.IsPinned);
                 }
             }
 
-            var sigHelperResult = sigHelper.GetSignature();
+            bodyEmitState.LocalSignature = bodyEmitState.SignatureHelper.GetSignature();
 
-            return sigHelperResult;
+            return true;
 
+            //var e01dLocalSignature = Signatures.GetLocalSignature(conversion, convertedConstructor);
 
             //foreach (var local in routine.Body.LocalVariables)
             //{

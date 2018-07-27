@@ -6,8 +6,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
         ConvertedClassTypeDefinitionMask_I,
         SemanticTypeWithInterfaceTypeList_I,
         ConvertedTypeDefinitionWithFields_I,
-        ConvertedTypeDefinitionWithMethods_I,
-        ConvertedTypeDefinitionWithConstructors_I,
+        ConvertedTypeWithConstructors_I,
         ConvertedTypeDefinitionWithEvents_I,
         ConvertedTypeDefinitionWithProperties_I
     {
@@ -15,11 +14,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
 
         new ConvertedTypeDefinitionEvents Events { get; set; }
 
-        new ConvertedTypeDefinitionFields Fields { get; set; }
-
-        new ConvertedTypeDefinitionMethods Methods { get; set; }
-
-        
+        new ConvertedTypeDefinitionFields Fields { get; set; }        
 
         new ConvertedTypeDefinitionProperties Properties { get; set; }
     }

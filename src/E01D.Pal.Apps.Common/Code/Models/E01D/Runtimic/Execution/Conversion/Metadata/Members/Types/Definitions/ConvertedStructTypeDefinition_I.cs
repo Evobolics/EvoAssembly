@@ -5,10 +5,10 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
     public interface ConvertedStructTypeDefinition_I : 
         ConvertedNonEnumTypePart_I, 
         SemanticTypeWithInterfaceTypeList_I,
-        ConvertedTypeDefinitionWithConstructors_I,
+        ConvertedTypeWithConstructors_I,
         ConvertedTypeDefinitionWithEvents_I,
         ConvertedTypeDefinitionWithFields_I,
-        ConvertedTypeDefinitionWithMethods_I,
+        ConvertedTypeWithMethods_I,
         ConvertedTypeDefinitionWithProperties_I
     {
     }

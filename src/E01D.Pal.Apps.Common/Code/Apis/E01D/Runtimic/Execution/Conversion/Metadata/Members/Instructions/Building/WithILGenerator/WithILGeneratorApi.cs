@@ -27,11 +27,99 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
         public ExceptionHandlingApi_I<TContainer> ExceptionHandling { get; set; }
 
-
-
         public LabelingApi_I<TContainer> Labeling { get; set; }
 
+        public bool GenerateIL(ILConversion conversion, ConvertedTypeDefinition_I convertedType)
+        {
+            var noDependenciesFound = true;
 
+            // Done on purpose to find errors
+            var typeDefinition = (TypeDefinition)convertedType.SourceTypeReference;
+
+            if (!typeDefinition.HasMethods) return true;
+
+            if (convertedType is ConvertedTypeWithConstructors_I convertedTypeWithConstructors)
+            {
+                noDependenciesFound &= BuildConstructorInstructions(conversion, convertedType, convertedTypeWithConstructors.Constructors);
+            }
+
+            if (convertedType is ConvertedTypeWithMethods_I convertedTypeWithMethods)
+            {
+                noDependenciesFound &= BuildMethodInstructions(conversion, convertedType, convertedTypeWithMethods.Methods);
+            }
+
+            return noDependenciesFound;
+        }
+
+        private bool BuildConstructorInstructions(ILConversion conversion, ConvertedTypeDefinition_I input, ConvertedTypeDefinitionConstructors constructors)
+        {
+            bool noDependenciesFound = true;
+
+            foreach (var constructorEntry in constructors.All)
+            {
+                if (!(constructorEntry is ConvertedEmittedConstructor convertedConstructor))
+                {
+                    throw new Exception("Expected a converted constructor to build.");
+                }
+
+                var methodReference = constructorEntry.MethodReference;
+
+                if (!methodReference.IsDefinition) continue;
+
+                var methodDefinition = (MethodDefinition)methodReference;
+
+                if (methodDefinition.Body == null) continue;
+
+                if (convertedConstructor.IlGenerator == null) // can be null if this is tried a second time.
+                {
+                    convertedConstructor.IlGenerator = convertedConstructor.ConstructorBuilder.GetILGenerator();
+                }
+
+                noDependenciesFound &= GenerateIL(conversion, input, convertedConstructor);
+            }
+
+            return noDependenciesFound;
+        }
+
+        private bool BuildMethodInstructions(ILConversion conversion, ConvertedTypeDefinition_I input, ConvertedTypeDefinitionMethods methods)
+        {
+            bool noDependenciesFound = true;
+
+            foreach (var methodList in methods.ByName.Values)
+            {
+                foreach (var methodEntry in methodList)
+                {
+                    if (!(methodEntry is ConvertedBuiltMethod convertedMethod))
+                    {
+                        throw new Exception("Expected a converted method to build.");
+                    }
+
+                    var methodReference = methodEntry.MethodReference;
+
+                    if (!methodReference.IsDefinition) continue;
+
+                    var methodDefinition = (MethodDefinition)methodReference;
+
+                    if (methodDefinition.Body == null) continue;
+
+                    var methodBuilder = convertedMethod.MethodBuilder;
+
+
+
+
+                    if (convertedMethod.IlGenerator == null) // can be null if this is tried a second time.
+                    {
+                        convertedMethod.IlGenerator = methodBuilder.GetILGenerator();
+                    }
+
+                    noDependenciesFound &= GenerateIL(conversion, input, convertedMethod);
+                }
+
+            }
+
+            return noDependenciesFound;
+
+        }
 
         public bool GenerateIL(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, ConvertedRoutine routine)
         {

@@ -78,6 +78,7 @@
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Metadata\Members\TypalDomainApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Metadata\Members\TypalDomainApi_I.cs" />
     <Compile Include="Code\Apis\PalDomainApi.cs" />
+    <Compile Include="Code\AssemblyLib.cs" />
     <Compile Include="Code\Constants\E01D\Runtimic\Infrastructure\Metadata\Typal\InternalTypeIds.cs" />
     <Compile Include="Code\Domains\E01D\XPal.cs" />
     <Compile Include="Code\Enums\E01D\PalKind.cs" />

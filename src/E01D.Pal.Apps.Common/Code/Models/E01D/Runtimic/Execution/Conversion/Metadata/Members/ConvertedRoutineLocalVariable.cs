@@ -21,5 +21,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members
         /// Gets or sets whether the local variable is pinned.
         /// </summary>
         public bool IsPinned { get; set; }
+
+        public int Index { get; set; }
     }
 }
