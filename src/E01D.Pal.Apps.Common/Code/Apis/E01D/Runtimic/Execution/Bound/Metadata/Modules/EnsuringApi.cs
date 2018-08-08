@@ -2,9 +2,10 @@
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Modules
 {
@@ -18,7 +19,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Modules
 
 	    
 
-	    public SemanticModuleMask_I EnsureModuleFromAssembly(InfrastructureRuntimicModelMask_I semanticModel, System.Type type)
+	    public SemanticModuleMask_I EnsureModuleFromAssembly(RuntimicSystemModel semanticModel, System.Type type)
 	    {
 		    var resolutionName = Types.Naming.GetResolutionName(type);
 
@@ -34,7 +35,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Modules
 
 	    
 
-		public List<SemanticModuleMask_I> EnsureAll(InfrastructureRuntimicModelMask_I semanticModel, SemanticAssemblyMask_I semanticAssembly)
+		public List<SemanticModuleMask_I> EnsureAll(RuntimicSystemModel semanticModel, SemanticAssemblyMask_I semanticAssembly)
         {
             // Ensure the module definition is in the assemlby definition that is past, and has not been loaded twice.
             if (!semanticAssembly.IsSemantic() && !semanticAssembly.IsBound())
@@ -61,7 +62,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Modules
             return modules;
         }
 
-        public SemanticModuleMask_I Ensure(InfrastructureRuntimicModelMask_I semanticModel, BoundAssembly_I semanticAssembly, ModuleDefinition moduleDefinition)
+        public SemanticModuleMask_I Ensure(RuntimicSystemModel semanticModel, BoundAssembly_I semanticAssembly, ModuleDefinition moduleDefinition)
         {
             // Ensure the module definition is in the assemlby definition that is past, and has not been loaded twice.
             if (moduleDefinition.Assembly != semanticAssembly.AssemblyDefinition)
@@ -81,6 +82,29 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Modules
             //return moduleEntry;
 
 	        throw new System.Exception("Debug");
+        }
+
+        public BoundModuleNode EnsureNode(RuntimicSystemModel runtimic, BoundAssemblyNode assemblyNode,
+            StructuralModuleNode structuralModule)
+        {
+            var bound = runtimic.TypeSystems.Bound;
+
+            if (bound.Modules.ByVersionId.TryGetValue(structuralModule.VersionId, out BoundModuleNode node))
+            {
+                return node;
+            }
+
+            var moduleNode = new BoundModuleNode()
+            {
+                AssemblyNode = assemblyNode,
+                InputStructuralDefinition = structuralModule
+            };
+
+            bound.Modules.ByVersionId.Add(structuralModule.VersionId, moduleNode);
+
+            moduleNode.BoundModule = Modules.Creation.Create(runtimic, moduleNode);
+
+            return moduleNode;
         }
     }
 }

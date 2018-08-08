@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal
@@ -17,7 +17,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
         /// <param name="model"></param>
         /// <param name="inputType"></param>
         /// <returns></returns>
-        public SemanticTypeInformation CreateTypeInformation(InfrastructureRuntimicModelMask_I model, System.Type inputType)
+        public SemanticTypeInformation CreateTypeInformation(RuntimicSystemModel model, System.Type inputType)
         {
 
 
@@ -89,7 +89,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
         }
 
 
-        public SemanticTypeInformation CreateTypeInformation(InfrastructureRuntimicModelMask_I model, TypeReference typeReference)
+        public SemanticTypeInformation CreateTypeInformation(RuntimicSystemModel model, TypeReference typeReference)
         {
             //if (typeReference.FullName ==
             //    "Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types.GenericClassWithMethods`1"
@@ -222,6 +222,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
                 typeInformation.IsValueType = genericInstanceType.IsValueType;
                 typeInformation.IsOpenGeneric = genericInstanceType.GenericParameters.Count > 0;
                 typeInformation.IsClosedGeneric = genericInstanceType.GenericArguments.Count > 0 &&!(genericInstanceType.GenericParameters.Count > 0);
+
+                
 
                 TypeDefinition elementTypeReference = Types.GenericInstances.GetElementType(model, genericInstanceType);
                 typeInformation.IsDelegate = elementTypeReference.BaseType?.FullName == "System.Delegate" || elementTypeReference.BaseType?.FullName == "System.MulticastDelegate";

@@ -1,27 +1,28 @@
 ﻿using System;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Libs.Mono.Cecil.Rocks;
+using Root.Code.Models.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Building
 {
 	public class MethodDefinitionApi<TContainer> : CecilApiNode<TContainer>, MethodDefinitionApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public MethodDefinition MakeGenericInstanceTypeMethodReference(InfrastructureRuntimicModelMask_I model, GenericInstanceType declaringType, MethodDefinition methodDefinition)
+		public MethodDefinition MakeGenericInstanceTypeMethodReference(RuntimicSystemModel model, GenericInstanceType declaringType, MethodDefinition methodDefinition)
 		{
 			if (declaringType == null) throw new Exception("Expected a declaring type.");
-
-			
 
 			var typeArgumentReferences = declaringType.GenericArguments.ToArray();
 
 			if (typeArgumentReferences == null || typeArgumentReferences.Length < 1) return methodDefinition;
 
-			var returnType = ResolveTypeParameterIfPresent(model, typeArgumentReferences, methodDefinition.ReturnType);
+			var returnType = Infrastructure.Structural.Cecil.Methods.ResolveTypeParameterIfPresent(model, typeArgumentReferences, methodDefinition.ReturnType);
 
-			var resolvedMethodDefinition = new MethodDefinition(methodDefinition.Name, methodDefinition.Attributes, returnType);
-
+			var resolvedMethodDefinition = new MethodDefinition(methodDefinition.Name, methodDefinition.Attributes, returnType)
+			{
+				MetadataToken = methodDefinition.MetadataToken
+			};
 			//resolvedMethodDefinition.DeclaringType = methodDefinition.DeclaringType;
 
 			//resolvedMethodDefinition.MetadataToken = methodDefinition.MetadataToken;
@@ -39,7 +40,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 				var inputParameterType = inputParameter.ParameterType;
 
-				var outputParameterType = ResolveTypeParameterIfPresent(model, typeArgumentReferences, inputParameterType);
+				var outputParameterType = Infrastructure.Structural.Cecil.Methods.ResolveTypeParameterIfPresent(model, typeArgumentReferences, inputParameterType);
 
 				var outputParameter = Parameters.Create(inputParameter, outputParameterType);
 
@@ -51,7 +52,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return resolvedMethodDefinition;
 		}
 
-		public MethodDefinition MakeGenericInstanceTypeMethodReference(InfrastructureRuntimicModelMask_I model, 
+		public MethodDefinition MakeGenericInstanceTypeMethodReference(RuntimicSystemModel model, 
 			MethodDefinition methodDefinition, Type memberDeclaringType, Type[] typeArguments)
 		{
 			if (memberDeclaringType == null) throw new Exception("Expected a declaring type.");
@@ -60,7 +61,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 			TypeReference[] typeArgumentReferences = ResolveGenericArguments(model, typeArguments);
 
-			var returnType = ResolveTypeParameterIfPresent(model, typeArgumentReferences, methodDefinition.ReturnType);
+			var returnType = Infrastructure.Structural.Cecil.Methods.ResolveTypeParameterIfPresent(model, typeArgumentReferences, methodDefinition.ReturnType);
 
 			var resolvedMethodDefinition = new MethodDefinition(methodDefinition.Name, methodDefinition.Attributes, returnType);
 
@@ -79,7 +80,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 				var inputParameterType = inputParameter.ParameterType;
 
-				var outputParameterType = ResolveTypeParameterIfPresent(model, typeArgumentReferences, inputParameterType);
+				var outputParameterType = Infrastructure.Structural.Cecil.Methods.ResolveTypeParameterIfPresent(model, typeArgumentReferences, inputParameterType);
 
 				var outputParameter = Parameters.Create(inputParameter, outputParameterType);
 
@@ -96,7 +97,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return resolvedMethodDefinition;
 		}
 
-		private TypeReference[] ResolveGenericArguments(InfrastructureRuntimicModelMask_I model, Type[] typeArguments)
+		private TypeReference[] ResolveGenericArguments(RuntimicSystemModel model, Type[] typeArguments)
 		{
 			TypeReference[] references = new TypeReference[typeArguments.Length];
 
@@ -108,7 +109,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return references;
 		}
 
-		public TypeReference ResolveClassTypeArgument(InfrastructureRuntimicModelMask_I model, Type typeToResolve)
+		public TypeReference ResolveClassTypeArgument(RuntimicSystemModel model, Type typeToResolve)
 		{
 			if (typeToResolve.IsByRef)
 			{
@@ -148,86 +149,26 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 				var declaringType = typeToResolve.DeclaringType;
 
-				var declaringTypeReference = Types.Getting.GetInternalTypeReference(model, declaringType);
+				var node = Infrastructure.Structural.Types.Ensure(model, declaringType);
+
+				var declaringTypeReference = node.CecilTypeReference;
 
 				var genericParameterTypeReference = declaringTypeReference.GenericParameters[typeToResolve.GenericParameterPosition];
 
 				return genericParameterTypeReference;
 			}
 
-			return Types.Getting.GetInternalTypeReference(model, typeToResolve);
+			var semanticType = Execution.Types.Ensuring.EnsureBound(model, typeToResolve);
+
+			//return Types.Getting.GetInternalTypeReference(model, typeToResolve);
+
+			return semanticType.SourceTypeReference;
 		}
 
-		/// <summary>
-		/// Resolves a type parameter for when a generic instance method is being created.  
-		/// This should not be used for resolving generic instance methods that are instructions as 
-		/// generic instance method arguments are not resolved.
-		/// </summary>
-		/// <param name="model"></param>
-		/// <param name="genericInstanceTypeArguments"></param>
-		/// <param name="typeToResolve"></param>
-		/// <returns></returns>
-		private TypeReference ResolveTypeParameterIfPresent(InfrastructureRuntimicModelMask_I model, TypeReference[] genericInstanceTypeArguments, TypeReference typeToResolve)
-		{
-			
-
-			if (typeToResolve.IsByReference)
-			{
-				var inputByReferenceType = (ByReferenceType) typeToResolve;
-
-				var inputByReferenceTypeElement = inputByReferenceType.ElementType;
-
-				var result = ResolveTypeParameterIfPresent(model, genericInstanceTypeArguments, inputByReferenceTypeElement);
-
-				return new ByReferenceType(result);
-			}
-
-			if (typeToResolve.IsArray)
-			{
-				var arrayType = (ArrayType)typeToResolve;
-
-				var rank = arrayType.Rank;
-
-				var arrayElementType = arrayType.ElementType;
-
-				var arrayElementReferenceType = ResolveTypeParameterIfPresent(model, genericInstanceTypeArguments, arrayElementType);
-
-				if (rank == 1)
-				{
-					return new ArrayType(arrayElementReferenceType);
-				}
-				else
-				{
-					return new ArrayType(arrayElementReferenceType, rank);
-				}
-			}
-
-			if (!typeToResolve.IsGenericParameter)
-			{
-				return Types.Getting.GetInternalTypeReference(model, typeToResolve);
-			}
-
-			var genericParameter = (GenericParameter)typeToResolve;
-
-			if (genericParameter.Type == GenericParameterType.Type)
-			{
-				// Becauase there is different generic instance type is created for each set of type arguments, generic parameters that are 
-				// type arguments can be replaced.
-				return genericInstanceTypeArguments[genericParameter.Position];
-			}
-			else
-			{
-				// This method is called when creating method references for all instructions that might encounter this method reference.
-				// When this method is built, there is no way to know ahead of time what instructions might be calling it.  Thus, this needs to 
-				// return just the method type parameter.
-				return typeToResolve;
-			}
-
-			
-		}
+		
 
 
-		private void AddGenericParameters(InfrastructureRuntimicModelMask_I model, MethodDefinition input, MethodDefinition output)
+		private void AddGenericParameters(RuntimicSystemModel model, MethodDefinition input, MethodDefinition output)
 		{
 			for (int i = 0; i < input.GenericParameters.Count; i++)
 			{

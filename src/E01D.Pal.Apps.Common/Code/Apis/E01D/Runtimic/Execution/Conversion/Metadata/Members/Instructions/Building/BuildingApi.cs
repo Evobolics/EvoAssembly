@@ -26,14 +26,21 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
         {
 	        if (conversion.Configuration.UseILGenerator)
 	        {
-		        return WithILGenerator.GenerateIL(conversion, convertedType);
+		        //return WithILGenerator.GenerateIL(conversion, convertedType);
+				throw new NotSupportedException("The use of the IL generator is  no longer supported.");
+		        
 	        }
 	        
 		    if (!(convertedType is ConvertedTypeWithRoutines_I convertedWithRoutines)) return true;
 
-	        var nextMethodToEmit = convertedWithRoutines.RoutinesEmitState.CurrentRoutineToEmit;
+	        if (convertedWithRoutines.RoutinesEmitState == null)
+	        {
+				convertedWithRoutines.RoutinesEmitState = new ConvertedRoutinesEmitState();
+			}
 
-			for (int i = nextMethodToEmit; i < convertedWithRoutines.Routines.Count; convertedWithRoutines.RoutinesEmitState.CurrentRoutineToEmit = ++i)
+	        var currentRoutineToEmit = convertedWithRoutines.RoutinesEmitState.CurrentRoutineToEmit;
+
+			for (int i = currentRoutineToEmit; i < convertedWithRoutines.Routines.Count; convertedWithRoutines.RoutinesEmitState.CurrentRoutineToEmit = ++i)
 		    {
 			    var routine = convertedWithRoutines.Routines[i];
 
@@ -55,6 +62,18 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 		    if (!(routine is ConvertedRoutine convertedRoutine))
 		    {
 			    throw new Exception($"Expected the routine to be of type type {typeof(ConvertedRoutine)}");
+		    }
+
+		    if (convertedRoutine.EmitState == null)
+		    {
+				convertedRoutine.EmitState = new ConvertedRoutineEmitState();
+			}
+
+		    if (routine.MethodReference.FullName ==
+		        "T Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Instructions.InstructionTest_CastClass::Get(Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types.Interface1)"
+		    )
+		    {
+			    
 		    }
 
 		    if (!WithoutILGenerator.BuildBody(conversion, convertedRoutine))

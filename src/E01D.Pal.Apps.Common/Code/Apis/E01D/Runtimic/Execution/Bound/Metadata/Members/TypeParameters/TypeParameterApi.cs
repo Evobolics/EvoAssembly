@@ -5,9 +5,9 @@ using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypeParameters
@@ -19,7 +19,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 
 	    BuildingApiMask_I TypeParameterApiMask_I.Building => Building;
 
-		public void Add(InfrastructureRuntimicModelMask_I conversion, SemanticGenericParameterTypeDefinitionsMask_I definitions, SemanticGenericParameterTypeDefinitionMask_I typeParameter)
+		public void Add(RuntimicSystemModel conversion, SemanticGenericParameterTypeDefinitionsMask_I definitions, SemanticGenericParameterTypeDefinitionMask_I typeParameter)
         {
             if (typeParameter.TypeParameterKind == TypeParameterKind.Unknown)
             {
@@ -43,7 +43,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
             
         }
 
-        public void Add(InfrastructureRuntimicModelMask_I conversion, SemanticGenericParameterTypeDefinitionsMask_I definitions, List<SemanticGenericParameterTypeDefinitionMask_I> inputList)
+        public void Add(RuntimicSystemModel conversion, SemanticGenericParameterTypeDefinitionsMask_I definitions, List<SemanticGenericParameterTypeDefinitionMask_I> inputList)
         {
             for (int i =0; i< inputList.Count; i++)
             {
@@ -60,7 +60,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
             definitions.All.Clear();
         }
 
-        public SemanticGenericParameterTypeDefinitionMask_I Get(InfrastructureRuntimicModelMask_I conversion, SemanticGenericParameterTypeDefinitionsMask_I definitions, string name)
+        public SemanticGenericParameterTypeDefinitionMask_I Get(RuntimicSystemModel conversion, SemanticGenericParameterTypeDefinitionsMask_I definitions, string name)
         {
             if (definitions.ByName.TryGetValue(name, out SemanticGenericParameterTypeDefinitionMask_I typeParameter))
             {
@@ -70,7 +70,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
             return null;
         }
 
-        public SemanticGenericParameterTypeDefinitionMask_I Get(InfrastructureRuntimicModelMask_I conversion, SemanticGenericParameterTypeDefinitionsMask_I definitions, int position)
+        public SemanticGenericParameterTypeDefinitionMask_I Get(RuntimicSystemModel conversion, SemanticGenericParameterTypeDefinitionsMask_I definitions, int position)
         {
             if (definitions.ByPosition.TryGetValue(position, out SemanticGenericParameterTypeDefinitionMask_I typeParameter))
             {
@@ -80,7 +80,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
             return null;
         }
 
-        public string[] GetNames(InfrastructureRuntimicModelMask_I conversion, SemanticGenericParameterTypeDefinitionsMask_I definitions)
+        public string[] GetNames(RuntimicSystemModel conversion, SemanticGenericParameterTypeDefinitionsMask_I definitions)
         {
             var all = definitions.All;
 
@@ -96,7 +96,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
             return nameList;
         }
 
-        public SemanticGenericParameterTypeDefinitionMask_I GetOrThrow(InfrastructureRuntimicModelMask_I conversion, SemanticGenericParameterTypeDefinitionsMask_I definitions, string name)
+        public SemanticGenericParameterTypeDefinitionMask_I GetOrThrow(RuntimicSystemModel conversion, SemanticGenericParameterTypeDefinitionsMask_I definitions, string name)
         {
             var result = Get(conversion, definitions, name);
 
@@ -108,7 +108,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
             return result;
         }
 
-        public SemanticGenericParameterTypeDefinitionMask_I GetOrThrow(InfrastructureRuntimicModelMask_I conversion, SemanticGenericParameterTypeDefinitionsMask_I definitions, int position)
+        public SemanticGenericParameterTypeDefinitionMask_I GetOrThrow(RuntimicSystemModel conversion, SemanticGenericParameterTypeDefinitionsMask_I definitions, int position)
         {
             var result = Get(conversion, definitions, position);
 
@@ -120,7 +120,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
             return result;
         }
 
-        public BoundTypeDefinitionMask_I Resolve(InfrastructureRuntimicModelMask_I model, SemanticTypeDefinitionMask_I declaringType,GenericParameter parameter)
+        public BoundTypeDefinitionMask_I Resolve(RuntimicSystemModel model, SemanticTypeDefinitionMask_I declaringType,GenericParameter parameter)
         {
             if (!declaringType.IsGeneric())
             {
@@ -142,7 +142,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
             return (BoundTypeDefinitionMask_I)semanticTypeParameter;
         }
 
-        public BoundTypeDefinitionMask_I Resolve(InfrastructureRuntimicModelMask_I model, SemanticTypeDefinitionMask_I declaringType,
+        public BoundTypeDefinitionMask_I Resolve(RuntimicSystemModel model, SemanticTypeDefinitionMask_I declaringType,
             MethodDefinition methodDefinition, GenericParameter parameter)
         {
             if (!(declaringType is BoundTypeDefinitionWithMethodsMask_I boundTypeWithMethods))

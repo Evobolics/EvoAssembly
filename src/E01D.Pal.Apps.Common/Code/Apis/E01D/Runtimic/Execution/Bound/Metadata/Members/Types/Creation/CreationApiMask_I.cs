@@ -1,6 +1,6 @@
 ﻿using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Creation
 {
@@ -13,8 +13,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Cr
         ReferenceApiMask_I References { get; }
 
 
-        BoundTypeDefinition Create(InfrastructureRuntimicModelMask_I model, System.Type type);
+        BoundTypeDefinition Create(RuntimicSystemModel model, System.Type type);
 
-        BoundTypeDefinition Create(InfrastructureRuntimicModelMask_I model, TypeReference typeReference, System.Type underlyingType);
+        BoundTypeDefinition Create(RuntimicSystemModel model, TypeReference typeReference, System.Type underlyingType);
     }
 }

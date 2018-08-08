@@ -5,8 +5,8 @@ using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypeArgument
 using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypeParameters;
 using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members
 {
@@ -35,6 +35,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members
 	    TypeParameterApiMask_I TypeParameters { get; }
 
         TypeApiMask_I Types { get;  }
-        BoundTypeDefinitionMask_I GetDeclaringType(BoundRuntimicModelMask_I conversionModel, MemberReference memberReference);
+        BoundTypeDefinitionMask_I GetDeclaringType(RuntimicSystemModel conversionModel, MemberReference memberReference);
     }
 }

@@ -42,9 +42,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Eve
 
             var resolvedEventTypeReference = Cecil.ResolveAnyTypeArguments(genericArgumentSource, propertyDefinition.EventType);
 
-            var eventTypeDefinition = Models.Types.ResolveToTypeDefinition(conversion.Model, resolvedEventTypeReference);
+            var eventTypeDefinition = Models.Types.ResolveToTypeDefinition(conversion.RuntimicSystem, resolvedEventTypeReference);
 
-	        Execution.Types.Ensuring.Ensure(conversion.Model, eventTypeDefinition, null, null);
+	        Execution.Types.Ensuring.Ensure(conversion, eventTypeDefinition, null, null);
         }
     }
 }

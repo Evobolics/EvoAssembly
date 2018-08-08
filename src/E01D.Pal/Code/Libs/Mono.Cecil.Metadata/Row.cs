@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace Root.Code.Libs.Mono.Cecil.Metadata {
 
-	struct Row<T1, T2> {
+	public struct Row<T1, T2> {
 		internal T1 Col1;
 		internal T2 Col2;
 
@@ -23,7 +23,7 @@ namespace Root.Code.Libs.Mono.Cecil.Metadata {
 		}
 	}
 
-	struct Row<T1, T2, T3> {
+	public struct Row<T1, T2, T3> {
 		internal T1 Col1;
 		internal T2 Col2;
 		internal T3 Col3;
@@ -36,7 +36,7 @@ namespace Root.Code.Libs.Mono.Cecil.Metadata {
 		}
 	}
 
-	struct Row<T1, T2, T3, T4> {
+	public struct Row<T1, T2, T3, T4> {
 		internal T1 Col1;
 		internal T2 Col2;
 		internal T3 Col3;
@@ -51,7 +51,7 @@ namespace Root.Code.Libs.Mono.Cecil.Metadata {
 		}
 	}
 
-	struct Row<T1, T2, T3, T4, T5> {
+	public struct Row<T1, T2, T3, T4, T5> {
 		internal T1 Col1;
 		internal T2 Col2;
 		internal T3 Col3;
@@ -68,7 +68,7 @@ namespace Root.Code.Libs.Mono.Cecil.Metadata {
 		}
 	}
 
-	struct Row<T1, T2, T3, T4, T5, T6> {
+	public struct Row<T1, T2, T3, T4, T5, T6> {
 		internal T1 Col1;
 		internal T2 Col2;
 		internal T3 Col3;
@@ -87,7 +87,7 @@ namespace Root.Code.Libs.Mono.Cecil.Metadata {
 		}
 	}
 
-	struct Row<T1, T2, T3, T4, T5, T6, T7, T8, T9> {
+	public struct Row<T1, T2, T3, T4, T5, T6, T7, T8, T9> {
 		internal T1 Col1;
 		internal T2 Col2;
 		internal T3 Col3;
@@ -112,7 +112,7 @@ namespace Root.Code.Libs.Mono.Cecil.Metadata {
 		}
 	}
 
-	sealed class RowEqualityComparer : IEqualityComparer<Row<string, string>>, IEqualityComparer<Row<uint, uint>>, IEqualityComparer<Row<uint, uint, uint>> {
+	public sealed class RowEqualityComparer : IEqualityComparer<Row<string, string>>, IEqualityComparer<Row<uint, uint>>, IEqualityComparer<Row<uint, uint, uint>> {
 
 		public bool Equals (Row<string, string> x, Row<string, string> y)
 		{

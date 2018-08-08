@@ -13,7 +13,7 @@ using Root.Code.Libs.Mono;
 
 namespace Root.Code.Libs.Mono.Cecil.PE {
 
-	class ByteBuffer {
+	public class ByteBuffer {
 
 		internal byte [] buffer;
 		internal int length;

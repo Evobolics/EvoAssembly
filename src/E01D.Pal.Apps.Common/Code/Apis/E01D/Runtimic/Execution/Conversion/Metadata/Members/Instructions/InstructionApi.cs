@@ -17,29 +17,45 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
         public TypeScanningApi_I<TContainer> TypeScanning { get; set; }
 
-        public System.Type GetGenericParameterType(ILConversion conversion, ConvertedTypeDefinitionMask_I input, ConvertedRoutine routine, GenericParameter genericParameter)
+        public bool GetGenericParameterType(ILConversion conversion, ConvertedTypeDefinitionMask_I input, ConvertedRoutine routine, GenericParameter genericParameter, out System.Type type)
         {
-            
-
             switch (genericParameter.Type)
             {
                 case GenericParameterType.Method:
                 {
                     var method = (ConvertedBuiltMethod) routine;
 
-                    return method.TypeParameters.Builders[genericParameter.Position];  
+                    var operandDeclaringType = method.DeclaringType;
+
+                    if ((operandDeclaringType is ConvertedTypeDefinition_I convertedType)
+                        && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true))
+                    {
+                        type = null;
+                        return false;
+                    }
+
+                    type = method.TypeParameters.Builders[genericParameter.Position];
+
+                    return true;
                 }
                 case GenericParameterType.Type:
                 {
                     var declaringType = genericParameter.DeclaringType;
 
-                    var boundType = Execution.Types.Ensuring.EnsureBound(conversion.Model, declaringType);
+                    var boundType = Execution.Types.Ensuring.EnsureBound(conversion, declaringType);
 
-                    
+                    if ((boundType is ConvertedTypeDefinition_I convertedType)
+                        && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true))
+                    {
+                        type = null;
+                        return false;
+                    }
 
                     var x = (ConvertedTypeDefinitionWithTypeParameters_I)boundType;
 
-                    return x.TypeParameters.Builders[genericParameter.Position];
+                    type = x.TypeParameters.Builders[genericParameter.Position];
+
+                    return true;
                 }
                 default:
                 {

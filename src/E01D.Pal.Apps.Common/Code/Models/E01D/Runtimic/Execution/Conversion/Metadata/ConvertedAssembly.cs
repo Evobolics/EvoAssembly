@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
 using System.Reflection.Emit;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
@@ -15,11 +14,11 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata
 
         public SemanticAssemblyAssembliesMask_I Assemblies { get; set; } = new SemanticAssemblyAssemblies();
 
-        public Assembly Assembly { get; set; }
+        //public Assembly Assembly { get; set; }
 
         public AssemblyBuilder AssemblyBuilder { get; set; }
 
-        public AssemblyDefinition AssemblyDefinition { get; set; }
+        public ConvertedAssemblyNode AssemblyNode { get; set; }
 
         public Dictionary<string, AssemblyDefinition> AssociatedAssemblyDefinitions { get; set; } = new Dictionary<string, AssemblyDefinition>();
 

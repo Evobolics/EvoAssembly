@@ -1,6 +1,4 @@
-﻿
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Methods.Getting.FromMethodReference;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
@@ -10,7 +8,6 @@ using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Modeling;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Methods.Getting
 {
@@ -30,7 +27,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 	    
 
-	    MethodInfo GetMethodInfoOrThrow(ILConversion conversion, ConvertedTypeDefinitionMask_I typeBeingBuilt, ConvertedRoutine methodBeingBuilt, MethodReference methodReference);
+	    MethodInfo GetMethodInfoOrThrow(ILConversion conversion, ConvertedTypeDefinitionMask_I typeBeingBuilt, ConvertedRoutine methodBeingBuilt,
+		    BoundTypeDefinitionMask_I methodReferenceDeclaringType, MethodReference methodReference);
 	    ConvertedMethodMask_I GetMethod(ConvertedTypeDefinition_I convertedType, MethodDefinition propertyDefinitionGetMethod);
     }
 }

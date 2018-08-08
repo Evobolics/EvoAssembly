@@ -1,5 +1,4 @@
-﻿using System;
-using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Ensuring.Gathering;
+﻿using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Ensuring.Gathering;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
@@ -27,15 +26,15 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
         NonGenericInstanceApiMask_I NonGenericInstances { get; }
 
-	    
+	    //UnifiedApiMask_I Unified { get; }
 
-	   
 
-		
-
-		
-
-        SemanticTypeDefinitionMask_I Ensure(ILConversion conversion, TypeReference input, ConvertedTypeDefinition_I declaringType);
+	    bool EnsurePhase3Type(ILConversion conversion,
+			ConvertedTypeDefinitionMask_I routineDeclaringType,
+			MethodDefinition methodDefinition,
+			TypeReference typeReference,
+			out BoundTypeDefinitionMask_I type);
+		SemanticTypeDefinitionMask_I Ensure(ILConversion conversion, TypeReference input, ConvertedTypeDefinition_I declaringType);
 
 
 		

@@ -1,60 +1,58 @@
-﻿using System.Collections.Generic;
-using Root.Code.Containers.E01D.Runtimic;
+﻿using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
-using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 {
     public class BuildingApi<TContainer> : BoundApiNode<TContainer>, BuildingApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-		public void Build(BoundRuntimicModelMask_I model, List<UnifiedAssemblyNode> referencedList)
-		{
-			for (int i = 0; i < referencedList.Count; i++)
-			{
-				var assemblyNode = referencedList[i];
+		//public void Build(BoundRuntimicModelMask_I model, List<UnifiedAssemblyNode> referencedList)
+		//{
+		//	for (int i = 0; i < referencedList.Count; i++)
+		//	{
+		//		var assemblyNode = referencedList[i];
 
-				Build(model, assemblyNode);
-			}
-		}
+		//		//Build(model, assemblyNode);
+		//	}
+		//}
 
 	    
 
-	    private BoundAssemblyMask_I Build(BoundRuntimicModelMask_I model, UnifiedAssemblyNode assemblyNode)
-	    {
-		    var assemblyDefinition = assemblyNode.SourceAssemblyDefinition;
+	 //   private BoundAssemblyMask_I Build(BoundRuntimicModelMask_I model, UnifiedAssemblyNode assemblyNode)
+	 //   {
+		//    var assemblyDefinition = assemblyNode.SourceAssemblyDefinition;
 
-		    var assemblyQualifiedName = Cecil.Assemblies.Naming.GetAssemblyName(assemblyDefinition);
+		//    var assemblyQualifiedName = Cecil.Assemblies.Naming.GetAssemblyName(assemblyDefinition);
 
-		    var assembly = Execution.Metadata.Assemblies.FindAssembly(assemblyQualifiedName);
+		//    var assembly = Execution.Metadata.Assemblies.FindAssembly(assemblyQualifiedName);
 
-			var boundAssembly = Assemblies.Creation.CreateAssemblyEntry(model, assemblyDefinition, assembly);
+		//	var boundAssembly = Assemblies.Creation.CreateAssemblyEntry(model, assemblyDefinition, assembly);
 
-		    assemblyNode.Semantic = boundAssembly;
+		//    assemblyNode.Semantic = boundAssembly;
 
-		    for (int i = 0; i < assemblyNode.ModuleNodes.Count; i++)
-		    {
-			    var moduleNode = assemblyNode.ModuleNodes[i];
+		//    for (int i = 0; i < assemblyNode.ModuleNodes.Count; i++)
+		//    {
+		//	    var moduleNode = assemblyNode.ModuleNodes[i];
 
-			    var boundModule = Modules.Building.Build(model, moduleNode);
+		//	    var boundModule = Modules.Building.Build(model, moduleNode);
 
-			    boundAssembly.Modules.Add(boundModule.Name, boundModule);
+		//	    boundAssembly.Modules.Add(boundModule.Name, boundModule);
 
-			}
+		//	}
 
-		    return boundAssembly;
+		//    return boundAssembly;
 
-	    }
+	 //   }
 
 
 		/// <summary>
 		///Ensures the assembly, modules and types are present.
 		/// </summary>
-		public SemanticAssemblyMask_I BuildOut(BoundRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition)
+		public SemanticAssemblyMask_I BuildOut(RuntimicSystemModel semanticModel, AssemblyDefinition assemblyDefinition)
         {
             // Ensure the assembly
             var semanticAssembly = Assemblies.Ensuring.Ensure(semanticModel, assemblyDefinition);
@@ -64,7 +62,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
             return semanticAssembly;
         }
 
-        public void BuildOut(BoundRuntimicModelMask_I semanticModel, SemanticAssemblyMask_I semanticAssembly)
+        public void BuildOut(RuntimicSystemModel semanticModel, SemanticAssemblyMask_I semanticAssembly)
         {
             if (semanticAssembly.IsBuiltOut)
             {

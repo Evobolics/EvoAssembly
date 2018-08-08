@@ -1,6 +1,6 @@
 ﻿using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal
@@ -12,7 +12,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
 	public class GenericInstanceApi<TContainer> : SemanticApiNode<TContainer>, GenericInstanceApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public TypeDefinition GetElementType(InfrastructureRuntimicModelMask_I semanticModel, SemanticTypeDefinitionMask_I bound)
+		public TypeDefinition GetElementType(RuntimicSystemModel semanticModel, SemanticTypeDefinitionMask_I bound)
 		{
 			var genericInstanceType = (GenericInstanceType)bound.SourceTypeReference;
 
@@ -20,7 +20,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
 
 		}
 
-		public TypeDefinition GetElementType(InfrastructureRuntimicModelMask_I model, GenericInstanceType genericInstanceType)
+		public TypeDefinition GetElementType(RuntimicSystemModel model, GenericInstanceType genericInstanceType)
 		{
 			// ERROR - can not be a type definition when this is an external reference.
 			// FIX along with the other code.
@@ -32,7 +32,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
 			return GetElementType_Internal(model, elementType);
 		}
 
-		private TypeDefinition GetElementType_Internal(InfrastructureRuntimicModelMask_I model, TypeReference elementType)
+		private TypeDefinition GetElementType_Internal(RuntimicSystemModel model, TypeReference elementType)
 		{
 			if (elementType.IsDefinition)
 			{
@@ -50,9 +50,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
 				// 1) CHANGE CODE TO RESOLVE EXTERNAL REFERENCE - Make method specific for this
 				// 2) Make this selement  type function resuable as we we will need it again / use the value already determeind. 
 				// 1.b) The resolve external reference needs to do hte looking for assemlby thing, and make sure those types are loaded if not.
-				var reference = Infrastructure.Models.Structural.Types.External.Resolve(model, elementType); // GetStoredTypeReference
+				//var reference = Infrastructure.Models.Structural.Types.External.Resolve(model, elementType); // GetStoredTypeReference
+				var node = Infrastructure.Structural.Types.Ensure(model, elementType);
 
-				return GetElementType_Internal(model, reference);
+				return GetElementType_Internal(model, node.CecilTypeReference);
 
 			}
 		}

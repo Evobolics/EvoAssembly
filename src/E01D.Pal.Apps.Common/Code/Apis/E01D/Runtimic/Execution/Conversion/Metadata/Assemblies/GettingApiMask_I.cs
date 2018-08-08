@@ -1,10 +1,8 @@
 ﻿using System.Reflection;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Modeling;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 {
@@ -14,11 +12,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
 	    SemanticAssemblyMask_I GetAssembly(ILConversion conversion, Assembly assembly);
 
-	    SemanticAssemblyMask_I GetAssembly(InfrastructureRuntimicModelMask_I model, string fullName);
+	    SemanticAssemblyMask_I GetAssembly(RuntimicSystemModel model, string fullName);
 
 	    
 
-	    SemanticAssemblyMask_I GetAssembly(ILConversionRuntimicModel conversion, AssemblyDefinition assemblyDefinition);
+	    SemanticAssemblyMask_I GetAssembly(RuntimicSystemModel conversion, AssemblyDefinition assemblyDefinition);
 
 	    
 

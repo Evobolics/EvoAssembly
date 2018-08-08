@@ -26,7 +26,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 	    {
 			var systemParameters = Parameters.GetSystemParameterTypes(conversion, methodReference.Parameters);
 
-		    var returnType = Execution.Types.Ensuring.EnsureToType(conversion.Model, methodReference.ReturnType);
+		    var returnType = Execution.Types.Ensuring.EnsureToType(conversion, methodReference.ReturnType);
 
 		    var callingConventions = Methods.GetCallingConventions(methodReference);
 

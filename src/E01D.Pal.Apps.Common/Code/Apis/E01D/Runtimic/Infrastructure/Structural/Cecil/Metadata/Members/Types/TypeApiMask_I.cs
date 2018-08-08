@@ -1,5 +1,5 @@
 ﻿using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
+using Root.Code.Models.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Types
 {
@@ -21,7 +21,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		System.Reflection.TypeAttributes GetTypeAttributes(TypeDefinition typeDefinition);
 
-		bool IsClass(StructuralRuntimicModelMask_I model, TypeReference constraint);
+		bool IsClass(RuntimicSystemModel model, TypeReference constraint);
 
 		bool IsExternal(TypeReference typeReference);
 

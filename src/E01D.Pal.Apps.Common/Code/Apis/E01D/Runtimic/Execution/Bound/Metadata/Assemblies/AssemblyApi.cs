@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using Root.Code.Attributes.E01D;
 using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Models.E01D.Runtimic;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 {
@@ -75,6 +77,30 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
             return null;
         }
 
+	    public BoundAssemblyNode EnsureNode(RuntimicSystemModel runtimicSystem, StructuralAssemblyNode inputStructuralNode)
+	    {
+		    var boundModel = runtimicSystem.TypeSystems.Bound;
 
+			if (boundModel.Assemblies.ByMetadataId.TryGetValue(inputStructuralNode.MetadataId, out BoundAssemblyNode boundAssemblyNode))
+		    {
+			    return boundAssemblyNode;
+		    }
+
+		    boundAssemblyNode = new BoundAssemblyNode()
+		    {
+			    Id = Runtimic.Identification.IssueId(runtimicSystem),
+			    StructuralNode = inputStructuralNode,
+			    MetadataId = inputStructuralNode.MetadataId,
+			    FullName = inputStructuralNode.FullName
+			};
+
+		    boundModel.Assemblies.ById.Add(boundAssemblyNode.Id, boundAssemblyNode);
+		    boundModel.Assemblies.ByMetadataId.Add(inputStructuralNode.MetadataId, boundAssemblyNode);
+		    boundModel.Assemblies.ByName.Add(boundAssemblyNode.FullName, boundAssemblyNode);
+
+		    boundAssemblyNode.BoundAssembly = Assemblies.Creation.CreateAssemblyEntry(runtimicSystem, boundAssemblyNode);
+
+		    return boundAssemblyNode;
+		}
     }
 }

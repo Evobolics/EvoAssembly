@@ -3,7 +3,7 @@ using Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural.Types;
 using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Models.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural
 {
@@ -19,7 +19,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural
 
 		StructuralTypesApiMask_I StructuralApiMask_I.Types => Types;
 
-		public void AddAssemblyDefinition(InfrastructureRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition)
+		public void AddAssemblyDefinition(RuntimicSystemModel semanticModel, AssemblyDefinition assemblyDefinition)
 		{
 			throw new Exception("Debug");
 
@@ -58,7 +58,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural
 			//}
 		}
 
-		public void Ensure(InfrastructureRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition, ModuleDefinition module, TypeDefinition typeDefinition)
+		public void Ensure(RuntimicSystemModel semanticModel, AssemblyDefinition assemblyDefinition, ModuleDefinition module, TypeDefinition typeDefinition)
 		{
 			if (assemblyDefinition == null) throw new System.ArgumentNullException();
 			if (module == null) throw new System.ArgumentNullException();

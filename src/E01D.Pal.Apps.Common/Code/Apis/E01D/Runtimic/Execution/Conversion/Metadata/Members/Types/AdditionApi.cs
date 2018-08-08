@@ -38,7 +38,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 		    Add(module.Types.ConvertedByResolutionName, entry);
 
             // 2) Call base class
-            Semantic.Metadata.Members.Types.Addition.Add(conversion.Model, module, entry);
+            Semantic.Metadata.Members.Types.Addition.Add(conversion.RuntimicSystem, module, entry);
 
 			
 			

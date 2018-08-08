@@ -1,7 +1,7 @@
 ﻿using Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types
 {
@@ -13,10 +13,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types
 
         EnsuringApiMask_I Ensuring { get; }
 
-	    bool IsConverted(BoundRuntimicModelMask_I boundModel, TypeReference input);
+	    bool IsConverted(RuntimicSystemModel boundModel, TypeReference input);
 
 
-        bool ContainsGenericMethodParameters(BoundRuntimicModelMask_I boundModel, GenericInstanceType genericInstance);
+        bool ContainsGenericMethodParameters(RuntimicSystemModel boundModel, GenericInstanceType genericInstance);
         int GetToken(BoundTypeDefinitionMask_I boundType);
     }
 }

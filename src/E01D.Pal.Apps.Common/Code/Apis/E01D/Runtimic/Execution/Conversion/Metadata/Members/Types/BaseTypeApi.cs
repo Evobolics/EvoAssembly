@@ -15,11 +15,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
             var resolutionName = Types.Naming.GetResolutionName(typeDefinition.BaseType);
 
-            var result = Models.Types.Get(conversion.Model, resolutionName);
+            var result = Models.Types.Get(conversion.RuntimicSystem, resolutionName);
 
             if (result != null) return result;
             
-            return Execution.Types.Ensuring.Ensure(conversion.Model, typeDefinition.BaseType, null, null);
+            //return Execution.Types.Ensuring.Ensure(conversion.Model, typeDefinition.BaseType, null, null);
+
+            throw new System.Exception("Fix");
         }
     }
 }

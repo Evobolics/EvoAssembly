@@ -1,5 +1,5 @@
 ﻿using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Assemblies
@@ -9,10 +9,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Assembli
         BuildingApiMask_I Building { get; }
         EnsuringApiMask_I Ensuring { get;  }
 
-	    SemanticAssemblyMask_I Get(InfrastructureRuntimicModelMask_I model, TypeReference typeReference);
+	    SemanticAssemblyMask_I Get(RuntimicSystemModel model, TypeReference typeReference);
 
-	    SemanticAssemblyMask_I Get(InfrastructureRuntimicModelMask_I model, string typeResolutionName);
+	    SemanticAssemblyMask_I Get(RuntimicSystemModel model, string typeResolutionName);
 
-	    bool TryGet(InfrastructureRuntimicModelMask_I model, string resolutionName, out SemanticAssemblyMask_I semanticAssemblyMask);
+	    bool TryGet(RuntimicSystemModel model, string resolutionName, out SemanticAssemblyMask_I semanticAssemblyMask);
 	}
 }

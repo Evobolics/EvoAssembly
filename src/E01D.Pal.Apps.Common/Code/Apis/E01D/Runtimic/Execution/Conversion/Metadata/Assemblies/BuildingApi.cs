@@ -1,8 +1,6 @@
-﻿using System;
+﻿using System.Linq;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
-using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 {
@@ -11,39 +9,45 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
     {
 	    public void Build(ILConversion conversion)
 	    {
-		    for (int i = 0; i < conversion.Input.AssemlyNodesToConvert.Count; i++)
-		    {
-			    var assemblyNode = conversion.Input.AssemlyNodesToConvert[i];
+		    var assemblies = conversion.MetadataModel.Assemblies.ById.Values.ToList();
 
-			    var convertedAssembly = Build(conversion, assemblyNode);
+			for (int i = 0; i < assemblies.Count; i++)
+			{
+				var assemblyNode = assemblies[i];
 
-			}
+				assemblyNode.ConvertedAssembly = Assemblies.Creation.CreateConvertedAssembly(conversion, assemblyNode.FullName, assemblyNode);
+
+            }
 		}
 
-	    private ConvertedAssembly Build(ILConversion conversion, UnifiedAssemblyNode assemblyNode)
-	    {
-		    var assemblyDefinition = assemblyNode.SourceAssemblyDefinition;
+	  //  private ConvertedAssembly Build(ILConversion conversion, ConvertedAssemblyNode assemblyNode)
+	  //  {
+		 //   //var assemblyDefinition = ;
 
-		    assemblyNode.Guid = Guid.NewGuid();
+		 //   //assemblyNode.Guid = Guid.NewGuid();
 
-			var name = Assemblies.Naming.GetAssemblyName(conversion, assemblyDefinition.Name.FullName, assemblyNode.Guid);
+			////var name = Assemblies.Naming.GetAssemblyName(conversion, assemblyNode.Name.FullName, assemblyNode.Guid);
 
-		    var convertedAssembly = Assemblies.Creation.CreateConvertedAssembly(conversion, name, assemblyDefinition);
+		 //   var convertedAssembly 
 
-		    assemblyNode.Semantic = convertedAssembly;
+		    
 
-		    for (int i = 0; i < assemblyNode.ModuleNodes.Count; i++)
-		    {
-			    var moduleNode = assemblyNode.ModuleNodes[i];
+   //         //   assemblyNode.Semantic = convertedAssembly;
 
-			    var convertedModule = Modules.Building.BuildOut(conversion, moduleNode);
+   //         //   for (int i = 0; i < assemblyNode.ModuleNodes.Count; i++)
+   //         //   {
+   //         //    var moduleNode = assemblyNode.ModuleNodes[i];
 
-			    convertedAssembly.Modules.Add(convertedModule.Name, convertedModule);
-			}
+   //         //    var convertedModule = Modules.Building.BuildOut(conversion, moduleNode);
 
-			return convertedAssembly;
+   //         //    convertedAssembly.Modules.Add(convertedModule.Name, convertedModule);
+   //         //}
 
-	    }
+   //         //return convertedAssembly;
+
+   //         throw new Exception("not fixed yet");
+
+	  //  }
 
 	    //public SemanticAssemblyMask_I BuildOut(ILConversion conversion, AssemblyNameReference nameReference)
 		//{

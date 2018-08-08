@@ -2,7 +2,7 @@
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Libs.Mono.Cecil.Metadata;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
+using Root.Code.Models.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Types
 {
@@ -195,7 +195,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return typeAttributes;
 		}
 
-		public bool IsClass(StructuralRuntimicModelMask_I model, TypeReference constraint)
+		public bool IsClass(RuntimicSystemModel model, TypeReference constraint)
 		{
 			if (constraint.IsDefinition)
 			{
@@ -217,9 +217,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 			if (IsExternal(constraint))
 			{
-				var external = External.Resolve(model, constraint);
+				var node = Infrastructure.Structural.Types.Ensure(model, constraint);
 
-				return IsClass(model, external);
+				
+
+				return IsClass(model, node.CecilTypeReference);
 			}
 			throw new Exception("Is class only implemented for definitions so far.");
 		}

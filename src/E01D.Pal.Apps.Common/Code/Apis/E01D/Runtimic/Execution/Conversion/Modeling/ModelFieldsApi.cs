@@ -3,6 +3,7 @@ using Root.Code.Containers.E01D.Runtimic;
 using System.Reflection;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 
@@ -11,7 +12,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling
     public class ModelFieldsApi<TContainer> : ConversionApiNode<TContainer>, ModelFieldsApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        public FieldInfo ResolveFieldReference(ILConversion conversion, ConvertedTypeDefinitionMask_I accessingType, FieldReference fieldReference)
+        public FieldInfo ResolveFieldReference(ILConversion conversion, ConvertedTypeDefinitionMask_I accessingType, BoundTypeDefinitionMask_I declaringFieldReferenceType, FieldReference fieldReference)
         {
             // The problem we run into is that for generic types, we need the fully baked type and we do not have access to a builder
             // that is able to act as a type.  So I think we are going to have to bake the types.  It looks like we will have to figure out
@@ -23,7 +24,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling
             var declaringTypeRef = fieldReference.DeclaringType;
 
 
-            var declaringSematicType = Execution.Types.Ensuring.EnsureBound(conversion.Model, declaringTypeRef);
+            var declaringSematicType = Execution.Types.Ensuring.EnsureBound(conversion, declaringTypeRef);
 
             FieldInfo fieldInfo = null;
 

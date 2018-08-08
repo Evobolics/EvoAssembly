@@ -35,7 +35,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
             conversion.Model.Semantic.Assemblies.ByResolutionName.Add(definition.Name.FullName, convertedAssembly);
             
 
-	        Infrastructure.Models.Structural.AddAssemblyDefinition(conversion.Model, definition);
+	        Infrastructure.Models.Structural.AddAssemblyDefinition(conversion.RuntimicSystem, definition);
 
 
         }

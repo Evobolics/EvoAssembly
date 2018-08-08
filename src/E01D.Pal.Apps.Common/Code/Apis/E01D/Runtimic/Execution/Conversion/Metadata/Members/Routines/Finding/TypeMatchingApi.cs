@@ -82,7 +82,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
                             cecilType = genericArgumentEntry.Type;
                         }
 
-                        var argumentTypeDefinitionEntry = Execution.Types.Ensuring.EnsureBound(conversion.Model, argument);
+                        var argumentTypeDefinitionEntry = Execution.Types.Ensuring.EnsureBound(conversion, argument);
 
                         types[i++] = argumentTypeDefinitionEntry ?? throw new NotSupportedException("Not expected.");
                     }
@@ -95,9 +95,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
             }
             else
             {
-                var type1 = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodSpecType);
+                var type1 = Execution.Types.Ensuring.EnsureBound(conversion, methodSpecType);
 
-                var type2 = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodDefType);
+                var type2 = Execution.Types.Ensuring.EnsureBound(conversion, methodDefType);
 
                 return type1 == type2;
             }

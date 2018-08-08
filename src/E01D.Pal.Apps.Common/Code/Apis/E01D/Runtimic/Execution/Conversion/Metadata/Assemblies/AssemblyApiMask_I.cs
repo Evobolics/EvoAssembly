@@ -1,4 +1,9 @@
-﻿namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
+﻿using System.Reflection;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural.Metadata;
+
+namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 {
     public interface AssemblyApiMask_I
     {
@@ -27,19 +32,10 @@
 
 		#endregion
 
-		
+	    ConvertedAssemblyNode EnsureNode(ILConversion conversion, Assembly assembly);
 
+	    ConvertedAssemblyNode EnsureNode(ILConversion conversion, System.IO.Stream stream);
 
-
-
-
-
-
-
-
-
-
-
-
-	}
+		ConvertedAssemblyNode EnsureNode(ILConversion conversion, StructuralAssemblyNode assemblyNode);
+    }
 }

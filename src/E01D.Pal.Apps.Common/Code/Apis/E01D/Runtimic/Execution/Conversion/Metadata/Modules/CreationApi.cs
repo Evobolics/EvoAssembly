@@ -3,18 +3,17 @@ using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
-using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules
 {
 	public class CreationApi<TContainer> : ConversionApiNode<TContainer>, CreationApi_I<TContainer>
         where TContainer: RuntimicContainer_I<TContainer>
     {
-		public ConvertedModule Create(ILConversion conversion, UnifiedModuleNode moduleNode)
+		public ConvertedModule Create(ILConversion conversion, ConvertedModuleNode moduleNode)
 		{
 			var assemblyNode = moduleNode.AssemblyNode;
 
-			ModuleDefinition moduleDefinition = moduleNode.ModuleDefinition;
+			ModuleDefinition moduleDefinition = moduleNode.InputStructuralDefinition.CecilModuleDefinition;
 
 			string name;
 
@@ -45,18 +44,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules
 				name = moduleDefinition.Name;
 			}
 
-			
-
-			if (!(moduleNode.AssemblyNode.Semantic is ConvertedAssembly convertedAssembly))
-			{
-				throw new Exception("Expected as converted assembly to be stored in the unified node.");
-			}
-
 			var module = new ConvertedModule()
 			{
-			    ModuleBuilder = convertedAssembly.AssemblyBuilder.DefineDynamicModule(name),
+			    ModuleBuilder = assemblyNode.ConvertedAssembly.AssemblyBuilder.DefineDynamicModule(name),
                 Name = name,
-			    Assembly = convertedAssembly,
+			    Assembly = assemblyNode.ConvertedAssembly,
 			    SourceModuleDefinition = moduleDefinition,
 			    Conversion = conversion,
 			};

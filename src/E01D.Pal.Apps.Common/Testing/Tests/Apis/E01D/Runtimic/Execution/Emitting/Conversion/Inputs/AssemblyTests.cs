@@ -33,23 +33,23 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 
 			var cEvoAssembly = XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.GetTypeInAssembly(collectibleAssembly, typeof(EvoAssembly));
 
-			var createContainerMethod = cEvoAssembly.GetMethod("CreateContainer", BindingFlags.Public | BindingFlags.Static);
+			//var createContainerMethod = cEvoAssembly.GetMethod("CreateContainer", BindingFlags.Public | BindingFlags.Static);
 
-			var cContainer = createContainerMethod.Invoke(null, new object[] { });
+			//var cContainer = createContainerMethod.Invoke(null, new object[] { });
 
-			try
-			{
-				var types = collectibleAssembly.GetTypes();
-			}
-			catch (System.Reflection.ReflectionTypeLoadException e)
-			{
-				//for (int j = 0; j < e.LoaderExceptions.Length; j++)
-				//{
-				//	Console.WriteLine(e.LoaderExceptions[j].Message);
-				//}
+			//try
+			//{
+			//	var types = collectibleAssembly.GetTypes();
+			//}
+			//catch (System.Reflection.ReflectionTypeLoadException e)
+			//{
+			//	//for (int j = 0; j < e.LoaderExceptions.Length; j++)
+			//	//{
+			//	//	Console.WriteLine(e.LoaderExceptions[j].Message);
+			//	//}
 
-				throw e.LoaderExceptions[0];
-			}
+			//	throw e.LoaderExceptions[0];
+			//}
 		}
 	}
 }

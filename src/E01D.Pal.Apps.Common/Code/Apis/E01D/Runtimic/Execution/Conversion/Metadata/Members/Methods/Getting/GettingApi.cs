@@ -4,17 +4,17 @@ using System.Linq;
 using System.Reflection;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Methods.Getting.FromMethodReference;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic.Execution;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Modeling;
+using Root.Code.Models.E01D.Runtimic.Execution.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Methods.Getting
@@ -45,12 +45,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 	    }
 
-	    public MethodInfo GetMethodInfoOrThrow(ILConversion conversion, ConvertedTypeDefinitionMask_I typeBeingBuilt, ConvertedRoutine methodBeingBuilt, MethodReference methodReference)
+	    public MethodInfo GetMethodInfoOrThrow(ILConversion conversion, ConvertedTypeDefinitionMask_I typeBeingBuilt, 
+			ConvertedRoutine methodBeingBuilt, BoundTypeDefinitionMask_I methodReferenceDeclaringType, MethodReference methodReference)
 	    {
 
-		    var declaringType = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodReference.DeclaringType);
+		    //var declaringType = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodReference.DeclaringType);
 
-		    if (!(declaringType is BoundTypeDefinitionWithMethodsMask_I declaringTypeWithMethods))
+		    if (!(methodReferenceDeclaringType is BoundTypeDefinitionWithMethodsMask_I declaringTypeWithMethods))
 		    {
 			    throw new System.Exception("Expected a type with methods declared.");
 		    }
@@ -77,18 +78,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 		    {
 			    var typeArgumentReference = genericInstanceMethod.GenericArguments[i];
 
-			    var semanticType = Execution.Types.Ensuring.Ensure(conversion.Model, new BoundEnsureContext()
+			    var semanticTypeNode = Execution.Types.Ensuring.Ensure(new ExecutionEnsureContext()
 				{
+					Conversion = conversion,
+					RuntimicSystem = conversion.RuntimicSystem,
 				    TypeReference = typeArgumentReference,
 					MethodReference = methodBeingBuilt.MethodReference
 				});
 
-			    if (!(semanticType is BoundTypeDefinitionMask_I bound))
-			    {
-				    throw new System.Exception("Semantic type needs to be a bound type.");
-			    }
+			    
 
-			    typeArguments[i] = bound.UnderlyingType;
+			    typeArguments[i] = semanticTypeNode.Type.UnderlyingType;
 		    }
 
 		    return methodInfo.MakeGenericMethod(typeArguments);
@@ -172,7 +172,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 			    if (!VerifyGenericArguments(currentSemanticMethod.MethodReference, methodReference)) continue;
 
-			    if (!Cecil.Methods.AreSame(conversion.Model, currentSemanticMethod.MethodReference.Parameters, methodReference.Parameters, methodReference)) continue;
+			    if (!Cecil.Methods.AreSame(conversion.RuntimicSystem, currentSemanticMethod.MethodReference.Parameters, methodReference.Parameters, methodReference)) continue;
 
 			    return method;
 
@@ -316,7 +316,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 		    var targetReturnType = targetMethod.ReturnType;
 
-		    targetReturnType = Cecil.Methods.ResolveTypeParameterIfPresent(conversion.Model, targetMethod, targetReturnType);
+		    targetReturnType = Cecil.Methods.ResolveTypeParameterIfPresent(conversion.RuntimicSystem, targetMethod, targetReturnType);
 
 		    return VerifyTypeMatch(conversion, currentReturnType, targetReturnType);		    
 	    }

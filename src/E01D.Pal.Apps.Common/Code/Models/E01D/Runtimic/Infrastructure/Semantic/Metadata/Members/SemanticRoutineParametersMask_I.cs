@@ -6,6 +6,6 @@ namespace Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Member
     {
         List<SemanticRoutineParameterMask_I> All { get; }
 
-        Dictionary<string, SemanticRoutineParameterMask_I> ByName { get; }
+        
     }
 }

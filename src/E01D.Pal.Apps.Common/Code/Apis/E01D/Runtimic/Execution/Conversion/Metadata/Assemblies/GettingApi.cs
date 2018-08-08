@@ -1,9 +1,8 @@
 ﻿using System.Reflection;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Modeling;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
@@ -15,19 +14,19 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
 	    public SemanticAssemblyMask_I GetAssembly(ILConversion conversion, AssemblyDefinition assemblyDefinition)
 	    {
-		    return GetAssembly(conversion.Model, assemblyDefinition);
+		    return GetAssembly(conversion.RuntimicSystem, assemblyDefinition);
 	    }
 
 	    public SemanticAssemblyMask_I GetAssembly(ILConversion conversion, Assembly assembly)
 	    {
-		    return GetAssembly(conversion.Model, assembly.FullName);
+		    return GetAssembly(conversion.RuntimicSystem, assembly.FullName);
 	    }
 
 	    
 
 	    
 
-	    public SemanticAssemblyMask_I GetAssembly(InfrastructureRuntimicModelMask_I model, string resolutionName)
+	    public SemanticAssemblyMask_I GetAssembly(RuntimicSystemModel model, string resolutionName)
 	    {
 		    if (!Semantic.Metadata.Assemblies.TryGet(model, resolutionName, out SemanticAssemblyMask_I assemblyEntry))
 		    {
@@ -37,7 +36,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 		    return assemblyEntry;
 	    }
 
-	    public SemanticAssemblyMask_I GetAssembly(ILConversionRuntimicModel model, AssemblyDefinition assemblyDefinition)
+	    public SemanticAssemblyMask_I GetAssembly(RuntimicSystemModel model, AssemblyDefinition assemblyDefinition)
 	    {
 		    return GetAssembly(model, assemblyDefinition.FullName);
 	    }

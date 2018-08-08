@@ -4,8 +4,7 @@ using System.Reflection.Emit;
 using Root.Code.Attributes.E01D;
 using Root.Code.Domains;
 using Root.Code.Domains.E01D;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 using Root.Testing.Code.Containers.E01D.Runtimic.Execution.Emitting.Conversion;
 using Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types;
@@ -15,14 +14,44 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
     
     public class ClassTests
     {
-        [Test]
+	    [Test]
+	    public void CanCreateSimpleClassWithField()
+	    {
+		    // Create a test container
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var instance = test.Api.ConvertAndCreateInstance(typeof(SimpleClassWithField), new ILConversionOptions()
+		    {
+			    BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+			    UseILGenerator = false
+		    });
+
+		    var type = instance.GetType();
+
+		    var field = type.GetField("Field");
+
+		    var fieldInstance = System.Activator.CreateInstance(field.FieldType);
+
+		    field.SetValue(instance, fieldInstance);
+
+		    Assert.ReferenceEquals(fieldInstance, field.GetValue(instance));
+
+
+	    }
+
+		[Test]
         public void CanCreateBasicStructWithInt32Field()
         {
             // Create a test container
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var instance = test.Api.ConvertAndCreateInstance(typeof(BasicStructWithInt32Field));
+            var instance = test.Api.ConvertAndCreateInstance(typeof(BasicStructWithInt32Field), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
             var type = instance.GetType();
 
@@ -42,7 +71,11 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var instance = test.Api.ConvertAndCreateInstance(typeof(BasicClassWithObjectField));
+            var instance = test.Api.ConvertAndCreateInstance(typeof(BasicClassWithObjectField), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
             var type = instance.GetType();
 
@@ -61,12 +94,14 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             // Create a test container
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
-            // Convert the type. The test api code will check to make sure the instance is not null.
-            var instance = test.Api.ConvertAndCreateInstance(typeof(SimpleClass));
+	        var bareBonesClass = typeof(SimpleClass);
 
-            
-
-
+			// Convert the type. The test api code will check to make sure the instance is not null.
+			var instance = test.Api.ConvertAndCreateInstance(bareBonesClass, new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
         }
 
 	   
@@ -78,7 +113,11 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var instance = test.Api.ConvertAndCreateInstance(typeof(SimpleClassWithBase));
+            var instance = test.Api.ConvertAndCreateInstance(typeof(SimpleClassWithBase), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
 
 
@@ -92,7 +131,11 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var instance = test.Api.ConvertAndCreateInstance(typeof(SimpleClassWithBaseAndInterface));
+            var instance = test.Api.ConvertAndCreateInstance(typeof(SimpleClassWithBaseAndInterface), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
 
 
@@ -108,7 +151,11 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var instance = test.Api.ConvertAndCreateInstance(typeof(SimpleClassWithBaseAndInterfaces));
+            var instance = test.Api.ConvertAndCreateInstance(typeof(SimpleClassWithBaseAndInterfaces), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
 
 
@@ -122,7 +169,11 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var instance = test.Api.ConvertAndCreateInstance(typeof(SimpleClassWithNestedClass));
+            var instance = test.Api.ConvertAndCreateInstance(typeof(SimpleClassWithNestedClass), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
             var x = instance.GetType().GetNestedType("NestedClass");
 
@@ -138,7 +189,11 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var type = test.Api.ConvertSingleType(typeof(SimpleGenericClass<>));
+            var type = test.Api.ConvertSingleType(typeof(SimpleGenericClass<>), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
             //
 
@@ -154,7 +209,11 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var type = test.Api.ConvertSingleType(typeof(SimpleGenericClass<object>));
+            var type = test.Api.ConvertSingleType(typeof(SimpleGenericClass<object>), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
             //
 
@@ -170,7 +229,11 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var type = test.Api.ConvertSingleType(typeof(SimpleGenericClassWithInterface1<Interface1Class>));
+            var type = test.Api.ConvertSingleType(typeof(SimpleGenericClassWithInterface1<Interface1Class>), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
             //
 
@@ -186,7 +249,11 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var type = test.Api.ConvertSingleType(typeof(Interface1));
+            var type = test.Api.ConvertSingleType(typeof(Interface1), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
             //
 
@@ -202,7 +269,11 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var type = test.Api.ConvertSingleType(typeof(SimpleGenericStruct<>));
+            var type = test.Api.ConvertSingleType(typeof(SimpleGenericStruct<>), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
             //
 
@@ -218,7 +289,11 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var type = test.Api.ConvertSingleType(typeof(GenericClassWithConstraints<>));
+            var type = test.Api.ConvertSingleType(typeof(GenericClassWithConstraints<>), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
             Assert.IsNotNull(type);
         }
@@ -230,7 +305,11 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var type = test.Api.ConvertSingleType(typeof(SimpleDelegate));
+            var type = test.Api.ConvertSingleType(typeof(SimpleDelegate), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
             Assert.IsNotNull(type);
         }
@@ -242,7 +321,12 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var instance = test.Api.ConvertAndCreateInstance(typeof(GenericClassWithMembersThatTakeInGenericClassParameters<Class1>), out Assembly assembly, out System.Type convertedType);
+            var instance = test.Api.ConvertAndCreateInstance(typeof(GenericClassWithMembersThatTakeInGenericClassParameters<Class1>), 
+				out Assembly assembly, out System.Type convertedType, new ILConversionOptions()
+	        {
+		        BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+		        UseILGenerator = false
+	        });
 
             var class1Instance = test.Api.CreateInstance(assembly, typeof(Class1));
 
@@ -270,9 +354,13 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var type = test.Api.ConvertSingleType(typeof(GenericAndBaseWithThreeGenericParameters<Class1, Class2, Class3>));
+            var type = test.Api.ConvertSingleType(typeof(GenericAndBaseWithThreeGenericParameters<Class1, Class2, Class3>), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
-            Assert.IsNotNull(type);
+			Assert.IsNotNull(type);
         }
 
         /// <summary>
@@ -285,9 +373,13 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var type = test.Api.ConvertAndCreateInstance(typeof(ComplicatedGenericWithOneArgBaseConstructorCall<Class1, Class2, Class3>));
+            var type = test.Api.ConvertAndCreateInstance(typeof(ComplicatedGenericWithOneArgBaseConstructorCall<Class1, Class2, Class3>), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
-            Assert.IsNotNull(type);
+			Assert.IsNotNull(type);
         }
 
         /// <summary>
@@ -300,7 +392,11 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var type = test.Api.ConvertAndCreateInstance(typeof(ComplicatedGenericWithTwoBaseConstructors<Class1, Class2, Class3>));
+            var type = test.Api.ConvertAndCreateInstance(typeof(ComplicatedGenericWithTwoBaseConstructors<Class1, Class2, Class3>), new ILConversionOptions()
+	        {
+		        BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+		        UseILGenerator = false
+	        }); ;
 
             Assert.IsNotNull(type);
         }
@@ -315,9 +411,13 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
             var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
 
             // Convert the type. The test api code will check to make sure the instance is not null.
-            var type = test.Api.ConvertAndCreateInstance(typeof(ComplicatedGenericWithConstructorWithArgumentSetToDefaultValue));
+            var type = test.Api.ConvertAndCreateInstance(typeof(ComplicatedGenericWithConstructorWithArgumentSetToDefaultValue), new ILConversionOptions()
+            {
+	            BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+	            UseILGenerator = false
+            });
 
-            Assert.IsNotNull(type);
+			Assert.IsNotNull(type);
         }
 
         /// <summary>
@@ -542,6 +642,18 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 	    }
 
 	    [Test]
+	    public void ClassTesting_Switch()
+	    {
+		    // Create a test container
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var result = test.Api.ConvertCreateCall(typeof(ClassTesting_Switch), "Execute");
+
+		    Assert.AreEqual(true, (bool)result);
+	    }
+
+		[Test]
 	    public void ClassTesting_ClassWithBlankAttribute()
 	    {
 		    // Create a test container
@@ -559,7 +671,27 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 		    Assert.AreEqual(1, attributes.Count);
 	    }
 
+
+
 	    [Test]
+	    public void ClassTesting_ClassWithAttributeWithArguments()
+	    {
+		    // Create a test container
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var instance = test.Api.ConvertAndCreateInstance(typeof(ClassTesting_ClassWithAttributeWithArguments));
+
+		    var type = instance.GetType();
+
+
+		    var attributes = type.CustomAttributes.ToList();
+
+
+		    Assert.AreEqual(1, attributes.Count);
+	    }
+
+		[Test]
 	    public void ClassTesting_SoleNestedType()
 	    {
 		    // Create a test container

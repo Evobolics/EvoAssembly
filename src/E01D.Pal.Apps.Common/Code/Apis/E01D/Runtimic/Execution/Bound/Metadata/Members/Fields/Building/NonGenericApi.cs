@@ -2,16 +2,16 @@
 using System.Reflection;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Fields.Building
 {
 	public class NonGenericApi<TContainer> : BoundApiNode<TContainer>, NonGenericApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public void BuildFields(BoundRuntimicModelMask_I semanticModel, BoundTypeDefinition_I input)
+		public void BuildFields(RuntimicSystemModel semanticModel, BoundTypeDefinition_I input)
 		{
 
 
@@ -32,13 +32,18 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Fields.B
 			{
 				var field = typeDefinition.Fields[i];
 
-				var fieldInfo = type.GetField(field.Name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+				var fieldInfo = type.GetField(field.Name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public
+//					| BindingFlags.NonPublic
+					);
 
-				BuildField(semanticModel, typeWithFields, field, fieldInfo);
+				if (fieldInfo != null)
+				{
+					BuildField(semanticModel, typeWithFields, field, fieldInfo);
+				}
 			}
 		}
 
-		public void BuildField(BoundRuntimicModelMask_I semanticModel, BoundTypeDefinitionWithFields_I typeWithFields, FieldDefinition field, FieldInfo fieldInfo)
+		public void BuildField(RuntimicSystemModel semanticModel, BoundTypeDefinitionWithFields_I typeWithFields, FieldDefinition field, FieldInfo fieldInfo)
 		{
 			var fieldType = field.FieldType;
 

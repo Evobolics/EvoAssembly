@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
-using Root.Code.Models.E01D.Runtimic.Unified;
+﻿using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Models.E01D.Runtimic;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Assemblies
 {
 	public class GettingApi<TContainer> : CecilApiNode<TContainer>, GettingApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public List<AssemblyDefinition> GetAssemblies(InfrastructureRuntimicModelMask_I semanticModel, List<TypeReference> inputTypes)
-		{
-			throw new System.NotImplementedException();
-		}
+		
 
-		public UnifiedAssemblyNode Get(InfrastructureRuntimicModelMask_I semanticModel, string resolutionName)
+		public StructuralAssemblyNode Get(RuntimicSystemModel runtimicModel, string resolutionName)
 		{
-			if (Get(semanticModel, resolutionName, out UnifiedAssemblyNode node))
+			if (Get(runtimicModel, resolutionName, out StructuralAssemblyNode node))
 			{
 				return node;
 			}
@@ -25,21 +19,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return null;
 		}
 
-		public bool Get(InfrastructureRuntimicModelMask_I semanticModel, string resolutionName, out UnifiedAssemblyNode node)
+		public bool Get(RuntimicSystemModel runtimicModel, string resolutionName, out StructuralAssemblyNode node)
 		{
-			if (!semanticModel.Unified.Assemblies.Definitions.TryGetValue(resolutionName, out UnifiedAssemblyNodeSet set))
-			{
-				node = null;
-				return false;
-			}
-
-			if (set.First == set.Last)
-			{
-				node = set.First;
-				return true;
-			}
-
-			throw new Exception("Currently support for multiple assemblies with the same name is not supported.");
+			return runtimicModel.TypeSystems.Structural.Assemblies.ByName.TryGetValue(resolutionName, out node);
 		}
 	}
 }

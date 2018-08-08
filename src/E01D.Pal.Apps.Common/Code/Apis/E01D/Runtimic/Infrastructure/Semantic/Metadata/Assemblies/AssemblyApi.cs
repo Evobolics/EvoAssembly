@@ -1,8 +1,7 @@
 ﻿using System;
-using Root.Code.Attributes.E01D;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Assemblies
@@ -22,7 +21,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Assembli
 
         EnsuringApiMask_I AssemblyApiMask_I.Ensuring => Ensuring;
 
-	    public SemanticAssemblyMask_I Get(InfrastructureRuntimicModelMask_I model, TypeReference typeReference)
+	    public SemanticAssemblyMask_I Get(RuntimicSystemModel model, TypeReference typeReference)
 	    {
 		    var assemblyName = Infrastructure.Structural.Cecil.Metadata.Assemblies.Naming.GetAssemblyName(typeReference);
 
@@ -34,7 +33,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Assembli
 		    return null;
 	    }
 
-	    public SemanticAssemblyMask_I Get(InfrastructureRuntimicModelMask_I model, string typeResolutionName)
+	    public SemanticAssemblyMask_I Get(RuntimicSystemModel model, string typeResolutionName)
 	    {
 		    var semanticType = Infrastructure.Models.Semantic.Types.Collection.Get(model, typeResolutionName);
 
@@ -46,7 +45,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Assembli
 		    return semanticType.Module.Assembly;
 	    }
 
-	    public bool TryGet(InfrastructureRuntimicModelMask_I model, string resolutionName, out SemanticAssemblyMask_I semanticAssemblyMask)
+	    public bool TryGet(RuntimicSystemModel model, string resolutionName, out SemanticAssemblyMask_I semanticAssemblyMask)
 	    {
 		    var node = Unified.Assemblies.Get(model, resolutionName);
 

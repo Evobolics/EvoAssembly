@@ -55,6 +55,11 @@ namespace Root.Code.Libs.Mono.Cecil {
 		public GenericInstanceType (TypeReference type)
 			: base (type)
 		{
+			if (type.Name == "Dictionary`2")
+			{
+				
+			}
+
 			base.IsValueType = type.IsValueType;
 			this.etype = Root.Code.Libs.Mono.Cecil.Metadata.CecilElementType.GenericInst;
 		}

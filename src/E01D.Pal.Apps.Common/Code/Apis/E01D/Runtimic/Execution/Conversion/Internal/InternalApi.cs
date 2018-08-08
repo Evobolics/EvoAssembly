@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Configurational;
+using Root.Code.Attributes.E01D;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Domains.E01D;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
+using Root.Code.Models.E01D.Runtimic.Execution;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Unified;
 
@@ -17,46 +24,78 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 	public class InternalApi<TContainer> : ConversionApiNode<TContainer>, InternalApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
+		public new ConfigurationalApi_I<TContainer> Configurational { get; set; }
+
+		ConfigurationalApiMask_I InternalApiMask_I.Configurational
+		{
+			get { return Configurational; }
+		}
+
+		public InitializationApi_I<TContainer> Initialization { get; set; }
+
+		InitializationApiMask_I InternalApiMask_I.Initialization => Initialization;
 
 		public ResultApi_I<TContainer> Results { get; set; }
 
 		ResultApiMask_I InternalApiMask_I.Results => Results;
 
 
+		[PublicApi]
 		public ILConversionResult Convert(ILConversion conversion, Type type)
 		{
-			return Convert(conversion, type, CreateDefaultConversionOptions());
+			conversion.Input.TypesToConvert = new []{type};
+			conversion.Input.Options = CreateDefaultConversionOptions();
+
+			return Convert(conversion);
 		}
 
+		[PublicApi]
 		public ILConversionResult Convert(ILConversion conversion, Type type, ILConversionOptions conversionOptions)
 		{
-			var typeDefinition = Cecil.Types.Ensuring.EnsureReference(conversion.Model, type);
+			conversion.Input.TypesToConvert = new[] { type };
+			conversion.Input.Options = conversionOptions;
 
-			return Convert(conversion, typeDefinition, conversionOptions);
+			return Convert(conversion);
 		}
 
+		[PublicApi]
 		public ILConversionResult Convert(ILConversion conversion, Type[] types)
 		{
-			return Convert(conversion, types, CreateDefaultConversionOptions());
+			conversion.Input.TypesToConvert = types;
+			conversion.Input.Options = CreateDefaultConversionOptions();
+
+			return Convert(conversion);
 		}
 
+		[PublicApi]
 		public ILConversionResult Convert(ILConversion conversion, Type[] types, ILConversionOptions conversionOptions)
 		{
-			var typeSet = Cecil.Types.Ensuring.EnsureReferences(conversion.Model, types);
 
-			return Convert(conversion, typeSet.Assemblies, conversionOptions, typeSet.Types); // Make work
+
+			conversion.Input.TypesToConvert = types;
+			conversion.Input.Options = conversionOptions;
+
+			return Convert(conversion);
 		}
 
+		[PublicApi]
 		public ILConversionResult Convert(ILConversion conversion, TypeReference typeReference)
 		{
-			return Convert(conversion, typeReference, CreateDefaultConversionOptions());
+			conversion.Input.TypeReferencesToConvert = new []{ typeReference };
+			conversion.Input.Options = CreateDefaultConversionOptions();
+
+			return Convert(conversion);
 		}
 
+		[PublicApi]
 		public ILConversionResult Convert(ILConversion conversion, TypeReference typeReference, ILConversionOptions conversionOptions)
 		{
-			var typeReferences = new List<TypeReference> {typeReference};
 
-			return Convert(conversion, typeReferences, conversionOptions);
+
+			conversion.Input.TypeReferencesToConvert = new[] { typeReference }; ;
+			conversion.Input.Options = conversionOptions;
+
+			return Convert(conversion);
 		}
 
 		/// <summary>
@@ -64,29 +103,38 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 		/// </summary>
 		/// <param name="conversion"></param>
 		/// <param name="typeReferences"></param>
-		public ILConversionResult Convert(ILConversion conversion, List<TypeReference> typeReferences)
+		[PublicApi]
+		public ILConversionResult Convert(ILConversion conversion, TypeReference[] typeReferences)
 		{
-			return Convert(conversion, typeReferences, CreateDefaultConversionOptions());
+			conversion.Input.TypeReferencesToConvert = typeReferences;
+			conversion.Input.Options = CreateDefaultConversionOptions();
+
+			return Convert(conversion);
 		}
 
-		public ILConversionResult Convert(ILConversion conversion, List<TypeReference> typeReferences, ILConversionOptions conversionOptions)
+		[PublicApi]
+		public ILConversionResult Convert(ILConversion conversion, TypeReference[] typeReferences, ILConversionOptions conversionOptions)
 		{
-			var typeSet = Cecil.Types.Ensuring.EnsureReferences(conversion.Model, typeReferences);
+			conversion.Input.TypeReferencesToConvert = typeReferences;
+			conversion.Input.Options = conversionOptions;
 
-			return Convert(conversion, typeSet.Assemblies, conversionOptions, typeSet.Types);
+			return Convert(conversion);
 		}
 
-		
+
 
 		/// <summary>
 		/// Converts the specified assembly to a collectible assembly. 
 		/// </summary>
 		/// <param name="conversion"></param>
 		/// <param name="assembly">The current assembly to be converted.</param>
+		[PublicApi]
 		public ILConversionResult Convert(ILConversion conversion, Assembly assembly)
 		{
-			// Convert the assembly using the default AssemblyBuilderAccess.RunAndCollect.
-			return Convert(conversion, assembly, CreateDefaultConversionOptions());
+			conversion.Input.AssembliesToConvert = new Assembly[] { assembly };
+			conversion.Input.Options = CreateDefaultConversionOptions();
+
+			return Convert(conversion);
 		}
 
 		/// <summary>
@@ -96,24 +144,31 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 		/// <param name="assembly"></param>
 		/// <param name="conversionOptions">The IL Conversion options to use for this conversion</param>
 		/// <returns></returns>
+		[PublicApi]
 		public ILConversionResult Convert(ILConversion conversion, Assembly assembly, ILConversionOptions conversionOptions)
 		{
-			var result = Convert(conversion, new []{ assembly }, conversionOptions);
+			conversion.Input.AssembliesToConvert = new Assembly[]{ assembly };
+			conversion.Input.Options = conversionOptions;
 
-			return result;
+			return Convert(conversion);
 		}
 
+		[PublicApi]
 		public ILConversionResult Convert(ILConversion conversion, Assembly[] assemblies)
 		{
-			return Convert(conversion, assemblies, CreateDefaultConversionOptions());
+			conversion.Input.AssembliesToConvert = assemblies;
+			conversion.Input.Options = CreateDefaultConversionOptions();
+
+			return Convert(conversion);
 		}
 
+		[PublicApi]
 		public ILConversionResult Convert(ILConversion conversion, Assembly[] assemblies, ILConversionOptions conversionOptions)
 		{
-			// Load the assembly definition associated with the assembly into the model.
-			var set = Cecil.Assemblies.Ensuring.Ensure(conversion.Model, assemblies);
+			conversion.Input.AssembliesToConvert = assemblies;
+			conversion.Input.Options = conversionOptions;
 
-			return Convert(conversion, set.Assemblies, conversionOptions, set.Types);
+			return Convert(conversion);
 		}
 
 		/// <summary>
@@ -121,10 +176,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 		/// </summary>
 		/// <param name="conversion"></param>
 		/// <param name="assemblyDefinition">The current assembly to be converted.</param>
-		public ILConversionResult Convert(ILConversion conversion, AssemblyDefinition assemblyDefinition)
+		[PublicApi]
+		public ILConversionResult Convert(ILConversion conversion, Stream stream)
 		{
-			// Convert the assembly using the default AssemblyBuilderAccess.RunAndCollect.
-			return Convert(conversion, assemblyDefinition, CreateDefaultConversionOptions());
+			conversion.Input.AssemblyStreamsToConvert = new []{ stream };
+			conversion.Input.Options = CreateDefaultConversionOptions();
+
+			return Convert(conversion);
 		}
 
 
@@ -136,111 +194,195 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 		/// <param name="assemblyDefinition"></param>
 		/// <param name="conversionOptions">The IL Conversion options to use for this conversion</param>
 		/// <returns></returns>
-		public ILConversionResult Convert(ILConversion conversion, AssemblyDefinition assemblyDefinition, ILConversionOptions conversionOptions)
+		[PublicApi]
+		public ILConversionResult Convert(ILConversion conversion, Stream stream, ILConversionOptions conversionOptions)
 		{
-			return Convert(conversion, new[] { assemblyDefinition}, conversionOptions);
+			conversion.Input.AssemblyStreamsToConvert = new []{ stream };
+			conversion.Input.Options = conversionOptions;
+
+			return Convert(conversion);
 		}
 
-		public ILConversionResult Convert(ILConversion conversion, AssemblyDefinition[] assemblyDefinitions)
+		[PublicApi]
+		public ILConversionResult Convert(ILConversion conversion, Stream[] streams)
 		{
-			// Convert the assembly using the default AssemblyBuilderAccess.RunAndCollect.
-			return Convert(conversion, assemblyDefinitions, CreateDefaultConversionOptions());
+			conversion.Input.AssemblyStreamsToConvert = streams;
+			conversion.Input.Options = CreateDefaultConversionOptions();
+
+			return Convert(conversion);
 		}
 
-		
 
-		public ILConversionResult Convert(ILConversion conversion, AssemblyDefinition[] assemblyDefinitions, ILConversionOptions conversionOptions)
+		[PublicApi]
+		public ILConversionResult Convert(ILConversion conversion, Stream[] streams, ILConversionOptions conversionOptions)
 		{
-			// Load all the types in the provide assemblies, and 
-			var set = Cecil.Assemblies.Ensuring.Ensure(conversion.Model, assemblyDefinitions);
-
-			// Now that all inputs have been provided, proceed with the conversion.
-			return Convert(conversion, set.Assemblies, conversionOptions, set.Types);
-		}
-
-		public ILConversionResult Convert(ILConversion conversion, 
-			List<UnifiedAssemblyNode> assemblies, 
-			ILConversionOptions options, 
-			List<UnifiedTypeNode> nodesToConvert)
-		{
-			conversion.Configuration.BuilderAccess = options.BuilderAccess;
-			conversion.Configuration.UseILGenerator = options.UseILGenerator;
-
-			conversion.Input.AssemlyNodesToConvert = assemblies;
-
-			for (int i = 0; i < assemblies.Count; i++)
-			{
-				assemblies[i].IsConverted = true;
-			}
-
-			// Load all the types in the provide assemblies, and 
-			conversion.Input.NodesToConvert = nodesToConvert;
+			conversion.Input.AssemblyStreamsToConvert = streams;
+			conversion.Input.Options = conversionOptions;
 
 			// Now that all inputs have been provided, proceed with the conversion.
 			return Convert(conversion);
 		}
 
+
 		public ILConversionResult Convert(ILConversion conversion)
 		{
+			// Build the configuration before doing anything else, as the configuration can affect anything else that happens.
+			Configurational.BuildConfiguration(conversion, conversion.Input.Options);
+
+			// If there is no runtimic system associated with the conversion, create one.  
+			if (conversion.RuntimicSystem == null)
+			{
+				conversion.RuntimicSystem = new RuntimicSystemModel();
+			}
+
+			// Make sure the runatmic system whether created or passed in is adequetly built out.
+			Runtimic.Models.EnsureMinimumRuntimicSystem(conversion.RuntimicSystem);
+
+			// Ensure all the types, assemblies, and assembly definitions are turned into a list of type references that need to be converted.
+			Initialization.ProcessInputs(conversion);
+
+
+
+
 			try
 			{
-				Conversion.Metadata.Assemblies.Building.Build(conversion);
+				ConvertedAssemblyNode[] completeAssembliesToConvert = new ConvertedAssemblyNode[(conversion.Input.AssembliesToConvert?.Length ?? 0) +
+					(conversion.Input.AssemblyStreamsToConvert?.Length ?? 0)];
 
-				conversion.ReferencedAssemblies = Cecil.Assemblies.Ensuring.EnsureAssemblyReferences(conversion.Model, conversion.Input.AssemlyNodesToConvert);
+				// need to make a list of all assemblies that are being converted, so if they come up in the process of being converted,
+				// they are resolved.
 
-				var referencedList = conversion.ReferencedAssemblies.Values.ToList();
+				var assembliesToConvertLength = conversion.Input.AssembliesToConvert?.Length ?? 0;
 
-				Bound.Metadata.Assemblies.Building.Build(conversion.Model, referencedList);
-
-				var inputTypes = conversion.Input.NodesToConvert;
-
-				Type[] convertedList = null;
-
-				if (conversion.Input.Kind == InputOutputKind.Types)
+				for (int i = 0; i < assembliesToConvertLength; i++)
 				{
-					convertedList = new Type[inputTypes.Count];
+					// ReSharper disable once PossibleNullReferenceException
+					var currentAssembly = conversion.Input.AssembliesToConvert[i];
+
+					completeAssembliesToConvert[i] = Conversion.Metadata.Assemblies.EnsureNode(conversion, currentAssembly);
 				}
 
-				for (int i = 0; i < inputTypes.Count; i++)
+				int offset = assembliesToConvertLength;
+
+				for (int i = 0; i < conversion.Input.AssemblyStreamsToConvert?.Length; i++)
 				{
-					var inputType = inputTypes[i];
+					var currentAssemblyStream = conversion.Input.AssemblyStreamsToConvert[i];
 
-					ConvertedTypeDefinitionMask_I converted;
+					completeAssembliesToConvert[i + offset] = Conversion.Metadata.Assemblies.EnsureNode(conversion, currentAssemblyStream);
+				}
 
-					if (inputType.SourceTypeReference.Name == "<Module>")
+				Dictionary<string, ConvertedAssemblyNode> nodes = null;
+
+				if (conversion.Input.TypesToConvert?.Length > 0)
+				{
+					nodes = new Dictionary<string, ConvertedAssemblyNode>();
+
+					for (int i = 0; i < completeAssembliesToConvert.Length; i++)
 					{
-						converted = null;
+						nodes.Add(completeAssembliesToConvert[i].InputFullName, completeAssembliesToConvert[i]);
 					}
-					else
+
+					for (int i = 0; i < conversion.Input.TypesToConvert.Length; i++)
 					{
-						var semanticType = Execution.Types.Ensuring.Ensure(conversion.Model, inputType.SourceTypeReference, null, null);
+						var currentAssembly = conversion.Input.TypesToConvert[i].Assembly;
 
-						converted = (ConvertedTypeDefinitionMask_I)semanticType;
+						if (!nodes.ContainsKey(currentAssembly.FullName))
+						{
+							var conversionAssemblyNode = Conversion.Metadata.Assemblies.EnsureNode(conversion, currentAssembly);
 
-						
-					}
-
-					if (convertedList != null)
-					{
-						convertedList[i] = converted?.UnderlyingType;
+							nodes.Add(conversionAssemblyNode.InputFullName, conversionAssemblyNode);
+						}
 					}
 				}
 
-				Type[] outputList = null;
-
-
-
-				if (convertedList != null)
+				
+				for (int i = 0; i < completeAssembliesToConvert.Length; i++)
 				{
-					outputList = new Type[convertedList.Length];
+					var currentAssemblyNode = completeAssembliesToConvert[i];
 
-					for (int i = 0; i < inputTypes.Count; i++)
+					if (currentAssemblyNode.IsEntireAssemblyConverted) continue;
+
+					currentAssemblyNode.IsEntireAssemblyConverted = true;
+
+					var assemblyDefinition = currentAssemblyNode.InputStructuralNode.CecilAssemblyDefinition;
+
+					for (int j = 0; j < assemblyDefinition.Modules.Count; j++)
 					{
-						var converted = convertedList[i];
+						var currentModule = assemblyDefinition.Modules[j];
 
+						var types = currentModule.Types;
+
+						for (int k = 0; k< types.Count; k++)
+						{
+							if (types[k].MetadataToken.ToInt32() == 0x02000001)
+							{
+								continue;
+							}
+
+							Execution.Types.Ensuring.Ensure(new ExecutionEnsureContext()
+							{
+								AssemblyNode = currentAssemblyNode,
+								ModuleDefinition = currentModule,
+								TypeReference = types[k],
+								IsConverted = true,
+								Conversion = conversion,
+								RuntimicSystem = conversion.RuntimicSystem
+							});
+						}
+					}
+				}
+
+				Type[] outputTypes = null;
+
+				if (conversion.Input.TypesToConvert != null && conversion.Input.TypesToConvert.Length > 0)
+				{
+					var typesToConvertLength = conversion.Input.TypesToConvert.Length;
+				
+					var inputList = new Dictionary<string, Type>(typesToConvertLength);
+
+					for (var i = 0; i < conversion.Input.TypesToConvert.Length; i++)
+					{
+						var type = conversion.Input.TypesToConvert[i];
+
+						DecomposeGenericInstances(nodes, inputList, type);
+					}
+
+					outputTypes = inputList.Values.ToArray();
+
+					for (var i = 0; i < outputTypes.Length; i++)
+					{
+						var underlyingType = outputTypes[i];
+
+						var executionTypeNode = Execution.Types.Ensuring.Ensure(new ExecutionEnsureContext()
+						{
+							UnderlyingType = underlyingType,
+							IsConverted = true,
+							Conversion = conversion,
+							RuntimicSystem = conversion.RuntimicSystem
+						});
+
+						// ReSharper disable once PossibleNullReferenceException
+						outputTypes[i] = executionTypeNode.Type.UnderlyingType;
+					}
+				}
+
+				
+
+				var assemblies = GetAssemblies(conversion.MetadataModel.Assemblies.ById.Values.ToList());
+
+				
+
+				if (conversion.Input.TypesToConvert != null && conversion.Input.TypesToConvert.Length > 0)
+				{
+					var typeDictionary = XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.GetTypes(assemblies);
+
+					for (int i = 0; i < conversion.Input.TypesToConvert.Length; i++)
+					{
 						try
 						{
-							outputList[i] = XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.GetTypeInAssembly(converted.Assembly, converted);
+							var inputType = conversion.Input.TypesToConvert[i];
+
+							outputTypes[i] = XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.GetType(typeDictionary, inputType);
 						}
 						catch (Exception e)
 						{
@@ -251,11 +393,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 					}
 				}
 
-				var assemblies = GetAssemblies(conversion.Input.AssemlyNodesToConvert);
 
-				CreateDesiredOutput(conversion, outputList, assemblies);
-
-				
+				CreateDesiredOutput(conversion, outputTypes, assemblies);
 
 				return conversion.Result;
 			}
@@ -265,7 +404,55 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 			}
 		}
 
-		
+		private void DecomposeGenericInstances(Dictionary<string, ConvertedAssemblyNode> nodes, Dictionary<string, Type> outputList, Type type)
+		{
+			if (type.IsGenericType && !type.IsGenericTypeDefinition)
+			{
+				DecomposeGenericInstances(nodes, outputList, type.GetGenericTypeDefinition());
+
+				var arguments = type.GenericTypeArguments;
+
+				for (int i = 0; i < arguments.Length; i++)
+				{
+					DecomposeGenericInstances(nodes, outputList, arguments[i]);
+				}
+			}
+			else
+			{
+				if (nodes.ContainsKey(type.Assembly.FullName) && !outputList.ContainsKey(type.AssemblyQualifiedName))
+				{
+
+					outputList.Add(type.AssemblyQualifiedName, type);
+				}
+			}
+		}
+
+		private void EnsureInputsAreInTypeSystem(ILConversion conversion)
+		{
+			
+
+			
+
+			//// Load the assembly definition associated with the assembly into the model.
+			//var set = Cecil.Assemblies.Ensuring.Ensure(conversion.Model, assemblies);
+
+			//// Load all the types in the provide assemblies, and 
+			//var set = Cecil.Assemblies.Ensuring.Ensure(conversion.Model, assemblyDefinitions);
+
+			//conversion.Input.AssemblyDefinitionsToConvert = assemblies;
+
+
+
+			//// Load all the types in the provide assemblies, and 
+			//conversion.Input.TypeReferencesToConvert = nodesToConvert;
+
+			//// The conversion process.  The conversion process needs to know what assemblies are slated for conversion and which ones are not.  
+			//for (int i = 0; i < assemblies.Count; i++)
+			//{
+			//	assemblies[i].IsConverted = true;
+			//}
+		}
+
 
 		private void CreateDesiredOutput(ILConversion conversion, Type[] convertedList, Assembly[] assemblies)
 		{
@@ -301,7 +488,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 			}
 		}
 
-		private Assembly[] GetAssemblies(List<UnifiedAssemblyNode> inputAssemlyNodesToConvert)
+		private Assembly[] GetAssemblies(List<ConvertedAssemblyNode> inputAssemlyNodesToConvert)
 		{
 			Assembly[] assemblies = new Assembly[inputAssemlyNodesToConvert.Count];
 
@@ -309,7 +496,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 			{
 				var node = inputAssemlyNodesToConvert[i];
 
-				var convetedAssembly = (ConvertedAssembly_I)node.Semantic;
+				var convetedAssembly = node.ConvertedAssembly;
 
 				assemblies[i] = convetedAssembly.AssemblyBuilder;
 			}
@@ -320,11 +507,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 
 		private void CloseStreams(ILConversion conversion)
 		{
-			if (conversion?.Model?.Structural.Streams != null)
+            
+
+			if (conversion.RuntimicSystem.Io.OpenStreams != null)
 			{
-				for (int i = 0; i < conversion.Model.Structural.Streams.Count; i++)
+				for (int i = 0; i < conversion.RuntimicSystem.Io.OpenStreams.Count; i++)
 				{
-					var stream = conversion.Model.Structural.Streams[i];
+					var stream = conversion.RuntimicSystem.Io.OpenStreams[i];
 
 					try
 					{

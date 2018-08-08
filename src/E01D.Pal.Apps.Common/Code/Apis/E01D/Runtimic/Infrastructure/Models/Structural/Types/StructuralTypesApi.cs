@@ -25,9 +25,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural.Types
 
         public ModuleDefinition GetModuleFromType(InfrastructureRuntimicModelMask_I semanticModel, string resolutionName)
         {
-            var node = Unified.Types.Get(semanticModel, resolutionName);
+	        throw new System.Exception("Debug");
+			//         var node = Unified.Types.Get(semanticModel, resolutionName);
 
-			return node?.ModuleNode?.ModuleDefinition;
+			//return node?.ModuleNode?.ModuleDefinition;
 		}
 
         

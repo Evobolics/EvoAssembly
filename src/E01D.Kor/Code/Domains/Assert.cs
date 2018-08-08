@@ -70,6 +70,15 @@ namespace Root.Code.Domains
         }
 
         [DebuggerStepThrough]
+        public new static void ReferenceEquals(object expected, object actual)
+        {
+            if (!object.ReferenceEquals(expected, actual))
+            {
+                throw new Exception($"Expected {expected} but is actually {actual}.");
+            }
+        }
+
+        [DebuggerStepThrough]
         public static void AreEqual(bool expected, bool actual)
         {
             if (expected != actual)

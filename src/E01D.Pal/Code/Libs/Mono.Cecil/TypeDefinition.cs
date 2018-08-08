@@ -539,7 +539,7 @@ namespace Root.Code.Libs.Mono.Cecil
 		}
 	}
 
-	class InterfaceImplementationCollection : Collection<InterfaceImplementation>
+	public class InterfaceImplementationCollection : Collection<InterfaceImplementation>
 	{
 		readonly TypeDefinition type;
 

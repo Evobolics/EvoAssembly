@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Reflection.Emit;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
 using Root.Code.Libs.Mono.Cecil;
@@ -60,62 +61,55 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
             }
         }
 
-	    
-
-		/// <summary>
-		/// Used by the constructor and method builders to build out the common portions of the routine.  This generally includes the return type and 
-		/// parameter types.
-		/// </summary>
-		/// <param name="conversion"></param>
-		/// <param name="input"></param>
-		/// <param name="routine"></param>
-		public void BuildRoutine(ILConversion conversion, ConvertedTypeDefinitionMask_I input, ConvertedRoutine routine)
+        public Type[] CreateParameters(ILConversion conversion, ConvertedRoutine routine)
         {
-            CreateParameters(conversion, routine);
+            var methodDefinition = routine.MethodReference;
 
-            routine.ReturnType = GetReturnType(conversion, routine);
+            if (!methodDefinition.HasParameters) return new Type[0];
 
-            
-        }
+            var systemParameterTypes = new Type[methodDefinition.Parameters.Count];
 
-        private void CreateParameters(ILConversion conversion, ConvertedRoutine routine)
-        {
-			var methodDefinition = Cecil.Metadata.Members.Methods.ResolveReferenceToNonSignatureDefinition(conversion.Model, routine.MethodReference);
-
-            if (!methodDefinition.HasParameters) return;
-
-            foreach (var parameterDefinition in methodDefinition.Parameters)
+            for (int i = 0; i < methodDefinition.Parameters.Count; i++)
             {
-                var convertedParameter = new ConvertedMethodParameter()
+                var parameterDefinition = methodDefinition.Parameters[i];
+
+                var bound = Execution.Types.Ensuring.EnsureBound(conversion, parameterDefinition.ParameterType);
+
+                var convertedParameter = new ConvertedRoutineParameter()
                 {
                     ParameterDefinition = parameterDefinition,
                     Position = parameterDefinition.Sequence,
                     Name = parameterDefinition.Name,
-                    Builder = null,
-                    ParameterType = Execution.Types.Ensuring.EnsureBound(conversion.Model, parameterDefinition.ParameterType)
+                    ParameterType = bound
                 };
 
-				// Make sure the 0th "this" parameter is not being overridden
-                if (!methodDefinition.IsStatic && convertedParameter.Position == 0)
-                {
-                    throw new Exception("Parameter position is zero which should be reserved for the 'this' argument.");
-                }
-
-                routine.Parameters.ByName.Add(convertedParameter.Name, convertedParameter);
+                // Make sure the 0th "this" parameter is not being overridden
+                //if (
+                //    //!methodDefinition.IsStatic && 
+                //    convertedParameter.Position == 0)
+                //{
+                //    throw new Exception("Parameter position is zero which should be reserved for the 'return' argument.");
+                //}
 
                 routine.Parameters.All.Add(convertedParameter);
 
-	            
-			}
+                systemParameterTypes[i] = bound.UnderlyingType;
+            }
+
+            return systemParameterTypes;
         }
 
-        public BoundTypeDefinitionMask_I GetReturnType(ILConversion conversion, ConvertedRoutine routine)
+        public Type SetReturnType(ILConversion conversion, ConvertedRoutine routine)
         {
             var methodDefinition = routine.MethodReference;
 
             if (methodDefinition.ReturnType == null) return null;
 
-            return Execution.Types.Ensuring.EnsureBound(conversion.Model, methodDefinition.ReturnType);
+            var bound = Execution.Types.Ensuring.EnsureBound(conversion, methodDefinition.ReturnType);
+
+            routine.ReturnType = bound;
+
+            return bound.UnderlyingType;
         }
 
         [Obsolete] //?
@@ -129,7 +123,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
 
                 foreach (var parameterDefinition in methodDefinition.Parameters)
                 {
-                    var parameterType = Execution.Types.Ensuring.EnsureBound(conversion.Model, parameterDefinition.ParameterType);
+                    var parameterType = Execution.Types.Ensuring.EnsureBound(conversion, parameterDefinition.ParameterType);
 
                     parameterTypeList.Add(parameterType);
                 }
@@ -144,34 +138,40 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Rou
         {
             for (int i = 0; i < routine.Parameters.All.Count; i++)
             {
-                var parameter = (ConvertedMethodParameter)routine.Parameters.All[i];
+                var parameter = (ConvertedRoutineParameter)routine.Parameters.All[i];
 
-                var attributes = GetParameterAttributes(parameter.ParameterDefinition);
+                parameter.Builder = CreateParameterBuilder(conversion, routine, parameter);
+            }
+        }
 
-	            
+        public ParameterBuilder CreateParameterBuilder(ILConversion conversion, ConvertedRoutine routine, ConvertedRoutineParameter parameter)
+        {
+            ParameterBuilder builder = null;
+
+            var attributes = GetParameterAttributes(parameter.ParameterDefinition);
 
 
-				if (routine.IsConstructor())
-                {
-                    var constructor = (ConvertedEmittedConstructor) routine;
+            if (routine.IsConstructor())
+            {
+                var constructor = (ConvertedEmittedConstructor) routine;
 
-                    parameter.Builder = constructor.ConstructorBuilder.DefineParameter(parameter.Position, attributes, parameter.Name);
-                }
-                else
-                {
-                    var method = (ConvertedBuiltMethod)routine;
+                builder = constructor.ConstructorBuilder.DefineParameter(parameter.Position, attributes, parameter.Name);
+            }
+            else
+            {
+                var method = (ConvertedBuiltMethod) routine;
 
-                    parameter.Builder = method.MethodBuilder.DefineParameter(parameter.Position, attributes, parameter.Name);
-                }
+                builder = method.MethodBuilder.DefineParameter(parameter.Position, attributes, parameter.Name);
+            }
 
-                if ((attributes & ParameterAttributes.HasDefault) > 0)
-                {
-                    parameter.Builder.SetConstant(parameter.ParameterDefinition.Constant);
-                }
+            if ((attributes & ParameterAttributes.HasDefault) > 0)
+            {
+                builder.SetConstant(parameter.ParameterDefinition.Constant);
+            }
 
-	            CustomAttributes.BuildCustomAttributes(conversion, parameter);
+            CustomAttributes.BuildCustomAttributes(conversion, parameter);
 
-			}
+            return builder;
         }
 
         private ParameterAttributes GetParameterAttributes(ParameterDefinition definition)

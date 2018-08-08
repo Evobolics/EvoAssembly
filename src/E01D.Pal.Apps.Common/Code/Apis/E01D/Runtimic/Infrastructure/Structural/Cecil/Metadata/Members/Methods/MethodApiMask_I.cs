@@ -1,8 +1,7 @@
 ﻿using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Building;
-using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Getting;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Libs.Mono.Collections.Generic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
+using Root.Code.Models.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods
 {
@@ -19,16 +18,21 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		
 
-		MethodDefinition ResolveReferenceToNonSignatureDefinition(StructuralRuntimicModelMask_I model, MethodReference methodReference);
+		MethodDefinition ResolveReferenceToNonSignatureDefinition(RuntimicSystemModel model, MethodReference methodReference);
 
-		bool AreSame(StructuralRuntimicModelMask_I model, Collection<ParameterDefinition> a,
+		bool AreSame(RuntimicSystemModel model, Collection<ParameterDefinition> a,
 			Collection<ParameterDefinition> b, MethodReference bMethod);
 
-		bool AreSame(StructuralRuntimicModelMask_I model, MethodReference methodDefinition,
+		bool AreSame(RuntimicSystemModel model, MethodReference methodDefinition,
 			MethodReference methodReference, bool resolveTypeParametersIfPresentInMethodB);
 
-		TypeReference ResolveTypeParameterIfPresent(StructuralRuntimicModelMask_I model, MethodReference calledMethod,
+		//TypeReference ResolveTypeParameterIfPresent(RuntimicSystemModel model, MethodReference calledMethod,
+		//	TypeReference typeToResolve);
+
+		TypeReference ResolveTypeParameterIfPresent(RuntimicSystemModel model, MethodReference calledMethod,
 			TypeReference typeToResolve);
+
+		TypeReference ResolveTypeParameterIfPresent(RuntimicSystemModel model, TypeReference[] genericInstanceTypeArguments, TypeReference typeToResolve);
 
 		string GetResolutionName(MethodReference gpDeclaringMethod);
 	}

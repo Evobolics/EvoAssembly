@@ -20,7 +20,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
             {
 				var resolutionName = Types.Naming.GetResolutionName(parameter.DeclaringType);
 
-	            var semanticType = Models.Types.GetOrThrow(conversion.Model, resolutionName);
+	            var semanticType = Models.Types.GetOrThrow(conversion.RuntimicSystem, resolutionName);
 
 	            if (!semanticType.IsGeneric())
 	            {
@@ -53,14 +53,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 	            var resolutionName = Types.Naming.GetResolutionName(declaringType);
 
-	            var semanticType = Models.Types.GetOrThrow(conversion.Model, resolutionName);
+	            var semanticType = Models.Types.GetOrThrow(conversion.RuntimicSystem, resolutionName);
 
 	            if (!(semanticType is BoundTypeDefinitionWithMethodsMask_I convertedTypeWithMethods))
 	            {
 		            throw new Exception("Trying to add a method to a type that does not support methods.");
 	            }
 
-	            var method = Bound.Metadata.Members.Methods.Getting.FindMethodByDefinition(conversion.Model, convertedTypeWithMethods, methodDefinition);
+	            var method = Bound.Metadata.Members.Methods.Getting.FindMethodByDefinition(conversion.RuntimicSystem, convertedTypeWithMethods, methodDefinition);
 
 	            if (!method.TypeParameters.ByName.TryGetValue(parameter.Name,out SemanticGenericParameterTypeDefinitionMask_I semanticTypeParameter))
 	            {

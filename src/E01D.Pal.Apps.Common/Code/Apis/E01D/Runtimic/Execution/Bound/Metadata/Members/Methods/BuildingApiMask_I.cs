@@ -1,18 +1,18 @@
 ﻿using System.Reflection;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods
 {
     public interface BuildingApiMask_I
     {
-		void BuildMethods(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input);
+		void BuildMethods(RuntimicSystemModel model, BoundTypeDefinition_I input);
 
-	    BoundMethod BuildMethod(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input, MethodInfo method, MethodReference methodReference);
+	    BoundMethod BuildMethod(RuntimicSystemModel model, BoundTypeDefinition_I input, MethodInfo method, MethodReference methodReference);
 
-	    void BuildMethodsForGenericInstance(InfrastructureRuntimicModelMask_I model, BoundGenericTypeDefinition_I input);
+	    void BuildMethodsForGenericInstance(RuntimicSystemModel model, BoundGenericTypeDefinition_I input);
 
 
     }

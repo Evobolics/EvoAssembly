@@ -10,7 +10,7 @@ namespace Root.Code.Apis.E01D.Runtimic
     {
         public ExecutionApiMask_I Execution => Container.Api.Runtimic.Execution;
 
-	    
+	    public IdentificationApiMask_I Identification => Container.Api.Runtimic.Identification;
 
 		public InfrastructureApiMask_I Infrastructure => Container.Api.Runtimic.Infrastructure;
 

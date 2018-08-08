@@ -4,10 +4,9 @@ using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
@@ -18,7 +17,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring
     public class GenericParameterApi<TContainer> : ConversionApiNode<TContainer>, GenericParameterApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I boundModel, BoundEnsureContext context)
+        public SemanticTypeDefinitionMask_I Ensure(RuntimicSystemModel boundModel, ExecutionEnsureContext context)
 			
         {
 	        GenericParameter parameter = (GenericParameter)context.TypeReference;
@@ -62,8 +61,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring
 	            typeParameter.TypeParameterKind = GetTypeParameterKind(parameter.Type);
 	            typeParameter.Definition = parameter;
 	            typeParameter.SourceTypeReference = parameter;
-
-	            //genericDeclaringType.TypeParameters.ByName.Add(parameter.Name, typeParameter);
+	            
+	            //typeParameter.ResolutionName = Cecil.Types.Naming.GetResolutionName(parameter);
 
 				return typeParameter;
 			}
@@ -122,12 +121,105 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring
 	            typeParameter.Definition = parameter;
 	            typeParameter.SourceTypeReference = parameter;
 	            typeParameter.DeclaringTypeDefinitionEntry = convertedTypeWithMethods;
+				typeParameter.ResolutionName = Cecil.Types.Naming.GetResolutionName(parameter);
 
-	            //method.TypeParameters.ByName.Add(parameter.Name, typeParameter);
+				//method.TypeParameters.ByName.Add(parameter.Name, typeParameter);
 
-	            return typeParameter;
+				return typeParameter;
             }
 		}
+
+	    public ExecutionTypeNode_I Ensure(ExecutionEnsureContext context)
+	    {
+			GenericParameter parameter = (GenericParameter)context.TypeReference;
+
+		    if (parameter.DeclaringType != null)
+		    {
+			    SemanticTypeMask_I semanticDeclaringType;
+
+			    if (context.DeclaringType != null)
+			    {
+				    semanticDeclaringType = context.DeclaringType;
+			    }
+			    else
+			    {
+				    semanticDeclaringType = Execution.Types.Ensuring.EnsureBound(context, parameter.DeclaringType, cloneContext:true);
+			    }
+
+			    if (!(semanticDeclaringType is SemanticGenericTypeDefinitionMask_I genericDeclaringType))
+			    {
+				    throw new Exception($"Expected the resolved semantic type to be a generic type of {typeof(SemanticGenericTypeDefinitionMask_I)}.");
+			    }
+
+			    var semanticTypeParameter = genericDeclaringType.TypeParameters.All[parameter.Position];
+
+
+				if (semanticTypeParameter != null)
+			    {
+				    if (!semanticTypeParameter.IsBound())
+				    {
+					    throw new Exception("Expected the generic parameter type to be a bound type.");
+				    }
+
+				    return new ExecutionTypeNode()
+				    {
+					    Type = (ExecutionTypeDefinitionMask_I)semanticTypeParameter
+				    };
+			    }
+
+			   
+		    }
+		    else
+		    {
+			    if (!(parameter.DeclaringMethod is MethodDefinition methodDefinition))
+			    {
+				    throw new Exception("Expected a method definition");
+			    }
+
+			    TypeReference declaringType;
+
+			    if (methodDefinition.DeclaringType != null)
+			    {
+				    declaringType = methodDefinition.DeclaringType;
+			    }
+			    else
+			    {
+				    if (context.MethodReference == null)
+				    {
+
+				    }
+
+				    declaringType = context.MethodReference.DeclaringType;
+			    }
+
+
+			    var semanticType = Execution.Types.Ensuring.EnsureBound(context, declaringType, cloneContext: true);
+
+			    if (!(semanticType is BoundTypeDefinitionWithMethodsMask_I convertedTypeWithMethods))
+			    {
+				    throw new Exception("Trying to add a method to a type that does not support methods.");
+			    }
+
+			    var method = Bound.Metadata.Members.Methods.Getting.FindMethodByDefinition(context.RuntimicSystem, convertedTypeWithMethods, methodDefinition);
+
+			    if (method.TypeParameters.ByName.TryGetValue(parameter.Name, out SemanticGenericParameterTypeDefinitionMask_I semanticTypeParameter))
+			    {
+				    if (!semanticTypeParameter.IsBound())
+				    {
+					    throw new Exception("Expected the generic parameter type to be a bound type.");
+				    }
+
+					return new ExecutionTypeNode()
+					{
+						Type = (ExecutionTypeDefinitionMask_I)semanticTypeParameter
+					};
+				}
+
+			    
+		    }
+
+		    throw new Exception("Type parameter not found.");
+	    }
 
 	    private static ExecutionTypeParameterDefinition_I CreateGenericParameter(SemanticTypeMask_I genericDeclaringType)
 	    {
@@ -158,4 +250,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring
 		    }
 	    }
 	}
+
+	
 }

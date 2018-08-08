@@ -1,6 +1,6 @@
 ﻿using Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural.Types;
 using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Models.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural
 {
@@ -10,8 +10,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural
 
 		StructuralTypesApiMask_I Types { get; }
 
-		void AddAssemblyDefinition(InfrastructureRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition);
+		void AddAssemblyDefinition(RuntimicSystemModel semanticModel, AssemblyDefinition assemblyDefinition);
 
-		void Ensure(InfrastructureRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition, ModuleDefinition module, TypeDefinition type);
+		void Ensure(RuntimicSystemModel semanticModel, AssemblyDefinition assemblyDefinition, ModuleDefinition module, TypeDefinition type);
 	}
 }

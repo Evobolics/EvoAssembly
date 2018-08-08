@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Metadata.Members;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
@@ -37,7 +37,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.
             return dependencies;
         }
 
-        public SemanticTypeMask_I Add(InfrastructureRuntimicModelMask_I model, SemanticModuleMask_I module, SemanticTypeDefinitionMask_I entry)
+        public SemanticTypeMask_I Add(RuntimicSystemModel model, SemanticModuleMask_I module, SemanticTypeDefinitionMask_I entry)
         {
             
             // 1.) Add the semantic type to the module

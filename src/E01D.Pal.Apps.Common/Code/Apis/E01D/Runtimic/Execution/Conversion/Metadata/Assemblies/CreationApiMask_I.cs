@@ -1,5 +1,4 @@
-﻿using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
+﻿using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
@@ -10,7 +9,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
 
 
-		ConvertedAssembly CreateConvertedAssembly(ILConversion conversion, string name, AssemblyDefinition assemblyDefinition);
+		ConvertedAssembly CreateConvertedAssembly(ILConversion conversion, string name, ConvertedAssemblyNode assenblyNode);
 
 	}
 }

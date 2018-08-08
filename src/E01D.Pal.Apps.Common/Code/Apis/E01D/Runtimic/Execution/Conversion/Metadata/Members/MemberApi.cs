@@ -84,7 +84,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members
 
         #endregion
 
-        public bool GetMemberInfo(ILConversion conversion, ConvertedTypeDefinitionMask_I typeBeingBuilt, ConvertedRoutine routineBeingBuilt, MethodReference methodReference, out MemberInfo memberInfo)
+        public bool GetMemberInfo(ILConversion conversion, ConvertedTypeDefinitionMask_I typeBeingBuilt,
+			ConvertedRoutine routineBeingBuilt, 
+			BoundTypeDefinitionMask_I methodReferenceDeclaringType,
+			MethodReference methodReference, out MemberInfo memberInfo)
         {
             if (methodReference == null)
             {
@@ -96,13 +99,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members
 			// If a constructor 
 			if (methodReference.Name == ConstructorInfo.ConstructorName)
             {
-	            // how does the member reference declaring type be resolved?
-	            var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodReference.DeclaringType);
-
-				return Constructors.Getting.GetConstructor(conversion, typeBeingBuilt, declaringBound, methodReference, out memberInfo);
+				return Constructors.Getting.GetConstructor(conversion, typeBeingBuilt, methodReferenceDeclaringType, methodReference, out memberInfo);
             }
 			
-			memberInfo = Methods.Getting.GetMethodInfoOrThrow(conversion, typeBeingBuilt, routineBeingBuilt, methodReference);
+			memberInfo = Methods.Getting.GetMethodInfoOrThrow(conversion, typeBeingBuilt, routineBeingBuilt, methodReferenceDeclaringType, methodReference);
 
 			return memberInfo != null;
 	       
@@ -117,7 +117,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members
 
             var declaringTypeRef = memberReference.DeclaringType;
 
-            return Execution.Types.Ensuring.EnsureBound(conversion.Model, declaringTypeRef);
+            return Execution.Types.Ensuring.EnsureBound(conversion, declaringTypeRef);
         }
     }
 }

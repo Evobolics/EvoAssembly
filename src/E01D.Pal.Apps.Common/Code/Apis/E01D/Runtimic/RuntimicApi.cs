@@ -1,5 +1,6 @@
 ﻿using Root.Code.Apis.E01D.Runtimic.Execution;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure;
+using Root.Code.Apis.E01D.Runtimic.Models;
 using Root.Code.Apis.E01D.Runtimic.Unified;
 using Root.Code.Containers.E01D.Runtimic;
 
@@ -15,7 +16,15 @@ namespace Root.Code.Apis.E01D.Runtimic
 
         ExecutionApiMask_I RuntimicApiMask_I.Execution => Execution;
 
-        
+        public ModelApi_I<TContainer> Models { get; set; }
+
+        ModelApiMask_I RuntimicApiMask_I.Models => Models;
+
+        public new IdentificationApi_I<TContainer> Identification { get; set; }
+
+        IdentificationApiMask_I RuntimicApiMask_I.Identification => Identification;
+
+
         public new InfrastructureApi_I<TContainer> Infrastructure { get; set; }
 
         InfrastructureApiMask_I RuntimicApiMask_I.Infrastructure => Infrastructure;

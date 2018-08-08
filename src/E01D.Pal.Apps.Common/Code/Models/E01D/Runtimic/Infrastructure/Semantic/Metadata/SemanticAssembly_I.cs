@@ -8,9 +8,9 @@ namespace Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata
     {
         new SemanticAssemblyAssembliesMask_I Assemblies { get; set; }
 
-        new Assembly Assembly { get; set; }
+        Assembly Assembly { get; set; }
 
-        new AssemblyDefinition AssemblyDefinition { get; set; }
+        AssemblyDefinition AssemblyDefinition { get; set; }
 
         new bool IsBuiltOut { get; set; }
 

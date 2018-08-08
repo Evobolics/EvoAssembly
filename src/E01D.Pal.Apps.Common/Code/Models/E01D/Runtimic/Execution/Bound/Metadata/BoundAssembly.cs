@@ -21,11 +21,6 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata
         public string FullName { get; set; }
 
         public Dictionary<string, SemanticModuleMask_I> Modules { get; set; } = new Dictionary<string, SemanticModuleMask_I>();
-        
-        
-
-        
-        
-        
+        public BoundAssemblyNode Node { get; set; }
     }
 }

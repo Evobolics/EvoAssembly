@@ -7,8 +7,8 @@ using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypeParamete
 using Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Modules;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using TypeApiMask_I = Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.TypeApiMask_I;
 
 
@@ -74,7 +74,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members
 
         TypeApiMask_I MemberApiMask_I.Types => Types;
 
-        public BoundTypeDefinitionMask_I GetDeclaringType(BoundRuntimicModelMask_I model, MemberReference memberReference)
+        public BoundTypeDefinitionMask_I GetDeclaringType(RuntimicSystemModel model, MemberReference memberReference)
         {
             if (memberReference == null)
             {

@@ -1,5 +1,6 @@
 ﻿using Root.Code.Apis.E01D.Runtimic.Execution;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure;
+using Root.Code.Apis.E01D.Runtimic.Models;
 using Root.Code.Apis.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic
@@ -10,8 +11,12 @@ namespace Root.Code.Apis.E01D.Runtimic
 
         ExecutionApiMask_I Execution { get; }
 
-        InfrastructureApiMask_I Infrastructure { get; }
+	    IdentificationApiMask_I Identification { get; }
 
-	    UnifiedApiMask_I Unified { get; }
+		InfrastructureApiMask_I Infrastructure { get; }
+
+	    ModelApiMask_I Models { get; }
+
+		UnifiedApiMask_I Unified { get; }
 	}
 }

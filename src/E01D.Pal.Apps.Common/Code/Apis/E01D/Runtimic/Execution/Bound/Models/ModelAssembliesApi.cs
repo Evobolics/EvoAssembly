@@ -1,6 +1,6 @@
 ﻿using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models
@@ -13,17 +13,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models
     public class ModelAssembliesApi<TContainer> : BoundApiNode<TContainer>, ModelAssembliesApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-	    public SemanticAssemblyMask_I Get(InfrastructureRuntimicModelMask_I model, TypeReference typeReference)
+	    public SemanticAssemblyMask_I Get(RuntimicSystemModel model, TypeReference typeReference)
 	    {
 		    return Semantic.Metadata.Assemblies.Get(model, typeReference);
 	    }
 
-        public SemanticAssemblyMask_I Get(InfrastructureRuntimicModelMask_I model, string typeResolutionName)
+        public SemanticAssemblyMask_I Get(RuntimicSystemModel model, string typeResolutionName)
         {
 			return Semantic.Metadata.Assemblies.Get(model, typeResolutionName);
 		}
 
-        public bool TryGet(InfrastructureRuntimicModelMask_I semanticModel, string resolutionName, out SemanticAssemblyMask_I semanticAssemblyMask)
+        public bool TryGet(RuntimicSystemModel semanticModel, string resolutionName, out SemanticAssemblyMask_I semanticAssemblyMask)
         {
             return Semantic.Metadata.Assemblies.TryGet(semanticModel, resolutionName, out semanticAssemblyMask);
         }

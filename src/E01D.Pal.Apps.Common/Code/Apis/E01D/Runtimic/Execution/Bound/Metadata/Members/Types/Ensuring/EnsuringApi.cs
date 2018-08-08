@@ -1,12 +1,9 @@
 ﻿using System;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
+using Root.Code.Models.E01D.Runtimic.Execution;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Modeling;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Ensuring
@@ -57,7 +54,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 		/// <summary>
 		/// Ensures the type is part of the module.
 		/// </summary>
-		public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I semanticModel, BoundEnsureContext context)
+		public SemanticTypeDefinitionMask_I Ensure(RuntimicSystemModel semanticModel, ExecutionEnsureContext context)
         {
 	        if (context.TypeReference.FullName == "Root.Code.Containers.E01D.Sorting.SortingContainer_I`1<TContainer>")
 	        {
@@ -85,14 +82,18 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 	        {
 		        if (context.TypeReference.IsRequiredModifier)
 		        {
-			        // Call back to the execution's type system so it can determine where to make the type
-			        context.DeclaringType = (BoundTypeDefinitionMask_I)Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, context.TypeReference.GetElementType(), context.UnderlyingType.DeclaringType, null);
-		        }
+					// Call back to the execution's type system so it can determine where to make the type
+					//context.DeclaringType = (BoundTypeDefinitionMask_I)Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, context.TypeReference.GetElementType(), context.UnderlyingType.DeclaringType, null);
+
+					throw new System.Exception("Fix");
+				}
 		        else
 		        {
-			        // Call back to the execution's type system so it can determine where to make the type
-			        context.DeclaringType = (BoundTypeDefinitionMask_I)Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, context.TypeReference.DeclaringType, context.UnderlyingType.DeclaringType, null);
-		        }
+					// Call back to the execution's type system so it can determine where to make the type
+					//context.DeclaringType = (BoundTypeDefinitionMask_I)Execution.Metadata.Members.Types.Ensuring.Ensure(semanticModel, context.TypeReference.DeclaringType, context.UnderlyingType.DeclaringType, null);
+
+					throw new System.Exception("Fix");
+				}
 	        }
 
 			if (context.TypeReference.IsRequiredModifier)
@@ -118,7 +119,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
 		}
 
 
-		public void EnsureTypes(BoundRuntimicModelMask_I semanticModel, BoundModule_I boundModule)
+		public void EnsureTypes(RuntimicSystemModel semanticModel, BoundModule_I boundModule)
 		{
 			var types = boundModule.SourceModuleDefinition.Types;
 

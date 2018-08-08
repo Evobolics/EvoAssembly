@@ -1,4 +1,4 @@
-﻿using Root.Code.Apis.E01D.Runtimic.Execution.Bound;
+﻿using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Configurational;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.CustomAttributes;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Constructors;
@@ -31,11 +31,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
             {
                 return Container.Api.Runtimic.Execution.Conversion.Metadata.Assemblies;
             }
-        } 
+        }
 
-        
-
-        
+        public ConfigurationalApiMask_I Configurational => Container.Api.Runtimic.Execution.Conversion.Internal.Configurational;
 
         public ConstructorApiMask_I Constructors => Container.Api.Runtimic.Execution.Conversion.Metadata.Members.Constructors;
 

@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Reflection;
+using Root.Code.Models.E01D.Runtimic;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 {
@@ -29,6 +32,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 
         Type GetTypeFromAssembly(Assembly loadedAssembly, string inputFullName);
 
+
+	    BoundAssemblyNode EnsureNode(RuntimicSystemModel runtimicSystem, StructuralAssemblyNode inputStructuralNode);
 
     }
 }

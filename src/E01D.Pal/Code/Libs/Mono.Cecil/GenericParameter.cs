@@ -39,6 +39,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 
 		public IGenericParameterProvider Owner {
 			get { return owner; }
+			set { owner = value; }
 		}
 
 		public bool HasConstraints {

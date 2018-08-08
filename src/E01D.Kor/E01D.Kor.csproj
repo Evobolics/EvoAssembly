@@ -58,6 +58,7 @@
     <Compile Include="Code\Attributes\E01D\PhenotypeClassifier.cs" />
     <Compile Include="Code\Attributes\E01D\PhenotypeMask.cs" />
     <Compile Include="Code\Attributes\E01D\PhenotypePart.cs" />
+    <Compile Include="Code\Attributes\E01D\PublicApiAttribute.cs" />
     <Compile Include="Code\Attributes\E01D\RequiresIOCAttribute.cs" />
     <Compile Include="Code\Attributes\E01D\StaticApiAttribute.cs" />
     <Compile Include="Code\Attributes\E01D\Task.cs" />

@@ -1,8 +1,6 @@
-﻿using System.Reflection;
-using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Libs.Mono.Cecil;
+﻿using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 {
@@ -18,18 +16,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Assemblies
 		/// <returns></returns>
 		/// <remarks>The only way an semantic assembly should be created is via the use of an assembly definition.  This forces the structural model to be 
 		/// updated to include the assembly definition first. </remarks>
-		public BoundAssemblyMask_I CreateAssemblyEntry(InfrastructureRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition, Assembly assembly)
+		public BoundAssemblyMask_I CreateAssemblyEntry(RuntimicSystemModel runtimicSystem, BoundAssemblyNode assemblyNode)
         {
             var boundAssembly = new BoundAssembly()
             {
-                Name = assemblyDefinition.Name.Name,
-                FullName = assemblyDefinition.FullName,
-                AssemblyDefinition = assemblyDefinition,
-				Assembly = assembly,
-                ObjectNetwork = semanticModel,
+                Node = assemblyNode
             };
-
-            
 
             return boundAssembly;
         }

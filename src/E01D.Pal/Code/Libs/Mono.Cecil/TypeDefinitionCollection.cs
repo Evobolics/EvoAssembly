@@ -17,7 +17,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 
 	using Slot = Row<string, string>;
 
-	sealed class TypeDefinitionCollection : Collection<TypeDefinition> {
+	public sealed class TypeDefinitionCollection : Collection<TypeDefinition> {
 
 		readonly ModuleDefinition container;
 		readonly Dictionary<Slot, TypeDefinition> name_cache;

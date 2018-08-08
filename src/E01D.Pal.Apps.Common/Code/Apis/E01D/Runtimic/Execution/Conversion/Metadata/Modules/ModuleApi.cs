@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Reflection;
-using Root.Code.Attributes.E01D;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules
 {
@@ -35,16 +35,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules
 
 
 
-        
 
-	    
 
         
 
-		/// <summary>
-		/// Declare all the modules and its members, and then define the members by filling in instructions.
-		/// </summary>
-		/// <param name="moduleEntry"></param>
+
+
+        /// <summary>
+        /// Declare all the modules and its members, and then define the members by filling in instructions.
+        /// </summary>
+        /// <param name="moduleEntry"></param>
         public void DeclareAndDefine(SemanticModuleMask_I moduleEntry)
 		{
 		    
@@ -130,5 +130,36 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules
         {
             return module.Name.StartsWith("mscorlib");
         }
+
+        public ConvertedModuleNode Ensure(ILConversion conversion, ConvertedAssemblyNode assemblyNode, StructuralModuleNode structuralModule)
+        {
+            if (conversion.MetadataModel.Modules.ByVersionId.TryGetValue(structuralModule.VersionId, out ConvertedModuleNode node))
+            {
+                return node;
+            }
+
+            var moduleNode = new ConvertedModuleNode()
+            {
+                AssemblyNode = assemblyNode,
+                InputStructuralDefinition = structuralModule
+            };
+
+            conversion.MetadataModel.Modules.ByVersionId.Add(structuralModule.VersionId, moduleNode);
+
+            moduleNode.ConvertedModule = Modules.Creation.Create(conversion, moduleNode);
+
+            return moduleNode;
+
+        }
+
+        
+
+        public ConvertedModuleNode Get(ILConversion model, Guid moduleMvid)
+        {
+            return model.MetadataModel.Modules.ByVersionId[moduleMvid];
+        }
+
+        
     }
 }
+ 

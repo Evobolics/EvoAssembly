@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Reflection.Emit;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
 
@@ -29,7 +28,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
         
 
-        public ConvertedAssembly CreateConvertedAssembly(ILConversion conversion, string name, AssemblyDefinition assemblyDefinition)
+        public ConvertedAssembly CreateConvertedAssembly(ILConversion conversion, string name, ConvertedAssemblyNode assemblyNode)
         {
 
             // compiler crash / compiler error - do not put this line with initializer.
@@ -41,14 +40,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
                 AssemblyBuilder = builder,
                 Name = name,
                 FullName = name,
-                ResolutionName = assemblyDefinition != null ? assemblyDefinition.Name.FullName : name,
-                AssemblyDefinition = assemblyDefinition,
+                AssemblyNode = assemblyNode,
                 Conversion = conversion,
             };
-
-            convertedAssembly.Assembly = convertedAssembly.AssemblyBuilder;
-
-            
 
             return convertedAssembly;
         }

@@ -42,9 +42,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Pro
 
             var resolvedPropertyTypeReference = Cecil.ResolveAnyTypeArguments(genericArgumentSource, propertyTypeReference);
 
-            var propertyTypeDefinition = Models.Types.ResolveToTypeDefinition(conversion.Model, resolvedPropertyTypeReference);
+            var propertyTypeDefinition = Models.Types.ResolveToTypeDefinition(conversion.RuntimicSystem, resolvedPropertyTypeReference);
 
-	        Execution.Types.Ensuring.Ensure(conversion.Model, propertyTypeDefinition, null, null);
+	        //Execution.Types.Ensuring.Ensure(conversion.Model, propertyTypeDefinition, null, null);
+
+            throw new System.Exception("Fix");
         }
     }
 }

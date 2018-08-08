@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Exceptions.E01D;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
@@ -76,39 +75,39 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
         {
             var semanticModel = conversion.Model;
 
-            foreach (var moduleDefinition in assemblyEntry.AssemblyDefinition.Modules)
-            {
-                foreach (var assemblyNameReference in moduleDefinition.AssemblyReferences)
-                {
-                    var fullAssemblyName = assemblyNameReference.FullName;
+            //foreach (var moduleDefinition in assemblyEntry.AssemblyDefinition.Modules)
+            //{
+            //    foreach (var assemblyNameReference in moduleDefinition.AssemblyReferences)
+            //    {
+            //        var fullAssemblyName = assemblyNameReference.FullName;
 
-                    SemanticAssemblyMask_I referencedEntry = null;
+            //        SemanticAssemblyMask_I referencedEntry = null;
 
-                    if (semanticModel.Semantic.Assemblies.ByResolutionName.TryGetValue(fullAssemblyName, out SemanticAssemblyMask_I referenceAssemblyEntry))
-                    {
-                        referencedEntry = referenceAssemblyEntry;
-                    }
-                    else
-                    {
-                        var loadedAssembly = this.Metadata.Assemblies.FindAssemblyInAppDomain(fullAssemblyName);
+            //        if (semanticModel.Semantic.Assemblies.ByResolutionName.TryGetValue(fullAssemblyName, out SemanticAssemblyMask_I referenceAssemblyEntry))
+            //        {
+            //            referencedEntry = referenceAssemblyEntry;
+            //        }
+            //        else
+            //        {
+            //            var loadedAssembly = this.Metadata.Assemblies.FindAssemblyInAppDomain(fullAssemblyName);
 
-                        if (loadedAssembly != null && !loadedAssembly.IsDynamic)
-                        {
-                            //referencedEntry = Conversion.Metadata.Assemblies.Creation.CreateAssemblyEntry(conversion, loadedAssembly);
+            //            if (loadedAssembly != null && !loadedAssembly.IsDynamic)
+            //            {
+            //                //referencedEntry = Conversion.Metadata.Assemblies.Creation.CreateAssemblyEntry(conversion, loadedAssembly);
 
-                            AddAssemblyReferences(conversion, referencedEntry);
-                        }
-                        else
-                        {
-                            throw new Exception("Assembly not resolved.  Need to add secondary resolving logic.");
-                        }
-                    }
+            //                AddAssemblyReferences(conversion, referencedEntry);
+            //            }
+            //            else
+            //            {
+            //                throw new Exception("Assembly not resolved.  Need to add secondary resolving logic.");
+            //            }
+            //        }
 
-                    //assemblyEntry.Assemblies.Referenced.Add(referencedEntry.ResolutionName(), referencedEntry);
+            //        //assemblyEntry.Assemblies.Referenced.Add(referencedEntry.ResolutionName(), referencedEntry);
 
-                    //referencedEntry.Assemblies.Referencing.Add(assemblyEntry.ResolutionName(), assemblyEntry);
-                }
-            }
+            //        //referencedEntry.Assemblies.Referencing.Add(assemblyEntry.ResolutionName(), assemblyEntry);
+            //    }
+            //}
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Reflection.Emit;
+﻿using System.Reflection.Emit;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
@@ -70,7 +69,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 					GenericTypeInstanceConstructorInfo = genericTypeInstanceConstructorInfo,
 					GenericTypeDefinitionConstructorInfo = bound.UnderlyingConstructor,
 					GenericTypeDefinitionBoundConstructor = bound,
-					GenericTypeInstanceMethodReference = Cecil.Metadata.Members.Methods.Building.MethodDefinitions.MakeGenericInstanceTypeMethodReference(conversion.Model, 
+					GenericTypeInstanceMethodReference = Cecil.Metadata.Members.Methods.Building.MethodDefinitions.MakeGenericInstanceTypeMethodReference(conversion.RuntimicSystem, 
 					(GenericInstanceType)input.SourceTypeReference, (MethodDefinition)bound.MethodReference)
 				};
 			}

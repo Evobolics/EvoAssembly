@@ -9,10 +9,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Modeling
 {
     public class ILConversionRuntimicModel: BoundRuntimicModelMask_I
 	{
-		/// <summary>
-		/// Gets or sets the assembly map that specifies how input assemblies are mapped to output assemblies.   This allows for non-one to one mappings to be created.
-		/// </summary>
-		public AssemblyMap AssemblyMap { get; set; }
+		
 
 		/// <summary>
 		/// Gets or sets the conversion associated with this runtimic model.
@@ -45,8 +42,8 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Modeling
 		public object ObjectNetwork { get; set; }
 
 		/// <summary>
-		/// Gets or sets the unified model assoicated with this runtimic model.
+		/// Gets or sets the unified runtimic model assoicated with this runtimic model.
 		/// </summary>
-		public UnifiedModelMask_I Unified { get; set; } = new UnifiedModel();
+		public UnifiedModelMask_I Unified { get; set; } //= new UnifiedModel();
 	}
 }

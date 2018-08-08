@@ -21,5 +21,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata
 
 	    public Dictionary<long, BoundConstructorDefinitionMask_I> ConstructorsByMetadataToken { get; set; } =
 		    new Dictionary<long, BoundConstructorDefinitionMask_I>();
-	}
+
+	    public BoundModuleNode ModuleNode { get; set; }
+    }
 }

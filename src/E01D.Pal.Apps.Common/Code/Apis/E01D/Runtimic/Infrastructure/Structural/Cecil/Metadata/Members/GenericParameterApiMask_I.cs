@@ -8,5 +8,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		System.Reflection.GenericParameterAttributes GetGenericParameterAttributes(TypeParameterConstraintKind attributes);
 
 		TypeParameterConstraintKind GetTypeParameterAttributes(GenericParameter constraint);
+		TypeParameterKind GetTypeParameterKind(GenericParameterType parameterType);
 	}
 }

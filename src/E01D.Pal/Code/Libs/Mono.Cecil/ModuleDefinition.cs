@@ -938,7 +938,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 			get { return module_lock; }
 		}
 
-		internal void Read<TItem> (TItem item, Action<TItem, MetadataReader> read)
+		public void Read<TItem> (TItem item, Action<TItem, MetadataReader> read)
 		{
 			lock (module_lock) {
 				var position = reader.position;
@@ -951,7 +951,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 			}
 		}
 
-		internal TRet Read<TItem, TRet> (TItem item, Func<TItem, MetadataReader, TRet> read)
+		public TRet Read<TItem, TRet> (TItem item, Func<TItem, MetadataReader, TRet> read)
 		{
 			lock (module_lock) {
 				var position = reader.position;
@@ -966,7 +966,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 			}
 		}
 
-		internal TRet Read<TItem, TRet> (ref TRet variable, TItem item, Func<TItem, MetadataReader, TRet> read) where TRet : class
+		public TRet Read<TItem, TRet> (ref TRet variable, TItem item, Func<TItem, MetadataReader, TRet> read) where TRet : class
 		{
 			lock (module_lock) {
 				if (variable != null)

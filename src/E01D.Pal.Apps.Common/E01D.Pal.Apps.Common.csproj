@@ -40,6 +40,12 @@
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\BuildingApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\BuildingApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Bound\Metadata\Members\Methods\BuildingApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Internal\ConfigurationalApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Internal\ConfigurationalApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Internal\ConfigurationalApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Internal\InitializationApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Internal\InitializationApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Internal\InitializationApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Internal\InternalApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Internal\InternalApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Internal\InternalApi_I.cs" />
@@ -176,6 +182,9 @@
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Building\NonGenericInstances\Phase3InstructionBuildApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Building\NonGenericInstances\Phase3InstructionBuildApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Building\NonGenericInstances\Phase3InstructionBuildApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Ensuring\UnifiedApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Ensuring\UnifiedApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Ensuring\UnifiedApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Signatures\LocalVariableSignatureApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Signatures\LocalVariableSignatureApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Signatures\LocalVariableSignatureApi_I.cs" />
@@ -191,6 +200,12 @@
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\Ensuring\ByReferenceApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\Ensuring\ByReferenceApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\Ensuring\ByReferenceApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\Ensuring\DefinitionTypeApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\Ensuring\DefinitionTypeApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\Ensuring\DefinitionTypeApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\Ensuring\GenericInstanceTypeApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\Ensuring\GenericInstanceTypeApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\Ensuring\GenericInstanceTypeApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\Ensuring\GenericParameterApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\Ensuring\GenericParameterApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\Ensuring\GenericParameterApi_I.cs" />
@@ -200,6 +215,9 @@
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\TypeApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\TypeApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Members\Types\TypeApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\IdentificationApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\IdentificationApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\IdentificationApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Models\Semantic\ModelAssembliesApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Models\Semantic\ModelAssembliesApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Models\Semantic\ModelAssembliesApi_I.cs" />
@@ -818,9 +836,33 @@
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Types\NamingApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Members\Types\NamingApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Cecil\Metadata\Assemblies\NamingApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Assemblies\AssemblyApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Assemblies\AssemblyApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Assemblies\AssemblyApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Assemblies\CreatingApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Assemblies\CreatingApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Assemblies\CreatingApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Assemblies\EnsuringApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Assemblies\EnsuringApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Assemblies\EnsuringApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Members\MemberApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Members\MemberApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Members\MemberApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Members\Types\TypeApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Members\Types\TypeApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\Members\Types\TypeApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\MetadataApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\MetadataApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\MetadataApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\ModuleApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\ModuleApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\Metadata\ModuleApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\StructuralApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\StructuralApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\StructuralApi_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Models\ModelApi.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Models\ModelApiMask_I.cs" />
+    <Compile Include="Code\Apis\E01D\Runtimic\Models\ModelApi_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\RuntimicApi.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\RuntimicApiMask_I.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\RuntimicApi_I.cs" />
@@ -852,11 +894,19 @@
     <Compile Include="Code\Enums\E01D\Runtimic\Infrastructure\Structural\Metadata\ElementKind.cs" />
     <Compile Include="Code\Enums\E01D\Runtimic\Infrastructure\Structural\Metadata\SignaturePrefixKind.cs" />
     <Compile Include="Code\Exts\Runtimic\RuntimicContainerExts.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\BoundEnsureContext.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\BoundSystemModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\BoundAssemblyModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\BoundAssemblyNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\BoundModuleModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\BoundModuleNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\BoundTypeNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\BoundTypeTable.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\ExecutionEnsureContext.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\Definitions\BoundGenericTypeDefinitionGenericTypeArgumentsMask_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\Definitions\BoundGenericTypeDefinitionGenericTypeArguments_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Metadata\Members\Types\Definitions\BoundInterfaceTypeParameterConstraintMask_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\Modeling\ILConversionRuntimicModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ConversionSystemModel.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionAssembliesInput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionAssembliesOutput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionAssemblyDefinitionInput.cs" />
@@ -866,10 +916,18 @@
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionTypesInput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionTypesOutput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\InputOutputKind.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\ConversionAssemblyModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\ConversionMetadataModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\ConversionModuleModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\ConversionTypeModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\ConvertedAssemblyNode.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\ConvertedILStream.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\ConvertedModuleNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\ConvertedTypeTable.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedRoutineBodyEmitState.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedRoutineEmitState.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedRoutinesEmitState.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\ConversionTypeNode.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\Types\Definitions\ConvertedTypeWithRoutines_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Signatures\ConvertedLocalVariableSignature.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Signatures\ConvertedLocationSignature.cs" />
@@ -886,6 +944,11 @@
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\ExecutionArrayTypeDefinitionMask_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\ExecutionArrayTypeDefinition_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\ExecutionClassTypeParameterConstraintMask_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\ExecutionGenericInstanceTypeNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\ExecutionGenericInstanceTypeNodeMask_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\ExecutionTypeNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\ExecutionTypeNodeMask_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\ExecutionTypeNode_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\ExecutionTypeParameterDefinitionMask_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\ExecutionTypeParameterDefinition_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\ExecutionGenericTypeDefinitionMask_I.cs" />
@@ -898,12 +961,40 @@
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Metadata\Members\ExecutionType_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Semantic\AssemblyMapEntry.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Semantic\AssemblyMap.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Semantic\SemanticSystemModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\Metadata\StructuralGenericInstanceTypeNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\Metadata\StructuralTypeTable.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\StructuralSystemModelAssemblies.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\Cecil\CecilSystemModel.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\Cecil\CecilTypeReferenceSet.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\Metadata\MetadataStream.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\Metadata\MethodSignature.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\Metadata\StructuralAssemblyDefinition.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\Metadata\StructuralAssemblySourceKind.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\Metadata\StructuralModuleDefinition.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\Metadata\StructuralAssemblyNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\Metadata\StructuralModuleNode.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\StructuralRuntimicModelMask_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\StructuralSystemModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\Metadata\StructuralTypeNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\StructuralSystemModelModules.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Structural\StructuralSystemModelTypes.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\RuntimicIdentificationModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\RuntimicIoModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\RuntimicSystemModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\RuntimicTypeSystemModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\Metadata\Members\Types\Secondary\UnifiedByRefTypeNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\Metadata\Members\Types\Secondary\UnifiedGenericInstanceTypeNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\Metadata\Members\Types\Secondary\UnifiedTypeSubTypeNode_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\Metadata\Members\Types\UnifiedPrimaryNodeKind.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\Metadata\Members\Types\Secondary\UnifiedArrayTypeNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedAssemblyLocation.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedMetadataModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedMetadataModelMask_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedModelKind.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedRuntimicModel.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\Metadata\Members\Types\UnifiedTypeDefinitionNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\Metadata\Members\Types\Secondary\UnifiedPointerTypeNode.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedArrayInstanceNode.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedArrayInstanceNodeSet.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedAssemblyNodeSet.cs" />
@@ -914,8 +1005,13 @@
     <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedModelModulesMask_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedModuleNode.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedModuleNodeSet.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedModuleTypesNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedNode.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedRuntimicModelMask_I.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\Metadata\Members\Types\UnifiedTypePrimaryNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedSystemModel.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedTypeNodeSet.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\Metadata\Members\Types\UnifiedTypeSecondaryNode.cs" />
     <Compile Include="Code\PI\E01D\EvoAssembly.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Bound\BoundNode.cs" />
     <Compile Include="Code\Apis\E01D\Runtimic\Execution\Emitting\EmittingApi.cs" />
@@ -1026,7 +1122,7 @@
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedMethodCallInformation.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedMethodCallInformationMask_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedMethodMask_I.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedMethodParameter.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedRoutineParameter.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedMethodParameterMask_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedRoutineParameters.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\Metadata\Members\ConvertedRoutineParametersMask_I.cs" />
@@ -1386,7 +1482,7 @@
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Semantic\Metadata\SemanticAssembly_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Semantic\Metadata\Members\Typal\SemanticGenericTypeInformation.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Semantic\Metadata\Members\Typal\Definitions\SemanticTypeDefinitionBase_I.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Unified\UnifiedTypeNode.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Unified\Metadata\Members\Types\UnifiedTypeNode.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Semantic\Metadata\Members\Typal\Definitions\SemanticTypeDefinitionMask_I.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Semantic\Metadata\Members\Typal\SemanticTypeInformation.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Infrastructure\Semantic\Metadata\Members\Typal\SemanticTypeMask_I.cs" />
@@ -1444,6 +1540,7 @@
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ArrayTesting_MultipleTypes.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_CircularReference_1.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_CircularReference_2.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_ClassWithAttributeWithArguments.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_ClassWithBlankAttribute.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_ConstructTryCatchFinally.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_GenericListCanBeEmitted.cs" />
@@ -1452,6 +1549,7 @@
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_LocalsViaAddition.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_MakeGenericTest.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_SoleNestedType.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_Switch.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassWithDifferentKindsOfFields.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassWithFieldsWithDifferentAccessModifiers.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassWithGenericField.cs" />
@@ -1462,6 +1560,7 @@
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassWithReferenceToGenreicField.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassWithPrimitiveTypeMethods.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ConvertedWithBoundGenericInstanceWithParameter.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\Field1.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\GenericAndBaseWithThreeGenericParameters.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ComplicatedGenericWithConstructorWithArgumentSetToDefaultValue.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ComplicatedGenericWithOneArgBaseConstructorCall.cs" />
@@ -1481,6 +1580,7 @@
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\GenericClassWithGenericFields.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\GenericClassWithInterfaceA.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\InstructionTesting_ExecptionHandling_TryCatch_NoNested.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\MethodTesting_BranchTest.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\RuntimicContainerBApi_I.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\GenericClassWithInterfaceASubClass.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\GenericClassWithInterfaceA_I.cs" />
@@ -1522,6 +1622,7 @@
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\SimpleClassWithBase.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\SimpleClassWithBaseAndInterface.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\SimpleClassWithBaseAndInterfaces.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\SimpleClassWithField.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\SimpleClassWithNestedClass.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\SimpleDelegate.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\SimpleGenericClass.cs" />
@@ -1555,6 +1656,7 @@
     <Folder Include="Code\Containers\E01D\Runtimic\Execution\Emitting\Conversion\" />
     <Folder Include="Code\Enums\E01D\Runtimic\Infrastructure\Semantic\Metadata\Members\Typal\" />
     <Folder Include="Code\Exts\Runtimic\Execution\Conversion\" />
+    <Folder Include="Code\Models\E01D\Runtimic\Unified\Metadata\Members\Types\Primary\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\E01D.Kor\E01D.Kor.csproj">
@@ -1574,12 +1676,12 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Code\Apis\E01D\Runtimic\Execution\Conversion\Metadata\Members\Instructions\Building\WithoutILGenerator\Reference.txt" />
     <Content Include="Code\Apis\E01D\Runtimic\Execution\Metadata\Design Notes.txt" />
     <Content Include="Code\Apis\E01D\Runtimic\Infrastructure\Structural\DesignNotes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

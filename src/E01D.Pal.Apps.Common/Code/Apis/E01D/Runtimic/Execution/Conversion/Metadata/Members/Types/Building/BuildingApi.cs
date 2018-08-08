@@ -175,7 +175,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 				
 			}
 			if (converted.SourceTypeReference.FullName ==
-			    "Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types.RuntimicContainerBApi_I`1"
+			    "Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Instructions.InstructionTest_CastClass"
 			)
 			{
 

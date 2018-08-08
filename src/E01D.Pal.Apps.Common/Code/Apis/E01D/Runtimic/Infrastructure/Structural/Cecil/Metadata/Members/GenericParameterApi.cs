@@ -1,4 +1,5 @@
-﻿using Root.Code.Containers.E01D.Runtimic;
+﻿using System;
+using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Libs.Mono.Cecil;
 
@@ -64,6 +65,21 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 
 			return attributes;
+		}
+
+		public TypeParameterKind GetTypeParameterKind(GenericParameterType type)
+		{
+			switch (type)
+			{
+				case GenericParameterType.Type:
+					return TypeParameterKind.Type;
+				case GenericParameterType.Method:
+					return TypeParameterKind.Method;
+				default:
+				{
+					throw new Exception($"Expected either a type parameter kind of type or method, but not {type.ToString()}");
+				}
+			}
 		}
 	}
 }

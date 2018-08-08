@@ -16,5 +16,6 @@
         GettingApiMask_I Getting { get; }
 
 
+        //BoundModuleNode Ensure(ExecutionEnsureContext context, BoundAssemblyNode boundAssembly, StructuralModuleNode module);
     }
 }

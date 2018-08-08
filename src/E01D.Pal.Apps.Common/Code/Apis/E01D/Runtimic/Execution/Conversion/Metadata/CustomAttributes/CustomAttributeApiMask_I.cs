@@ -14,7 +14,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.CustomAttri
 		void BuildCustomAttributes(ILConversion conversion, ConvertedTypeDefinition_I input, ConvertedField convertedField);
 		void BuildCustomAttributes(ILConversion conversion, ConvertedTypeWithMethods_I input, ConvertedBuiltMethod methodEntry);
 		void BuildCustomAttributes(ILConversion conversion, ConvertedTypeDefinitionWithProperties_I convertedType, ConvertedProperty entry);
-		void BuildCustomAttributes(ILConversion conversion, ConvertedMethodParameter parameter);
+		void BuildCustomAttributes(ILConversion conversion, ConvertedRoutineParameter parameter);
 		void BuildCustomAttributes(ILConversion conversion, ParameterBuilder returnParameter, MethodReturnType methodReturnType);
 	}
 }

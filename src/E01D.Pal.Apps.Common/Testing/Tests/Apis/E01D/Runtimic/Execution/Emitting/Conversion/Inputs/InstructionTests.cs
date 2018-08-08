@@ -2,6 +2,7 @@
 using Root.Code.Attributes.E01D;
 using Root.Code.Domains;
 using Root.Code.Domains.E01D;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Testing.Code.Containers.E01D.Runtimic.Execution.Emitting.Conversion;
 using Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Instructions;
 using Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types;
@@ -103,6 +104,11 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
                 il.Emit(OpCodes.Ldc_I4_1);
                 il.MarkLabel(endOfMthd);
                 il.Emit(OpCodes.Ret);
+            }, 
+            new ILConversionOptions()
+            {
+                BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+                UseILGenerator = false
             });
 
             Assert.AreEqual(true, (bool) result);
@@ -130,7 +136,12 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
                 il.Emit(OpCodes.Ldc_I4_1);
                 il.MarkLabel(endOfMthd);
                 il.Emit(OpCodes.Ret);
-            });
+            },
+                new ILConversionOptions()
+                {
+                    BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+                    UseILGenerator = false
+                });
 
             Assert.AreEqual(true, (bool)result);
         }
@@ -155,7 +166,12 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
                 il.Emit(OpCodes.Ldc_I4_1);
                 il.MarkLabel(endOfMthd);
                 il.Emit(OpCodes.Ret);
-            });
+            },
+                new ILConversionOptions()
+                {
+                    BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+                    UseILGenerator = false
+                });
 
             Assert.AreEqual(true, (bool)result);
         }
@@ -180,7 +196,12 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
                 il.Emit(OpCodes.Ldc_I4_1);
                 il.MarkLabel(endOfMthd);
                 il.Emit(OpCodes.Ret);
-            });
+            },
+                new ILConversionOptions()
+                {
+                    BuilderAccess = AssemblyBuilderAccess.RunAndCollect,
+                    UseILGenerator = false
+                });
 
             Assert.AreEqual(true, (bool)result);
         }

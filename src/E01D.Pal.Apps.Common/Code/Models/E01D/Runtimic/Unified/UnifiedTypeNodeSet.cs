@@ -1,4 +1,6 @@
-﻿namespace Root.Code.Models.E01D.Runtimic.Unified
+﻿using Root.Code.Models.E01D.Runtimic.Unified.Metadata.Members.Types;
+
+namespace Root.Code.Models.E01D.Runtimic.Unified
 {
 	public class UnifiedTypeNodeSet
 	{

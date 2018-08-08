@@ -22,9 +22,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
 		public SemanticAssemblyMask_I Ensure(ILConversion conversion, Assembly assembly)
 		{
-			var assemblyNode = Cecil.Assemblies.Ensuring.Ensure(conversion.Model, assembly);
+			throw new System.Exception("Fix");
 
-			return Ensure(conversion, assemblyNode);
+			//var assemblyNode = Cecil.Assemblies.Ensuring.Ensure(conversion.Model, assembly);
+
+			//return Ensure(conversion, assemblyNode);
 
 			//if (semanticAssembly is ConvertedAssembly_I converted)
 			//{
@@ -40,35 +42,42 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
 		public SemanticAssemblyMask_I Ensure(ILConversion conversion, Stream stream)
 		{
-			var assemblyNode = Cecil.Assemblies.Ensuring.Ensure(conversion.Model, stream);
+			//var assemblyNode = Cecil.Assemblies.Ensuring.Ensure(conversion.RuntimicSystem, stream);
 
-			return Ensure(conversion, assemblyNode);
+			//return Ensure(conversion, assemblyNode);
+
+			throw new Exception("Debug");
 		}
 
 		public SemanticAssemblyMask_I Ensure(ILConversion conversion, IMetadataScope assemblyNameReference)
 		{
-			var assemblyNode = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensuring.Ensure(conversion.Model, assemblyNameReference);
+			//var assemblyNode = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensuring.Ensure(conversion.RuntimicSystem, assemblyNameReference);
 
-			return Ensure(conversion, assemblyNode);
+			//return Ensure(conversion, assemblyNode);
+
+			throw new Exception("Debug");
 		}
 
 		public SemanticAssemblyMask_I Ensure(ILConversion conversion, string typeReferenceFullName)
 		{
-			var typeReference = Cecil.Types.Getting.GetStoredTypeReference(conversion.Model, typeReferenceFullName, out UnifiedTypeNode basicNode);
+			throw new System.Exception("Debug");
+			//var typeReference = Cecil.Types.Getting.GetStoredTypeReference(conversion.Model, typeReferenceFullName, out UnifiedTypeNode basicNode);
 
-			if (typeReference == null)
-			{
-				throw new Exception($"Could not locate a type in the model named '{typeReferenceFullName}'");
-			}
+			//if (typeReference == null)
+			//{
+			//	throw new Exception($"Could not locate a type in the model named '{typeReferenceFullName}'");
+			//}
 
-			return Ensure(conversion, basicNode.AssemblyNode);
+			//return Ensure(conversion, basicNode.AssemblyNode);
 		}
 
 		public SemanticAssemblyMask_I Ensure(ILConversion conversion, TypeReference typeReference)
 		{
-			var assemblyNode = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensuring.Ensure(conversion.Model, typeReference);
+			//var assemblyNode = Infrastructure.Structural.Cecil.Metadata.Assemblies.Ensuring.Ensure(conversion.RuntimicSystem, typeReference);
 
-			return Ensure(conversion, assemblyNode);
+			//return Ensure(conversion, assemblyNode);
+
+			throw new Exception("Debug");
 		}
 
 
@@ -92,7 +101,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
 			if (!Assemblies.Query.IsConverted(conversion, name))
 			{
-				return Bound.Metadata.Assemblies.Ensuring.Ensure(conversion.Model, assemblyDefinition);
+				return Bound.Metadata.Assemblies.Ensuring.Ensure(conversion.RuntimicSystem, assemblyDefinition);
 			}
 
 			//var convertedAssembly = Assemblies.Creation.CreateConvertedAssembly(conversion, name, assemblyDefinition);

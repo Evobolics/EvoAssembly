@@ -1,9 +1,9 @@
 ﻿using System;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
@@ -17,14 +17,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling.Types
 
        
 
-        public SemanticTypeDefinitionMask_I Get(InfrastructureRuntimicModelMask_I model, string resolutionName)
+        public SemanticTypeDefinitionMask_I Get(RuntimicSystemModel model, string resolutionName)
         {
             return Infrastructure.Models.Semantic.Types.Collection.Get(model, resolutionName);
         }
 
         
 
-        public SemanticTypeMask_I GetOrThrow(InfrastructureRuntimicModelMask_I model, string resolutionName)
+        public SemanticTypeMask_I GetOrThrow(RuntimicSystemModel model, string resolutionName)
         {
             return Infrastructure.Models.Semantic.Types.Collection.GetOrThrow(model, resolutionName);
         }
@@ -47,16 +47,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling.Types
 
 		public TypeReference GetTypeReference(ILConversion conversion, Type input)
 		{
-			return Bound.Models.Types.GetTypeReference(conversion.Model, input);
+			return Bound.Models.Types.GetTypeReference(conversion.RuntimicSystem, input);
 		}
 
 	    public TypeReference GetTypeReference(ILConversion conversion, Type input, out SemanticTypeDefinitionMask_I possibleSemanticType)
 	    {
-		    return Bound.Models.Types.GetTypeReference(conversion.Model, input, out possibleSemanticType);
+		    return Bound.Models.Types.GetTypeReference(conversion.RuntimicSystem, input, out possibleSemanticType);
 	    }
 
 
-		public TypeDefinition ResolveToTypeDefinition(InfrastructureRuntimicModelMask_I model, TypeReference typeReference)
+		public TypeDefinition ResolveToTypeDefinition(RuntimicSystemModel model, TypeReference typeReference)
 	    {
 		    if (typeReference.IsDefinition)
 		    {
@@ -73,14 +73,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling.Types
 		    throw new Exception("Could not resolve the type reference to a type definition.");
 	    }
 
-		public bool TryGet(InfrastructureRuntimicModelMask_I model, TypeReference input, out SemanticTypeDefinitionMask_I typeEntry)
+		public bool TryGet(RuntimicSystemModel model, TypeReference input, out SemanticTypeDefinitionMask_I typeEntry)
         {
             string resolutionName = Types.Naming.GetResolutionName(input);
 
             return TryGet(model, resolutionName, out typeEntry);
         }
 	
-        public bool TryGet(InfrastructureRuntimicModelMask_I model, string resolutionName, out SemanticTypeDefinitionMask_I typeEntry)
+        public bool TryGet(RuntimicSystemModel model, string resolutionName, out SemanticTypeDefinitionMask_I typeEntry)
         {
             typeEntry = Get(model, resolutionName);
 

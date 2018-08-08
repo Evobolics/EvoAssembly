@@ -5,7 +5,7 @@ using System.Reflection.Emit;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Libs.Mono.Cecil.Cil;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
+using Root.Code.Models.E01D.Runtimic.Execution;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
@@ -228,6 +228,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
             //https://groups.google.com/forum/#!topic/mono-cecil/soyOb3tLKPQ
             //Calli = 40,
             //Switch = 68,
+            System.Reflection.Emit.OpCode opCode = Cecil.Metadata.Instructions.ConvertOpCode(instructionDefinition.OpCode.Code);
 
             switch (instructionDefinition.OpCode.Code)
             {
@@ -563,8 +564,19 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 }
 
                 case Libs.Mono.Cecil.Cil.Code.Call:
+                case Libs.Mono.Cecil.Cil.Code.Callvirt:
                 {
-                    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, routine, (MethodReference)instructionDefinition.Operand,
+                    var methodReference = (MethodReference)instructionDefinition.Operand;
+
+                    var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion, methodReference.DeclaringType);
+
+                    if ((declaringBound is ConvertedTypeDefinition_I convertedType)
+                        && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true))
+                    {
+                        throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
+                    }
+
+                    if (!Members.GetMemberInfo(conversion, routine.DeclaringType, routine, declaringBound, methodReference,
                         out MemberInfo memberInfo))
                     {
                         throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
@@ -572,11 +584,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
                     if (memberInfo is ConstructorInfo constructor)
                     {
-                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Call, constructor);
+                        ilGenerator.Emit(opCode, constructor);
                     }
                     else if (memberInfo is MethodInfo methodInfo)
                     {
-                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Call, methodInfo);
+                        ilGenerator.Emit(opCode, methodInfo);
                     }
                     else
                     {
@@ -589,29 +601,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 {
                     throw new System.NotSupportedException("Calli instruction not supported yet.");
                 }
-                case Libs.Mono.Cecil.Cil.Code.Callvirt:
-                {
-                    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, routine, (MethodReference)instructionDefinition.Operand,
-                        out MemberInfo memberInfo))
-                    {
-                        throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
-                    }
-
-                    if (memberInfo is ConstructorInfo constructor)
-                    {
-                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Callvirt, constructor);
-                    }
-                    else if (memberInfo is MethodInfo methodInfo)
-                    {
-                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Callvirt, methodInfo);
-                    }
-                    else
-                    {
-                        throw new System.Exception("Not a constructor or  method");
-                    }
-
-                    break;
-                }
+                
+                
                 case Libs.Mono.Cecil.Cil.Code.Castclass:
                 {
                     var typeReference = instructionDefinition.Operand as TypeReference;
@@ -907,14 +898,26 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                     break;
                 }
                 case Libs.Mono.Cecil.Cil.Code.Jmp:
+                case Libs.Mono.Cecil.Cil.Code.Ldftn:
+                case Libs.Mono.Cecil.Cil.Code.Ldvirtftn:
                 {
-                    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, routine, (MethodReference)instructionDefinition.Operand,
-                        out MemberInfo memberInfo))
+
+                    var methodReference = (MethodReference)instructionDefinition.Operand;
+
+                    var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion, methodReference.DeclaringType);
+
+                    if ((declaringBound is ConvertedTypeDefinition_I convertedType)
+                        && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true))
                     {
                         throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
                     }
 
-                    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Jmp, (MethodInfo)memberInfo);
+                    if (!Members.GetMemberInfo(conversion, routine.DeclaringType, routine, declaringBound, methodReference, out MemberInfo memberInfo))
+                    {
+                        throw new Exception("Could not find member.");
+                    }
+
+                    ilGenerator.Emit(opCode, (MethodInfo)memberInfo);
 
                     break;
                 }
@@ -922,9 +925,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 {
                     if (instructionDefinition.Operand is ParameterDefinition parameter)
                     {
-                        ConvertedMethodParameterMask_I convertedParameter = GetParameter(routine, parameter);
+                        
 
-                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldarg, (ushort)convertedParameter.Position);
+                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldarg, (ushort)parameter.Sequence);
                     }
                     else
                     {
@@ -937,9 +940,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 {
                     if (instructionDefinition.Operand is ParameterDefinition parameter)
                     {
-                        ConvertedMethodParameterMask_I convertedParameter = GetParameter(routine, parameter);
+                        
 
-                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldarga, (ushort)convertedParameter.Position);
+                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldarga, (ushort)parameter.Sequence);
                     }
                     else
                     {
@@ -951,9 +954,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 {
                     if (instructionDefinition.Operand is ParameterDefinition parameter)
                     {
-                        ConvertedMethodParameterMask_I convertedParameter = GetParameter(routine, parameter);
+                        
 
-                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldarga_S, (byte)convertedParameter.Position);
+                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldarga_S, (byte)parameter.Sequence);
                     }
                     else
                     {
@@ -989,9 +992,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
                     if (instructionDefinition.Operand is ParameterDefinition parameter)
                     {
-                        ConvertedMethodParameterMask_I convertedParameter = GetParameter(routine, parameter);
+                        
 
-                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldarg_S, (byte)convertedParameter.Position);
+                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldarg_S, (byte)parameter.Sequence);
                     }
                     else
                     {
@@ -1204,9 +1207,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 }
                 case Libs.Mono.Cecil.Cil.Code.Ldfld:
                 {
-                    FieldReference fieldReference = (FieldReference)instructionDefinition.Operand;
+                    var fieldReference = (FieldReference)instructionDefinition.Operand;
 
-                    FieldInfo fieldInfo = Models.Fields.ResolveFieldReference(conversion, typeBeingBuilt, fieldReference);
+                    var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion, fieldReference.DeclaringType);
+
+                    if ((declaringBound is ConvertedTypeDefinition_I convertedType)
+                        && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true))
+                    {
+                        throw new Exception("Fields not build yet.");
+                    }
+
+                    FieldInfo fieldInfo = Models.Fields.ResolveFieldReference(conversion, typeBeingBuilt, declaringBound, fieldReference);
 
                     ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldfld, fieldInfo);
 
@@ -1214,26 +1225,23 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 }
                 case Libs.Mono.Cecil.Cil.Code.Ldflda:
                 {
-                    FieldReference fieldReference = (FieldReference)instructionDefinition.Operand;
+                    var fieldReference = (FieldReference)instructionDefinition.Operand;
 
-                    FieldInfo fieldInfo = Models.Fields.ResolveFieldReference(conversion, typeBeingBuilt, fieldReference);
+                    var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion, fieldReference.DeclaringType);
 
-                    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldflda, fieldInfo);
-
-                    break;
-                }
-                case Libs.Mono.Cecil.Cil.Code.Ldftn:
-                {
-                    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, routine, (MethodReference)instructionDefinition.Operand,
-                        out MemberInfo memberInfo))
+                    if ((declaringBound is ConvertedTypeDefinition_I convertedType)
+                        && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true))
                     {
-                        throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
+                        throw new Exception("Fields not build yet.");
                     }
 
-                    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldftn, (MethodInfo)memberInfo);
+                    FieldInfo fieldInfo = Models.Fields.ResolveFieldReference(conversion, typeBeingBuilt, declaringBound, fieldReference);
+
+                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldflda, fieldInfo);
 
                     break;
                 }
+               
 
                 case Libs.Mono.Cecil.Cil.Code.Ldlen:
                 {
@@ -1390,19 +1398,35 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 }
                 case Libs.Mono.Cecil.Cil.Code.Ldsfld:
                 {
-                    FieldReference fieldReference = (FieldReference)instructionDefinition.Operand;
+                    var fieldReference = (FieldReference)instructionDefinition.Operand;
 
-                    FieldInfo fieldInfo = Models.Fields.ResolveFieldReference(conversion, typeBeingBuilt, fieldReference);
+                    var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion, fieldReference.DeclaringType);
 
-                    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldsfld, fieldInfo);
+                    if ((declaringBound is ConvertedTypeDefinition_I convertedType)
+                        && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true))
+                    {
+                        throw new Exception("Fields not build yet.");
+                    }
+
+                    FieldInfo fieldInfo = Models.Fields.ResolveFieldReference(conversion, typeBeingBuilt, declaringBound, fieldReference);
+
+                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldsfld, fieldInfo);
 
                     break;
                 }
                 case Libs.Mono.Cecil.Cil.Code.Ldsflda:
                 {
-                    FieldReference fieldReference = (FieldReference)instructionDefinition.Operand;
+                    var fieldReference = (FieldReference)instructionDefinition.Operand;
 
-                    FieldInfo fieldInfo = Models.Fields.ResolveFieldReference(conversion, typeBeingBuilt, fieldReference);
+                    var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion, fieldReference.DeclaringType);
+
+                    if ((declaringBound is ConvertedTypeDefinition_I convertedType)
+                        && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true))
+                    {
+                        throw new Exception("Fields not build yet.");
+                    }
+
+                    FieldInfo fieldInfo = Models.Fields.ResolveFieldReference(conversion, typeBeingBuilt, declaringBound, fieldReference);
 
                     ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldsflda, fieldInfo);
 
@@ -1422,27 +1446,19 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                     if (typeReference is GenericParameter genericParameter)
                     {
                         // This hard cast is safe as constructors do not have generic parameters.
-                        resolvedType = Instructions.GetGenericParameterType(conversion, typeBeingBuilt, routine, genericParameter);
+                        if (!Instructions.GetGenericParameterType(conversion, routine.DeclaringType, routine,
+                            genericParameter, out resolvedType))
+                        {
+                            throw new Exception("Type not ready to emit tokens.");
+                        }
                     }
                     else
                     {
-                        resolvedType = Execution.Types.Ensuring.EnsureToType(conversion.Model, typeReference);
+                        resolvedType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
                     }
 
 
                     ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldtoken, resolvedType);
-
-                    break;
-                }
-                case Libs.Mono.Cecil.Cil.Code.Ldvirtftn:
-                {
-                    if (!Members.GetMemberInfo(conversion, typeBeingBuilt, routine, (MethodReference)instructionDefinition.Operand,
-                        out MemberInfo memberInfo))
-                    {
-                        throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
-                    }
-
-                    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Ldvirtftn, (MethodInfo)memberInfo);
 
                     break;
                 }
@@ -1599,9 +1615,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 {
                     if (instructionDefinition.Operand is ParameterDefinition parameter)
                     {
-                        ConvertedMethodParameterMask_I convertedParameter = GetParameter(routine, parameter);
+                        
 
-                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Starg, (ushort)convertedParameter.Position);
+                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Starg, (ushort)parameter.Sequence);
                     }
                     else
                     {
@@ -1613,9 +1629,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 {
                     if (instructionDefinition.Operand is ParameterDefinition parameter)
                     {
-                        ConvertedMethodParameterMask_I convertedParameter = GetParameter(routine, parameter);
+                        
 
-                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Starg_S, (byte)convertedParameter.Position);
+                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Starg_S, (byte)parameter.Sequence);
                     }
                     else
                     {
@@ -1671,9 +1687,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 }
                 case Libs.Mono.Cecil.Cil.Code.Stfld:
                 {
-                    FieldReference fieldReference = (FieldReference)instructionDefinition.Operand;
+                    var fieldReference = (FieldReference)instructionDefinition.Operand;
 
-                    FieldInfo fieldInfo = Models.Fields.ResolveFieldReference(conversion, typeBeingBuilt, fieldReference);
+                    var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion, fieldReference.DeclaringType);
+
+                    if ((declaringBound is ConvertedTypeDefinition_I convertedType)
+                        && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true))
+                    {
+                        throw new Exception("Fields not build yet.");
+                    }
+
+                    FieldInfo fieldInfo = Models.Fields.ResolveFieldReference(conversion, typeBeingBuilt, declaringBound, fieldReference);
 
                     ilGenerator.Emit(System.Reflection.Emit.OpCodes.Stfld, fieldInfo);
 
@@ -1681,11 +1705,19 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 }
                 case Libs.Mono.Cecil.Cil.Code.Stsfld:
                 {
-                    FieldReference fieldReference = (FieldReference)instructionDefinition.Operand;
+                    var fieldReference = (FieldReference)instructionDefinition.Operand;
 
-                    FieldInfo fieldInfo = Models.Fields.ResolveFieldReference(conversion, typeBeingBuilt, fieldReference);
+                    var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion, fieldReference.DeclaringType);
 
-                    ilGenerator.Emit(System.Reflection.Emit.OpCodes.Stsfld, fieldInfo);
+                    if ((declaringBound is ConvertedTypeDefinition_I convertedType)
+                        && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true))
+                    {
+                        throw new Exception("Fields not build yet.");
+                    }
+
+                    FieldInfo fieldInfo = Models.Fields.ResolveFieldReference(conversion, typeBeingBuilt, declaringBound, fieldReference);
+
+                        ilGenerator.Emit(System.Reflection.Emit.OpCodes.Stsfld, fieldInfo);
 
                     break;
                 }
@@ -1899,14 +1931,15 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
         private System.Type EnsureToType(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, ConvertedRoutine routine, TypeReference typeReference)
         {
-            var context = new BoundEnsureContext()
+            var context = new ExecutionEnsureContext()
             {
+                Conversion = conversion,
                 TypeReference = typeReference,
                 MethodReference = routine.MethodReference,
                 RoutineDeclaringType = typeBeingBuilt
             };
 
-            return Execution.Types.Ensuring.EnsureToType(conversion.Model, context);
+            return Execution.Types.Ensuring.EnsureToType(context);
         }
 
         private bool ScanILForBranchesAndTypes(ILConversion conversion, ConvertedTypeDefinition_I typeBeingBuilt, ConvertedRoutine routine)
@@ -2043,7 +2076,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                     {
                         var methodReference = (MethodReference)instructionDefinition.Operand;
 
-                        operandDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodReference.DeclaringType);
+                        operandDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion, methodReference.DeclaringType);
 
                         break;
                     }
@@ -2060,7 +2093,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                     {
                         var fieldReference = (FieldReference)instructionDefinition.Operand;
 
-                        operandDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion.Model, fieldReference.DeclaringType);
+                        operandDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion, fieldReference.DeclaringType);
 
                         break;
                     }
@@ -2079,18 +2112,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
                 routine.ConvertedInstructions.Add(instructionDefinition.Offset, convertedInstruction);
 
-                if (!(operandDeclaringType is ConvertedTypeDefinition_I convertedType)
-                    //|| convertedType.ConversionState.BuildPhase == BuildPhaseKind.MembersDefined  // ADDITIONAL FILTER REQUIRED.
-                    //|| convertedType.ConversionState.BuildPhase == BuildPhaseKind.TypeCreated
-                ) continue;
-
-                //				foundDependencies = true;
+                if (!(operandDeclaringType is ConvertedTypeDefinition_I convertedType)) continue;
 
                 foundDependencies |= Types.Building.CheckForPhase3Dependency(convertedType, typeBeingBuilt, true);
-
-                //AddDependentOrDependency(convertedType.ConversionState.Phase3Dependents, typeBeingBuilt);
-
-                //AddDependentOrDependency(typeBeingBuilt.ConversionState.Phase3Dependencies, convertedType);
             }
 
             routine.IsBranchAndTypeScanComplete = true;
@@ -2144,7 +2168,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 {
                     var variableTypeReference = variable.VariableType;
 
-                    System.Type variableType = Execution.Types.Ensuring.EnsureToType(conversion.Model, variableTypeReference);
+                    System.Type variableType = Execution.Types.Ensuring.EnsureToType(conversion, variableTypeReference);
 
                     LocalBuilder localBuilder = ilGenerator.DeclareLocal(variableType);
                 }
@@ -2153,21 +2177,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
             routine.AreLocalVariablesDeclared = true;
         }
 
-        private ConvertedMethodParameterMask_I GetParameter(ConvertedRoutine routine, ParameterDefinition parameter)
-        {
-            if (!routine.Parameters.ByName.TryGetValue(parameter.Name, out SemanticRoutineParameterMask_I semanticParameter))
-            {
-                throw new System.Exception(
-                    $"Could not find parameter {parameter.Name} in method {routine.Name}.");
-            }
-
-            if (!(semanticParameter is ConvertedMethodParameterMask_I convertedParameter))
-            {
-                throw new System.Exception(
-                    $"The parameter {parameter.Name} in method {routine.Name} is not a convertible parameter.");
-            }
-
-            return convertedParameter;
-        }
+        
     }
 }

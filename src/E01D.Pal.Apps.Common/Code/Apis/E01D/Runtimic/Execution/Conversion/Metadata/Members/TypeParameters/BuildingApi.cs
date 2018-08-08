@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
-using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
+using Root.Code.Models.E01D.Runtimic.Execution;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
@@ -26,17 +23,23 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 			var generic = (ConvertedGenericTypeDefinition_I)converted;
 
-			
-
 			for (var i = 0; i < parameters.Count; i++)
 			{
-				var context = new BoundEnsureContext<ConvertedGenericParameterTypeDefinition>()
+				var parameter = parameters[i];
+
+				var typeParameter = new ConvertedGenericParameterTypeDefinition()
 				{
-					TypeReference = parameters[i],
-					DeclaringType = converted
+					Attributes = Cecil.Metadata.Members.GenericParameters.GetTypeParameterAttributes(parameter),
+					Name = parameter.Name,
+					FullName = parameter.FullName,
+					Position = parameter.Position,
+					TypeParameterKind = Cecil.Metadata.Members.GenericParameters.GetTypeParameterKind(parameter.Type),
+					Definition = parameter,
+					SourceTypeReference = parameter,
+					
 				};
 
-				var typeParameter = (ConvertedGenericParameterTypeDefinition)Execution.Types.Ensuring.Ensure(conversion.Model, context);
+				typeParameter.ConversionState.BuildPhase = BuildPhaseKind.TypeCreated;
 
 				Types.TypeParameters.Add(conversion, generic, typeParameter);
 			}
@@ -105,12 +108,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 				//ConvertedTypeParameterConstraint semanticConstraint;
 
-				if (Cecil.Types.IsClass(conversion.Model, constraint))
+				if (Cecil.Types.IsClass(conversion.RuntimicSystem, constraint))
 				{
 					var x = new ConvertedClassTypeParameterConstraint()
 					{
 						Attributes = typeParameter.Attributes,
-						Class = (ExecutionTypeDefinitionMask_I)Execution.Types.Ensuring.Ensure(conversion.Model, constraint, null, null)
+						Class = (ExecutionTypeDefinitionMask_I)Execution.Types.Ensuring.Ensure(conversion, constraint, null, null)
 					};
 
 					typeParameter.BaseTypeConstraint = x;
@@ -122,7 +125,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 					var x = new ConvertedInterfaceTypeParameterConstraint()
 					{
 						Attributes = typeParameter.Attributes,
-						Interface = (ExecutionTypeDefinitionMask_I)Execution.Types.Ensuring.Ensure(conversion.Model, constraint, null, null)
+						Interface = (ExecutionTypeDefinitionMask_I)Execution.Types.Ensuring.Ensure(conversion, constraint, null, null)
 					};
 
 					//semanticConstraint = x;

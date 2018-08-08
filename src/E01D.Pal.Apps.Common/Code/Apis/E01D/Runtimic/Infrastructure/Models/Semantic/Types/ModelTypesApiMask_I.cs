@@ -1,6 +1,6 @@
 ﻿using System;
 using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Semantic.Types
@@ -15,20 +15,20 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Semantic.Types
 
 		
 
-        void Ensure(InfrastructureRuntimicModelMask_I semanticModel, SemanticTypeDefinitionMask_I semanticType);
+        void Ensure(RuntimicSystemModel semanticModel, SemanticTypeDefinitionMask_I semanticType);
 
         
 
-        ModuleDefinition GetModuleFromType(InfrastructureRuntimicModelMask_I semanticModel, string resolutionName);
+        ModuleDefinition GetModuleFromType(RuntimicSystemModel semanticModel, string resolutionName);
 
         
 
-        TypeReference GetTypeReference(InfrastructureRuntimicModelMask_I model, Type input);
+        TypeReference GetTypeReference(RuntimicSystemModel model, Type input);
 
-	    TypeReference GetTypeReference(InfrastructureRuntimicModelMask_I model, Type input, out SemanticTypeDefinitionMask_I semanticType);
+	    TypeReference GetTypeReference(RuntimicSystemModel model, Type input, out SemanticTypeDefinitionMask_I semanticType);
 
 
 
-		Type ResolveToType(InfrastructureRuntimicModelMask_I model, SemanticTypeDefinitionMask_I semanticType);
+		Type ResolveToType(RuntimicSystemModel model, SemanticTypeDefinitionMask_I semanticType);
     }
 }

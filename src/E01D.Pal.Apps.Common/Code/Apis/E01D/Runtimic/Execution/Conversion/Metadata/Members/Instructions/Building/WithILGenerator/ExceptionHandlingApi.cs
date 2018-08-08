@@ -248,7 +248,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                         System.Diagnostics.Debug.WriteLine($"catch   @ {instruction.Offset.ToString("X2")}");
                             var typeReference = eventEntry.ExceptionHandler.CatchType;
 
-                        var declaringType = Execution.Types.Ensuring.EnsureToType(conversion.Model, typeReference);
+                        var declaringType = Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
 
                         ilGenerator.BeginCatchBlock(declaringType);
 

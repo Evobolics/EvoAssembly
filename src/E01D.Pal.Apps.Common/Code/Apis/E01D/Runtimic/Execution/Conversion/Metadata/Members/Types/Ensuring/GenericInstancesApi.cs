@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
@@ -19,9 +17,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 		public SemanticTypeDefinitionMask_I Ensure(ILConversion conversion,  GenericInstanceType input, SemanticTypeDefinitionMask_I declaringType)
         {
-	        var typeArguments = Bound.Metadata.Members.TypeArguments.Building.Build(conversion.Model, input);
+	        var typeArguments = Bound.Metadata.Members.TypeArguments.Building.Build(conversion.RuntimicSystem, input);
 
-	        var blueprint = (BoundGenericTypeDefinitionMask_I)Execution.Types.Ensuring.EnsureBound(conversion.Model, input.ElementType, null);
+	        var blueprint = (BoundGenericTypeDefinitionMask_I)Execution.Types.Ensuring.EnsureBound(conversion, input.ElementType, null);
 
 	        if (IfAlreadyCreatedReturn(blueprint, typeArguments, out SemanticTypeDefinitionMask_I ensure)) return ensure;
 
@@ -29,7 +27,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
 	        var underlyingType = Bound.MakeGenericType(blueprint, typeArgumentTypes);
 
-	        var converted = (ConvertedGenericTypeDefinition_I)Types.Creation.Create(conversion.Model, input);
+	        var converted = (ConvertedGenericTypeDefinition_I)Types.Creation.Create(conversion.RuntimicSystem, input);
 
 	        converted.Blueprint = blueprint;
 

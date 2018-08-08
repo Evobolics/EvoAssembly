@@ -21,16 +21,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 
 			ConstructorBuilder constructorBuilder;
 
-			var constructorEntry = new ConvertedEmittedConstructor()
+			var constructorEntry = new ConvertedEmittedConstructor
 			{
 				Conversion = conversion,
 				DeclaringType = input,
 				MethodReference = methodDefinition,
+				ReturnType = Execution.Types.Ensuring.EnsureBound(conversion, methodDefinition.ReturnType),
 			};
 
-			Routines.Building.BuildRoutine(conversion, input, constructorEntry);
+			Type[] systemParameterTypes = Routines.Building.CreateParameters(conversion, constructorEntry);
 
-			
+			Type returnType = Routines.Building.SetReturnType(conversion, constructorEntry);
 
 			// ReSharper disable once AssignmentInConditionalExpression
 			if (constructorEntry.IsStaticConstructor = (methodDefinition.Name == ConstructorInfo.TypeConstructorName))
@@ -44,14 +45,21 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 
 				var callConventions = Methods.GetCallingConventions(methodDefinition);
 
-				var systemParameterTypes = Parameters.GetSystemParameterTypes(conversion, constructorEntry.Parameters.All);
-
 				constructorBuilder = typeWithConstructors.TypeBuilder.DefineConstructor(constructorAttributes, callConventions, systemParameterTypes);
 			}
 			else
 			{
 				throw new Exception("Expected a method definition marked as a constructor.");
 			}
+
+			constructorEntry.ConstructorBuilder = constructorBuilder;
+
+			// The 'CreateParameterBuilder' call has to called after the parameters are defined 
+			// in the define constructor call.  Thus a second loop is needed.
+
+			Routines.Building.CreateParameterBuilders(conversion, constructorEntry);
+
+			
 
 			if (methodDefinition.HasBody)
 			{
@@ -67,7 +75,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 
 						var variableTypeReference = variable.VariableType;
 
-						var variableType = Execution.Types.Ensuring.EnsureToType(conversion.Model, variableTypeReference);
+						var variableType = Execution.Types.Ensuring.EnsureToType(conversion, variableTypeReference);
 
 						constructorEntry.Body.LocalVariables[i] = new ConvertedRoutineLocalVariable()
 						{
@@ -80,9 +88,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 				}
 			}
 
-			constructorEntry.ConstructorBuilder = constructorBuilder;
-
-			Routines.Building.CreateParameterBuilders(conversion, constructorEntry);
+			
 
 			SetImplementationFlagsIfPresent(methodDefinition, constructorBuilder);
 

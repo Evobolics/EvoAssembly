@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
-using System.Reflection.Emit;
 using Root.Code.Attributes.E01D;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies
@@ -52,7 +52,77 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies
 		    return assembly;
 	    }
 
-        public Type GetTypeInAssembly(Assembly assembly, Type type)
+	    public Type GetType(Dictionary<string, Type> dictionary, Type type)
+	    {
+			if (type.IsPointer)
+		    {
+			    var elementType = GetType(dictionary, type.GetElementType());
+
+			    return elementType.MakePointerType();
+		    }
+
+		    if (type.IsByRef)
+		    {
+			    var elementType = GetType(dictionary, type.GetElementType());
+
+			    return elementType.MakeByRefType();
+		    }
+
+		    if (type.IsArray)
+		    {
+			    var elementType = GetType(dictionary, type.GetElementType());
+
+			    var rank = type.GetArrayRank();
+
+			    if (rank == 1)
+			    {
+				    return elementType.MakeArrayType();
+			    }
+
+			    return elementType.MakeArrayType(rank);
+		    }
+
+		    if (type.IsGenericType && !type.IsGenericTypeDefinition)
+		    {
+			    var genericTypeDefinition = type.GetGenericTypeDefinition();
+
+			    var genericTypeDefinitionInAssembly = GetType(dictionary, genericTypeDefinition);
+
+			    if (genericTypeDefinitionInAssembly == null) return null;
+
+			    var arguments = type.GenericTypeArguments;
+
+			    var argumentsInAssembly = new Type[arguments.Length];
+
+			    for (int i = 0; i < arguments.Length; i++)
+			    {
+				    var argument = arguments[i];
+
+				    argumentsInAssembly[i] = GetType(dictionary, argument);
+			    }
+
+			    var result = MakeGenericType(genericTypeDefinitionInAssembly, argumentsInAssembly);
+
+			    return result;
+		    }
+
+		    if (dictionary.TryGetValue(type.FullName, out Type foundType))
+		    {
+			    return foundType;
+		    }
+
+		    var result1 = System.Type.GetType(type.FullName, false);
+
+		    if (result1 == null)
+		    {
+			    throw new Exception($"Could not find type {type.FullName}");
+		    }
+
+		    return result1;
+	    }
+
+
+		public Type GetTypeInAssembly(Assembly assembly, Type type)
         {
 	        Type[] types;
 
@@ -77,7 +147,35 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies
 
         public Type GetTypeInAssembly(Type[] types, Type type)
         {
-            if (type.IsGenericType && !type.IsGenericTypeDefinition)
+	        if (type.IsPointer)
+	        {
+		        var elementType = GetTypeInAssembly(types, type.GetElementType());
+
+		        return elementType.MakePointerType();
+	        }
+
+	        if (type.IsByRef)
+	        {
+				var elementType = GetTypeInAssembly(types, type.GetElementType());
+
+		        return elementType.MakeByRefType();
+			}
+
+	        if (type.IsArray)
+	        {
+		        var elementType = GetTypeInAssembly(types, type.GetElementType());
+
+		        var rank = type.GetArrayRank();
+
+		        if (rank == 1)
+		        {
+			        return elementType.MakeArrayType();
+		        }
+		        
+			    return elementType.MakeArrayType(rank);
+	        }
+
+			if (type.IsGenericType && !type.IsGenericTypeDefinition)
             {
                 var genericTypeDefinition = type.GetGenericTypeDefinition();
 
@@ -179,5 +277,47 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies
 
             return null;
         }
+
+	    public Dictionary<string, Type> GetTypes(Assembly[] assemblies)
+	    {
+		    var result = new Dictionary<string, Type>();
+
+		    foreach (var assembly in assemblies)
+		    {
+			    Type[] types;
+
+			    try
+			    {
+					types = assembly.GetTypes();
+				}
+			    catch (System.Reflection.ReflectionTypeLoadException e)
+			    {
+				    for (int j = 0; j < e.LoaderExceptions.Length; j++)
+				    {
+					    Console.WriteLine(e.LoaderExceptions[j].Message);
+				    }
+
+				    throw e.LoaderExceptions[0];
+			    }
+
+			    foreach (var type in types)
+			    {
+				    if (type.FullName == null) continue;
+
+				    try
+				    {
+					    result.Add(type.FullName, type);
+				    }
+				    catch (Exception)
+				    {
+					    throw new Exception($"More than one type named {type.FullName} was present in collection asemblies.");
+
+				    }
+			    }
+		    }
+
+		    return result;
+
+	    }
     }
 }

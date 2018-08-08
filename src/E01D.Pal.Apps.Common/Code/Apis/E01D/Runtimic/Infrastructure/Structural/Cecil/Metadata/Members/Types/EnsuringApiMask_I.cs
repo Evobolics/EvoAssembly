@@ -15,5 +15,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 
 		TypeReference EnsureReference(InfrastructureRuntimicModelMask_I model, Type type);
+		
 	}
 }

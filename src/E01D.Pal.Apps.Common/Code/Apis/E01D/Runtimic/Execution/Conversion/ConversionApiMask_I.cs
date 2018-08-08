@@ -10,11 +10,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 {
     public interface ConversionApiMask_I
     {
-	    InternalApiMask_I Internal { get; }
+	    
+
+		InternalApiMask_I Internal { get; }
 
 		MetadataApiMask_I Metadata { get; }
 
         ModelApiMask_I Models { get; }
+	    
 
 	    ILConversionResult Convert(Type type);
 

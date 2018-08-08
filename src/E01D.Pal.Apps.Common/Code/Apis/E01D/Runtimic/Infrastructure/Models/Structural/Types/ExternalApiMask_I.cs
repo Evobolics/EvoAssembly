@@ -1,5 +1,5 @@
 ﻿using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Models.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural.Types
 {
@@ -11,6 +11,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Models.Structural.Types
 		/// <param name="model"></param>
 		/// <param name="elementType"></param>
 		/// <returns></returns>
-		TypeReference Resolve(InfrastructureRuntimicModelMask_I model, TypeReference elementType);
+		TypeReference Resolve(RuntimicSystemModel model, TypeReference elementType);
 	}
 }

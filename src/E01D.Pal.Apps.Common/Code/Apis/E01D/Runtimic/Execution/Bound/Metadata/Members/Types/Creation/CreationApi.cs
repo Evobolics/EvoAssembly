@@ -1,8 +1,8 @@
 ﻿using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Creation
@@ -23,7 +23,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Cr
 
         ReferenceApiMask_I CreationApiMask_I.References => References;
 
-        public BoundTypeDefinition Create(InfrastructureRuntimicModelMask_I model, System.Type type)
+        public BoundTypeDefinition Create(RuntimicSystemModel model, System.Type type)
         {
             var typeInformation = Infrastructure.Semantic.Metadata.Members.Types.Information.CreateTypeInformation(model, type);
 
@@ -34,7 +34,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Cr
             return bound;
         }
         
-        public BoundTypeDefinition Create(InfrastructureRuntimicModelMask_I model, TypeReference typeReference, System.Type underlyingType)
+        public BoundTypeDefinition Create(RuntimicSystemModel model, TypeReference typeReference, System.Type underlyingType)
         {
 	        
 

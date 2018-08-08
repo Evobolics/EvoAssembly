@@ -1,4 +1,5 @@
-﻿using Root.Code.Libs.Mono.Cecil;
+﻿using System;
+using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata;
 
 namespace Root.Code.Models.E01D.Runtimic.Unified
@@ -10,6 +11,8 @@ namespace Root.Code.Models.E01D.Runtimic.Unified
 				
 		}
 
+		
+
 		public UnifiedAssemblyNode AssemblyNode { get; set; }
 
 		public ModuleDefinition ModuleDefinition { get; set; }
@@ -17,7 +20,11 @@ namespace Root.Code.Models.E01D.Runtimic.Unified
 		public SemanticModuleMask_I Semantic { get; set; }
 
 		public string Name { get; set; }
-		public UnifiedModuleNode Next { get; set; }
 		
+
+		public Guid Mvid { get; set; }
+
+		public UnifiedModuleTypesNode Types { get; set; }
+
 	}
 }

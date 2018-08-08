@@ -111,9 +111,40 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
             Emit(stream, token); 
         }
 
-        public void Emit(ILConversion conversion, ConvertedILStream stream, OpCode opCode, MethodInfo type)
+        public void Emit(ILConversion conversion, ConvertedILStream stream, OpCode opCode, MethodInfo methodInfo)
         {
-            var token = stream.ModuleBuilder.GetMethodToken(type).Token;
+            //if (opCode.Equals(OpCodes.Call) || opCode.Equals(OpCodes.Callvirt) || opCode.Equals(OpCodes.Newobj))
+            //{
+            //    EmitCall(opcode, meth, null);
+            //}
+
+            //var methodRef = member as MethodRef;
+            //if (methodRef != null)
+            //{
+            //    return _builder.GetMethodToken(methodRef, methodRef.ExtraParameterTypes).Token;
+            //}
+            //else
+            //{
+            //    return _builder.GetMethodToken((MethodInfo)member, optionalParameterTypes: null).Token;
+            //}
+            //else
+            //{
+            //    //bool useMethodDef = opCode.Equals(OpCodes.Ldtoken) || opCode.Equals(OpCodes.Ldftn) || opCode.Equals(OpCodes.Ldvirtftn);
+            //    //int tk = GetMethodToken(methodInfo, null, useMethodDef);
+
+            //    var token = stream.ModuleBuilder.GetMethodToken(methodInfo).Token;
+            //    InternalEmit(conversion, stream, opCode);
+            //    RecordToken(stream);        // token will need to be fixed up
+            //    Emit(stream, token);
+            //}
+
+            //bool useMethodDef = opCode.Equals(OpCodes.Ldtoken) || opCode.Equals(OpCodes.Ldftn) || opCode.Equals(OpCodes.Ldvirtftn);
+            //int tk = GetMethodToken(methodInfo, null, useMethodDef);
+
+            int token;
+
+
+            token = stream.ModuleBuilder.GetMethodToken(methodInfo, null).Token;
             InternalEmit(conversion, stream, opCode);
             RecordToken(stream);        // token will need to be fixed up
             Emit(stream, token);

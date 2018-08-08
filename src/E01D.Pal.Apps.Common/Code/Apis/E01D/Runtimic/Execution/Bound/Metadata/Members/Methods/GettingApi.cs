@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods
@@ -14,7 +14,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods
     public class GettingApi<TContainer> : BoundApiNode<TContainer>, GettingApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-		public SemanticMethodMask_I FindMethodByDefinition(InfrastructureRuntimicModelMask_I model, BoundTypeDefinitionWithMethodsMask_I boundTypeWithMethods, MethodDefinition methodDefinition)
+		public SemanticMethodMask_I FindMethodByDefinition(
+			RuntimicSystemModel model, 
+			BoundTypeDefinitionWithMethodsMask_I boundTypeWithMethods, 
+			MethodDefinition methodDefinition)
 		{
 			if (!boundTypeWithMethods.Methods.ByName.TryGetValue(methodDefinition.Name, out List<SemanticMethodMask_I> list))
 			{
@@ -24,6 +27,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods
 			for (int i = 0; i < list.Count; i++)
 			{
 				var method = list[i];
+
+				if (method.MethodReference.MetadataToken.TokenType == methodDefinition.MetadataToken.TokenType &&
+				    method.MethodReference.MetadataToken.RID == methodDefinition.MetadataToken.RID)
+				{
+					return method;
+				}
 
 				if (Cecil.Metadata.Members.Methods.AreSame(model, methodDefinition, method.MethodReference, false))
 				{

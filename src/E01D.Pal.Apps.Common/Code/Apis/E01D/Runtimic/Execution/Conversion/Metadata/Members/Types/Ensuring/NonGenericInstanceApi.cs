@@ -23,7 +23,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 	        }
 
 		    //  Try to see if the model is already present
-		    if (Models.Types.TryGet(conversion.Model, input, out SemanticTypeDefinitionMask_I maskedType))
+		    if (Models.Types.TryGet(conversion.RuntimicSystem, input, out SemanticTypeDefinitionMask_I maskedType))
 		    {
 			    if (!(maskedType is BoundTypeDefinitionMask_I boundType))
 			    {
@@ -41,7 +41,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 			// Conversion is going to occur.
 			//---------------------------------
 
-			ConvertedTypeDefinition converted = Types.Creation.Create(conversion.Model, input);
+			ConvertedTypeDefinition converted = Types.Creation.Create(conversion.RuntimicSystem, input);
 
 	        // Get the module to ensure that the type is part of the module.
 	        var semanticModule = Modules.Ensuring.EnsureAssignedModule(conversion, input);

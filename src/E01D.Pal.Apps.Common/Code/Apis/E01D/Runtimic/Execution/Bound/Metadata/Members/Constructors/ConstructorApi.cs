@@ -1,10 +1,9 @@
 ﻿using System.Reflection;
-using System.Reflection.Emit;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Libs.Mono.Cecil.Metadata;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Constructors
 {
@@ -15,14 +14,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Construc
 
 	    BuildingApiMask_I ConstructorApiMask_I.Building => Building;
 
-		public ConstructorInfo GetConstructorInfo(BoundRuntimicModelMask_I conversionModel, MemberReference memberReference)
+		public ConstructorInfo GetConstructorInfo(RuntimicSystemModel conversionModel, MemberReference memberReference)
         {
             var declaringBound = Members.GetDeclaringType(conversionModel, memberReference);
 
             return (ConstructorInfo)FindConstructorBySignature(conversionModel, declaringBound, memberReference);
         }
 
-        public MemberInfo FindConstructorBySignature(BoundRuntimicModelMask_I conversionModel, BoundTypeDefinitionMask_I typeEntry, MemberReference memberReference)
+        public MemberInfo FindConstructorBySignature(RuntimicSystemModel conversionModel, BoundTypeDefinitionMask_I typeEntry, MemberReference memberReference)
         {
             switch (memberReference.MetadataToken.TokenType)
             {
@@ -43,13 +42,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Construc
             }
         }
 
-        public ConstructorInfo FindConstructorBySignature(BoundRuntimicModelMask_I boundModel, 
+        public ConstructorInfo FindConstructorBySignature(RuntimicSystemModel boundModel, 
             BoundTypeDefinitionMask_I methodReferenceDeclaringType, MethodReference methodReference)
         {
             // NOTE - This version of the method cannot access constructor builders, which are neccessary when building
             //        constructor calls for a converted classes instructions.
 
-            var parameterTypes = Parameters.GetSystemParameterTypes(boundModel, methodReference);
+            var parameterTypes = Parameters.GetSystemParameterTypes(boundModel, methodReferenceDeclaringType.SourceTypeReference, methodReference);
 
             //if (methodReferenceDeclaringType.SourceTypeReference.IsGenericInstance)
             //{

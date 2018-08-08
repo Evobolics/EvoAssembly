@@ -1,11 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
@@ -15,13 +15,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
     {
 		#region Api(s)
 
-	    public InternalApi_I<TContainer> Internal { get; set; }
+	    
+
+		public InternalApi_I<TContainer> Internal { get; set; }
 
 		public new MetadataApi_I<TContainer> Metadata { get; set; }
 
         public new ModelApi_I<TContainer> Models { get; set; }
 
-	    InternalApiMask_I ConversionApiMask_I.Internal
+	   
+
+		InternalApiMask_I ConversionApiMask_I.Internal
 	    {
 		    get { return Internal; }
 	    }
@@ -284,23 +288,23 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="assemblyDefinition"></param>
+		/// <param name="stream"></param>
 		/// <returns></returns>
-		public Assembly Convert(AssemblyDefinition assemblyDefinition)
+		public Assembly Convert(Stream stream)
 	    {
-		    return Convert(assemblyDefinition, out ILConversionResult result);
+		    return Convert(stream, out ILConversionResult result);
 	    }
 
 		// -------- CONVERSION CASE E2 ---------------
 		/// <summary>
 		/// Converts the assembly an assembly to a dynamic assembly and returns the conversion result as an out parameter.
 		/// </summary>
-		/// <param name="assemblyDefinition"></param>
+		/// <param name="stream">A stream containing an assembly.</param>
 		/// <param name="result"></param>
 		/// <returns></returns>
-		public Assembly Convert(AssemblyDefinition assemblyDefinition, out ILConversionResult result)
+		public Assembly Convert(Stream stream, out ILConversionResult result)
 	    {
-		    result = Internal.Convert(new ILConversion(), assemblyDefinition);
+		    result = Internal.Convert(new ILConversion(), stream);
 
 		    var output = (ILConversionAssembliesOutput)result.Output;
 

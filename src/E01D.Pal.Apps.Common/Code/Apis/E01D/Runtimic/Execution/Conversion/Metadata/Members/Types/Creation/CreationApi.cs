@@ -1,8 +1,7 @@
 ﻿using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
 using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
 
@@ -32,8 +31,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
         ReferenceApiMask_I CreationApiMask_I.References => References;
 
-        public ConvertedTypeDefinition Create(BoundRuntimicModelMask_I model, System.Type type)
+        public ConvertedTypeDefinition Create(RuntimicSystemModel model, System.Type type)
         {
+
+
             var typeInformation = Infrastructure.Semantic.Metadata.Members.Types.Information.CreateTypeInformation(model, type);
 
             var converted = CreateFactory(typeInformation);
@@ -43,8 +44,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
             return converted;
         }
 
-        public ConvertedTypeDefinition Create(BoundRuntimicModelMask_I model, TypeReference typeReference)
+        public ConvertedTypeDefinition Create(RuntimicSystemModel model, TypeReference typeReference)
         {
+
+
             var typeInformation = Infrastructure.Semantic.Metadata.Members.Types.Information.CreateTypeInformation(model, typeReference);
 
             var converted = CreateFactory(typeInformation);

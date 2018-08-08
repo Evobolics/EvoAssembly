@@ -48,7 +48,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members
 
 	    bool GetMemberInfo(ILConversion conversion, ConvertedTypeDefinitionMask_I typeBeingBuilt, ConvertedRoutine routineBeingBuilt,
 
-			MethodReference methodReference, out MemberInfo memberInfo);
+		    BoundTypeDefinitionMask_I methodReferenceDeclaringType, MethodReference methodReference, out MemberInfo memberInfo);
 
 		BoundTypeDefinitionMask_I GetDeclaringType(ILConversion conversion, MemberReference memberReference);
     }

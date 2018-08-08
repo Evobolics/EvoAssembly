@@ -57,6 +57,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 				return false;
 			}
 
+	        if (routine.MethodReference.FullName ==
+	            "T Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Instructions.InstructionTest_CastClass::Get(Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types.Interface1)"
+	        )
+	        {
+
+	        }
+
 			// 2) Build the IL Stream.  This method returns false if a dependency is detected that is not yet
 			//    been satisfied.
 			if (!IL.EmitILStream(conversion, routine))

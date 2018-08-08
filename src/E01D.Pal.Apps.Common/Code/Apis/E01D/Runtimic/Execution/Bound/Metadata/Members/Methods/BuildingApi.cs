@@ -3,12 +3,9 @@ using System.Reflection;
 using System.Reflection.Emit;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods
@@ -19,7 +16,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods
 
 
 
-	    public void BuildMethods(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input)
+	    public void BuildMethods(RuntimicSystemModel model, BoundTypeDefinition_I input)
 	    {
 		    if (!(input is BoundTypeDefinitionWithMethodsMask_I boundTypeWithMethods))
 		    {
@@ -75,12 +72,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods
 				    declaringTypeDefinition.Methods,
 				    boundMethod.UnderlyingMethod.DeclaringType,
 				    boundMethod.UnderlyingMethod.MetadataToken);
-		    }
+
+			    if (boundMethod.MethodReference?.FullName == "System.Boolean TryGetValue(System.Int32,System.Collections.Generic.List`1&)")
+			    {
+
+			    }
+			}
 	    }
 
 
 
-	    public BoundMethod BuildMethod(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input, MethodInfo method, MethodReference methodReference)
+	    public BoundMethod BuildMethod(RuntimicSystemModel model, BoundTypeDefinition_I input, MethodInfo method, MethodReference methodReference)
 	    {
 		    BoundMethod boundMethod;
 
@@ -97,7 +99,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods
 		    }
 		    else
 		    {
-			    boundMethod = new BoundNonGenericInstanceMethod
+			    
+
+
+				boundMethod = new BoundNonGenericInstanceMethod
 			    {
 				    DeclaringType = input,
 				    MethodAttributes = method.Attributes,
@@ -110,7 +115,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Methods
 		    return boundMethod;
 	    }
 
-	    public void BuildMethodsForGenericInstance(InfrastructureRuntimicModelMask_I model, BoundGenericTypeDefinition_I input)
+	    public void BuildMethodsForGenericInstance(RuntimicSystemModel model, BoundGenericTypeDefinition_I input)
 	    {
 		    if (!(input is BoundTypeDefinitionWithMethodsMask_I convertedTypeWithMethods))
 		    {

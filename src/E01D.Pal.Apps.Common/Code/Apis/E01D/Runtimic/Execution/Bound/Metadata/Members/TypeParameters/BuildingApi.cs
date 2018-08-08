@@ -2,10 +2,9 @@
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
+using Root.Code.Models.E01D.Runtimic;
+using Root.Code.Models.E01D.Runtimic.Execution;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using BoundTypeParameterConstraint = Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions.BoundTypeParameterConstraint;
 
@@ -14,7 +13,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 	public class BuildingApi<TContainer> : BoundApiNode<TContainer>, BuildingApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public void EnsureTypeParametersIfAny(BoundRuntimicModelMask_I model, BoundTypeDefinition converted)
+		public void EnsureTypeParametersIfAny(RuntimicSystemModel model, BoundTypeDefinition converted)
 		{
 			TypeReference inputType = converted.SourceTypeReference;
 
@@ -28,13 +27,18 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 
 			for (var i = 0; i < parameters.Count; i++)
 			{
-				var context = new BoundEnsureContext<BoundGenericParameterTypeDefinition>()
-				{
-					TypeReference = parameters[i],
-					DeclaringType = converted
-				};
+				var parameter = parameters[i];
 
-				var typeParameter = (BoundGenericParameterTypeDefinition)Execution.Types.Ensuring.Ensure(model, context);
+				var typeParameter = new BoundGenericParameterTypeDefinition()
+				{
+					Attributes = Cecil.Metadata.Members.GenericParameters.GetTypeParameterAttributes(parameter),
+					Name = parameter.Name,
+					FullName = parameter.FullName,
+					Position = parameter.Position,
+					TypeParameterKind = Cecil.Metadata.Members.GenericParameters.GetTypeParameterKind(parameter.Type),
+					Definition = parameter,
+					SourceTypeReference = parameter
+				};
 
 				typeParameter.UnderlyingType = FindMatchingType(typeArguments, typeParameter.SourceTypeReference);
 
@@ -66,7 +70,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 			//}
 		}
 
-		private void BuildConstraints(BoundRuntimicModelMask_I model, BoundGenericParameterTypeDefinition typeParameter)
+		private void BuildConstraints(RuntimicSystemModel model, BoundGenericParameterTypeDefinition typeParameter)
 		{
 			var typeParamterType = typeParameter.Definition;
 
@@ -185,7 +189,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.TypePara
 		//	return types.ToArray();
 		//}
 
-		private bool IsClassConstraint(InfrastructureRuntimicModelMask_I model, TypeReference constraint)
+		private bool IsClassConstraint(RuntimicSystemModel model, TypeReference constraint)
 		{
 			return Infrastructure.Structural.Cecil.Types.IsClass(model, constraint);
 

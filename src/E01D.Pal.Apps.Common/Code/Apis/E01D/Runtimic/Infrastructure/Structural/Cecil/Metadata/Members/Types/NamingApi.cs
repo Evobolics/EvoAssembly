@@ -78,6 +78,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return fullName?.Replace("/", "+") ?? string.Empty;
 		}
 
+
+
 		public string GetResolutionName(TypeReference input)
 		{
 			var fullName = GetAssemblyQualifiedName(input);

@@ -1,6 +1,6 @@
 ﻿using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Types;
-using Root.Code.Attributes.E01D;
+using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Metadata;
 using Root.Code.Containers.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural
@@ -13,10 +13,15 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural
 
 		CecilApiMask_I StructuralApiMask_I.Cecil => Cecil;
 
-		
-		public NamingApi_I<TContainer> Naming { get; set; }
+		public MetadataApi_I<TContainer> Metadata { get; set; }
+
+		MetadataApiMask_I StructuralApiMask_I.Metadata => Metadata;
+
+        public NamingApi_I<TContainer> Naming { get; set; }
 
 		NamingApiMask_I StructuralApiMask_I.Naming => Naming;
+
+		public Metadata.Members.Types.TypeApiMask_I Types => Metadata.Members.Types;
 
 	}
 }

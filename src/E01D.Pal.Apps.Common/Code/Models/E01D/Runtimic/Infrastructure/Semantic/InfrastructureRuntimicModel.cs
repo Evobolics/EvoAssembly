@@ -15,7 +15,7 @@ namespace Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic
 
 		public StructuralModel Structural { get; set; } = new StructuralModel();
 
-	    public UnifiedModel Unified { get; set; } = new UnifiedModel();
+	    public UnifiedModel Unified { get; set; } //= new UnifiedModel();
 
 		
 	    public object ObjectNetwork { get; set; }

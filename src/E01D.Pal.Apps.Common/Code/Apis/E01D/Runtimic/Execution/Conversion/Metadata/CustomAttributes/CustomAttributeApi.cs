@@ -93,7 +93,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.CustomAttri
 		    }
 		}
 
-	    public void BuildCustomAttributes(ILConversion conversion, ConvertedMethodParameter parameter)
+	    public void BuildCustomAttributes(ILConversion conversion, ConvertedRoutineParameter parameter)
 	    {
 			var parameterDefinition = parameter.ParameterDefinition;
 
@@ -144,7 +144,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.CustomAttri
 		    {
 			    var cecilCustomAttribute = cecilCustomAttributes[i];
 
-			    var boundAttribute = Execution.Types.Ensuring.EnsureBound(conversion.Model, cecilCustomAttribute.AttributeType);
+			    var boundAttribute = Execution.Types.Ensuring.EnsureBound(conversion, cecilCustomAttribute.AttributeType);
 
 			    // What constructor do I get?
 
@@ -236,7 +236,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.CustomAttri
 
 		    if (constructorArgument.Value is TypeReference typeReference)
 		    {
-			    return Execution.Types.Ensuring.EnsureToType(conversion.Model, typeReference);
+			    return Execution.Types.Ensuring.EnsureToType(conversion, typeReference);
 		    }
 		    if (arrayOfArguments != null)
 		    {

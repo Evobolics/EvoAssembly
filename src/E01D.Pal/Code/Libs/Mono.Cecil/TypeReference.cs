@@ -285,7 +285,11 @@ namespace Root.Code.Libs.Mono.Cecil
 				throw new NotSupportedException ();
 
 			return module.Resolve (this);
+
+			
 		}
+
+		
 	}
 
 	static partial class Mixin {

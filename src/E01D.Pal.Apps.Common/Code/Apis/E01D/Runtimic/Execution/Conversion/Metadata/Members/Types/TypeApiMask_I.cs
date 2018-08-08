@@ -1,9 +1,12 @@
-﻿using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Baking;
+﻿using System;
+using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Baking;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Building;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Creation;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Ensuring;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types
 {
@@ -37,15 +40,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
         TypeParameterApiMask_I TypeParameters { get;  }
 
-
-	    
-
-
-
-
 		bool IsCorlibType(TypeReference typeReference);
 
         bool IsCorlibType(System.Type type);
-        
+
+	    
+	    ConversionTypeNode EnsureTypeNode(ILConversion conversion, ConvertedModuleNode convertedModuleNode, Type type);
     }
 }

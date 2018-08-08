@@ -42,9 +42,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Fie
 
             var resolvedReturnTypeReference = Cecil.ResolveForTypeScan(genericArgumentSource, fieldTypeReference);
 
-            var returnTypeDefinition = Models.Types.ResolveToTypeDefinition(conversion.Model, resolvedReturnTypeReference);
+            var returnTypeDefinition = Models.Types.ResolveToTypeDefinition(conversion.RuntimicSystem, resolvedReturnTypeReference);
 
-	        Execution.Types.Ensuring.Ensure(conversion.Model, returnTypeDefinition, null, null);
+	        Execution.Types.Ensuring.Ensure(conversion, returnTypeDefinition, null, null);
         }
     }
 }

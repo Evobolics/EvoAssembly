@@ -1,8 +1,8 @@
 ﻿using System;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
@@ -12,14 +12,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling.Types
     {
         
 
-        SemanticTypeDefinitionMask_I Get(InfrastructureRuntimicModelMask_I conversion, string typeDefinitionFullName);
+        SemanticTypeDefinitionMask_I Get(RuntimicSystemModel conversion, string typeDefinitionFullName);
 
         
 
         System.Type GetBoundUnderlyingTypeOrThrow(SemanticTypeMask_I semanticType);
         BoundTypeDefinitionMask_I GetBoundTypeOrThrow(SemanticTypeMask_I semanticType, bool allowNulls);
 
-        SemanticTypeMask_I GetOrThrow(InfrastructureRuntimicModelMask_I conversion, string typeDefinitionFullName);
+        SemanticTypeMask_I GetOrThrow(RuntimicSystemModel conversion, string typeDefinitionFullName);
 
         
 
@@ -35,13 +35,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Modeling.Types
 
 
 
-		TypeDefinition ResolveToTypeDefinition(InfrastructureRuntimicModelMask_I model, TypeReference typeReference);
+		TypeDefinition ResolveToTypeDefinition(RuntimicSystemModel model, TypeReference typeReference);
 
-        bool TryGet(InfrastructureRuntimicModelMask_I model, TypeReference input, out SemanticTypeDefinitionMask_I typeEntry);
+        bool TryGet(RuntimicSystemModel model, TypeReference input, out SemanticTypeDefinitionMask_I typeEntry);
 
         
 
-        bool TryGet(InfrastructureRuntimicModelMask_I model, string resolutionName, out SemanticTypeDefinitionMask_I typeEntry);
+        bool TryGet(RuntimicSystemModel model, string resolutionName, out SemanticTypeDefinitionMask_I typeEntry);
 
 
         

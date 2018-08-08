@@ -36,7 +36,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Eve
         {
 			var eventAttributes = GetEventAttributes(eventDefinition);
 
-	        var eventType = Execution.Types.Ensuring.EnsureToType(conversion.Model, eventDefinition.EventType);
+	        var eventType = Execution.Types.Ensuring.EnsureToType(conversion, eventDefinition.EventType);
 
 	        var builder = converted.TypeBuilder.DefineEvent(eventDefinition.Name, eventAttributes, eventType);
 

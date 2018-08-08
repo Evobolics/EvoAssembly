@@ -328,3 +328,4 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/src/E01D.Pal.Apps.Common/Code/Apis/E01D/Runtimic/Execution/Conversion/Metadata/Members/Instructions/Building/WithoutILGenerator/Reference.txt

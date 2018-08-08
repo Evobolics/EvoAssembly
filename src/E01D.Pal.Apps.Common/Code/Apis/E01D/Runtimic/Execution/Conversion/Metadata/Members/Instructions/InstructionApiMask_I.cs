@@ -11,6 +11,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
         BuildingApiMask_I Building { get; }
 
         TypeScanningApiMask_I TypeScanning { get; }
-        System.Type GetGenericParameterType(ILConversion conversion, ConvertedTypeDefinitionMask_I input, ConvertedRoutine method, GenericParameter genericParameter);
+
+        bool GetGenericParameterType(ILConversion conversion, ConvertedTypeDefinitionMask_I input,
+            ConvertedRoutine routine, GenericParameter genericParameter, out System.Type type);
     }
 }

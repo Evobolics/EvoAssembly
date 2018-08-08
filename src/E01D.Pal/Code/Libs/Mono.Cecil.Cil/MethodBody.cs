@@ -117,7 +117,7 @@ namespace Root.Code.Libs.Mono.Cecil.Cil {
 		}
 	}
 
-	sealed class VariableDefinitionCollection : Collection<VariableDefinition> {
+	public sealed class VariableDefinitionCollection : Collection<VariableDefinition> {
 
 		internal VariableDefinitionCollection ()
 		{

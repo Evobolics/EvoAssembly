@@ -2,10 +2,9 @@
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Libs.Mono.Collections.Generic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
+using Root.Code.Models.E01D.Runtimic;
 
-
-namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Getting
+namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods
 {
 	public class GettingApi<TContainer> : CecilApiNode<TContainer>, GettingApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
@@ -31,7 +30,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			}
 		}
 
-		public MethodDefinition GetMethodDefinition(InfrastructureRuntimicModelMask_I model, Collection<MethodDefinition> methodDefinitions, int metadataToken)
+		public MethodDefinition GetMethodDefinition(RuntimicSystemModel model, Collection<MethodDefinition> methodDefinitions, int metadataToken)
 		{
 			
 
@@ -47,7 +46,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 	
 		
-		public MethodReference GetMethodReference(InfrastructureRuntimicModelMask_I model, Collection<MethodDefinition> methods, Type memberDeclaringType, int methodMetadataToken)
+		public MethodReference GetMethodReference(RuntimicSystemModel model, Collection<MethodDefinition> methods, Type memberDeclaringType, int methodMetadataToken)
 		{
 			if (memberDeclaringType.Module.Assembly.IsDynamic)
 				throw new Exception("Cannot be used for methods that orginate from dynamic assemblies as the metadata tokens will not match.");

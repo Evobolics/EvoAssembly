@@ -2,9 +2,15 @@
 
 namespace Root.Code.Apis.E01D.Runtimic.Unified
 {
+	/// <summary>
+	/// The unified model contains the state of the assemblies, modules and types that are currently loaded into the system.
+	/// </summary>
+	/// <typeparam name="TContainer"></typeparam>
 	public class UnifiedApi<TContainer> : UnifiedApiNode<TContainer>, UnifiedApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
+		
+
 		public ArrayApi_I<TContainer> Arrays { get; set; }
 
 		ArrayApiMask_I UnifiedApiMask_I.Arrays => Arrays;

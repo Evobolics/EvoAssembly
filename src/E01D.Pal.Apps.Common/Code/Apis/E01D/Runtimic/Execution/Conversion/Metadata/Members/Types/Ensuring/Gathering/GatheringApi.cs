@@ -29,7 +29,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
             if (baseTypeReference != null)
             {
-                var result = Execution.Types.Ensuring.Ensure(conversion.Model, baseTypeReference, null, converted);
+                var result = Execution.Types.Ensuring.Ensure(conversion, baseTypeReference, null, converted);
 
                 if (!(result is BoundTypeDefinitionMask_I boundBaseType1))
                 {
@@ -66,14 +66,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
         private System.Type GetObjectType(ILConversion conversion)
         {
-            return Bound.Models.Types.GetObjectType(conversion.Model);
+            return Bound.Models.Types.GetObjectType(conversion.RuntimicSystem);
         }
 
         
 
         private System.Type GetValueType(ILConversion conversion)
         {
-            return Bound.Models.Types.GetValueType(conversion.Model);
+            return Bound.Models.Types.GetValueType(conversion.RuntimicSystem);
         }
 
         public void EnsureInterfaces(ILConversion conversion, ConvertedTypeDefinition_I converted)
@@ -95,7 +95,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
                 var interfaceType = interfaceImplementation.InterfaceType;
 
-                var item = Execution.Types.Ensuring.Ensure(conversion.Model, interfaceType, null, null);
+                var item = Execution.Types.Ensuring.Ensure(conversion, interfaceType, null, null);
 
                 if (!(item is BoundTypeDefinitionMask_I boundInterface))
                 {
@@ -124,7 +124,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
             {
                 var nestedType = nestedTypes[i];
 
-                var boundNestedType = Execution.Types.Ensuring.Ensure(conversion.Model, nestedType, null, declaringType);
+                var boundNestedType = Execution.Types.Ensuring.EnsureBound(conversion, nestedType, declaringType);
 
                 declaringType.NestedTypes.Add(boundNestedType.FullName, boundNestedType);
             }

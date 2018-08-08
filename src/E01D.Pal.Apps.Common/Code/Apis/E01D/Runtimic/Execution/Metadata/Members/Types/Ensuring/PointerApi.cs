@@ -1,7 +1,10 @@
 ﻿using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
+using Root.Code.Models.E01D.Runtimic.Execution;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
+using Root.Code.Models.E01D.Runtimic.Execution.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring
@@ -9,47 +12,39 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring
 	public class PointerApi<TContainer> : ExecutionApiNode<TContainer>, PointerApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I boundModel, TypeReference typeReference, BoundTypeDefinitionMask_I declaringType, System.Type underlyingType)
+		
+			
+
+		public ExecutionTypeNode_I Ensure(ExecutionEnsureContext context)
 		{
-			var pointerType = (PointerType)typeReference;
-
-			BoundTypeDefinitionMask_I elementType;
-
-			if (underlyingType == null)
+			var pointerStemType = Execution.Types.Ensuring.Ensure(new ExecutionEnsureContext()
 			{
-                // Possible element type is a generic instance type
-				elementType = Execution.Types.Ensuring.EnsureBound(boundModel, pointerType.ElementType, null);
-			}
-			else
+				Conversion = context.Conversion,
+				RuntimicSystem = context.RuntimicSystem,
+				StructuralInputTypeNode = context.StructuralInputTypeNode.StemType
+			});
+
+			if (pointerStemType.PointerType != null)
 			{
-				// Possible element type is a generic instance type
-                elementType = Execution.Types.Ensuring.EnsureBound(boundModel, pointerType.ElementType, underlyingType.GetElementType());
+				return pointerStemType.PointerType;
 			}
 
-			var node = Unified.Types.Get(boundModel, elementType.ResolutionName);
-
-			if (node.PointerType != null)
+			var boundTypeDefinition = new BoundPointerTypeDefinition()
 			{
-				return node.PointerType;
-			}
+				UnderlyingType = pointerStemType.Type.UnderlyingType.MakePointerType()
+			};
 
-			var bound = Bound.Metadata.Members.Types.Creation.Create(boundModel, typeReference, null);
-
-			bound.SourceTypeReference = typeReference;
-
-			// Add the type instance to the model.  Do not do any recursive calls till this methods is called.
-			node.PointerType = bound;
-
-			if (underlyingType != null)
+			pointerStemType.PointerType = new BoundTypeNode()
 			{
-				bound.UnderlyingType = underlyingType;
-			}
-			else
-			{
-				bound.UnderlyingType = elementType.UnderlyingType.MakePointerType();
-			}
+				IsPointerType = true,
+				StemType = pointerStemType,
+				IsDerived = true,
+				MetadataToken = context.StructuralInputTypeNode.MetadataToken,
+				InputStructuralNode = context.StructuralInputTypeNode,
+				Type = boundTypeDefinition
+			};
 
-			return bound;
-        }
+			return pointerStemType.PointerType;
+		}
 	}
 }

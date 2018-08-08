@@ -6,11 +6,12 @@ using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Enums.E01D.Runtimic.Infrastructure.Metadata.Members.Typal;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic.Execution;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
 using MethodAttributes = Root.Code.Libs.Mono.Cecil.MethodAttributes;
@@ -54,14 +55,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 			{
 				var methodOverride = methodDefinition.Overrides[j];
 
-				var interfaceDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodOverride.DeclaringType);
+				var interfaceDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion, methodOverride.DeclaringType);
 
 				if (!(methodOverride is MethodDefinition methodOverrideDefinition))
 				{
-					methodOverrideDefinition = Cecil.Metadata.Members.Methods.ResolveReferenceToNonSignatureDefinition(conversion.Model, methodOverride);
+					methodOverrideDefinition = Cecil.Metadata.Members.Methods.ResolveReferenceToNonSignatureDefinition(conversion.RuntimicSystem, methodOverride);
 				}
 
-				var semanticMethod = Bound.Metadata.Members.Methods.Getting.FindMethodByDefinition(conversion.Model, (BoundTypeDefinitionWithMethodsMask_I)interfaceDeclaringType, methodOverrideDefinition);
+				var semanticMethod = Bound.Metadata.Members.Methods.Getting.FindMethodByDefinition(conversion.RuntimicSystem, (BoundTypeDefinitionWithMethodsMask_I)interfaceDeclaringType, methodOverrideDefinition);
 
 				if (!(semanticMethod is BoundMethodDefinitionMask_I boundMethod))
 				{
@@ -123,20 +124,24 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 			methods.Add(methodEntry);
 
+			input.Routines.Add(methodEntry);
+
 			methodEntry.MethodBuilder =input.TypeBuilder.DefineMethod(method.Name, methodEntry.MethodAttributes, callingConventions);
 
 			// Needs method builder to create the generic parameters
 			AddGenericParameters(conversion, input, methodEntry);
+		
+			var systemParameterTypes = Routines.Building.CreateParameters(conversion, methodEntry);
 
-			Routines.Building.BuildRoutine(conversion, input, methodEntry);
+			var systemReturnType = Routines.Building.SetReturnType(conversion, methodEntry);
 
-			var runtimeReturnType = methodEntry.ReturnType.UnderlyingType;
+			methodEntry.MethodBuilder.SetSignature(systemReturnType, Type.EmptyTypes, Type.EmptyTypes, systemParameterTypes, null, null);
 
-			var systemParameterTypes = Parameters.GetSystemParameterTypes(conversion, methodEntry.Parameters.All);
-
-			methodEntry.MethodBuilder.SetSignature(runtimeReturnType, Type.EmptyTypes, Type.EmptyTypes, systemParameterTypes, null, null);
-
+			// The 'CreateParameterBuilder' call has to called after the parameters are defined 
+			// in the define constructor call.  Thus a second loop is needed.
 			Routines.Building.CreateParameterBuilders(conversion, methodEntry);
+
+			BuildBody(conversion, method, methodEntry);
 
 			SetImplementationFlagsIfPresent(method, methodEntry.MethodBuilder);
 
@@ -148,8 +153,36 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 				CustomAttributes.BuildCustomAttributes(conversion, returnParameter, method.MethodReturnType);
 			}
+		}
 
+		public void BuildBody(ILConversion conversion, MethodDefinition methodDefinition, ConvertedBuiltMethod methodEntry)
+		{
+			if (methodDefinition.HasBody)
+			{
+				methodEntry.Body = new ConvertedRoutineBody();
 
+				if (methodDefinition.Body.HasVariables)
+				{
+					methodEntry.Body.LocalVariables = new ConvertedRoutineLocalVariable[methodDefinition.Body.Variables.Count];
+
+					for (int i = 0; i < methodDefinition.Body.Variables.Count; i++)
+					{
+						var variable = methodDefinition.Body.Variables[i];
+
+						var variableTypeReference = variable.VariableType;
+
+						var variableType = Execution.Types.Ensuring.EnsureToType(conversion, variableTypeReference);
+
+						methodEntry.Body.LocalVariables[i] = new ConvertedRoutineLocalVariable()
+						{
+							IsPinned = variable.IsPinned,
+							UnderlyingType = variableType,
+							Index = variable.Index
+						};
+					}
+
+				}
+			}
 		}
 
 		public void AddGenericParameters(ILConversion conversion, ConvertedTypeDefinitionMask_I input, ConvertedBuiltMethod methodEntry)
@@ -160,17 +193,26 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 			List<string> genericParameterNamesList = new List<string>();
 
-			foreach (var genericParamater in methodDefinition.GenericParameters)
+			foreach (var parameter in methodDefinition.GenericParameters)
 			{
 
-				var genericParamaterTypeDefintionEntry = (ConvertedGenericParameterTypeDefinition)
-					Execution.Metadata.Members.Types.Ensuring.Ensure(conversion.Model, new BoundEnsureContext()
+				var genericParamaterTypeDefintionEntry = new ConvertedGenericParameterTypeDefinition()
 				{
-					TypeReference = genericParamater,
-					MethodReference = methodDefinition
-				});
+					Attributes = Cecil.Metadata.Members.GenericParameters.GetTypeParameterAttributes(parameter),
+					Name = parameter.Name,
+					FullName = parameter.FullName,
+					Position = parameter.Position,
+					TypeParameterKind = GetTypeParameterKind(parameter.Type),
+					Definition = parameter,
+					SourceTypeReference = parameter,
+					DeclaringTypeDefinitionEntry = methodEntry.DeclaringType,
+					ResolutionName = Cecil.Types.Naming.GetResolutionName(parameter)
+				};
 
-				
+				genericParamaterTypeDefintionEntry.ConversionState.BuildPhase = BuildPhaseKind.TypeCreated;
+
+
+
 
 				genericParameterNamesList.Add(genericParamaterTypeDefintionEntry.Name);
 
@@ -205,9 +247,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 
 					foreach (var constraint in definition.Constraints)
 					{
-						bool isClassConstraint = Cecil.Types.IsClass(conversion.Model, constraint);
+						bool isClassConstraint = Cecil.Types.IsClass(conversion.RuntimicSystem, constraint);
 
-						var semanticConstraint =Execution.Types.Ensuring.EnsureBound(conversion.Model, constraint, null);
+						var semanticConstraint =Execution.Types.Ensuring.EnsureBound(conversion, constraint, null);
 
 						if (isClassConstraint)
 						{
@@ -226,6 +268,22 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 				}
 
 				genericTypeParameterEntry.UnderlyingType = builder;
+			}
+		}
+
+		private TypeParameterKind GetTypeParameterKind(GenericParameterType type)
+		{
+			switch (type)
+			{
+				case GenericParameterType.Type:
+					return TypeParameterKind.Type;
+				case GenericParameterType.Method:
+					return TypeParameterKind.Method;
+				default:
+				{
+					throw new Exception(
+						$"Expected either a type parameter kind of type or method, but not {type.ToString()}");
+				}
 			}
 		}
 

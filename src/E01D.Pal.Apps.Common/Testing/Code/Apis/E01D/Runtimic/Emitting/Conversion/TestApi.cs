@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Emit;
 using Root.Code.Apis.E01D;
@@ -14,7 +13,13 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
 {
     public class TestApi<TContainer> :Api<TContainer> where TContainer : Container_I
     {
-        public object CreateTypeAndExecute(Action<ILGenerator> action)
+	    public object CreateTypeAndExecute(Action<ILGenerator> action)
+	    {
+		    return CreateTypeAndExecute(action, new ILConversionOptions());
+	    }
+
+
+		public object CreateTypeAndExecute(Action<ILGenerator> action, ILConversionOptions options)
         {
             var assemblyName1 = CreateTestType(action);
 
@@ -29,10 +34,25 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
 
             var instance = constructor.Invoke(new object[0]);
 
-            // Convert the type. The test api code will check to make sure the instance is not null.
-            var result = ConvertCreateCall(testType, "Execute");
+			var methodInfo = testType.GetMethod("Execute");
 
-            return result;
+	        if (methodInfo == null)
+		        throw new Exception($"Could not find method named '{"Execute"}' on class named '{testType.Name}'");
+
+	        //var bytes = methodInfo.GetInstructions();
+
+	        //for (int i = 0; i < bytes.Count; i++)
+	        //{
+	        // Debug.WriteLine(bytes[i]);
+
+	        //}
+
+	        var result1 = methodInfo.Invoke(instance, new object[0]);
+
+			// Convert the type. The test api code will check to make sure the instance is not null.
+			var result2 = ConvertCreateCall(testType, "Execute", options);
+
+            return result2;
         }
 
 
@@ -53,15 +73,17 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
 
         public string CreateTestType(Action<ILGenerator> generatorMethod)
         {
-            var assemblyName = new AssemblyName
+	        var assemblyName1 = $"ReflectionEmitDelegateTest_testtype{Guid.NewGuid().ToString("N")}";
+
+			var assemblyName = new AssemblyName
             {
                 Version = new Version(1, 0, 0, 0),
-                Name = "ReflectionEmitDelegateTest"
-            };
+                Name = assemblyName1
+			};
 
             
 
-            var assemblyName1 = $"testtype{Guid.NewGuid().ToString("N")}";
+            
 
             var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Save);
 
@@ -92,9 +114,14 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
 
         }
 
-        public object ConvertCreateCall(Type type, string methodName)
+	    public object ConvertCreateCall(Type type, string methodName)
+	    {
+		    return ConvertCreateCall(type, methodName, new ILConversionOptions());
+	    }
+
+	    public object ConvertCreateCall(Type type, string methodName, ILConversionOptions options)
         {
-            var convertedType = ConvertSingleType(type);
+            var convertedType = ConvertSingleType(type, options);
 
             var instance = CreateInstance(convertedType);
 
@@ -103,15 +130,15 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
             if (methodInfo == null)
                 throw new Exception($"Could not find method named '{methodName}' on class named '{type.Name}'");
 
-	        //var bytes = methodInfo.GetInstructions();
+	  //      var instructions = methodInfo.GetInstructions();
 
-	        //for (int i = 0; i < bytes.Count; i++)
-	        //{
-		       // Debug.WriteLine(bytes[i]);
+			//for (int i = 0; i < instructions.Count; i++)
+			//{
+			//	Debug.WriteLine(instructions[i]);
 
-	        //}
+			//}
 
-            var result = methodInfo.Invoke(instance, new object[0]);
+			var result = methodInfo.Invoke(instance, new object[0]);
 
             return result;
 
@@ -157,7 +184,14 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
             return CreateInstance(convertedType);
         }
 
-	    public System.Type ConvertSingleType(System.Type type)
+	    public object ConvertAndCreateInstance(Type type, out Assembly assembly, out Type convertedType, ILConversionOptions options)
+	    {
+		    convertedType = ConvertSingleType(type, options, out assembly);
+
+		    return CreateInstance(convertedType);
+	    }
+
+		public System.Type ConvertSingleType(System.Type type)
 	    {
 		    return ConvertSingleType(type, new ILConversionOptions(), out Assembly collectibleAssembly);
 	    }
@@ -178,11 +212,7 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
             // do the conversion
             var conversionResult = container.Convert(type, options);
 
-	        
-
             Assert.IsNotNull(conversionResult);
-
-      
 
 	        var output = (ILConversionTypesOutput)conversionResult.Output;
 
@@ -220,6 +250,8 @@ namespace Root.Testing.Code.Apis.E01D.Runtimic.Emitting.Conversion
         {
             return XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.GetTypeInAssembly(assembly, pattern);
         }
+
+
 
         public object CreateInstance(Assembly assembly, Type pattern)
         {

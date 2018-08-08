@@ -429,7 +429,7 @@ namespace Root.Code.Libs.Mono.Cecil {
 		}
 	}
 
-	sealed class MetadataReader : ByteBuffer {
+	public class MetadataReader : ByteBuffer {
 
 		readonly internal Image image;
 		readonly internal ModuleDefinition module;
@@ -1184,10 +1184,14 @@ namespace Root.Code.Libs.Mono.Cecil {
 			if (!MoveTo (Table.TypeSpec, rid))
 				return null;
 
-			var reader = ReadSignature (ReadBlobIndex ());
+			var signature = ReadBlobIndex();
+
+			var reader = ReadSignature (signature);
 			var type = reader.ReadTypeSignature ();
 			if (type.token.RID == 0)
 				type.token = new MetadataToken (TokenType.TypeSpec, rid);
+
+			type.Signature = signature;
 
 			return type;
 		}
@@ -1308,7 +1312,11 @@ namespace Root.Code.Libs.Mono.Cecil {
 			if (reader.ReadByte () != field_sig)
 				throw new NotSupportedException ();
 
-			return reader.ReadTypeSignature ();
+			var result = reader.ReadTypeSignature ();
+
+			result.Signature = signature;
+
+			return result;
 		}
 
 		public int ReadFieldRVA (FieldDefinition field)

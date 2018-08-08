@@ -106,10 +106,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 			}
 			else
 			{
-				type1 = Execution.Types.Ensuring.EnsureBound(conversion.Model, currentTypeReference);
+				type1 = Execution.Types.Ensuring.EnsureBound(conversion, currentTypeReference);
 			}
 
-			var type2 = Execution.Types.Ensuring.EnsureBound(conversion.Model, currentType);
+			var type2 = Execution.Types.Ensuring.EnsureBound(conversion, currentType);
 
 			return ReferenceEquals(type1, type2);
 		}

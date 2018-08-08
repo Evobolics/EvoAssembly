@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural.Cecil;
-using Root.Code.Models.E01D.Runtimic.Unified;
+﻿using Root.Code.Containers.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Assemblies
 {
@@ -14,184 +6,177 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
 
-		public Dictionary<string, UnifiedAssemblyNode> EnsureAssemblyReferences(InfrastructureRuntimicModelMask_I semanticModel, UnifiedAssemblyNode assemblyNode)
-		{
-			Dictionary<string, UnifiedAssemblyNode> referenced = new Dictionary<string, UnifiedAssemblyNode>();
+		//public Dictionary<string, UnifiedAssemblyNode> EnsureAssemblyReferences(InfrastructureRuntimicModelMask_I semanticModel, UnifiedAssemblyNode assemblyNode)
+		//{
+		//	Dictionary<string, UnifiedAssemblyNode> referenced = new Dictionary<string, UnifiedAssemblyNode>();
 
-			EnsureAssemblyReferences(semanticModel, assemblyNode, referenced);
+		//	EnsureAssemblyReferences(semanticModel, assemblyNode, referenced);
 
-			return referenced;
-		}
+		//	return referenced;
+		//}
 
-		public Dictionary<string, UnifiedAssemblyNode> EnsureAssemblyReferences(InfrastructureRuntimicModelMask_I semanticModel, List<UnifiedAssemblyNode> assemblyNodes)
-		{
-			Dictionary<string, UnifiedAssemblyNode> referenced = new Dictionary<string, UnifiedAssemblyNode>();
+		//public Dictionary<string, UnifiedAssemblyNode> EnsureAssemblyReferences(InfrastructureRuntimicModelMask_I semanticModel, List<UnifiedAssemblyNode> assemblyNodes)
+		//{
+		//	Dictionary<string, UnifiedAssemblyNode> referenced = new Dictionary<string, UnifiedAssemblyNode>();
 
-			for (int i = 0; i < assemblyNodes.Count; i++)
-			{
-				var assemblyNode = assemblyNodes[i];
+		//	for (int i = 0; i < assemblyNodes.Count; i++)
+		//	{
+		//		var assemblyNode = assemblyNodes[i];
 
-				EnsureAssemblyReferences(semanticModel, assemblyNode, referenced);
-			}
+		//		EnsureAssemblyReferences(semanticModel, assemblyNode, referenced);
+		//	}
 
-			return referenced;
-		}
+		//	return referenced;
+		//}
 
-		public void EnsureAssemblyReferences(InfrastructureRuntimicModelMask_I semanticModel, UnifiedAssemblyNode assemblyNode, Dictionary<string, UnifiedAssemblyNode> referenced)
-		{
-			AssemblyDefinition assemblyDefinition = assemblyNode.SourceAssemblyDefinition;
+		//public void EnsureAssemblyReferences(InfrastructureRuntimicModelMask_I semanticModel, UnifiedAssemblyNode assemblyNode, Dictionary<string, UnifiedAssemblyNode> referenced)
+		//{
+		//	AssemblyDefinition assemblyDefinition = assemblyNode.SourceAssemblyDefinition;
 
-			foreach (var moduleDefinition in assemblyDefinition.Modules)
-			{
-				foreach (var assemblyNameReference in moduleDefinition.AssemblyReferences)
-				{
-					var node = Ensure(semanticModel, assemblyNameReference);
+		//	foreach (var moduleDefinition in assemblyDefinition.Modules)
+		//	{
+		//		foreach (var assemblyNameReference in moduleDefinition.AssemblyReferences)
+		//		{
+		//			var node = Ensure(semanticModel, assemblyNameReference);
 
-					if (!referenced.TryGetValue(node.Name, out UnifiedAssemblyNode existingNode))
-					{
-						referenced.Add(node.Name, node);
+		//			if (!referenced.TryGetValue(node.Name, out UnifiedAssemblyNode existingNode))
+		//			{
+		//				referenced.Add(node.Name, node);
 
-						EnsureAssemblyReferences(semanticModel, node, referenced);
-					}
-					else if (!ReferenceEquals(existingNode, node))
-					{
-						throw new Exception("Two unified assembly nodes of the same name but not the same object reference.");
-					}
-				}
-			}
-		}
+		//				EnsureAssemblyReferences(semanticModel, node, referenced);
+		//			}
+		//			else if (!ReferenceEquals(existingNode, node))
+		//			{
+		//				throw new Exception("Two unified assembly nodes of the same name but not the same object reference.");
+		//			}
+		//		}
+		//	}
+		//}
 
-		public CecilTypeReferenceSet Ensure(InfrastructureRuntimicModelMask_I model, AssemblyDefinition[] assemblies)
-		{
-			var set = new CecilTypeReferenceSet();
+		//public CecilTypeReferenceSet Ensure(InfrastructureRuntimicModelMask_I model, AssemblyDefinition[] assemblies)
+		//{
+		//	var set = new CecilTypeReferenceSet();
 
-			for (int i = 0; i < assemblies.Length; i++)
-			{
-				var assemblyDefinition = assemblies[i];
+		//	for (int i = 0; i < assemblies.Length; i++)
+		//	{
+		//		var assemblyDefinition = assemblies[i];
 
-				var output = Ensure_AssemblyDefinition(model, assemblyDefinition, set.Types);
+		//		var output = Ensure_AssemblyDefinition(model, assemblyDefinition, set.Types);
 
-				set.Assemblies.Add(output);
-			}
+		//		set.Assemblies.Add(output);
+		//	}
 
-			return set;
-		}
+		//	return set;
+		//}
 
-		public CecilTypeReferenceSet Ensure(InfrastructureRuntimicModelMask_I model, Assembly[] assemblies)
-		{
-			var set = new CecilTypeReferenceSet();
+		//public StructuralAssemblyNode[] Ensure(RuntimicSystemModel model, Assembly[] assemblies)
+		//{
+		//	var output = new StructuralAssemblyNode[assemblies.Length];
 
-			for (int i = 0; i < assemblies.Length; i++)
-			{
-				var assembly = assemblies[i];
+		//	for (int i = 0; i < assemblies.Length; i++)
+		//	{
+		//		var assembly = assemblies[i];
 
-				var output = Ensure(model, assembly, set.Types);
+		//		output[i] = Ensure(model, assembly);
+		//	}
 
-				set.Assemblies.Add(output);
-			}
+		//	return output;
+		//}
 
-			return set;
-		}
+		//[PublicApi]
+		//public StructuralAssemblyNode Ensure(RuntimicSystemModel runtimicSystemModel, Assembly assembly)
+		//{
+		//	if (Assemblies.Getting.Get(runtimicSystemModel, assembly.FullName, out StructuralAssemblyNode assemblyNode))
+		//	{
+		//		return assemblyNode;
+		//	}
 
-		/// <summary>
-		/// // Ensures the assembly definition that is associated with the type reference is part of the unified model and returns it.
-		/// </summary>
-		public UnifiedAssemblyNode Ensure(InfrastructureRuntimicModelMask_I model, TypeReference typeReference)
-		{
-			return Ensure(model, typeReference.Scope);
-		}
-
-		public UnifiedAssemblyNode Ensure(InfrastructureRuntimicModelMask_I semanticModel, Assembly assembly)
-		{
-			return Ensure(semanticModel, assembly, null);
-		}
-
-		public UnifiedAssemblyNode Ensure(InfrastructureRuntimicModelMask_I semanticModel, Assembly assembly, List<UnifiedTypeNode> types)
-		{
-			if (assembly.IsDynamic)
-			{
-				throw new Exception("The system is not setup to convert dynamic assemblies.");
-			}
-
-			string fullName = Assemblies.Naming.GetAssemblyName(assembly);
-
-			if (Assemblies.Getting.Get(semanticModel, fullName, out UnifiedAssemblyNode assemblyNode))
-			{
-				return assemblyNode;
-			}
-
-			return Ensure_Assembly(semanticModel, assembly, types);
-		}
+		//	return Ensure_Assembly(runtimicSystemModel, assembly);
+		//}
 
 
-		public UnifiedAssemblyNode Ensure(InfrastructureRuntimicModelMask_I semanticModel, IMetadataScope scope)
-		{
-			string fullName = Assemblies.Naming.GetAssemblyName(scope);
+		//[PublicApi]
+		//public StructuralAssemblyNode Ensure(RuntimicSystemModel runtimicSystemModel, Stream stream)
+		//{
+		//	var assemblyDefiniition = AssemblyDefinition.ReadAssembly(stream);
 
-			return Ensure(semanticModel, fullName);
-		}
+		//	if (Assemblies.Getting.Get(runtimicSystemModel, assemblyDefiniition.FullName, out StructuralAssemblyNode assemblyNode))
+		//	{
+		//		return assemblyNode;
+		//	}
 
-		public UnifiedAssemblyNode Ensure(InfrastructureRuntimicModelMask_I semanticModel, string fullName)
-		{
-			
+		//	return Ensure_AssemblyDefinition(runtimicSystemModel, assemblyDefiniition);
 
-			if (Assemblies.Getting.Get(semanticModel, fullName, out UnifiedAssemblyNode assemblyNode))
-			{
-				return assemblyNode;
-			}
+		//	//throw new Exception("Fix");
+		//	//var assemblyDefinition = Assemblies.Creating.Create(semanticModel, stream);
 
-			var assembly = Execution.Metadata.Assemblies.FindAssembly(fullName);
+		//	//return Ensure_AssemblyDefinition(semanticModel, assemblyDefinition);
+		//}
 
-			// an assembly was asked for that another assembly already provides.
-			if (assembly.FullName != fullName)
-			{
-				var correctNode = Ensure(semanticModel, assembly.FullName);
 
-				// Add cross reference
-				Unified.Assemblies.AddCrossReference(semanticModel, correctNode, fullName);
-			}
 
-			return Ensure_Assembly(semanticModel, assembly);
-		}
+
+		///// <summary>
+		///// // Ensures the assembly definition that is associated with the type reference is part of the unified model and returns it.
+		///// </summary>
+		//[PublicApi]
+		//public StructuralAssemblyNode Ensure(RuntimicSystemModel model, TypeReference typeReference)
+		//{
+		//	return Ensure(model, typeReference.Scope);
+		//}
+
+		//[PublicApi]
+		//public StructuralAssemblyNode Ensure(RuntimicSystemModel semanticModel, IMetadataScope scope)
+		//{
+		//	string fullName = Assemblies.Naming.GetAssemblyName(scope);
+
+		//	return Ensure(semanticModel, fullName);
+		//}
+
+		//[PublicApi]
+		//public StructuralAssemblyNode Ensure(RuntimicSystemModel runtimicModel, string fullName)
+		//{
+		//	if (Assemblies.Getting.Get(runtimicModel, fullName, out StructuralAssemblyNode assemblyNode))
+		//	{
+		//		return assemblyNode;
+		//	}
+
+		//	var assembly = Execution.Metadata.Assemblies.FindAssembly(fullName);
+
+		//	// an assembly was asked for that another assembly already provides.
+		//	if (assembly.FullName != fullName)
+		//	{
+		//		var correctNode = Ensure(runtimicModel, assembly.FullName);
+
+		//		// Add cross reference
+		//		runtimicModel.TypeSystems.Structural.Assemblies.ByName.Add(fullName, correctNode);
+		//	}
+
+		//	return Ensure_Assembly(runtimicModel, assembly);
+		//}
+
+		//public StructuralAssemblyNode Ensure_Assembly(RuntimicSystemModel runtimicSystemModel, Assembly assembly)
+		//{
+		//	var stream = new MemoryStream(File.ReadAllBytes(assembly.Location));
+
+		//	runtimicSystemModel.Io.OpenStreams.Add(stream);
+
+		//	var assemblyDefiniition = AssemblyDefinition.ReadAssembly(stream);
+
+		//	return Ensure_AssemblyDefinition(runtimicSystemModel, assemblyDefiniition);
+		//}
+
+		//public StructuralAssemblyNode Ensure_AssemblyDefinition(RuntimicSystemModel runtimicSystemModel, AssemblyDefinition assemblyDefinition)
+		//{
+		//	var node = Assemblies.Creating.Create(runtimicSystemModel, assemblyDefinition);
+
+		//	runtimicSystemModel.TypeSystems.Structural.Assemblies.ByName.Add(node.FullName, node);
+
+		//	return node;
+		//}
 
 		
-
-		public UnifiedAssemblyNode Ensure(InfrastructureRuntimicModelMask_I semanticModel, Stream stream)
-		{
-			var assemblyDefinition = Assemblies.Creating.Create(semanticModel, stream);
-
-			return Ensure_AssemblyDefinition(semanticModel, assemblyDefinition);
-		}
-
-		private UnifiedAssemblyNode Ensure_Assembly(InfrastructureRuntimicModelMask_I semanticModel, Assembly assembly)
-		{
-			return Ensure_Assembly(semanticModel, assembly, null);
-		}
-
-		private UnifiedAssemblyNode Ensure_Assembly(InfrastructureRuntimicModelMask_I semanticModel, Assembly assembly, List<UnifiedTypeNode> types)
-		{
-			var assemblyDefinition = Assemblies.Creating.Create(semanticModel, assembly);
-
-			return Ensure_AssemblyDefinition(semanticModel, assemblyDefinition, types);
-		}
-
-		private UnifiedAssemblyNode Ensure_AssemblyDefinition(InfrastructureRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition)
-		{
-			return Ensure_AssemblyDefinition(semanticModel, assemblyDefinition, null);
-		}
-
-		private UnifiedAssemblyNode Ensure_AssemblyDefinition(InfrastructureRuntimicModelMask_I semanticModel, AssemblyDefinition assemblyDefinition, List<UnifiedTypeNode> types)
-		{
-			string fullName = Assemblies.Naming.GetAssemblyName(assemblyDefinition);
-
-			if (Assemblies.Getting.Get(semanticModel, fullName, out UnifiedAssemblyNode assemblyNode))
-			{
-				return assemblyNode;
-			}
-
-			return Assemblies.Extending.Extend(semanticModel, assemblyDefinition, types);
-
-			
-		}
 	}
 }
+
+

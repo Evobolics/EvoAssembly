@@ -3,7 +3,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members;
@@ -42,7 +41,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 				var methodDefinition = (MethodDefinition)blueprintMethod.MethodReference;
 
 				var methodReference = Cecil.Methods.Building.MethodDefinitions.
-					MakeGenericInstanceTypeMethodReference(conversion.Model, (GenericInstanceType)input.SourceTypeReference, methodDefinition);
+					MakeGenericInstanceTypeMethodReference(conversion.RuntimicSystem, (GenericInstanceType)input.SourceTypeReference, methodDefinition);
 
 				var methodEntry = BuildMethod(conversion, input, genericInstanceMethodInfo, methodReference);
 
@@ -93,6 +92,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 			}
 			else
 			{
+				if (methodReference.MetadataToken.RID == 0)
+				{
+					
+				}
+
 				methodEntry = new ConvertedBoundMethod
 				{
 					MethodReference = methodReference,

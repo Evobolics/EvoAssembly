@@ -2,10 +2,10 @@
 using System.Text;
 using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Building;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods.Getting;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Libs.Mono.Cecil.Rocks;
 using Root.Code.Libs.Mono.Collections.Generic;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
+using Root.Code.Models.E01D.Runtimic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.Members.Methods
 {
@@ -38,10 +38,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		
 
-		public MethodDefinition ResolveReferenceToNonSignatureDefinition(StructuralRuntimicModelMask_I model, MethodReference methodReference)
+		public MethodDefinition ResolveReferenceToNonSignatureDefinition(RuntimicSystemModel model, MethodReference methodReference)
 		{
-			
-
 			var declaringType = methodReference.DeclaringType;
 
 			var typeDefinition = Types.Getting.GetDefinition(model, declaringType);
@@ -66,7 +64,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 
 
-		public bool AreSame(StructuralRuntimicModelMask_I model, MethodReference methodDefinition, MethodReference methodReference, bool resolveTypeParametersIfPresentInMethodB)
+		public bool AreSame(RuntimicSystemModel model, MethodReference methodDefinition, MethodReference methodReference, bool resolveTypeParametersIfPresentInMethodB)
 		{
 			if (methodDefinition.Name != methodReference.Name)
 				return false;
@@ -102,7 +100,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 		
 
-		public bool AreSame(StructuralRuntimicModelMask_I model, Collection<ParameterDefinition> a, Collection<ParameterDefinition> b, MethodReference bMethod)
+		public bool AreSame(RuntimicSystemModel model, Collection<ParameterDefinition> a, Collection<ParameterDefinition> b, MethodReference bMethod)
 		{
 			var count = a.Count;
 
@@ -131,15 +129,36 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 			return true;
 		}
 
-		public TypeReference ResolveTypeParameterIfPresent(StructuralRuntimicModelMask_I model, MethodReference calledMethod, TypeReference typeToResolve)
+		public TypeReference ResolveTypeParameterIfPresent(RuntimicSystemModel model, MethodReference calledMethod, TypeReference typeToResolve)
 		{
+			if (!calledMethod.DeclaringType.IsGenericInstance) return typeToResolve;
+
+			GenericInstanceType genericInstance = (GenericInstanceType)calledMethod.DeclaringType;
+
+			return ResolveTypeParameterIfPresent(model, genericInstance.GenericArguments.ToArray(), typeToResolve);
+
+		}
+
+		/// <summary>
+			/// Resolves a type parameter for when a generic instance method is being created.  
+			/// This should not be used for resolving generic instance methods that are instructions as 
+			/// generic instance method arguments are not resolved.
+			/// </summary>
+			/// <param name="model"></param>
+			/// <param name="genericInstanceTypeArguments"></param>
+			/// <param name="typeToResolve"></param>
+			/// <returns></returns>
+			public TypeReference ResolveTypeParameterIfPresent(RuntimicSystemModel model, TypeReference[] genericInstanceTypeArguments, TypeReference typeToResolve)
+		{
+
+
 			if (typeToResolve.IsByReference)
 			{
 				var inputByReferenceType = (ByReferenceType)typeToResolve;
 
 				var inputByReferenceTypeElement = inputByReferenceType.ElementType;
 
-				var result = ResolveTypeParameterIfPresent(model, calledMethod, inputByReferenceTypeElement);
+				var result = ResolveTypeParameterIfPresent(model, genericInstanceTypeArguments, inputByReferenceTypeElement);
 
 				return new ByReferenceType(result);
 			}
@@ -152,7 +171,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 
 				var arrayElementType = arrayType.ElementType;
 
-				var arrayElementReferenceType = ResolveTypeParameterIfPresent(model, calledMethod, arrayElementType);
+				var arrayElementReferenceType = ResolveTypeParameterIfPresent(model, genericInstanceTypeArguments, arrayElementType);
 
 				if (rank == 1)
 				{
@@ -164,37 +183,112 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 				}
 			}
 
+			if (typeToResolve.IsGenericInstance)
+			{
+				GenericInstanceType genericInstanceType = (GenericInstanceType)typeToResolve;
+
+				var genericInstanceTypeDef = ResolveTypeParameterIfPresent(model, genericInstanceTypeArguments, genericInstanceType.ElementType);
+
+				TypeReference[] arguments = new TypeReference[genericInstanceType.GenericArguments.Count];
+
+				for (int i = 0; i < genericInstanceType.GenericArguments.Count; i++)
+				{
+					arguments[i] = ResolveTypeParameterIfPresent(model, genericInstanceTypeArguments,
+						genericInstanceType.GenericArguments[i]);
+				}
+
+				return genericInstanceTypeDef.MakeGenericInstanceType(arguments);
+			}
+
 			if (!typeToResolve.IsGenericParameter)
 			{
-				return Types.Getting.GetInternalTypeReference(model, typeToResolve);
+				return Infrastructure.Structural.Types.Ensure(model, typeToResolve).CecilTypeReference;
 			}
 
 			var genericParameter = (GenericParameter)typeToResolve;
 
 			if (genericParameter.Type == GenericParameterType.Type)
 			{
-				GenericInstanceType genericInstance = (GenericInstanceType)calledMethod.DeclaringType;
-
-				if (genericInstance.GenericArguments.Count < genericParameter.Position)
-				{
-					throw new Exception($"Expected a generic parameter on the current type for position { genericParameter.Position}.");
-				}
-
-				return genericInstance.GenericArguments[genericParameter.Position];
+				// Becauase there is different generic instance type is created for each set of type arguments, generic parameters that are 
+				// type arguments can be replaced.
+				return genericInstanceTypeArguments[genericParameter.Position];
+			}
+			else
+			{
+				// This method is called when creating method references for all instructions that might encounter this method reference.
+				// When this method is built, there is no way to know ahead of time what instructions might be calling it.  Thus, this needs to 
+				// return just the method type parameter.
+				return typeToResolve;
 			}
 
-			// Method parameters would never be converted because you whould not know in advance what they were going to be.
 
-			return typeToResolve;
 		}
+
+		//public TypeReference ResolveTypeParameterIfPresent(RuntimicSystemModel model, MethodReference calledMethod, TypeReference typeToResolve)
+		//{
+		//	if (typeToResolve.IsByReference)
+		//	{
+		//		var inputByReferenceType = (ByReferenceType)typeToResolve;
+
+		//		var inputByReferenceTypeElement = inputByReferenceType.ElementType;
+
+		//		var result = ResolveTypeParameterIfPresent(model, calledMethod, inputByReferenceTypeElement);
+
+		//		return new ByReferenceType(result);
+		//	}
+
+		//	if (typeToResolve.IsArray)
+		//	{
+		//		var arrayType = (ArrayType)typeToResolve;
+
+		//		var rank = arrayType.Rank;
+
+		//		var arrayElementType = arrayType.ElementType;
+
+		//		var arrayElementReferenceType = ResolveTypeParameterIfPresent(model, calledMethod, arrayElementType);
+
+		//		if (rank == 1)
+		//		{
+		//			return new ArrayType(arrayElementReferenceType);
+		//		}
+		//		else
+		//		{
+		//			return new ArrayType(arrayElementReferenceType, rank);
+		//		}
+		//	}
+
+		//	if (!typeToResolve.IsGenericParameter)
+		//	{
+		//		return Infrastructure.Structural.Types.Ensure(model, typeToResolve).CecilTypeReference;
+
+		//	}
+
+		//	var genericParameter = (GenericParameter)typeToResolve;
+
+		//	if (genericParameter.Type == GenericParameterType.Type)
+		//	{
+		//		GenericInstanceType genericInstance = (GenericInstanceType)calledMethod.DeclaringType;
+
+		//		if (genericInstance.GenericArguments.Count < genericParameter.Position)
+		//		{
+		//			throw new Exception($"Expected a generic parameter on the current type for position { genericParameter.Position}.");
+		//		}
+
+		//		return genericInstance.GenericArguments[genericParameter.Position];
+		//	}
+
+		//	// Method parameters would never be converted because you whould not know in advance what they were going to be.
+
+		//	return typeToResolve;
+		//}
 
 		public string GetResolutionName(MethodReference methodReference)
 		{
 			var builder = new StringBuilder();
 			
-			builder.Append(Types.Naming.GetResolutionName(methodReference.ReturnType));
+			builder.Append(GetTypeReference(methodReference.ReturnType));
 			builder.Append(" ");
-			builder.Append(Types.Naming.GetResolutionName(methodReference.DeclaringType));
+			builder.Append(GetTypeReference(methodReference.DeclaringType));
 			builder.Append("::");
 			builder.Append(methodReference.Name);
 			
@@ -213,13 +307,30 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Cecil.Metadata.
 					if (parameter.ParameterType.IsSentinel)
 						builder.Append("...,");
 
-					builder.Append(Types.Naming.GetResolutionName(parameter.ParameterType));
+					builder.Append(GetTypeReference(parameter.ParameterType));
 				}
 			}
 
 			builder.Append(")");
 			
 			return builder.ToString();
+		}
+
+		public string GetTypeReference(TypeReference typeReference)
+		{
+			if (typeReference.IsGenericParameter)
+			{
+				GenericParameter parameter = (GenericParameter) typeReference;
+
+				if (parameter.Type == GenericParameterType.Type)
+				{
+					return "!!" + parameter.Position;
+				}
+
+				return "!!" + parameter.Name;
+			}
+
+			return Types.Naming.GetResolutionName(typeReference);
 		}
 
 		public bool IsVarArgCallTo(MethodReference method, MethodReference reference)

@@ -1,11 +1,14 @@
-﻿using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Baking;
+﻿using System;
+using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Baking;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Building;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Creation;
 using Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Ensuring;
-using Root.Code.Attributes.E01D;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural.Metadata;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types
 {
@@ -99,8 +102,80 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
             return Modules.IsCorlib(type.Module);
         }
 
+	    public ConversionTypeNode EnsureTypeNode(ILConversion conversion, ConvertedModuleNode convertedModuleNode, Type type)
+	    {
+		    // By passing in the module node, the cecil system does not have to start from scratch looking for the type.  It just needs to look at this module
+		    // for the type.
+		    //var structuralTypeNode = Cecil.Metadata.Members.Types.Ensuring.EnsureTypeNode(conversion.RuntimicSystem, convertedModuleNode.StructuralNode, type);
+
+		    var structuralTypeNode = Structural.Types.Ensure(conversion.RuntimicSystem, type);
+
+		    return EnsureTypeNode(conversion, convertedModuleNode, structuralTypeNode);
+
+
+		}
+
+	    public ConversionTypeNode EnsureTypeNode(ILConversion conversion, StructuralTypeNode structuralTypeNode)
+	    {
+			// By passing in the module node, the cecil system does not have to start from scratch looking for the type.  It just needs to look at this module
+			// for the type.
+			//var structuralTypeNode = Cecil.Metadata.Members.Types.Ensuring.EnsureTypeNode(conversion.RuntimicSystem, convertedModuleNode.StructuralNode, type);
+
+		    //ConvertedModuleNode convertedModuleNode = Modules.Ensure(conversion, structuralTypeNode.Module);
+
+			throw new System.NotImplementedException();
+	    }
+
+		public ConversionTypeNode EnsureTypeNode(ILConversion conversion, ConvertedModuleNode convertedModuleNode, StructuralTypeNode structuralTypeNode)
+	    {
+		    // By passing in the module node, the cecil system does not have to start from scratch looking for the type.  It just needs to look at this module
+		    // for the type.
+		    //var structuralTypeNode = Cecil.Metadata.Members.Types.Ensuring.EnsureTypeNode(conversion.RuntimicSystem, convertedModuleNode.StructuralNode, type);
+
+			
+
+		    //if (!structuralTypeNode.IsDerived)
+		    //{
+			   // ConvertedTypeTable table;
+
+			   // var tableId = (int) (structuralTypeNode.MetadataToken & 0xFF000000);
+
+			   // if (!convertedModuleNode.Tables.TryGetValue(tableId, out table))
+			   // {
+				  //  table = new ConvertedTypeTable();
+
+				  //  convertedModuleNode.Tables.Add(tableId, table);
+			   // }
+
+			   // var rowId = structuralTypeNode.MetadataToken & 0x00FFFFFF;
+
+			   // if (rowId > 0 && table.ByRow.TryGetValue(rowId, out ConversionTypeNode node))
+			   // {
+				  //  return node;
+			   // }
+		    //}
+
+		    //node = new ConversionTypeNode()
+		    //{
+			   // StemType = structuralTypeNode.StemType != null ? EnsureTypeNode(conversion, convertedModuleNode, structuralTypeNode.StemType) : null,
+			   // InputStructuralNode = structuralTypeNode,
+			   // IsDerived = structuralTypeNode.IsDerived
+		    //};
+
+		    //if (rowId > 0)
+		    //{
+			   // table.ByRow.Add(rowId, node);
+		    //}
+
+
+		    //return node;
+
+			throw new System.NotImplementedException();
 		
+	    }
 
+	   
 
-	}
+	    
+    }
 }

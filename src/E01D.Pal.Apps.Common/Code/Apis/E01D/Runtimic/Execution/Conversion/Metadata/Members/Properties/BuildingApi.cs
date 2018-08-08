@@ -36,7 +36,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Pro
         {
 			var propertyAttributes = GetPropertyAttributes(propertyDefinition);
 
-	        var propertyType = Execution.Types.Ensuring.EnsureToType(conversion.Model, propertyDefinition.PropertyType);
+	        var propertyType = Execution.Types.Ensuring.EnsureToType(conversion, propertyDefinition.PropertyType);
 
 			var parameterTypes = Parameters.GetSystemParameterTypes(conversion, propertyDefinition.Parameters);
 

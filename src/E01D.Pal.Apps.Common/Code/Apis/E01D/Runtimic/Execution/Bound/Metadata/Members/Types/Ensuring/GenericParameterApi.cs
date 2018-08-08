@@ -1,10 +1,6 @@
-﻿using System;
-using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
-using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
+﻿using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Ensuring
@@ -12,72 +8,74 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.En
     public class GenericParameterApi<TContainer> : BoundApiNode<TContainer>, GenericParameterApi_I<TContainer>
         where TContainer : RuntimicContainer_I<TContainer>
     {
-        public SemanticTypeDefinitionMask_I Ensure(BoundRuntimicModelMask_I model, TypeReference typeReference)
+        public SemanticTypeDefinitionMask_I Ensure(RuntimicSystemModel model, TypeReference typeReference)
         {
-            if (!typeReference.IsGenericParameter)
-            {
-                throw new Exception("Should only be used to get a semantic type for a generic argument.");
-            }
+	        throw new System.Exception("Fix");
 
-            GenericParameter parameter = (GenericParameter)typeReference;
+			//         if (!typeReference.IsGenericParameter)
+			//         {
+			//             throw new Exception("Should only be used to get a semantic type for a generic argument.");
+			//         }
 
-            if (parameter.DeclaringType != null)
-            {
-                var declaringSemanticType = Execution.Types.Ensuring.Ensure(model, parameter.DeclaringType, null, null);
+			//         GenericParameter parameter = (GenericParameter)typeReference;
 
-                if (!declaringSemanticType.IsGeneric())
-                {
-                    throw new Exception("Expected the resolved semantic type to be a generic type.");
-                }
+			//         if (parameter.DeclaringType != null)
+			//         {
+			//             var declaringSemanticType = Execution.Types.Ensuring.Ensure(model, parameter.DeclaringType, null, null);
 
-                SemanticGenericTypeDefinitionMask_I generic = (SemanticGenericTypeDefinitionMask_I)declaringSemanticType;
+			//             if (!declaringSemanticType.IsGeneric())
+			//             {
+			//                 throw new Exception("Expected the resolved semantic type to be a generic type.");
+			//             }
 
-                if (!generic.TypeParameters.ByName.TryGetValue(typeReference.Name, out SemanticGenericParameterTypeDefinitionMask_I semanticTypeParameter))
-                {
-                    throw new Exception("Expected the generic type to have a type parameter named.");
-                }
+			//             SemanticGenericTypeDefinitionMask_I generic = (SemanticGenericTypeDefinitionMask_I)declaringSemanticType;
 
-                if (!semanticTypeParameter.IsBound())
-                {
-                    throw new Exception("Expected the generic parameter type to be a bound type.");
-                }
+			//             if (!generic.TypeParameters.ByName.TryGetValue(typeReference.Name, out SemanticGenericParameterTypeDefinitionMask_I semanticTypeParameter))
+			//             {
+			//                 throw new Exception("Expected the generic type to have a type parameter named.");
+			//             }
 
-                return (BoundTypeDefinitionMask_I)semanticTypeParameter;
-            }
-			else
-            {
-	            if (!(parameter.DeclaringMethod is MethodDefinition methodDefinition))
-	            {
-		            throw new Exception("Expected a method definition");
-	            }
+			//             if (!semanticTypeParameter.IsBound())
+			//             {
+			//                 throw new Exception("Expected the generic parameter type to be a bound type.");
+			//             }
 
-	            var declaringType = methodDefinition.DeclaringType;
+			//             return (BoundTypeDefinitionMask_I)semanticTypeParameter;
+			//         }
+			//else
+			//         {
+			//          if (!(parameter.DeclaringMethod is MethodDefinition methodDefinition))
+			//          {
+			//           throw new Exception("Expected a method definition");
+			//          }
 
-	            var resolutionName = Types.Naming.GetResolutionName(declaringType);
+			//          var declaringType = methodDefinition.DeclaringType;
 
-	            var semanticType = Infrastructure.Models.Semantic.Types.Collection.GetOrThrow(model, resolutionName);
+			//          var resolutionName = Types.Naming.GetResolutionName(declaringType);
 
-	            if (!(semanticType is BoundTypeDefinitionWithMethodsMask_I withMethods))
-	            {
-		            throw new Exception("Trying to add a method to a type that does not support methods.");
-	            }
+			//          var semanticType = Infrastructure.Models.Semantic.Types.Collection.GetOrThrow(model, resolutionName);
 
-	            var method = Methods.Getting.FindMethodByDefinition(model, withMethods, methodDefinition);
+			//          if (!(semanticType is BoundTypeDefinitionWithMethodsMask_I withMethods))
+			//          {
+			//           throw new Exception("Trying to add a method to a type that does not support methods.");
+			//          }
 
-	            if (!method.TypeParameters.ByName.TryGetValue(parameter.Name, out SemanticGenericParameterTypeDefinitionMask_I semanticTypeParameter))
-	            {
-		            throw new Exception($"Expected the generic method to have a type parameter named {parameter.Name}.");
-	            }
+			//          var method = Methods.Getting.FindMethodByDefinition(model, withMethods, methodDefinition);
 
-	            if (!semanticTypeParameter.IsBound())
-	            {
-		            throw new Exception("Expected the generic parameter type to be a bound type.");
-	            }
+			//          if (!method.TypeParameters.ByName.TryGetValue(parameter.Name, out SemanticGenericParameterTypeDefinitionMask_I semanticTypeParameter))
+			//          {
+			//           throw new Exception($"Expected the generic method to have a type parameter named {parameter.Name}.");
+			//          }
 
-	            return (BoundTypeDefinitionMask_I)semanticTypeParameter;
+			//          if (!semanticTypeParameter.IsBound())
+			//          {
+			//           throw new Exception("Expected the generic parameter type to be a bound type.");
+			//          }
 
-				
-            }
+			//          return (BoundTypeDefinitionMask_I)semanticTypeParameter;
+
+
+			//         }
 
 		}
     }

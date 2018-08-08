@@ -3,10 +3,11 @@ using System.Reflection;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Libs.Mono.Cecil.Cil;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types;
+using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members;
+using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.Types.Definitions;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members;
 using OpCode = System.Reflection.Emit.OpCode;
 
@@ -37,9 +38,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
             var ilInstructionStream = bodyState.InstructionStream;
 
-            int[] tokenFixups = new int[ilInstructionStream.FixupCount];
+            var tokenFixups = new int[ilInstructionStream.FixupCount];
 
-            Array.Copy(ilInstructionStream.Fixups, 0, tokenFixups, 0, ilInstructionStream.FixupCount);
+            if (ilInstructionStream.Fixups != null)
+            {
+                Array.Copy(ilInstructionStream.Fixups, 0, tokenFixups, 0, ilInstructionStream.FixupCount);
+            }
 
             bodyState.TokenFixups = tokenFixups;
         }
@@ -243,9 +247,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 case Libs.Mono.Cecil.Cil.Code.Leave_S:
                 {
                     var startingOffset = instructionDefinition.Offset;
+                    var opCodeSize = instructionDefinition.OpCode.Size;
                     var targetOffset = ((Instruction) instructionDefinition.Operand).Offset;
-                    var relativeOffset = targetOffset - startingOffset - 2;
-                    Generation.Emit(conversion, stream, opCode, (sbyte)relativeOffset);
+                    var relativeOffset = targetOffset - (startingOffset + opCodeSize + 1);
+                        
+
+                    if (instructionDefinition.BranchRelativeOffset != relativeOffset)
+                    {
+                        throw new Exception("Relative offset incorrect");
+                    }
+
+                    Generation.Emit(conversion, stream, opCode, (sbyte)instructionDefinition.BranchRelativeOffset);
                     break;
                 }
                 case Libs.Mono.Cecil.Cil.Code.Beq:
@@ -264,9 +276,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 case Libs.Mono.Cecil.Cil.Code.Leave:
                 {
                     var startingOffset = instructionDefinition.Offset;
+                    var opCodeSize = instructionDefinition.OpCode.Size;
                     var targetOffset = ((Instruction)instructionDefinition.Operand).Offset;
-                    var relativeOffset = targetOffset - startingOffset - 4;
-                    Generation.Emit(conversion, stream, opCode, relativeOffset);
+                    var relativeOffset = targetOffset - (startingOffset + opCodeSize + 4);
+
+                    if (instructionDefinition.BranchRelativeOffset != relativeOffset)
+                    {
+                        throw new Exception("Relative offset incorrect");
+                    }
+
+                     Generation.Emit(conversion, stream, opCode, instructionDefinition.BranchRelativeOffset);
                     break;
                 }
                 case Libs.Mono.Cecil.Cil.Code.Box:
@@ -285,14 +304,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 case Libs.Mono.Cecil.Cil.Code.Unbox:
                 case Libs.Mono.Cecil.Cil.Code.Unbox_Any:
                 {
-                    var type = Execution.Types.Ensuring.EnsureToType(conversion.Model, new BoundEnsureContext()
-                    {
-                        TypeReference = (TypeReference)instructionDefinition.Operand,
-                        MethodReference = methodDefinition,
-                        RoutineDeclaringType = routine.DeclaringType
-                    });
-                        
-                    Generation.Emit(conversion, stream, opCode, type);
+                    if (!Types.Ensuring.EnsurePhase3Type(conversion, routine.DeclaringType, methodDefinition, (TypeReference)instructionDefinition.Operand, 
+                        out BoundTypeDefinitionMask_I type)) return false;
+
+                    Generation.Emit(conversion, stream, opCode, type.UnderlyingType);
 
                     break;
                 }
@@ -302,9 +317,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 {
                     if (instructionDefinition.Operand is ParameterDefinition parameter)
                     {
-                        ConvertedMethodParameterMask_I convertedParameter = GetParameter(routine, parameter);
+                        
 
-                        Generation.Emit(conversion, stream, opCode, (ushort)convertedParameter.Position);
+                        Generation.Emit(conversion, stream, opCode, (ushort)parameter.Sequence);
                     }
                     else
                     {
@@ -318,9 +333,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 {
                     if (instructionDefinition.Operand is ParameterDefinition parameter)
                     {
-                        ConvertedMethodParameterMask_I convertedParameter = GetParameter(routine, parameter);
+                        
 
-                        Generation.Emit(conversion, stream, opCode, (byte)convertedParameter.Position);
+                        Generation.Emit(conversion, stream, opCode, (byte)parameter.Sequence);
                     }
                     else
                     {
@@ -408,10 +423,20 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 case Libs.Mono.Cecil.Cil.Code.Callvirt:
                 case Libs.Mono.Cecil.Cil.Code.Call:
                 {
-                    if (!Members.GetMemberInfo(conversion, routine.DeclaringType, routine, (MethodReference)instructionDefinition.Operand,
-                        out MemberInfo memberInfo))
+                    var methodReference = (MethodReference)instructionDefinition.Operand;
+
+                    var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion, methodReference.DeclaringType);
+
+                    if (declaringBound == null || (declaringBound is ConvertedTypeDefinition_I convertedType
+                        && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true)))
                     {
-                        throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
+                        return false;
+                    }
+
+                    if (!Members.GetMemberInfo(conversion, routine.DeclaringType, routine, declaringBound, methodReference,
+                    out MemberInfo memberInfo))
+                    {
+                        return false;
                     }
 
                     if (memberInfo is ConstructorInfo constructor)
@@ -437,10 +462,19 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 case Libs.Mono.Cecil.Cil.Code.Ldftn:
                 case Libs.Mono.Cecil.Cil.Code.Ldvirtftn:
                 {
-                    if (!Members.GetMemberInfo(conversion, routine.DeclaringType, routine, (MethodReference)instructionDefinition.Operand,
-                        out MemberInfo memberInfo))
+                    var methodReference = (MethodReference) instructionDefinition.Operand;
+                    
+                    var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion, methodReference.DeclaringType);
+
+                    if (declaringBound == null || (declaringBound is ConvertedTypeDefinition_I convertedType
+                        && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true)))
                     {
-                        throw new Exception("Could not find member.  Need to gracefully exit and comeback.");
+                        return false;
+                    }
+
+                    if (!Members.GetMemberInfo(conversion, routine.DeclaringType, routine, declaringBound, methodReference,out MemberInfo memberInfo))
+                    {
+                        throw new Exception("Could not find member.");
                     }
 
                     Generation.Emit(conversion, stream, opCode, (MethodInfo)memberInfo);
@@ -454,8 +488,17 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 case Libs.Mono.Cecil.Cil.Code.Stfld:
                 case Libs.Mono.Cecil.Cil.Code.Stsfld:
                 {
-                    var fieldInfo = Models.Fields.ResolveFieldReference(conversion, 
-                        routine.DeclaringType, (FieldReference)instructionDefinition.Operand);
+                    var fieldReference = (FieldReference)instructionDefinition.Operand;
+
+                    var declaringBound = Execution.Types.Ensuring.EnsureBound(conversion, fieldReference.DeclaringType);
+
+                    if (declaringBound == null || (declaringBound is ConvertedTypeDefinition_I convertedType
+                        && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true)))
+                    {
+                        return false;
+                    }
+
+                    var fieldInfo = Models.Fields.ResolveFieldReference(conversion, routine.DeclaringType, declaringBound, fieldReference);
 
                     Generation.Emit(conversion, stream, opCode, fieldInfo);
 
@@ -470,14 +513,24 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
                     if (typeReference is GenericParameter genericParameter)
                     {
-                        // This hard cast is safe as constructors do not have generic parameters.
-                        resolvedType = Instructions.GetGenericParameterType(conversion, routine.DeclaringType, routine, genericParameter);
+                        if (!Instructions.GetGenericParameterType(conversion, routine.DeclaringType, routine,
+                            genericParameter, out resolvedType))
+                        {
+                            return false;
+                        }
                     }
                     else
                     {
-                        resolvedType = Execution.Types.Ensuring.EnsureToType(conversion.Model, typeReference);
-                    }
+                        var operandDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion, typeReference);
 
+                        if (operandDeclaringType == null || (operandDeclaringType is ConvertedTypeDefinition_I convertedType
+                            && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true)))
+                        {
+                            return false;
+                        }
+
+                        resolvedType = operandDeclaringType.UnderlyingType;
+                    }
 
                     Generation.Emit(conversion, stream, opCode, resolvedType);
 
@@ -489,15 +542,15 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 {
                     var methodReference = (MethodReference)instructionDefinition.Operand;
 
-                        // Created during pre-scan
-                        //var convertedInstruction = convertedConstructor.ConvertedInstructions[instructionDefinition.Offset];
+                    var operandDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion, methodReference.DeclaringType);
 
-                        // how does the member reference declaring type be resolved?
-                        //var declaringBound = convertedInstruction.OperandDeclaringType;
+                    if (operandDeclaringType == null || (operandDeclaringType is ConvertedTypeDefinition_I convertedType
+                        && Types.Building.CheckForPhase3Dependency(convertedType, (ConvertedTypeDefinition_I)routine.DeclaringType, true)))
+                    {
+                        return false;
+                    }
 
-                    var operandDeclaringType = Execution.Types.Ensuring.EnsureBound(conversion.Model, methodReference.DeclaringType);
-
-                        var found = Constructors.Getting.GetConstructor(conversion, routine.DeclaringType, operandDeclaringType, methodReference, out MemberInfo memberInfo);
+                    var found = Constructors.Getting.GetConstructor(conversion, routine.DeclaringType, operandDeclaringType, methodReference, out MemberInfo memberInfo);
 
                     if (!found)
                     {
@@ -522,19 +575,16 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 }
                 case Libs.Mono.Cecil.Cil.Code.Switch:
                 {
-                        //if (!switchEntries.TryGetValue(instructionDefinition.Offset, out ConvertedLabel switchEntry))
-                        //{
-                        //    throw new Exception($"Did not find a switch statement at offset {instructionDefinition.Offset}.");
-                        //}
-
                     var instructions = (Instruction[])instructionDefinition.Operand;
+
                     int[] offsets = new int[instructions.Length];
+
                     for (int i = 0; i < instructions.Length; i++)
                     {
-                        offsets[i]= instructions[i].Offset;
-                    }
+                        var relativeOffsetModifier = (4 + 4 * instructions.Length + instructionDefinition.Offset + 1);
 
-                    
+                        offsets[i]= instructions[i].Offset - relativeOffsetModifier;
+                    }
 
                     Generation.Emit(conversion, stream, opCode, offsets);
 
@@ -549,22 +599,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
             return true;
         }
-        private ConvertedMethodParameterMask_I GetParameter(ConvertedRoutine routine, ParameterDefinition parameter)
-        {
-            if (!routine.Parameters.ByName.TryGetValue(parameter.Name, out SemanticRoutineParameterMask_I semanticParameter))
-            {
-                throw new System.Exception(
-                    $"Could not find parameter {parameter.Name} in method {routine.Name}.");
-            }
 
-            if (!(semanticParameter is ConvertedMethodParameterMask_I convertedParameter))
-            {
-                throw new System.Exception(
-                    $"The parameter {parameter.Name} in method {routine.Name} is not a convertible parameter.");
-            }
+        
 
-            return convertedParameter;
-        }
+        
 
     }
 }

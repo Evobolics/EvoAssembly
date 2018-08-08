@@ -47,6 +47,9 @@ namespace Root.Code.Libs.Mono.Cecil.Cil {
 			set { next = value; }
 		}
 
+		public int BranchRelativeOffset { get; set; }
+		public int[] SwitchBranches { get; set; }
+
 		internal Instruction (int offset, OpCode opCode)
 		{
 			this.offset = offset;

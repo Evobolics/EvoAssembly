@@ -1,9 +1,8 @@
-﻿using System.Runtime.CompilerServices;
-using Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring;
+﻿using Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types
 {
@@ -20,7 +19,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types
 	    } 
 
 
-		public bool IsConverted(BoundRuntimicModelMask_I boundModel, TypeReference typeReference)
+		public bool IsConverted(RuntimicSystemModel boundModel, TypeReference typeReference)
 		{
 			if (typeReference.IsGenericParameter) // If you do not have this, you will get generic instance types 
 												  // that are thought to be bound because their generic type definition
@@ -76,7 +75,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types
 			
 		}
 
-	    public bool ContainsGenericMethodParameters(BoundRuntimicModelMask_I boundModel, GenericInstanceType genericInstance)
+	    public bool ContainsGenericMethodParameters(RuntimicSystemModel boundModel, GenericInstanceType genericInstance)
 	    {
 		    throw new System.NotImplementedException();
 	    }

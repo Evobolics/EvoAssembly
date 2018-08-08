@@ -1,7 +1,6 @@
-﻿using Root.Code.Containers.E01D.Runtimic;
+﻿using System.Linq;
+using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
-using Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata;
-using Root.Code.Models.E01D.Runtimic.Unified;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules
 {
@@ -29,14 +28,26 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules
 
         //    Types.Ensuring.EnsureTypes(semanticModel, boundModule);
         //}
-	    public ConvertedModule BuildOut(ILConversion conversion, UnifiedModuleNode moduleNode)
+	  //  public ConvertedModule BuildOut(ILConversion conversion, UnifiedModuleNode moduleNode)
+	  //  {
+			//var convertedModule = Modules.Creation.Create(conversion, moduleNode);
+
+		 //   moduleNode.Semantic = convertedModule;
+
+		 //   return convertedModule;
+
+	  //  }
+
+	    public void Build(ILConversion conversion)
 	    {
-			var convertedModule = Modules.Creation.Create(conversion, moduleNode);
+			var modules = conversion.MetadataModel.Modules.ByVersionId.Values.ToList();
 
-		    moduleNode.Semantic = convertedModule;
+		    for (int i = 0; i < modules.Count; i++)
+		    {
+			    var moduleNode = modules[i];
 
-		    return convertedModule;
-
-	    }
+			    moduleNode.ConvertedModule = Modules.Creation.Create(conversion, moduleNode);
+		    }
+		}
     }
 }

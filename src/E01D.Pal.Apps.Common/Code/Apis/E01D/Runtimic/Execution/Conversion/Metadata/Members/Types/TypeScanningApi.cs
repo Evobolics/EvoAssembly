@@ -19,7 +19,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Typ
 
             //var typeScanReference = Cecil.ResolveForTypeScan(null, typeReference);
 
-	        return Execution.Types.Ensuring.Ensure(conversion.Model, typeReference, null, null);
+	        return Execution.Types.Ensuring.Ensure(conversion, typeReference, null, null);
         }
     }
 

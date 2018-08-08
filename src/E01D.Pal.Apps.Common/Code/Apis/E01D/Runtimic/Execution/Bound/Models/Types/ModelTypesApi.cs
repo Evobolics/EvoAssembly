@@ -1,10 +1,9 @@
 ﻿using System;
 using Root.Code.Containers.E01D.Runtimic;
-using Root.Code.Domains.E01D;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata;
 using Root.Code.Libs.Mono.Cecil;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
 
@@ -31,12 +30,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
 
         
 
-        public System.Type GetObjectType(BoundRuntimicModelMask_I model)
+        public System.Type GetObjectType(RuntimicSystemModel model)
         {
             return GetBoundUnderlyingTypeOrThrow(model, typeof(Object).AssemblyQualifiedName);
         }
 
-        public System.Type GetValueType(BoundRuntimicModelMask_I model)
+        public System.Type GetValueType(RuntimicSystemModel model)
         {
             return GetBoundUnderlyingTypeOrThrow(model, typeof(ValueType).AssemblyQualifiedName);
         }
@@ -44,7 +43,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
        
 
 
-	    public System.Type GetUnderlyingType(BoundRuntimicModelMask_I model, TypeReference typeReference)
+	    public System.Type GetUnderlyingType(RuntimicSystemModel model, TypeReference typeReference)
 	    {
 		    if (typeReference.IsGenericParameter)
 		    {
@@ -84,7 +83,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
 
         
 
-        public System.Type GetBoundUnderlyingTypeOrThrow(BoundRuntimicModelMask_I model, string resolutionName)
+        public System.Type GetBoundUnderlyingTypeOrThrow(RuntimicSystemModel model, string resolutionName)
         {
             var semanticType = Collection.GetOrThrow(model, resolutionName);
 
@@ -121,38 +120,41 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
             return (BoundTypeDefinitionMask_I)semanticType;
         }
 
-        public TypeReference GetTypeReference(BoundRuntimicModelMask_I model, Type input)
+        public TypeReference GetTypeReference(RuntimicSystemModel model, Type input)
         {
             return Infrastructure.Models.Semantic.Types.GetTypeReference(model, input);
         }
 
-	    public TypeReference GetTypeReference(BoundRuntimicModelMask_I model, Type input, out SemanticTypeDefinitionMask_I possibleSemanticType)
+	    public TypeReference GetTypeReference(RuntimicSystemModel model, Type input, out SemanticTypeDefinitionMask_I possibleSemanticType)
 	    {
 		    return Infrastructure.Models.Semantic.Types.GetTypeReference(model, input, out possibleSemanticType);
 	    }
 
-		public TypeDefinition Resolve(BoundRuntimicModelMask_I model, Type genericTypeDefinitionType)
-        {
-            return (TypeDefinition)Cecil.Types.Getting.GetStoredTypeReference(model, genericTypeDefinitionType);
-        }
+		public TypeDefinition Resolve(RuntimicSystemModel model, Type genericTypeDefinitionType)
+		{
+			throw new Exception("Fix");
+			//return (TypeDefinition)Cecil.Types.Getting.GetStoredTypeReference(model, genericTypeDefinitionType);
+		}
 
 	    
 
-		public Type ResolveToType(BoundRuntimicModelMask_I model, TypeReference typeReference)
+		public Type ResolveToType(RuntimicSystemModel model, TypeReference typeReference)
 		{
-			var semanticType = Execution.Types.Ensuring.Ensure(model, typeReference, null, null);
+			//var semanticType = Execution.Types.Ensuring.Ensure(model, typeReference, null, null);
 
-			if (semanticType is BoundTypeDefinitionMask_I bound)
-			{
-				if (bound.UnderlyingType != null)
-				{
-					return bound.UnderlyingType;
-				}
+			throw new System.Exception("Fix");
 
-				throw new Exception("Undelrying type is null");
-			}
+			//if (semanticType is BoundTypeDefinitionMask_I bound)
+			//{
+			//	if (bound.UnderlyingType != null)
+			//	{
+			//		return bound.UnderlyingType;
+			//	}
 
-			throw new Exception("There was not a bound type mapped to the type reference.");
+			//	throw new Exception("Undelrying type is null");
+			//}
+
+			//throw new Exception("There was not a bound type mapped to the type reference.");
 		}
 
         
@@ -194,31 +196,32 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Models.Types
         /// <param name="typeReference"></param>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        private BoundTypeDefinitionMask_I ResolveToBound_GenericParameter(BoundRuntimicModelMask_I model, GenericParameter parameter)
+        private BoundTypeDefinitionMask_I ResolveToBound_GenericParameter(RuntimicSystemModel model, GenericParameter parameter)
         {
-            // At this point, we do not know if the parameter is belongs to a converted type or not.
-            if (parameter.DeclaringType != null)
-            {
-                // This will determine if it needs to go the converted route or non-converted based upon the model types.
-                var declaringType = Execution.Types.Ensuring.Ensure(model, parameter.DeclaringType, null, null);
+			//// At this point, we do not know if the parameter is belongs to a converted type or not.
+			//if (parameter.DeclaringType != null)
+			//{
+			//    // This will determine if it needs to go the converted route or non-converted based upon the model types.
+			//    var declaringType = Execution.Types.Ensuring.Ensure(model, parameter.DeclaringType, null, null);
 
-                // Assumign that bound types also add their generic parameters to the collection, this will work.
+			//    // Assumign that bound types also add their generic parameters to the collection, this will work.
 
-                return TypeParameters.Resolve(model, declaringType, parameter);
-            }
-            else
-            {
-                if (!(parameter.DeclaringMethod is MethodDefinition methodDefinition))
-                {
-                    throw new Exception("Expected a method definition");
-                }
+			//    return TypeParameters.Resolve(model, declaringType, parameter);
+			//}
+			//else
+			//{
+			//    if (!(parameter.DeclaringMethod is MethodDefinition methodDefinition))
+			//    {
+			//        throw new Exception("Expected a method definition");
+			//    }
 
-                // This will determine if it needs to go the converted route or non-converted based upon the model types.
-                var declaringType = Execution.Types.Ensuring.Ensure(model, methodDefinition.DeclaringType, null, null);
+			//    // This will determine if it needs to go the converted route or non-converted based upon the model types.
+			//    var declaringType = Execution.Types.Ensuring.Ensure(model, methodDefinition.DeclaringType, null, null);
 
-                return TypeParameters.Resolve(model, declaringType, methodDefinition, parameter);
-            }
-        }
+			//    return TypeParameters.Resolve(model, declaringType, methodDefinition, parameter);
+			//}
+			throw new System.Exception("Fix");
+		}
 
 		
 

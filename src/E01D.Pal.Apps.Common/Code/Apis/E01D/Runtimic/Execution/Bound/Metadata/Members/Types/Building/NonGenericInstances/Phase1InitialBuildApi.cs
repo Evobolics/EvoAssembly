@@ -1,15 +1,15 @@
 ﻿using System;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Exts.E01D.Runtimic.Infrastructure.Metadata.Members;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Execution.Bound.Modeling;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Building.NonGenericInstances
 {
 	public class Phase1InitialBuildApi<TContainer> : BoundApiNode<TContainer>, Phase1InitialBuildApi_I<TContainer>
 		where TContainer : RuntimicContainer_I<TContainer>
 	{
-		public BoundTypeDefinition Build(BoundRuntimicModelMask_I semanticModel, BoundTypeDefinition bound, Type underlyingType, BoundTypeDefinitionMask_I declaringType)
+		public BoundTypeDefinition Build(RuntimicSystemModel semanticModel, BoundTypeDefinition bound, Type underlyingType, BoundTypeDefinitionMask_I declaringType)
 		{
 			if (bound.IsNestedType())
 			{

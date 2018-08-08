@@ -176,13 +176,29 @@ namespace Root.Code.Libs.Mono.Cecil.Cil {
 				var length = ReadInt32 ();
 				var base_offset = Offset + (4 * length);
 				var branches = new int [length];
+				var storedBranches = new int[length];
+				instruction.SwitchBranches = storedBranches;
 				for (int i = 0; i < length; i++)
-					branches [i] = base_offset + ReadInt32 ();
+				{
+					int offset = ReadInt32();
+
+					storedBranches[i] = offset;
+
+					branches[i] = base_offset + offset;
+				}
 				return branches;
-			case OperandType.ShortInlineBrTarget:
-				return ReadSByte () + Offset;
-			case OperandType.InlineBrTarget:
-				return ReadInt32 () + Offset;
+				case OperandType.ShortInlineBrTarget:
+				{
+					instruction.BranchRelativeOffset = ReadSByte();
+					return instruction.BranchRelativeOffset + Offset;
+				}
+				
+				case OperandType.InlineBrTarget:
+				{
+					instruction.BranchRelativeOffset = ReadInt32();
+					return instruction.BranchRelativeOffset + Offset;
+				}
+				
 			case OperandType.ShortInlineI:
 				if (instruction.opcode == OpCodes.Ldc_I4_S)
 					return ReadSByte ();

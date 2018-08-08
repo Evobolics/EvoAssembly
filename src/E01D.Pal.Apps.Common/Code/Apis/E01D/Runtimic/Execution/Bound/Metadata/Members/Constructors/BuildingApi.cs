@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using Root.Code.Containers.E01D.Runtimic;
+using Root.Code.Models.E01D.Runtimic;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members.Types.Definitions;
-using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic;
 
 namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Constructors
 {
@@ -13,17 +13,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Construc
 
 
 
-	    public void BuildConstructors(InfrastructureRuntimicModelMask_I model, BoundTypeDefinition_I input)
+	    public void BuildConstructors(RuntimicSystemModel model, BoundTypeDefinition_I input)
 	    {
 		    if (!(input is BoundTypeDefinitionWithConstructorsMask_I boundTypeWithConstructors))
 		    {
 			    return;
 		    }
 
-		    if (input.FullName == "System.Collections.Generic.Dictionary`2+ValueCollection+Enumerator")
-		    {
-
-		    }
+		   
 
 		    // Done on purpose to find errors
 		    var constructors = input.UnderlyingType.GetConstructors(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
@@ -46,8 +43,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Construc
 
 			    boundConstructors.Add(boundConstructor);
 
-			    
-				    input?.Module?.ConstructorsByMetadataToken.Add(constructor.MetadataToken, boundConstructor);
+				input?.Module?.ConstructorsByMetadataToken.Add(constructor.MetadataToken, boundConstructor);
 			    
 		    }
 

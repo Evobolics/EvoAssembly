@@ -44,7 +44,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Modules
 	    {
 		    var resolutionName = Types.Naming.GetResolutionName(type);
 
-		    var semanticType = Infrastructure.Models.Semantic.Types.Collection.Get(conversion.Model, resolutionName);
+		    var semanticType = Infrastructure.Models.Semantic.Types.Collection.Get(conversion.RuntimicSystem, resolutionName);
 
 		    if (semanticType == null)
 		    {
