@@ -1,5 +1,5 @@
 # EvoAssembly [Beta]
-Convert Compiled .NET Assemblies to Collectible Assemblies
+EvoAssembly converts compiled .NET assemblies or select types to collectible assemblies.
 
 ## Examples
 The following examples demonstrate how to convert type and assemblies into their convertible counterparts.
