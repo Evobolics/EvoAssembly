@@ -21,6 +21,8 @@ var convertedTypes = EvoAssembly.QuickConvert(new []{inputType1, inputType2});
 // Example4: Convert an array of assemblies
 var convertedAssemblies = EvoAssembly.QuickConvert(new []{inputAssembly1, inputAssembly2});
       
+
+
 ```
 
 ## Known Issues / To-Do List
@@ -29,9 +31,12 @@ var convertedAssemblies = EvoAssembly.QuickConvert(new []{inputAssembly1, inputA
 * unsafe code not tested yet, though pointers types should be supported.
 * no p-invoke support yet
 * assembly and module attributes not supported
-* modifiers not fully supported
-* issues with exception handling
-* structs not marke with the correct size
+* modifiers not supported
+* structs possibly not marke with the correct size 
+
+## Limitations
+
+* It is not possible to create some recursively defined types, nor is it possible to create some nested type relationships, due to .NET runtime emit API limitations.  
 
 
-*Last Updated:* July 25th, 2018
+*Last Updated:* August 8th, 2018
