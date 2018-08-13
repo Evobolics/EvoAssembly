@@ -30,10 +30,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
         public ConvertedAssembly CreateConvertedAssembly(ILConversion conversion, string name, ConvertedAssemblyNode assemblyNode)
         {
-
+            var assemblyName = new AssemblyName(name)
+            {
+                Version = assemblyNode.InputStructuralNode.CecilAssemblyDefinition.Name.Version
+            };
             // compiler crash / compiler error - do not put this line with initializer.
             // If you use a fullname with version, public key, etc.  It will crash the compiler
-            var builder = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName(name), conversion.Configuration.BuilderAccess);
+            var builder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, conversion.Configuration.BuilderAccess);
 
             var convertedAssembly = new ConvertedAssembly()
             {

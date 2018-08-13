@@ -21,12 +21,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Assemblies
 
 		    if (assemblyName.Contains(","))
 		    {
-		        var parts = assemblyName.Split(new char[] {','});
+		        var parts = assemblyName.Split(',');
 
 		        assemblyName = parts[0];
 		    }
 
-            string prefix = string.Empty;
+			if (!conversion.Configuration.AddAssemblyPrefixAndSuffix) return assemblyName;
+
+			var prefix = string.Empty;
 
 		    if (isConverted)
 		    {

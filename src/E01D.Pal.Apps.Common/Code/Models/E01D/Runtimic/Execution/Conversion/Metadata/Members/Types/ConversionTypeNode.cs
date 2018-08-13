@@ -9,7 +9,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members.T
 		public long Id { get; set; }
 		public StructuralTypeNode InputStructuralNode { get; set; }
 		public bool IsDerived { get; set; }
-		public ConversionTypeNode StemType { get; set; }
+		public ExecutionTypeNode_I StemType { get; set; }
 		public ExecutionTypeNode_I PointerType { get; set; }
 		public ExecutionTypeNodeMask_I[] Arrays { get; set; }
 		public ExecutionGenericInstanceTypeNode[] Generics { get; set; }

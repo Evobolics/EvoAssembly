@@ -14,6 +14,11 @@ namespace Root.Code.PI.E01D // Programmer Interface
 			return XCommonAppPal.Api.Containment.CreateContainer<RuntimicContainer>(false);
 		}
 
+		public static RuntimicContainer CreateContainer(bool allowDynamicTypes)
+		{
+			return XCommonAppPal.Api.Containment.CreateContainer<RuntimicContainer>(allowDynamicTypes);
+		}
+
 		public static ILConversionResult Convert(System.Type type)
 		{
 			var container = CreateContainer();
@@ -21,11 +26,25 @@ namespace Root.Code.PI.E01D // Programmer Interface
 			return container.Api.Runtimic.Execution.Conversion.Convert(type);
 		}
 
-		public static ILConversionResult Convert( System.Type type, AssemblyBuilderAccess access)
+		public static Assembly Convert(System.IO.Stream stream)
 		{
 			var container = CreateContainer();
 
-			return container.Api.Runtimic.Execution.Conversion.Convert(type, access);
+			return container.Api.Runtimic.Execution.Conversion.Convert(stream);
+		}
+
+		public static Assembly Convert(System.IO.Stream stream, ILConversionOptions options)
+		{
+			var container = CreateContainer();
+
+			return container.Api.Runtimic.Execution.Conversion.Convert(stream, options);
+		}
+
+		public static ILConversionResult Convert( System.Type type, ILConversionOptions options)
+		{
+			var container = CreateContainer();
+
+			return container.Api.Runtimic.Execution.Conversion.Convert(type, options);
 		}
 
 		public static System.Reflection.Assembly Convert( System.Reflection.Assembly assembly)

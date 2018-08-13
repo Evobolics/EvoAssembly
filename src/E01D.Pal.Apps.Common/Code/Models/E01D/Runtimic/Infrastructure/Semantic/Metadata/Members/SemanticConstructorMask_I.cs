@@ -2,5 +2,6 @@
 {
     public interface SemanticConstructorMask_I: SemanticRoutineMask_I
     {
+        bool IsStaticConstructor { get; }
     }
 }

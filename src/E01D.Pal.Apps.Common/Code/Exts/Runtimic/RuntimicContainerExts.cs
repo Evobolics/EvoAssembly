@@ -15,7 +15,10 @@ namespace Root.Code.Exts.Runtimic
 
 		public static ILConversionResult Convert(this RuntimicContainer container, System.Type type, AssemblyBuilderAccess access)
 		{
-			return container.Api.Runtimic.Execution.Conversion.Convert(type, access);
+			return container.Api.Runtimic.Execution.Conversion.Convert(type, new ILConversionOptions()
+			{
+				BuilderAccess = access
+			});
 		}
 
 		public static ILConversionResult Convert(this RuntimicContainer container, System.Type type, ILConversionOptions conversionOptions)

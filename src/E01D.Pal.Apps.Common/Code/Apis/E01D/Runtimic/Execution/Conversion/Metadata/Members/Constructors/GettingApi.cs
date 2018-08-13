@@ -79,6 +79,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 				    if (!Routines.Finding.ParameterMatching.VerifyParameters(conversion, constructor.MethodReference,
 					    methodSignature)) continue;
 
+				    if (constructor.IsStaticConstructor) continue;
+
 				    return constructor;
 			    }
 

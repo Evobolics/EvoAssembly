@@ -14,5 +14,6 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members
 		public ConstructorInfo UnderlyingConstructor { get; set; }
 		public MethodAttributes ConstructorAttributes { get; set; }
 		public BoundTypeDefinition_I DeclaringType { get; set; }
+		public bool IsStaticConstructor { get; set; }
 	}
 }

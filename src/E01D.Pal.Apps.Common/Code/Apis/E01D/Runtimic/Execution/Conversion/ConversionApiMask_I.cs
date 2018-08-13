@@ -23,6 +23,10 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 
 	    ILConversionResult Convert(Type type, ILConversionOptions conversionOptions);
 
+	    Assembly Convert(System.IO.Stream stream);
+
+	    Assembly Convert(System.IO.Stream stream, ILConversionOptions conversionOptions);
+
 		Type QuickConvert(Type type);
 
 	    Type QuickConvert(Type type, out ILConversionResult result);
@@ -39,8 +43,6 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 	    /// <param name="assembly"></param>
 	    /// <returns></returns>
 	    Assembly QuickConvert(Assembly assembly);
-
-	    ILConversionResult Convert(Type type, AssemblyBuilderAccess access);
 
 
 		Assembly QuickConvert(Assembly assembly, AssemblyBuilderAccess access);

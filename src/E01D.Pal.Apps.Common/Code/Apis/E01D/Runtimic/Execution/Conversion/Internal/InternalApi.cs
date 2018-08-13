@@ -179,6 +179,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 		[PublicApi]
 		public ILConversionResult Convert(ILConversion conversion, Stream stream)
 		{
+			conversion.Input = new ILConversionStreamInput();
 			conversion.Input.AssemblyStreamsToConvert = new []{ stream };
 			conversion.Input.Options = CreateDefaultConversionOptions();
 
@@ -197,6 +198,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 		[PublicApi]
 		public ILConversionResult Convert(ILConversion conversion, Stream stream, ILConversionOptions conversionOptions)
 		{
+			conversion.Input = new ILConversionStreamInput();
 			conversion.Input.AssemblyStreamsToConvert = new []{ stream };
 			conversion.Input.Options = conversionOptions;
 
@@ -206,6 +208,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 		[PublicApi]
 		public ILConversionResult Convert(ILConversion conversion, Stream[] streams)
 		{
+			conversion.Input = new ILConversionStreamInput();
 			conversion.Input.AssemblyStreamsToConvert = streams;
 			conversion.Input.Options = CreateDefaultConversionOptions();
 
@@ -473,7 +476,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 
 					break;
 				}
-				case InputOutputKind.AssemblyDefinitions:
+				case InputOutputKind.Streams:
 				case InputOutputKind.Assemblies:
 				{
 					conversion.Result.Output = new ILConversionAssembliesOutput()

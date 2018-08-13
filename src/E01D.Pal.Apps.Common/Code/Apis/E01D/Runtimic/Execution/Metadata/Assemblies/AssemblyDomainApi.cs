@@ -52,7 +52,27 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Assemblies
 		    return assembly;
 	    }
 
-	    public Type GetType(Dictionary<string, Type> dictionary, Type type)
+	    public Type GetType(Assembly[] assemblies, string name)
+	    {
+		    var dictionary = GetTypes(assemblies);
+
+			if (dictionary.TryGetValue(name, out Type foundType))
+		    {
+			    return foundType;
+		    }
+
+		    var result1 = System.Type.GetType(name, false);
+
+		    if (result1 == null)
+		    {
+			    throw new Exception($"Could not find type {name}");
+		    }
+
+		    return result1;
+		}
+
+
+		public Type GetType(Dictionary<string, Type> dictionary, Type type)
 	    {
 			if (type.IsPointer)
 		    {

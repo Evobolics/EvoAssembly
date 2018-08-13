@@ -7,5 +7,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion
         public AssemblyBuilderAccess BuilderAccess { get; set; } = AssemblyBuilderAccess.RunAndCollect;
         
         public bool UseILGenerator { get; set; } = false;
+
+        public bool AddAssemblyPrefixAndSuffix { get; set; } = true;
     }
 }

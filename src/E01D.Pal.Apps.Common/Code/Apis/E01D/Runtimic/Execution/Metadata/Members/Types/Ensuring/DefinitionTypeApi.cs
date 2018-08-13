@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Emit;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution;
@@ -168,9 +169,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring
 
 			System.Reflection.TypeAttributes attributes = Cecil.Metadata.Members.Types.GetTypeAttributes(typeDefinition);
 
+			var packingSize = Cecil.GetPackingSize(typeDefinition);
+
 			if (converted is ConvertedTypeDefinitionWithDeclaringType_I withDeclaringType)
 			{
-				var packingSize = Cecil.GetPackingSize(typeDefinition);
+				
 
 				if (convertedDeclaringType == null
 					) // Can occur if passing in a single nested type or if a nested class gets processed before its parents gets
@@ -200,17 +203,48 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring
 				// as the type builder will automatically add them back on based upon the name of the declaring type.
 				var fullName = Conversion.Metadata.Members.Types.Naming.GetTypeBuilderNestedClassFullName(converted.FullName);
 
-				converted.TypeBuilder =
-					convertedDeclaringType.TypeBuilder.DefineNestedType(fullName, attributes, null, packingSize);
+				// The !IsEnum check prevents: [MD]: Error: ClassLayout has parent TypeDef token=0x02000036 marked AutoLayout. [token:0x00000001]
+				// The Class or ValueType indexed by Parent shall be SequentialLayout or ExplicitLayout (§II.23.1.15). 
+				// That is, AutoLayout types shall not own any rows in the ClassLayout table. [ERROR]
+				if (typeDefinition.IsValueType && !typeDefinition.IsEnum) 
+				{
+					converted.TypeBuilder = convertedDeclaringType.TypeBuilder.DefineNestedType(converted.FullName, attributes, null, (PackingSize)typeDefinition.PackingSize, typeDefinition.ClassSize);
+				}
+				else
+				{
+					converted.TypeBuilder = convertedDeclaringType.TypeBuilder.DefineNestedType(fullName, attributes, null, packingSize);
+				}
+				
 			}
 			else
 			{
+				if (converted.FullName == "Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types.SimpleValueType")
+				{
+					
+				}
+
 				if (converted.FullName == "<Module>")
 				{
 					var x = converted.Module.ModuleBuilder.GetType("<Module>", true);
 				}
 
-				converted.TypeBuilder = converted.Module.ModuleBuilder.DefineType(converted.FullName, attributes);
+				// The !IsEnum check prevents: [MD]: Error: ClassLayout has parent TypeDef token=0x02000036 marked AutoLayout. [token:0x00000001]
+				// The Class or ValueType indexed by Parent shall be SequentialLayout or ExplicitLayout (§II.23.1.15). 
+				// That is, AutoLayout types shall not own any rows in the ClassLayout table. [ERROR]
+				if (typeDefinition.IsValueType && !typeDefinition.IsEnum)
+				{
+					converted.TypeBuilder = converted.Module.ModuleBuilder.DefineType(converted.FullName, attributes, null, (PackingSize)typeDefinition.PackingSize, typeDefinition.ClassSize);
+				}
+				else
+				{
+					converted.TypeBuilder = converted.Module.ModuleBuilder.DefineType(converted.FullName, attributes, null, packingSize);
+				}
+				
+
+				
+				
+
+
 			}
 
 			converted.UnderlyingType = converted.TypeBuilder;

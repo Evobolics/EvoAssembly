@@ -35,7 +35,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Internal
 
 		ILConversionResult Convert(ILConversion conversion, Stream assemblies);
 
+		ILConversionResult Convert(ILConversion conversion, Stream assemblies, ILConversionOptions conversionOptions);
+
 		ILConversionResult Convert(ILConversion conversion, Stream[] assemblies);
+
+		ILConversionResult Convert(ILConversion conversion, Stream[] assemblies, ILConversionOptions conversionOptions);
 
 		ILConversionOptions CreateDefaultConversionOptions();
 	}

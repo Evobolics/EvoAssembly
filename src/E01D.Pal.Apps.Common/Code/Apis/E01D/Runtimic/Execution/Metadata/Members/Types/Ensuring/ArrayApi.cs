@@ -46,7 +46,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring
 			    node = new ConversionTypeNode()
 			    {
 				    IsArrayType = true,
-				    StemType = (ConversionTypeNode) arrayStemType,
+				    StemType =  arrayStemType,
 				    IsDerived = true,
 				    InputStructuralNode = context.StructuralInputTypeNode,
 				    Type = (ConvertedTypeDefinition_I) bound,
@@ -63,7 +63,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring
 			    node = new BoundTypeNode()
 			    {
 				    IsArrayType = true,
-				    StemType = (BoundTypeNode)arrayStemType,
+				    StemType = arrayStemType,
 				    IsDerived = true,
 				    InputStructuralNode = context.StructuralInputTypeNode,
 				    Type = (BoundTypeDefinition)bound,

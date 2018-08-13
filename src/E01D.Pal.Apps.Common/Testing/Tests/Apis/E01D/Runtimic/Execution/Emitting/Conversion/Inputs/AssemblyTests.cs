@@ -1,6 +1,8 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Reflection.Emit;
 using Root.Code.Attributes.E01D;
+using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Domains.E01D;
 using Root.Code.Exts.Runtimic;
 using Root.Code.PI.E01D;
@@ -33,9 +35,20 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 
 			var cEvoAssembly = XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.GetTypeInAssembly(collectibleAssembly, typeof(EvoAssembly));
 
-			//var createContainerMethod = cEvoAssembly.GetMethod("CreateContainer", BindingFlags.Public | BindingFlags.Static);
+			var createContainerMethod = cEvoAssembly.GetMethod("CreateContainer", BindingFlags.Public | BindingFlags.Static, null, new [] {typeof(bool)}, null);
 
-			//var cContainer = createContainerMethod.Invoke(null, new object[] { });
+			var cContainer = createContainerMethod.Invoke(null, new object[] {true });
+
+			var cRuntimicContainer = XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.GetTypeInAssembly(collectibleAssembly, typeof(RuntimicContainer));
+
+			var cRuntimicContainerExts = XCommonAppPal.Api.Runtimic.Execution.Metadata.Assemblies.GetTypeInAssembly(collectibleAssembly, typeof(RuntimicContainerExts));
+
+			var convertMethod = cRuntimicContainerExts.GetMethod("Convert", BindingFlags.Public | BindingFlags.Static, null
+				 , new Type[]{ cRuntimicContainer, typeof(System.Reflection.Assembly),  typeof(AssemblyBuilderAccess) }, null);
+
+			var result = convertMethod.Invoke(null, new []{cContainer, typeof(AssemblyTests).Assembly, AssemblyBuilderAccess.RunAndCollect});
+
+			
 
 			//try
 			//{

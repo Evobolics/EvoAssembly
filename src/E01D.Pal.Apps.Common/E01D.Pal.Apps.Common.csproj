@@ -909,7 +909,7 @@
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ConversionSystemModel.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionAssembliesInput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionAssembliesOutput.cs" />
-    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionAssemblyDefinitionInput.cs" />
+    <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionStreamInput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionInput.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionOptions.cs" />
     <Compile Include="Code\Models\E01D\Runtimic\Execution\Conversion\ILConversionOutput.cs" />
@@ -1538,6 +1538,7 @@
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\Class2.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\Class3.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ArrayTesting_MultipleTypes.cs" />
+    <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_Bug1.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_CircularReference_1.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_CircularReference_2.cs" />
     <Compile Include="Testing\Resources\Models\E01D\Runtimic\Execution\Emitting\Conversion\Inputs\Types\ClassTesting_ClassWithAttributeWithArguments.cs" />

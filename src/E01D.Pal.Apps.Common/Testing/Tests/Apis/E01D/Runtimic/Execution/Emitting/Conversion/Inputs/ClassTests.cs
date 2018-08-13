@@ -6,6 +6,7 @@ using Root.Code.Domains;
 using Root.Code.Domains.E01D;
 using Root.Code.Models.E01D.Runtimic.Execution.Conversion;
 using Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.Definitions;
+using Root.Code.Models.E01D.Runtimic.Infrastructure.Structural;
 using Root.Testing.Code.Containers.E01D.Runtimic.Execution.Emitting.Conversion;
 using Root.Testing.Resources.Models.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.Types;
 
@@ -465,6 +466,20 @@ namespace Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.In
 	    }
 
 	    [Test]
+	    public void Create_StructuralSystemModelAssemblies(AssemblyBuilderAccess buiderAccess = AssemblyBuilderAccess.RunAndCollect)
+	    {
+		    // Create a test container
+		    var test = XCommonAppPal.Api.Containment.CreateContainer<ILConversionTestContainer>(false);
+
+		    // Convert the type. The test api code will check to make sure the instance is not null.
+		    var result = test.Api.ConvertAndCreateInstance(typeof(StructuralSystemModelAssemblies), buiderAccess);
+
+		    
+
+
+	    }
+
+		[Test]
 	    public void ClassWithGenericFieldAndMethodReference()
 	    {
 		    // Create a test container

@@ -36,8 +36,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Bound.Metadata.Members.Construc
 				    DeclaringType = input,
 				    ConstructorAttributes = constructor.Attributes,
 				    Name = constructor.Name,
-				    UnderlyingConstructor = constructor
-			    };
+				    UnderlyingConstructor = constructor,
+					IsStaticConstructor = constructor.Name == ConstructorInfo.TypeConstructorName
+				};
 
 			    boundTypeWithConstructors.Constructors.All.Add(boundConstructor);
 

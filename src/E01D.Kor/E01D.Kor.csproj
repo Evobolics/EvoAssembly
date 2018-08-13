@@ -51,6 +51,7 @@
     <Compile Include="Code\Apis\E01D\Sorting\SortingApiNode.cs" />
     <Compile Include="Code\Attributes\E01D\CanAcceptApiWithContainerAttribute.cs" />
     <Compile Include="Code\Attributes\E01D\DynamicallyReplaceWithContainerApi.cs" />
+    <Compile Include="Code\Attributes\E01D\GeneAttribute.cs" />
     <Compile Include="Code\Attributes\E01D\GeneratedAttribute.cs" />
     <Compile Include="Code\Attributes\E01D\KorType.cs" />
     <Compile Include="Code\Attributes\E01D\MaskSupportPropertyAttribute.cs" />

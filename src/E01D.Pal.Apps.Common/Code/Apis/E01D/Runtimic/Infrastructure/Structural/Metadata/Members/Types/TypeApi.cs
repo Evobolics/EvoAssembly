@@ -172,7 +172,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Metadata.Member
             
             if (typeReference.IsPointer)
             {
-                var pointerStemType = Ensure(model, typeReference.GetElementType());
+                PointerType pointerType = (PointerType) typeReference;
+
+                var pointerStemType = Ensure(model, pointerType.ElementType);
 
                 if (pointerStemType.PointerType != null)
                 {
@@ -193,7 +195,9 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Metadata.Member
 
             if (typeReference.IsByReference)
             {
-                var byRefStemType = Ensure(model, typeReference.GetElementType());
+                ByReferenceType byReferenceType = (ByReferenceType)typeReference;
+
+                var byRefStemType = Ensure(model, byReferenceType.ElementType);
 
                 if (byRefStemType.ByRefType != null)
                 {
@@ -237,7 +241,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Metadata.Member
 
                 structuralTypeNode = new StructuralGenericInstanceTypeNode()
                 {
-                    StemType = Ensure(model, typeReference.GetElementType()),
+                    StemType = genericDefinitionType,
                     CecilTypeReference = typeReference,
                     MetadataToken = metadataToken,
                     //Module = structuralModuleNode,
@@ -260,7 +264,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Metadata.Member
             {
                 var arrayType = (ArrayType) typeReference;
 
-                var arrayElementType = Ensure(model, typeReference.GetElementType());
+                var arrayElementType = Ensure(model, arrayType.ElementType);
 
                 if (arrayElementType.Arrays != null && arrayElementType.Arrays.Length > 0)
                 {
@@ -406,22 +410,30 @@ namespace Root.Code.Apis.E01D.Runtimic.Infrastructure.Structural.Metadata.Member
         {
             if (typeReference.IsPointer)
             {
-                return GetModuleNode(model, typeReference.GetElementType());
+                PointerType pointerType = (PointerType) typeReference;
+
+                return GetModuleNode(model, pointerType.ElementType);
             }
 
             if (typeReference.IsByReference)
             {
-                return GetModuleNode(model, typeReference.GetElementType());
+                ByReferenceType byReferenceType = (ByReferenceType)typeReference;
+
+                return GetModuleNode(model, byReferenceType.ElementType);
             }
 
             if (typeReference.IsArray)
             {
-                return GetModuleNode(model, typeReference.GetElementType());
+                ArrayType arrayType = (ArrayType)typeReference;
+
+                return GetModuleNode(model, arrayType.ElementType);
             }
 
             if (typeReference.IsGenericInstance)
             {
-                return GetModuleNode(model, typeReference.GetElementType());
+                GenericInstanceType genericInstanceType = (GenericInstanceType)typeReference;
+
+                return GetModuleNode(model, genericInstanceType.ElementType);
             }
 
             if (typeReference.IsGenericParameter)

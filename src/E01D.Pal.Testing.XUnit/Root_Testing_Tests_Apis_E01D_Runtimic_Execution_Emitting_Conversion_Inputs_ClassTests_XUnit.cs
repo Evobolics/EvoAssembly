@@ -216,6 +216,15 @@ namespace Root
 
         [Fact]
         [Generated]
+        public void Create_StructuralSystemModelAssemblies()
+        {
+            Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.ClassTests tests = new Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.ClassTests();
+            
+            tests.Create_StructuralSystemModelAssemblies();
+        }
+
+        [Fact]
+        [Generated]
         public void ClassWithGenericFieldAndMethodReference()
         {
             Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.ClassTests tests = new Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.ClassTests();

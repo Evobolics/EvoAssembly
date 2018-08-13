@@ -1,4 +1,5 @@
-﻿using System.Reflection.Emit;
+﻿using System.Reflection;
+using System.Reflection.Emit;
 using Root.Code.Containers.E01D.Runtimic;
 using Root.Code.Libs.Mono.Cecil;
 using Root.Code.Models.E01D.Runtimic.Execution.Bound.Metadata.Members;
@@ -32,7 +33,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Con
 				{
 					MethodReference = constructor.GenericTypeInstanceMethodReference,
 					IsInstanceConstructor = true,
-					UnderlyingConstructor = constructor.GenericTypeInstanceConstructorInfo
+					UnderlyingConstructor = constructor.GenericTypeInstanceConstructorInfo,
+					IsStaticConstructor = constructor.GenericTypeInstanceMethodReference.Name == ConstructorInfo.TypeConstructorName
 				};
 
 				withConstructors.Constructors.All.Add(consturctorEntry);

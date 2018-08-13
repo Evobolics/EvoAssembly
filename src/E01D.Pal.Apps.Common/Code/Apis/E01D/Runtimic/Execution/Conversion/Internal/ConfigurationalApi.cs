@@ -15,6 +15,8 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Configurational
 
 			conversion.Configuration.BuilderAccess = options.BuilderAccess;
 
+			conversion.Configuration.AddAssemblyPrefixAndSuffix = options.AddAssemblyPrefixAndSuffix;
+
 			conversion.Configuration.UseILGenerator = options.UseILGenerator;
 		}
 	}

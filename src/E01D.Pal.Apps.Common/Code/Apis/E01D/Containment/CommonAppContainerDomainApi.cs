@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Root.Code.Domains.E01D;
@@ -63,42 +64,38 @@ namespace Root.Code.Apis.E01D.Containment
                 {
                     var type = types[iType];
 
-                    if (type.IsClass)
+                    var className = GetName(type);
+
+                    if (!type.IsClass) continue;
+
+                    var interfaces = type.GetInterfaces();
+
+                    for (int iInterface = 0; iInterface < interfaces.Length; iInterface++)
                     {
-                        if (type.Name.Contains("RuntimicContainerApi") && !type.Name.Contains("RuntimicContainerApi_I"))
+                        var currentInterfaceType = interfaces[iInterface];
+
+                        var node = AddInterface(currentInterfaceType, interfaceNodes);
+
+                        if (node == null) continue;
+
+                        if (!node.Classes.TryGetValue(className, out Type currentClass1))
                         {
-                            
+                            node.Classes.Add(className, type);
                         }
+                            
 
-                        var interfaces = type.GetInterfaces();
-
-                        for (int iInterface = 0; iInterface < interfaces.Length; iInterface++)
+                        if (currentInterfaceType.IsGenericType)
                         {
-                            var currentInterface = interfaces[iInterface];
+                            var definition = currentInterfaceType.GetGenericTypeDefinition();
 
-                            var node = AddInterface(currentInterface, interfaceNodes);
+                            node = AddInterface(definition, interfaceNodes);
 
-                            var className = type.FullName ?? type.Namespace + "." + type.Name;
-
-                            if (!node.Classes.TryGetValue(className, out Type currentClass1))
+                            if (node != null && !node.Classes.TryGetValue(className, out Type currentClass2))
                             {
                                 node.Classes.Add(className, type);
                             }
-                            
-
-                            if (currentInterface.IsGenericType)
-                            {
-                                var definition = currentInterface.GetGenericTypeDefinition();
-
-                                node = AddInterface(definition, interfaceNodes);
-
-                                if (!node.Classes.TryGetValue(className, out Type currentClass2))
-                                {
-                                    node.Classes.Add(className, type);
-                                }
-                            }
-                            
                         }
+                            
                     }
                 }
 
@@ -110,15 +107,38 @@ namespace Root.Code.Apis.E01D.Containment
             };
         }
 
-        private static InterfaceNode AddInterface(Type currentInterface, Dictionary<string, InterfaceNode> interfaceNodes)
+        private string GetName(Type type)
         {
-            var fullName = currentInterface.FullName ?? currentInterface.Namespace + "." + currentInterface.Name;
+            return $"{type.Namespace ?? string.Empty}.{type.Name ?? string.Empty}, {type.Assembly.FullName}";
+
+            //return $"{type.Namespace ?? string.Empty}.{type.Name ?? string.Empty}";
+        }
+
+        private InterfaceNode AddInterface(Type currentInterface, Dictionary<string, InterfaceNode> interfaceNodes)
+        {
+            var fullName = GetName(currentInterface);
+
+            var assemblyQualifiedName = $"{currentInterface.Namespace ?? string.Empty}.{currentInterface.Name ?? string.Empty}, {currentInterface.Assembly.FullName}";
+
+            if (string.IsNullOrEmpty(assemblyQualifiedName))
+            {
+                //if (assemblyQualifiedName == "Root.Code.Apis.E01D.Api_I`1")
+                //{
+                    
+                //}
+
+                Debug.WriteLine($"Passing on {assemblyQualifiedName}");
+
+                return null;
+            }
+
+            
 
             if (!interfaceNodes.TryGetValue(fullName, out InterfaceNode currentInterfaceNode))
             {
                 currentInterfaceNode = new InterfaceNode()
                 {
-                    Interface = currentInterface,
+                    Interface = currentInterface.TypeHandle,
                     FullName = fullName
                 };
 
@@ -184,7 +204,7 @@ namespace Root.Code.Apis.E01D.Containment
                         if (type.GenericTypeArguments.Length == 1)
                         {
 
-                            var fullName = typeDefintion.FullName ?? typeDefintion.Namespace + "." + typeDefintion.Name;
+                            var fullName = GetName(typeDefintion);//.FullName ?? typeDefintion.Namespace + "." + typeDefintion.Name);
 
                             if (map.InterfaceNodes.TryGetValue(fullName, out InterfaceNode interfaceNode))
                             {
@@ -240,7 +260,7 @@ namespace Root.Code.Apis.E01D.Containment
                         }
                         else if (type.IsInterface)
                         {
-                            var fullName = type.FullName ?? type.Namespace + "." + type.Name;
+                            var fullName = GetName(type);//.FullName ?? type.Namespace + "." + type.Name);
 
                             if (map.InterfaceNodes.TryGetValue(fullName, out InterfaceNode interfaceNode))
                             {

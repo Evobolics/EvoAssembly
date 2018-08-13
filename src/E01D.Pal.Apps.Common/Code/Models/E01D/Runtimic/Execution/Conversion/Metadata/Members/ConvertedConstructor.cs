@@ -13,5 +13,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members
 
 		// TODO: // turn into extension method
 		public override bool IsMethod() => false;
+
+		public bool IsStaticConstructor { get; set; }
 	}
 }

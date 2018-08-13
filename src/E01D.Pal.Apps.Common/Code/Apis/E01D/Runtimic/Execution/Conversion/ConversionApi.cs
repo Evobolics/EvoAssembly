@@ -292,7 +292,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 		/// <returns></returns>
 		public Assembly Convert(Stream stream)
 	    {
-		    return Convert(stream, out ILConversionResult result);
+		    return Convert(stream, Internal.CreateDefaultConversionOptions(), out ILConversionResult result);
+	    }
+
+	    public Assembly Convert(Stream stream, ILConversionOptions conversionOptions)
+	    {
+		    return Convert(stream, conversionOptions, out ILConversionResult result);
 	    }
 
 		// -------- CONVERSION CASE E2 ---------------
@@ -300,11 +305,12 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion
 		/// Converts the assembly an assembly to a dynamic assembly and returns the conversion result as an out parameter.
 		/// </summary>
 		/// <param name="stream">A stream containing an assembly.</param>
+		/// <param name="conversionOptions"></param>
 		/// <param name="result"></param>
 		/// <returns></returns>
-		public Assembly Convert(Stream stream, out ILConversionResult result)
+		public Assembly Convert(Stream stream, ILConversionOptions conversionOptions, out ILConversionResult result)
 	    {
-		    result = Internal.Convert(new ILConversion(), stream);
+		    result = Internal.Convert(new ILConversion(), stream, conversionOptions);
 
 		    var output = (ILConversionAssembliesOutput)result.Output;
 

@@ -22,6 +22,13 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
 
         public bool EmitILStream(ILConversion conversion, ConvertedRoutine convertedConstructor)
         {
+            var typeReference = convertedConstructor.DeclaringType.SourceTypeReference;
+
+            if (typeReference.FullName.Contains("Root.Testing.Tests.Apis.E01D.Runtimic.Execution.Emitting.Conversion.Inputs.InstructionTests/<>c"))
+            {
+                
+            }
+
             if (!EmitOpCodes(conversion, convertedConstructor))
             {
                 return false;
@@ -82,6 +89,11 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
             ConvertedILStream stream,
             Instruction instructionDefinition)
         {
+            if (methodDefinition.Name == "GetCustomAttributeArgumentValue" && instructionDefinition.Offset == 0x062)
+            {
+                
+            }
+
             OpCode opCode = Cecil.Metadata.Instructions.ConvertOpCode(instructionDefinition.OpCode.Code);
 
             switch (instructionDefinition.OpCode.Code)
@@ -153,7 +165,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 case Libs.Mono.Cecil.Cil.Code.Ldc_I4_8:
                 case Libs.Mono.Cecil.Cil.Code.Ldc_I4_M1:
                 case Libs.Mono.Cecil.Cil.Code.Ldnull:
-                case Libs.Mono.Cecil.Cil.Code.Ldelem_Any:
+                
                 case Libs.Mono.Cecil.Cil.Code.Ldelem_I:
                 case Libs.Mono.Cecil.Cil.Code.Ldelem_I1:
                 case Libs.Mono.Cecil.Cil.Code.Ldelem_I2:
@@ -196,7 +208,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 case Libs.Mono.Cecil.Cil.Code.Rem_Un:
                 case Libs.Mono.Cecil.Cil.Code.Ret:
                 case Libs.Mono.Cecil.Cil.Code.Rethrow:
-                case Libs.Mono.Cecil.Cil.Code.Stelem_Any:
+                
                 case Libs.Mono.Cecil.Cil.Code.Stelem_I:
                 case Libs.Mono.Cecil.Cil.Code.Stelem_I1:
                 case Libs.Mono.Cecil.Cil.Code.Stelem_I2:
@@ -294,12 +306,14 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Ins
                 case Libs.Mono.Cecil.Cil.Code.Cpobj:
                 case Libs.Mono.Cecil.Cil.Code.Initobj:
                 case Libs.Mono.Cecil.Cil.Code.Isinst:
+                case Libs.Mono.Cecil.Cil.Code.Ldelem_Any:
                 case Libs.Mono.Cecil.Cil.Code.Ldelema:
                 case Libs.Mono.Cecil.Cil.Code.Ldobj:
                 case Libs.Mono.Cecil.Cil.Code.Mkrefany:
                 case Libs.Mono.Cecil.Cil.Code.Newarr:
                 case Libs.Mono.Cecil.Cil.Code.Refanyval:
                 case Libs.Mono.Cecil.Cil.Code.Sizeof:
+                case Libs.Mono.Cecil.Cil.Code.Stelem_Any:
                 case Libs.Mono.Cecil.Cil.Code.Stobj:
                 case Libs.Mono.Cecil.Cil.Code.Unbox:
                 case Libs.Mono.Cecil.Cil.Code.Unbox_Any:

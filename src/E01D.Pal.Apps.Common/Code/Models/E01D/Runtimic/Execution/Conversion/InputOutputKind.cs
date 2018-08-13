@@ -5,6 +5,6 @@
 		Unknown = 0,
 		Types = 1,
 		Assemblies = 2,
-		AssemblyDefinitions = 3
+		Streams = 3
 	}
 }

@@ -19,7 +19,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion
         /// <summary>
         /// Contains the type that are being converted if only select number of types are being converted.
         /// </summary>
-        public ILConversionInput Input { get; set; }
+        public ILConversionInput Input { get; set; } 
 
         /// <summary>
         /// Gets or sets the semantic model associated with this il conversion.

@@ -14,7 +14,7 @@ namespace Root.Code.Models.E01D.Runtimic.Execution.Conversion.Metadata.Members
 
         public bool IsInstanceConstructor { get; set; }
 
-        public bool IsStaticConstructor { get; set; }
+        
 
         protected override ConstructorInfo Get_UnderlyingConstructor() => ConstructorBuilder;
 

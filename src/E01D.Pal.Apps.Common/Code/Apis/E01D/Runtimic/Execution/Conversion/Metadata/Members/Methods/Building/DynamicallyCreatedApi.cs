@@ -328,29 +328,26 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Conversion.Metadata.Members.Met
 			{
 				newAttributes |= System.Reflection.MethodAttributes.Public;
 			}
-			else if ((attributes & MethodAttributes.Family) == MethodAttributes.Family)
+			if ((attributes & MethodAttributes.Family) == MethodAttributes.Family)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.Family;
 			}
-			else if ((attributes & MethodAttributes.FamANDAssem) == MethodAttributes.FamANDAssem)
+			if ((attributes & MethodAttributes.FamANDAssem) == MethodAttributes.FamANDAssem)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.FamANDAssem;
 			}
-			else if ((attributes & MethodAttributes.Private) == MethodAttributes.Private)
+			if ((attributes & MethodAttributes.Private) == MethodAttributes.Private)
 			{
 				newAttributes |= System.Reflection.MethodAttributes.Private;
 			}
-			else
+			if ((attributes & MethodAttributes.Assembly) == MethodAttributes.Assembly)
 			{
-				if ((attributes & MethodAttributes.Assembly) == MethodAttributes.Assembly)
-				{
-					newAttributes |= System.Reflection.MethodAttributes.Assembly;
-				}
+				newAttributes |= System.Reflection.MethodAttributes.Assembly;
+			}
 
-				if ((attributes & MethodAttributes.FamORAssem) == MethodAttributes.FamORAssem)
-				{
-					newAttributes |= System.Reflection.MethodAttributes.FamORAssem;
-				}
+			if ((attributes & MethodAttributes.FamORAssem) == MethodAttributes.FamORAssem)
+			{
+				newAttributes |= System.Reflection.MethodAttributes.FamORAssem;
 			}
 
 			if ((attributes & MethodAttributes.Abstract) == MethodAttributes.Abstract)

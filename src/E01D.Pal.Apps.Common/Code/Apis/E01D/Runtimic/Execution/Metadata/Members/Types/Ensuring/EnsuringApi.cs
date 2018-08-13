@@ -391,7 +391,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring
 			//}
 
 			if (context?.TypeReference?.FullName ==
-			    "System.Collections.Generic.Dictionary`2<System.String,Root.Code.Models.E01D.Runtimic.Infrastructure.Semantic.Metadata.Members.Typal.SemanticTypeMask_I>"
+				"<PrivateImplementationDetails>"
 			)
 			{
 
@@ -466,102 +466,7 @@ namespace Root.Code.Apis.E01D.Runtimic.Execution.Metadata.Members.Types.Ensuring
 
 	    
 
-	    private BoundTypeNode EnsureBoundNode(ExecutionEnsureContext context, StructuralTypeNode structuralInputTypeNode)
-	    {
-		    throw new NotImplementedException();
-	    }
-
-		//private ConversionTypeNode EnsureConversionNode(ExecutionEnsureContext context, StructuralTypeNode structuralInputTypeNode)
-	 //   {
-		//    var metadataToken = structuralInputTypeNode.MetadataToken;
-
-		//	var rowId = metadataToken & 0x00FFFFFF;
-
-		//    bool isDerived = rowId < 1;
-
-		//    if (isDerived)
-		//    {
-		//	    if (structuralInputTypeNode.IsPointerType)
-		//	    {
-		//		    var pointerStemType = Ensure(context, structuralInputTypeNode.StemType);
-
-		//		    if (pointerStemType.PointerType != null)
-		//		    {
-		//			    return pointerStemType.PointerType;
-		//		    }
-
-		//		    pointerStemType.PointerType = new ConversionTypeNode()
-		//		    {
-		//			    IsPointerType = true,
-		//			    StemType = pointerStemType,
-		//			    IsDerived = true,
-		//			    MetadataToken = metadataToken,
-		//			    InputStructuralNode = structuralInputTypeNode
-		//			};
-
-		//		    return pointerStemType.PointerType;
-		//	    }
-
-		//	    if (structuralInputTypeNode.IsByReferenceType)
-		//	    {
-		//		    var byRefStemType = EnsureConversionNode(context, structuralInputTypeNode.StemType);
-
-		//		    if (byRefStemType.ByReferenceType != null)
-		//		    {
-		//			    return byRefStemType.ByReferenceType;
-		//		    }
-
-		//		    byRefStemType.ByReferenceType = new ConversionTypeNode()
-		//		    {
-		//			    IsByReferenceType = true,
-		//			    StemType = byRefStemType,
-		//			    IsDerived = true,
-		//				MetadataToken = metadataToken,
-		//			    InputStructuralNode = structuralInputTypeNode
-		//			};
-
-		//		    return byRefStemType.ByReferenceType;
-		//	    }
-
-		//	    throw new Exception("Derived type (arrays, generics?) not handled");
-
-
-		//    }
-
-		//    var structuralAssembly = Conversion.Metadata.Assemblies.EnsureNode(context.Conversion, structuralInputTypeNode.Module.Assembly);
-
-		//    var convertedModuleNode = Conversion.Metadata.Modules.Ensure(context.Conversion, structuralAssembly, structuralInputTypeNode.Module);
-
-		//    var tableId = (int)(metadataToken & 0xFF000000);
-
-		//    if (!convertedModuleNode.Tables.TryGetValue(tableId, out ConvertedTypeTable table))
-		//    {
-		//	    table = new ConvertedTypeTable();
-
-		//	    convertedModuleNode.Tables.Add(tableId, table);
-		//    }
-
-		//    if (table.ByRow.TryGetValue(rowId, out ConversionTypeNode conversionTypeNode))
-		//    {
-		//	    return conversionTypeNode;
-		//    }
-
-		//	// Have a derived type
-		//	// Have a non-derived type / thus stored type
-
-
-		//    conversionTypeNode = new ConversionTypeNode()
-		//    {
-		//	    InputStructuralNode = structuralInputTypeNode,
-		//	    MetadataToken = metadataToken,
-		//		Module = convertedModuleNode,
-		//		Assembly = structuralAssembly
-		//	};
-
-		//    table.ByRow.Add(rowId, conversionTypeNode);
-
-		//    return conversionTypeNode;
-		//}
+	    
 
 	    private bool IsConverted(ExecutionEnsureContext context)
 	    {
