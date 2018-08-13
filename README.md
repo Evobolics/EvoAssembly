@@ -28,15 +28,14 @@ var convertedAssemblies = EvoAssembly.QuickConvert(new []{inputAssembly1, inputA
 ## Known Issues / To-Do List
 
 * calli instruction not implemented yet
-* unsafe code not tested yet, though pointers types should be supported.
-* no p-invoke support yet
+* unsafe code not tested, though pointers types should be supported.
+* no p-invoke support
 * assembly and module attributes not supported
 * modifiers not supported
-* structs possibly not marked with the correct size 
 
 ## Limitations
 
 * It is not possible to create some recursively defined types, nor is it possible to create some nested type relationships, due to .NET runtime emit API limitations.  
 
 
-*Last Updated:* August 8th, 2018
+*Last Updated:* August 13th, 2018
